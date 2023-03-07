@@ -15,6 +15,7 @@ public class Answer {
     //todo auditable extend
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long answerId;
 
     @Column(nullable = false)

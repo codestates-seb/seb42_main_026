@@ -1,19 +1,18 @@
 package seb42_main_026.mainproject.domain.answer.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
 
 @Service
+@RequiredArgsConstructor
 public class AnswerService {
 
     //todo DI
 
     private final AnswerRepository answerRepository;
 
-    public AnswerService(AnswerRepository answerRepository) {
-        this.answerRepository = answerRepository;
-    }
 
 
     /**
