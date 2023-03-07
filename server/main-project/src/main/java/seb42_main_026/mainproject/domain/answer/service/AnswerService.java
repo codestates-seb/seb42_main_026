@@ -21,10 +21,13 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
+<<<<<<< HEAD
     private final MemberService memberService;
 
     private final MemberRepository memberRepository;
 
+=======
+>>>>>>> 7ccffca (refactor: 생성자 리팩토링)
 
 
     /**

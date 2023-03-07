@@ -22,7 +22,11 @@ public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
+<<<<<<< HEAD
     @PostMapping("/{question-id}") //todo 프론트와 협의 후 엔드포인트 결정
+=======
+    @PostMapping
+>>>>>>> 7ccffca (refactor: 생성자 리팩토링)
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
             @Valid @RequestBody AnswerDto.Post answerPostDto){
         answerPostDto.addQuestionId(questionId);
