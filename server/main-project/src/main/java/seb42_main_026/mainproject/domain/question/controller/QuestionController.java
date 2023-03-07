@@ -1,5 +1,6 @@
 package seb42_main_026.mainproject.domain.question.controller;
 
+<<<<<<< HEAD
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,24 @@ public class QuestionController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.CREATED);
+=======
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/questions")
+public class QuestionController {
+    @PostMapping
+    public ResponseEntity<?> postQuestion() {
+        QuestionDto.Response response =
+                new QuestionDto.Response(1L, "잔소리 요청글 제목", "잔소리 요청글 내용", "갱생 중");
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+>>>>>>> 4324089 (Feat: QuestionController Stub data 적용)
     }
 
     @PatchMapping("{question-id}")
