@@ -1,8 +1,10 @@
 package seb42_main_026.mainproject.domain.answer.service;
 
+import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
 
+@Service
 public class AnswerService {
 
     //todo DI
