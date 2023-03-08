@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
+import seb42_main_026.mainproject.exception.CustomException;
+import seb42_main_026.mainproject.exception.ExceptionCode;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +37,30 @@ public class AnswerService {
 //        answer.getMember().setScore(answer.getMember().getScore() + 10);
 
         return answerRepository.save(answer);
+    }
+
+    public Answer updateAnswer(Answer answer, long memberId){
+        Answer foundAnswer = findAnswer(answer.getAnswerId());
+
+        //수정하려는 회원이 같은 회원인지 검증
+//        memberService.verifyMemberByMemberId(memberId, foundAnswer.getMember().getMemberId());
+
+        //람다식 문제 있을지??
+        Optional.ofNullable(answer.getContent())
+                .ifPresent(foundAnswer::setContent);
+
+        return answerRepository.save(foundAnswer);
+    }
+
+    public Answer findAnswer(long answerId){
+        return findVerifiedAnswer(answerId);
+    }
+
+    //존재하는 질문인지 확인 메서드
+    private Answer findVerifiedAnswer(long answerId){
+        Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
+        Answer foundAnswer = optionalAnswer.orElseThrow(() -> new CustomException(ExceptionCode.ANSWER_NOT_FOUND));
+
+        return foundAnswer;
     }
 }

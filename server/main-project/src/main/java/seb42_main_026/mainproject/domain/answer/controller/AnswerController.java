@@ -22,7 +22,7 @@ public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
-    @PostMapping
+    @PostMapping("/{question-id}") //todo 프론트와 협의 후 엔드포인트 결정
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
             @Valid @RequestBody AnswerDto.Post answerPostDto){
         answerPostDto.addQuestionId(questionId);
@@ -33,5 +33,20 @@ public class AnswerController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.answerToAnswerResponse(answer)), HttpStatus.CREATED
         );
+    }
+    /**
+     * Patch 매서드로 수정기능 - todo
+     *  ㄴ Service 단에서 questionId와 answerId 모두 사용해야함?
+     * Patch 매서드로 채택기능 - todo
+     */
+    @PatchMapping("/{question-id}/{answer-id}") //todo 프론트와 협의 후 엔드포인트 결정
+    public ResponseEntity patchAnswer(@PathVariable("question-id") @Positive long questionId,
+                                      @PathVariable("answer-id") @Positive long answerId,
+                                      @Valid @RequestBody AnswerDto.Patch answerPatchDto){
+        answerPatchDto.setAnswerId(answerId);
+        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.answerToAnswerResponse(answer)),HttpStatus.OK);
     }
 }
