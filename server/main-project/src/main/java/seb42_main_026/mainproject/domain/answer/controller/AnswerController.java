@@ -60,4 +60,14 @@ public class AnswerController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    // 삭제 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
+    @DeleteMapping("/{question-id}/{answer-id}/delete")
+    public ResponseEntity deleteAnswer(@PathVariable("question-id") @Positive long questionId,
+                                       @PathVariable("answer-id") @Positive long answerId,
+                                       @Positive @RequestParam long memberId){
+        answerService.deleteAnswer(answerId, memberId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
