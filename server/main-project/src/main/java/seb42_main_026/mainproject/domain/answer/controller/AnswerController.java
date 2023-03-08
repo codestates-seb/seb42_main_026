@@ -49,4 +49,15 @@ public class AnswerController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.answerToAnswerResponse(answer)),HttpStatus.OK);
     }
+
+    // 채택 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
+    @PatchMapping("/{question-id}/{answer-id}/select")
+    public ResponseEntity selectAnswer(@PathVariable("question-id") @Positive long questionId,
+                                       @PathVariable("answer-id") @Positive long answerId,
+                                       @Positive @RequestParam long memberId){
+        //answerService 에서 Status 바꿔주는 메서드
+        answerService.selectAnswer(memberId,questionId,answerId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
