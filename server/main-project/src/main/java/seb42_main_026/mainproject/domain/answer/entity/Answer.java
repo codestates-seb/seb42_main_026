@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
+<<<<<<< HEAD
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
+=======
+>>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
 
 import javax.persistence.*;
 

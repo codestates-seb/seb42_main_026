@@ -23,10 +23,14 @@ public class AnswerController {
     private final AnswerMapper mapper;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @PostMapping("/{question-id}") //todo 프론트와 협의 후 엔드포인트 결정
 =======
     @PostMapping
 >>>>>>> 7ccffca (refactor: 생성자 리팩토링)
+=======
+    @PostMapping("/{question-id}") //todo 프론트와 협의 후 엔드포인트 결정
+>>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
             @Valid @RequestBody AnswerDto.Post answerPostDto){
         answerPostDto.addQuestionId(questionId);
@@ -53,6 +57,7 @@ public class AnswerController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.answerToAnswerResponse(answer)),HttpStatus.OK);
     }
+<<<<<<< HEAD
 
     // 채택 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
     @PatchMapping("/{question-id}/{answer-id}/select")
@@ -74,4 +79,6 @@ public class AnswerController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+=======
+>>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
 }

@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
+<<<<<<< HEAD
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
+=======
+>>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
@@ -63,6 +66,7 @@ public class AnswerService {
         return answerRepository.save(foundAnswer);
     }
 
+<<<<<<< HEAD
     /** 필요 메서드
      * questionService.findQuestion() - todo
      * memberService.verifyMemberByMemberId() - todo
@@ -93,6 +97,8 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
+=======
+>>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
     public Answer findAnswer(long answerId){
         return findVerifiedAnswer(answerId);
     }
