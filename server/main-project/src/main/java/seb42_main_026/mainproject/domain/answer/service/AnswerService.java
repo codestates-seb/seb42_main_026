@@ -5,12 +5,18 @@ import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 76bfecf (feat: Answer 채택 기능)
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
+<<<<<<< HEAD
 =======
 >>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
+=======
+>>>>>>> 76bfecf (feat: Answer 채택 기능)
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
@@ -25,12 +31,18 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 76bfecf (feat: Answer 채택 기능)
     private final MemberService memberService;
 
     private final MemberRepository memberRepository;
 
+<<<<<<< HEAD
 =======
 >>>>>>> 7ccffca (refactor: 생성자 리팩토링)
+=======
+>>>>>>> 76bfecf (feat: Answer 채택 기능)
 
 
     /**
@@ -67,6 +79,9 @@ public class AnswerService {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 76bfecf (feat: Answer 채택 기능)
     /** 필요 메서드
      * questionService.findQuestion() - todo
      * memberService.verifyMemberByMemberId() - todo
@@ -89,6 +104,7 @@ public class AnswerService {
 //        memberRepository.save(answerMember);
     }
 
+<<<<<<< HEAD
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
         Answer answer = findVerifiedAnswer(answerId);
@@ -99,6 +115,8 @@ public class AnswerService {
 
 =======
 >>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
+=======
+>>>>>>> 76bfecf (feat: Answer 채택 기능)
     public Answer findAnswer(long answerId){
         return findVerifiedAnswer(answerId);
     }
