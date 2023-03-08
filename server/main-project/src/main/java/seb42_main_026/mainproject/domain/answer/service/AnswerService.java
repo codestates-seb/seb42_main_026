@@ -4,6 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
+import seb42_main_026.mainproject.domain.member.entity.Member;
+import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
+import seb42_main_026.mainproject.domain.member.service.MemberService;
+import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
@@ -17,6 +21,10 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
+    private final MemberService memberService;
+
+    private final MemberRepository memberRepository;
+
 
 
     /**
@@ -28,13 +36,13 @@ public class AnswerService {
     //memberId Request 에 포함되는지?
     public Answer createAnswer(Answer answer, long questionId, long memberId){
         //answer 에 회원 추가, 등록된 회원인지 확인
-//        answer.addMember(memberService.findMember(memberId));
+//        answer.setMember(memberService.findMember(memberId));
         //answer 에 질문 추가, 존재하는 질문인지 확인
-//        answer.addQuestion(questionService.findQuestion(questionId));
+//        answer.setQuestion(questionService.findQuestion(questionId));
         //답변등록자 == 질문등록자 -> 예외
 //        if (memberId == answer.getQuestion().getMemberId())throw new ExceptionCode.???;
         //점수 증가 메서드(+10점)
-//        answer.getMember().setScore(answer.getMember().getScore() + 10);
+        answer.getMember().setScore(answer.getMember().getScore() + 10);
 
         return answerRepository.save(answer);
     }
@@ -50,6 +58,28 @@ public class AnswerService {
                 .ifPresent(foundAnswer::setContent);
 
         return answerRepository.save(foundAnswer);
+    }
+
+    /** 필요 메서드
+     * questionService.findQuestion() - todo
+     * memberService.verifyMemberByMemberId() - todo
+     * memberService.findMember() - todo
+     */
+    public void selectAnswer(long memberId, long questionId, long answerId){
+//        //questionId 와 작성자 Id 같은지 검증
+//        Question question = questionService.findQuestion(questionId);
+//        memberService.verifyMemberByMemberId(memberId, question.getMember().getMemberId());
+//
+//        //answer 상태 채택으로 변경 -> 저장
+//        Answer answer = findAnswer(answerId);
+//        answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_SELECTED);
+//
+//        //answer 작성자 점수 + 30 -> 저장
+//        Member answerMember = memberService.findMember(answer.getMember().getMemberId());
+//        answerMember.setScore(answerMember.getScore() + 30);
+//
+//        answerRepository.save(answer);
+//        memberRepository.save(answerMember);
     }
 
     public Answer findAnswer(long answerId){

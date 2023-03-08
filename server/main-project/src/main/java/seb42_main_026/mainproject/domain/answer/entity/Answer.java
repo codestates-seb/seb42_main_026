@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
+import seb42_main_026.mainproject.domain.member.entity.Member;
+import seb42_main_026.mainproject.domain.question.entity.Question;
 
 import javax.persistence.*;
 
@@ -24,10 +26,17 @@ public class Answer extends Auditable {
 
 
     /**todo 연관관계 매핑 (회원,질문,댓글)
-     * Member(ManyToOne) - todo
-     * Question(ManyToOne) - todo
+     * Member(ManyToOne) - done
+     * Question(ManyToOne) - done
      * Comment(OneToMany) - todo
      */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "QUESTION_ID")
+    private Question question;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
