@@ -5,8 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
+=======
+import seb42_main_026.mainproject.audit.Auditable;
+>>>>>>> a78f2f0 (Feat: Auditable 추상 클래스 구현)
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +24,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+<<<<<<< HEAD
 <<<<<<< HEAD
 public class Question extends Auditable {
     @Id
@@ -39,6 +44,9 @@ public class Question extends Auditable {
     @Column(nullable = false)
 =======
 public class Question {
+=======
+public class Question extends Auditable {
+>>>>>>> a78f2f0 (Feat: Auditable 추상 클래스 구현)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
