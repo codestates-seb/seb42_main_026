@@ -18,7 +18,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Member createdMember(Member member){
+    public Member createMember(Member member){
         veryfyExistsEmail(member.getEmail());
         veryfyExistsNickName(member.getNickname());
 

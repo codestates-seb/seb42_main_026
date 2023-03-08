@@ -31,7 +31,7 @@ public class MemberController {
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto) {
 
         Member member = memberMapper.memberPostToMember(memberPostDto);
-        Member createdMember = memberService.createdMember(member);
+        Member createdMember = memberService.createMember(member);
 
        return ResponseEntity.created(URI.create("/members/" + createdMember.getMemberId())).build();
     }
