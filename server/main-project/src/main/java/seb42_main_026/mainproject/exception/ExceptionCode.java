@@ -11,6 +11,7 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원 정보가 없습니다."),
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     NICKNAME_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 별명입니다."),
 
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다.");
@@ -18,6 +19,11 @@ public enum ExceptionCode {
     NICKNAME_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 별명입니다.");
 
 >>>>>>> 7e3e41f (feat: global exception 구현)
+=======
+    NICKNAME_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 별명입니다."),
+
+    ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다.");
+>>>>>>> ca62e98 (feat: 필요 ExceptionCode 추가)
 
 
     @Getter
