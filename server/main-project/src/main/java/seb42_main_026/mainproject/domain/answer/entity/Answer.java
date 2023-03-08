@@ -3,6 +3,7 @@ package seb42_main_026.mainproject.domain.answer.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import seb42_main_026.mainproject.audit.Auditable;
 
 import javax.persistence.*;
 
@@ -10,9 +11,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Answer {
+public class Answer extends Auditable {
 
-    //todo auditable extend
+    //done - auditable extend
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
