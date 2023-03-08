@@ -5,14 +5,17 @@ import lombok.Getter;
 
 public class QuestionDto {
     public static class Post {
+        private Long memberId;
         private String title;
         private String content;
     }
+
     public static class Patch {
         private Long questionId;
         private String title;
         private String content;
     }
+
     @AllArgsConstructor
     @Getter
     public static class Response {
