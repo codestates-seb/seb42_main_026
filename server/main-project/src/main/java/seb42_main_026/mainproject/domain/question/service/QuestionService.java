@@ -21,39 +21,39 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public Question updateQuestion(Question question) {
-
-    }
-
-    // 특정 질문 조회
-    public Question findQuestion(long questionId) {
-
-    }
-
-    // 마이페이지에서 자신이 작성한 질문 목록 조회
-    public List<Question> findQuestionsOfMember(long memberId) {
-
-    }
-
-    // 홈에서 인기글 목록 조회
-    public List<Question> findQuestionsAtHome() {
-
-    }
-
-    // 게시판에서 질문 목록 조회
-    public Page<Question> findQuestionsAtBoard(int page, int size) {
-
-    }
-
-    public void deleteQuestion(long questionId) {
-
-    }
-
-    private Question findVerifiedQuestion(long questionId) {
-        Optional<Question> optionalQuestion =
-                questionRepository.findById(questionId);
-
-        return optionalQuestion.orElseThrow(() ->
-                new RuntimeException("QUESTION_NOT_FOUND"));
-    }
+//    public Question updateQuestion(Question question) {
+//
+//    }
+//
+//    // 특정 질문 조회
+//    public Question findQuestion(long questionId) {
+//
+//    }
+//
+//    // 마이페이지에서 자신이 작성한 질문 목록 조회
+//    public List<Question> findQuestionsOfMember(long memberId) {
+//
+//    }
+//
+//    // 홈에서 인기글 목록 조회
+//    public List<Question> findQuestionsAtHome() {
+//
+//    }
+//
+//    // 게시판에서 질문 목록 조회
+//    public Page<Question> findQuestionsAtBoard(int page, int size) {
+//
+//    }
+//
+//    public void deleteQuestion(long questionId) {
+//
+//    }
+//
+//    private Question findVerifiedQuestion(long questionId) {
+//        Optional<Question> optionalQuestion =
+//                questionRepository.findById(questionId);
+//
+//        return optionalQuestion.orElseThrow(() ->
+//                new RuntimeException("QUESTION_NOT_FOUND"));
+//    }
 }
