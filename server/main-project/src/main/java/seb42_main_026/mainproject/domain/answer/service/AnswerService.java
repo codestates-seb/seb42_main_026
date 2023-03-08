@@ -82,6 +82,14 @@ public class AnswerService {
 //        memberRepository.save(answerMember);
     }
 
+    // memberService.verifyMemberByMemberId() 메서드 필요 - todo
+    public void deleteAnswer(long answerId, long memberId){
+        Answer answer = findVerifiedAnswer(answerId);
+//        memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
+
+        answerRepository.delete(answer);
+    }
+
     public Answer findAnswer(long answerId){
         return findVerifiedAnswer(answerId);
     }
