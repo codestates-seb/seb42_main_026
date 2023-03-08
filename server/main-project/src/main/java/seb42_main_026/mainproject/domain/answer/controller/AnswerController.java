@@ -73,6 +73,9 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 733ae29 (feat: Answer 삭제 기능)
 
     // 삭제 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
     @DeleteMapping("/{question-id}/{answer-id}/delete")
@@ -83,8 +86,11 @@ public class AnswerController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+<<<<<<< HEAD
 =======
 >>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
 =======
 >>>>>>> 76bfecf (feat: Answer 채택 기능)
+=======
+>>>>>>> 733ae29 (feat: Answer 삭제 기능)
 }

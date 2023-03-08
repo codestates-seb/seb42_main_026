@@ -105,6 +105,9 @@ public class AnswerService {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 733ae29 (feat: Answer 삭제 기능)
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
         Answer answer = findVerifiedAnswer(answerId);
@@ -113,10 +116,13 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
 =======
 >>>>>>> 76bfecf (feat: Answer 채택 기능)
+=======
+>>>>>>> 733ae29 (feat: Answer 삭제 기능)
     public Answer findAnswer(long answerId){
         return findVerifiedAnswer(answerId);
     }
