@@ -1,21 +1,37 @@
 package seb42_main_026.mainproject.domain.question.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
+import seb42_main_026.mainproject.domain.question.entity.Question;
+import seb42_main_026.mainproject.domain.question.mapper.QuestionMapper;
+import seb42_main_026.mainproject.domain.question.service.QuestionService;
+import seb42_main_026.mainproject.dto.SingleResponseDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
+@Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/questions")
 public class QuestionController {
-    @PostMapping
-    public ResponseEntity<?> postQuestion() {
-        QuestionDto.Response response =
-                new QuestionDto.Response(1L, "잔소리 요청글 제목", "잔소리 요청글 내용", "갱생 중");
+    private final QuestionService questionService;
+    private final QuestionMapper questionMapper;
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<?> postQuestion(@RequestBody @Valid QuestionDto.Post questionPostDto) {
+        Question question = questionMapper.questionPostDtoToQuestion(questionPostDto);
+
+        Question createdQuestion = questionService.createQuestion(question);
+
+        QuestionDto.Response response = questionMapper.questionToQuestionResponseDto(createdQuestion);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("{question-id}")
