@@ -7,6 +7,7 @@ import lombok.Setter;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class AnswerDto {
     @Getter
@@ -36,9 +37,13 @@ public class AnswerDto {
         private Answer.AnswerStatus answerStatus;
     }
 
-    @AllArgsConstructor
     @Getter
     public static class Response{
+        private long answerId;
+        private String content;
+        private String nickname;
+        private Answer.AnswerStatus answerStatus;
+        private LocalDateTime createdAt;
 
     }
 }
