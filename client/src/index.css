@@ -1,5 +1,6 @@
 body {
   font-family: "Noto Sans KR", "Roboto";
+  background-color: aliceblue;
 }
 
 * {
@@ -86,6 +87,7 @@ html,
 body {
   width: 100%;
   height: 100%;
+  max-width: 390px;
 }
 html {
   /* ************************************************************
