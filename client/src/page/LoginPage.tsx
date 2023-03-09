@@ -5,7 +5,6 @@ import NaverLoginButton from "../container/login/NaverLoginButton";
 
 const LoginPage = () => {
   return (
-    <div>
       <LoginWrapper>
         <Title>PPONG</Title>
         <InputContainer>
@@ -26,7 +25,6 @@ const LoginPage = () => {
         </SocialContainer>
         <SignupButton>회원가입</SignupButton>
       </LoginWrapper>
-    </div>
   );
 };
 
@@ -141,9 +139,8 @@ const SocialContainer = styled.div`
   justify-content: space-between;
   padding: 20px;
   gap: 10px;
-
   button {
-    width: 100%;
+    align-self: stretch;
     height: 50px;
   }
 `;

@@ -32,12 +32,10 @@ const Text = styled.span`
 
 const GoogleLoginButton = () => {
   return (
-    <div>
       <GoogleLoginWrapper>
         <img src={ICON_GOOGLE} alt="google" />
         <Text>구글 로그인</Text>
       </GoogleLoginWrapper>
-    </div>
   );
 };
 

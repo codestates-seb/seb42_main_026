@@ -31,12 +31,10 @@ const Text = styled.span`
 
 const NaverLoginButton = () => {
   return (
-    <div>
       <NaverLoginWrapper>
         <img src={ICON_NAVER} alt="kakao" />
         <Text>네이버 로그인</Text>
       </NaverLoginWrapper>
-    </div>
   );
 };
 

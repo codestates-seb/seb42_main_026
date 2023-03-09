@@ -31,12 +31,10 @@ const Text = styled.span`
 
 const KakaoLoginButton = () => {
   return (
-    <div>
       <KakaoLoginWrapper>
         <img src={ICON_KAKAO} alt="kakao" />
         <Text>카카오 로그인</Text>
       </KakaoLoginWrapper>
-    </div>
   );
 };
 
