@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
-  const { isLoggedIn, loginHandler, logoutHandler } = useAuth();
+  const { loginHandler } = useAuth();
 
   return (
     <LoginWrapper>
@@ -76,7 +76,7 @@ const ContourText = styled.span`
 const LoginWrapper = styled.div`
   user-select: none;
   align-self: stretch;
-  height: 844px;
+  height: 762px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

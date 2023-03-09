@@ -1,7 +1,8 @@
 import { useAuth } from '../hooks/useAuth';
 
 const Hnb = () => {
-  const { isLoggedIn, loginHandler, logoutHandler } = useAuth();
+  const { isLoggedIn, logoutHandler } = useAuth();
+
   return (
     <div>
         <span>{'로그인 ' + isLoggedIn}</span>
