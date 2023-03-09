@@ -101,7 +101,7 @@ public class AnswerService {
 //        answerMember.setScore(answerMember.getScore() + 30);
 //
 //        answerRepository.save(answer);
-//        memberRepository.save(answerMember);
+//        memberRepository.save(answerMember); // -> 이 과정 필요 없다.
     }
 
 <<<<<<< HEAD
