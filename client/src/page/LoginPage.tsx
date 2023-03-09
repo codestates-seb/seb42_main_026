@@ -14,8 +14,8 @@ const LoginPage = () => {
       <InputContainer>
         <LoginInput placeholder="이메일"></LoginInput>
         <LoginInput placeholder="비밀번호"></LoginInput>
-        <LoginButton>
-          <LoginText onClick={loginHandler}>로그인</LoginText>
+        <LoginButton onClick={loginHandler}>
+          <LoginText>로그인</LoginText>
         </LoginButton>
       </InputContainer>
       <ContourContainer>
