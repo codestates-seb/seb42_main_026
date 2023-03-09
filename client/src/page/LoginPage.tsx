@@ -3,35 +3,40 @@ import GoogleLoginButton from "../container/login/GoogleLoginButton";
 import KakaoLoginButton from "../container/login/KakaoLoginButton";
 import NaverLoginButton from "../container/login/NaverLoginButton";
 import { Link } from "react-router-dom";
+import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
+  const { isLoggedIn, loginHandler, logoutHandler } = useAuth();
+
   return (
-      <LoginWrapper>
-        <Title>PPONG</Title>
-        <InputContainer>
-          <LoginInput placeholder="이메일"></LoginInput>
-          <LoginInput placeholder="비밀번호"></LoginInput>
-          <LoginButton>
-            <LoginText>로그인</LoginText>
-          </LoginButton>
-        </InputContainer>
-        <ContourContainer>
-          <ContourLine></ContourLine>
-          <ContourText>또는</ContourText>
-        </ContourContainer>
-        <SocialContainer>
-          <GoogleLoginButton />
-          <KakaoLoginButton />
-          <NaverLoginButton />
-        </SocialContainer>
-        <SignupText>PPONG에 처음이세요? <Link to='/signup'>회원가입</Link></SignupText>
-      </LoginWrapper>
+    <LoginWrapper>
+      <Title>PPONG</Title>
+      <InputContainer>
+        <LoginInput placeholder="이메일"></LoginInput>
+        <LoginInput placeholder="비밀번호"></LoginInput>
+        <LoginButton>
+          <LoginText onClick={loginHandler}>로그인</LoginText>
+        </LoginButton>
+      </InputContainer>
+      <ContourContainer>
+        <ContourLine></ContourLine>
+        <ContourText>또는</ContourText>
+      </ContourContainer>
+      <SocialContainer>
+        <GoogleLoginButton />
+        <KakaoLoginButton />
+        <NaverLoginButton />
+      </SocialContainer>
+      <SignupText>
+        PPONG에 처음이세요? <Link to="/signup">회원가입</Link>
+      </SignupText>
+    </LoginWrapper>
   );
 };
 const SignupText = styled.span`
   font-family: "Noto Sans KR";
   font-size: 14px;
-  color: #878B93;
+  color: #878b93;
   text-align: center;
   letter-spacing: -0.05em;
   a {

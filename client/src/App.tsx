@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './store/store';
 import HomePage from "./page/HomePage";
 import AlarmsPage from "./page/AlarmsPage";
 import ChecklistPage from "./page/ChecklistPage";
@@ -18,6 +20,7 @@ import Hnb from "./components/Hnb";
 
 function App() {
   return (
+    <Provider store={store}>
       <div className="App">
         <Hnb />
         <BrowserRouter>
@@ -38,6 +41,7 @@ function App() {
         </BrowserRouter>
         <Gnb />
       </div>
+      </Provider>
   );
 }
 
