@@ -1,13 +1,11 @@
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
 body {
   font-family: "Noto Sans KR", "Roboto";
   background-color: aliceblue;
 }
 
-* {
-  /* 전체선택자->모든 태그에 여백을 뺌 */
-  margin: 0;
-  padding: 0;
-}
 html,
 body,
 div,
@@ -87,8 +85,6 @@ html,
 body {
   width: 100%;
   height: 100%;
-  max-width: 720px;
-  min-width: 390px;
 }
 html {
   /* ************************************************************
@@ -155,3 +151,19 @@ input,
 select {
   vertical-align: middle;
 } /*문자와 나란히 입력박스를 배치하면 높낮이가 맞지않아 맞추기 위함 */
+.wrap{
+  width: 100%;
+  height: 100%;
+  max-width: 720px;
+  min-width: 320px;
+}
+section{
+  background-color: white;
+  width: 100%;
+  height: calc(100% -174px);
+  min-height: calc(844px -174px);
+}
+
+`;
+
+export default GlobalStyle;

@@ -3,7 +3,7 @@ import GoogleLoginButton from "../container/login/GoogleLoginButton";
 import KakaoLoginButton from "../container/login/KakaoLoginButton";
 import NaverLoginButton from "../container/login/NaverLoginButton";
 import { Link } from "react-router-dom";
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from "../hooks/useAuth";
 
 const LoginPage = () => {
   const { loginHandler } = useAuth();
@@ -33,6 +33,22 @@ const LoginPage = () => {
     </LoginWrapper>
   );
 };
+
+const LoginWrapper = styled.div`
+  position: relative;
+  /* top: 92px; */
+  width: 100%;
+  user-select: none;
+  align-self: stretch;
+  height: calc(100vh - 174px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  gap: 10px;
+`;
+
 const SignupText = styled.span`
   font-family: "Noto Sans KR";
   font-size: 14px;
@@ -71,18 +87,6 @@ const ContourText = styled.span`
   font-weight: 400;
   font-size: 14px;
   color: #abaeb4;
-`;
-
-const LoginWrapper = styled.div`
-  user-select: none;
-  align-self: stretch;
-  height: 762px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: white;
-  gap: 10px;
 `;
 
 const LoginButton = styled.button`
