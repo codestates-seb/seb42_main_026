@@ -58,7 +58,7 @@ public class AnswerService {
         //answer 에 질문 추가, 존재하는 질문인지 확인
 //        answer.setQuestion(questionService.findQuestion(questionId));
         //답변등록자 == 질문등록자 -> 예외
-//        memberService.verifyMemberByMemberId(memberId, answer.getMember().getMemberId());
+//        if (memberId == answer.getQuestion().getMemberId())throw new ExceptionCode.???;
         //점수 증가 메서드(+10점)
         answer.getMember().setScore(answer.getMember().getScore() + 10);
 
