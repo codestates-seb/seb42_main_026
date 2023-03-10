@@ -17,17 +17,19 @@ import SignupPage from "./page/SignupPage";
 import UserEditPage from "./page/UserEditPage";
 import Gnb from "./components/Gnb";
 import Hnb from "./components/Hnb";
+import RankPage from "./page/RankPage";
 
 function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Hnb />
         <BrowserRouter>
+        <Hnb />
           <Routes>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/Alarms" element={<AlarmsPage/>}/>
             <Route path="/Checklist" element={<ChecklistPage/>}/>
+            <Route path="/Rank" element={<RankPage />}/>
             <Route path="/Editor" element={<EditorPage/>}/>
             <Route path="/Login" element={<LoginPage/>}/>
             <Route path="/MyPage" element={<MyPage/>}/>
@@ -38,8 +40,8 @@ function App() {
             <Route path="/Signup" element={<SignupPage/>}/>
             <Route path="/UserEdit" element={<UserEditPage/>}/>
           </Routes>
+          <Gnb />
         </BrowserRouter>
-        <Gnb />
       </div>
       </Provider>
   );
