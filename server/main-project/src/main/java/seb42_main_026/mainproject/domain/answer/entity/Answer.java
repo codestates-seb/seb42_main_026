@@ -6,6 +6,10 @@ import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import seb42_main_026.mainproject.domain.comment.entity.Comment;
+>>>>>>> c6ea679 (refactor: Answer endpoint #15, #16, #17, #18)
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 =======
@@ -16,6 +20,8 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 >>>>>>> 76bfecf (feat: Answer 채택 기능)
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -29,14 +35,17 @@ public class Answer extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long answerId;
 
+    //보이스 리플 작성하면 빈칸 허용?
     @Column(nullable = false)
     private String content;
+
+    // todo voice file
 
 
     /**todo 연관관계 매핑 (회원,질문,댓글)
      * Member(ManyToOne) - done
      * Question(ManyToOne) - done
-     * Comment(OneToMany) - todo
+     * Comment(OneToMany) - done
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -45,6 +54,9 @@ public class Answer extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

@@ -110,7 +110,7 @@ public class AnswerService {
 >>>>>>> 733ae29 (feat: Answer 삭제 기능)
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
-        Answer answer = findVerifiedAnswer(answerId);
+        Answer answer = findAnswer(answerId);
 //        memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
 
         answerRepository.delete(answer);
