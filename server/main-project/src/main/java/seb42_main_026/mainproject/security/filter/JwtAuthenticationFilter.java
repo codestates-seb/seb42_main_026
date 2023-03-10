@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.filter;
+package seb42_main_026.mainproject.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.dto.LoginDto;
-import seb42_main_026.mainproject.security.security.jwt.JwtTokenizer;
+import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -54,6 +54,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + accessToken); // Access Token은 클라이언트 측에서 백엔드 애플리케이션 측에 요청을 보낼 때마다 request header에 추가해서 클라이언트 측의 자격을 증명하는 데 사용된다.
         response.setHeader("Refresh", refreshToken); // Refresh Token은 Access Token이 만료될 경우, 클라이언트 측이 Access Token을 새로 발급받기 위해 클라이언트에게 추가적으로 제공될 수 있으며 Refresh Token을 Access Token과 함께 클라이언트에게 제공할지 여부는 애플리케이션의 요구 사항에 따라 달라질 수 있다.
+        //response.setHeader("MemberId", member.getMemberId().toString());
+
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
 

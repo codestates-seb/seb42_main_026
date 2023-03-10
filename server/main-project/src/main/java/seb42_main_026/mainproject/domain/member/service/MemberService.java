@@ -2,7 +2,6 @@ package seb42_main_026.mainproject.domain.member.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +9,7 @@ import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
-import seb42_main_026.mainproject.security.security.utils.CustomAuthorityUtils;
+import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
 import java.util.List;
 import java.util.Optional;

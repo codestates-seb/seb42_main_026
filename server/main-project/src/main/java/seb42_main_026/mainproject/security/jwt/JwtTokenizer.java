@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.jwt;
+package seb42_main_026.mainproject.security.jwt;
 
 
 import io.jsonwebtoken.Claims;
