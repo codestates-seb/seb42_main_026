@@ -33,7 +33,6 @@ public class CommentService {
         // todo MemberService verifyMemberByMemberId 메서드 추가
 //        memberService.verifyMemberByMemberId(memberId, foundComment.getMember().getMemberId());
 
-        // todo 음성파일도 수정 하도록
         Optional.ofNullable(comment.getContent())
                 .ifPresent(foundComment::setContent);
 

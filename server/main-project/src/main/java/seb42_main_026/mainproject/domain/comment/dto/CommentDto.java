@@ -19,10 +19,12 @@ public class CommentDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class Patch{
         private long memberId;
         private long answerId;
+        private long commentId;
         private String content;
 
     }
