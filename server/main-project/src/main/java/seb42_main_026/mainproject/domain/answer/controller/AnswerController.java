@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping //todo endpoint 작성
+@RequestMapping("/questions")
 @RequiredArgsConstructor
 @Validated
 public class AnswerController {
@@ -24,7 +24,7 @@ public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
-    @PostMapping("/{question-id}") //todo 프론트와 협의 후 엔드포인트 결정
+    @PostMapping("/{question-id}/answers")
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
             @Valid @RequestBody AnswerDto.Post answerPostDto){
         answerPostDto.addQuestionId(questionId);
@@ -37,11 +37,11 @@ public class AnswerController {
         );
     }
     /**
-     * Patch 매서드로 수정기능 - todo
+     * Patch 매서드로 수정기능 - done
      *  ㄴ Service 단에서 questionId와 answerId 모두 사용해야함?
-     * Patch 매서드로 채택기능 - todo
+     * Patch 매서드로 채택기능 - done
      */
-    @PatchMapping("/{question-id}/{answer-id}") //todo 프론트와 협의 후 엔드포인트 결정
+    @PatchMapping("/{question-id}/answers/{answer-id}") //todo 프론트와 협의 후 엔드포인트 결정
     public ResponseEntity patchAnswer(@PathVariable("question-id") @Positive long questionId,
                                       @PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch answerPatchDto){
@@ -53,7 +53,7 @@ public class AnswerController {
     }
 
     // 채택 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
-    @PatchMapping("/{question-id}/{answer-id}/select")
+    @PatchMapping("/{question-id}/answers/{answer-id}/select")
     public ResponseEntity selectAnswer(@PathVariable("question-id") @Positive long questionId,
                                        @PathVariable("answer-id") @Positive long answerId,
                                        @Positive @RequestParam long memberId){
@@ -64,7 +64,7 @@ public class AnswerController {
     }
 
     // 삭제 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
-    @DeleteMapping("/{question-id}/{answer-id}/delete")
+    @DeleteMapping("/{question-id}/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("question-id") @Positive long questionId,
                                        @PathVariable("answer-id") @Positive long answerId,
                                        @Positive @RequestParam long memberId){
