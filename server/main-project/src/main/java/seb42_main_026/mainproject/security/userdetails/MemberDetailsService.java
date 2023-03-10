@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.userdetails;
+package seb42_main_026.mainproject.security.userdetails;
 
 
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
-import seb42_main_026.mainproject.security.security.utils.CustomAuthorityUtils;
+import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
 import java.util.Collection;
 import java.util.Optional;

@@ -3,7 +3,10 @@ package seb42_main_026.mainproject.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.context.ApplicationEventPublisher;
+=======
+>>>>>>> 573b47a (Fix: Security 수정)
 import org.springframework.security.crypto.password.PasswordEncoder;
 =======
 >>>>>>> c3405f4 (feat: 멤버 구현)
@@ -14,7 +17,11 @@ import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import seb42_main_026.mainproject.security.security.utils.CustomAuthorityUtils;
+=======
+import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
+>>>>>>> 573b47a (Fix: Security 수정)
 
 import java.util.List;
 =======

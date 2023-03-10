@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.handler;
+package seb42_main_026.mainproject.security.handler;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

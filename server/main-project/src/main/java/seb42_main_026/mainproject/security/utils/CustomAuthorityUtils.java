@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.utils;
+package seb42_main_026.mainproject.security.utils;
 
 
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.filter;
+package seb42_main_026.mainproject.security.filter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -6,8 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import seb42_main_026.mainproject.security.security.jwt.JwtTokenizer;
-import seb42_main_026.mainproject.security.security.utils.CustomAuthorityUtils;
+import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
+import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

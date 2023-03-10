@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.config;
+package seb42_main_026.mainproject.security.config;
 
 
 import lombok.RequiredArgsConstructor;
@@ -16,14 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import seb42_main_026.mainproject.security.security.filter.JwtAuthenticationFilter;
-import seb42_main_026.mainproject.security.security.filter.JwtVerificationFilter;
-import seb42_main_026.mainproject.security.security.handler.MemberAuthenticationFailureHandler;
-import seb42_main_026.mainproject.security.security.handler.MemberAuthenticationSuccessHandler;
-import seb42_main_026.mainproject.security.security.jwt.JwtTokenizer;
-import seb42_main_026.mainproject.security.security.utils.CustomAuthorityUtils;
+import seb42_main_026.mainproject.security.filter.JwtAuthenticationFilter;
+import seb42_main_026.mainproject.security.filter.JwtVerificationFilter;
+import seb42_main_026.mainproject.security.handler.MemberAuthenticationFailureHandler;
+import seb42_main_026.mainproject.security.handler.MemberAuthenticationSuccessHandler;
+import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
+import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -79,6 +78,11 @@ public class SecurityConfiguration {
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+/*=======
+        //configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
+        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 파라미터로 지정한 HTTP Method에 대한 HTTP 통신을 허용한다.
+>>>>>>> Stashed changes*/
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); // CorsConfigurationSource 인터페이스의 구현 클래스인 UrlBasedCorsConfigurationSource 클래스의 객체를 생성한다.
         source.registerCorsConfiguration("/**", configuration);         // 모든 URL에 앞에서 구성한 CORS 정책(CorsConfiguration)을 적용한다.
