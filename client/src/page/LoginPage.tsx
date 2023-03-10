@@ -3,6 +3,7 @@ import GoogleLoginButton from "../container/login/GoogleLoginButton";
 import KakaoLoginButton from "../container/login/KakaoLoginButton";
 import NaverLoginButton from "../container/login/NaverLoginButton";
 import { Link } from "react-router-dom";
+import login from "../api/login";
 import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
@@ -14,7 +15,7 @@ const LoginPage = () => {
       <InputContainer>
         <LoginInput placeholder="이메일"></LoginInput>
         <LoginInput placeholder="비밀번호"></LoginInput>
-        <LoginButton onClick={loginHandler}>
+        <LoginButton onClick={() => login('abssa22c777@naver.com','1a23aAcabc1!')}>
           <LoginText>로그인</LoginText>
         </LoginButton>
       </InputContainer>

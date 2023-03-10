@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import signup from "../api/signup";
 
 const SignupPage = () => {
   return (
@@ -14,7 +15,7 @@ const SignupPage = () => {
           <SignupInput placeholder="비밀번호"></SignupInput>
           <InputText>비밀번호 확인</InputText>
           <SignupInput placeholder="비밀번호 확인"></SignupInput>
-          <SignupButton>
+          <SignupButton onClick={() => signup('abssa22c777@naver.com','1a23aAcabc1!','지원')}>
             <SignupButtonText>회원가입</SignupButtonText>
           </SignupButton>
         </InputContainer>
