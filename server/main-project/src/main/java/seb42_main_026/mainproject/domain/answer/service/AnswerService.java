@@ -31,7 +31,7 @@ public class AnswerService {
      * answer 에 회원 추가, 등록된 회원인지 확인 - todo
      * answer 에 질문 추가, 존재하는 질문인지 확인 - todo
      * 질문 작성한 회원인지 확인 - todo
-     * 점수 증가 메서드(+10점) - todo
+     * 점수 증가 메서드(+10점) - done
      */
     //memberId Request 에 포함되는지?
     public Answer createAnswer(Answer answer, long questionId, long memberId){
@@ -40,7 +40,7 @@ public class AnswerService {
         //answer 에 질문 추가, 존재하는 질문인지 확인
 //        answer.setQuestion(questionService.findQuestion(questionId));
         //답변등록자 == 질문등록자 -> 예외
-//        if (memberId == answer.getQuestion().getMemberId())throw new ExceptionCode.???;
+//        memberService.verifyMemberByMemberId(memberId, answer.getMember().getMemberId());
         //점수 증가 메서드(+10점)
         answer.getMember().setScore(answer.getMember().getScore() + 10);
 
