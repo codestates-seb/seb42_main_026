@@ -18,3 +18,10 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+mail:
+  address:
+    admin: admin@gmail.com
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 10
+  refresh-token-expiration-minutes: 30
