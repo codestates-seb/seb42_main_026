@@ -48,4 +48,14 @@ public class CommentController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.commentToCommentResponse(comment)),HttpStatus.OK);
     }
+
+    @DeleteMapping("/questions/{question-id}/{answer-id}/{comment-id}")
+    public ResponseEntity deleteComment(@PathVariable("question-id") @Positive long questionId,
+                                        @PathVariable("answer-id") @Positive long answerId,
+                                        @PathVariable("comment-id") @Positive long commentId,
+                                        @Positive @RequestParam long memberId){
+        commentService.deleteComment(commentId,memberId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
