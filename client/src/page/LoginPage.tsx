@@ -2,41 +2,50 @@ import styled from "styled-components";
 import GoogleLoginButton from "../container/login/GoogleLoginButton";
 import KakaoLoginButton from "../container/login/KakaoLoginButton";
 import NaverLoginButton from "../container/login/NaverLoginButton";
+import { Link } from "react-router-dom";
+import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
+  const { isLoggedIn, loginHandler, logoutHandler } = useAuth();
+
   return (
-      <LoginWrapper>
-        <Title>PPONG</Title>
-        <InputContainer>
-          <LoginInput placeholder="이메일"></LoginInput>
-          <LoginInput placeholder="비밀번호"></LoginInput>
-          <LoginButton>
-            <LoginText>로그인</LoginText>
-          </LoginButton>
-        </InputContainer>
-        <ContourContainer>
-          <ContourLine></ContourLine>
-          <ContourText>또는</ContourText>
-        </ContourContainer>
-        <SocialContainer>
-          <GoogleLoginButton />
-          <KakaoLoginButton />
-          <NaverLoginButton />
-        </SocialContainer>
-        <SignupButton>회원가입</SignupButton>
-      </LoginWrapper>
+    <LoginWrapper>
+      <Title>PPONG</Title>
+      <InputContainer>
+        <LoginInput placeholder="이메일"></LoginInput>
+        <LoginInput placeholder="비밀번호"></LoginInput>
+        <LoginButton onClick={loginHandler}>
+          <LoginText>로그인</LoginText>
+        </LoginButton>
+      </InputContainer>
+      <ContourContainer>
+        <ContourLine></ContourLine>
+        <ContourText>또는</ContourText>
+      </ContourContainer>
+      <SocialContainer>
+        <GoogleLoginButton />
+        <KakaoLoginButton />
+        <NaverLoginButton />
+      </SocialContainer>
+      <SignupText>
+        PPONG에 처음이세요? <Link to="/signup">회원가입</Link>
+      </SignupText>
+    </LoginWrapper>
   );
 };
-
-const SignupButton = styled.span`
+const SignupText = styled.span`
   font-family: "Noto Sans KR";
-  font-weight: 400;
   font-size: 14px;
-  color: #abaeb4;
+  color: #878b93;
   text-align: center;
   letter-spacing: -0.05em;
-  cursor: pointer;
+  a {
+    padding-left: 8px;
+    color: #ff607c;
+    font-weight: 500;
+  }
 `;
+
 const ContourContainer = styled.div`
   position: relative;
   display: flex;
@@ -70,7 +79,7 @@ const LoginWrapper = styled.div`
   height: 844px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background-color: white;
   gap: 10px;
