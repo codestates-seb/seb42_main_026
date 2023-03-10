@@ -36,8 +36,7 @@ public class Member extends Auditable {
     @Enumerated(value = EnumType.STRING)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-    @Column(nullable = true)
-    @ColumnDefault("0")
+    @Column(nullable = false)
     private Long score;
 
     @Enumerated(EnumType.STRING)

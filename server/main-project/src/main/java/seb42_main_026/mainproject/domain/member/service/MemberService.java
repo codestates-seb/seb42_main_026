@@ -35,6 +35,7 @@ public class MemberService {
         List<String> roles = authorityUtils.createRoles(member.getEmail()); // DB에 User Role 저장
         member.setRoles(roles);
 
+        member.setScore(0L);
         Member savedMember = memberRepository.save(member);
 
         return savedMember;
