@@ -31,10 +31,14 @@ import java.net.URI;
 
 @RestController
 <<<<<<< HEAD
+<<<<<<< HEAD
 @RequestMapping("/api/members")
 =======
 @RequestMapping("/members")
 >>>>>>> c3405f4 (feat: 멤버 구현)
+=======
+@RequestMapping("/members")
+>>>>>>> a99fee6 (Fix: Member Controller url 수정 및 SecurityConfiguration CorsConfigurationSource 수정)
 @RequiredArgsConstructor
 @Validated
 public class MemberController {
