@@ -14,6 +14,7 @@ public enum ExceptionCode {
 <<<<<<< HEAD
     NICKNAME_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 별명입니다."),
 
+<<<<<<< HEAD
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다.");
 =======
     NICKNAME_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 별명입니다.");
@@ -24,6 +25,11 @@ public enum ExceptionCode {
 
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다.");
 >>>>>>> ca62e98 (feat: 필요 ExceptionCode 추가)
+=======
+    ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다."),
+
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다.");
+>>>>>>> 411a03a (feat: 질문, 댓글 관련 예외 Enum 추가)
 
 
     @Getter
