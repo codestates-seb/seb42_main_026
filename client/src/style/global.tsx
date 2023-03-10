@@ -1,13 +1,7 @@
-body {
-  font-family: "Noto Sans KR", "Roboto";
-  background-color: aliceblue;
-}
+import { createGlobalStyle } from "styled-components";
 
-* {
-  /* 전체선택자->모든 태그에 여백을 뺌 */
-  margin: 0;
-  padding: 0;
-}
+export function style() {
+  const GlobalStyle = createGlobalStyle`
 html,
 body,
 div,
@@ -82,13 +76,14 @@ video {
 }
 /*블록요소들을 이렇게 여백 0으로 초기화 시켜 모든 브라우저에서 앞으로 주는 여백이 동일한 결과로 적용되도록 함. 전체 선택자 *를 사용하는 것보다 이렇게 블록을 나열하면 성능이 올라감
 */
-
+body {
+  font-family: "Noto Sans KR", "Roboto";
+  background-color: aliceblue;
+}
 html,
 body {
   width: 100%;
   height: 100%;
-  max-width: 720px;
-  min-width: 390px;
 }
 html {
   /* ************************************************************
@@ -155,3 +150,25 @@ input,
 select {
   vertical-align: middle;
 } /*문자와 나란히 입력박스를 배치하면 높낮이가 맞지않아 맞추기 위함 */
+.wrap{
+  width: 100%;
+  height: 100%;
+  max-width: 720px;
+  min-width: 320px;
+}
+section{
+  background-color: white;
+  width: 100%;
+  height: calc(100% -174px);
+  min-height: calc(844px -174px);
+}
+
+
+`;
+
+  const Theme = createGlobalStyle`
+
+  
+`;
+  return { GlobalStyle, Theme };
+}
