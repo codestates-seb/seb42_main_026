@@ -1,2 +1,61 @@
-package seb42_main_026.mainproject.domain.comment.service;public class CommentService {
+package seb42_main_026.mainproject.domain.comment.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import seb42_main_026.mainproject.domain.answer.service.AnswerService;
+import seb42_main_026.mainproject.domain.comment.entity.Comment;
+import seb42_main_026.mainproject.domain.comment.repository.CommentRepository;
+import seb42_main_026.mainproject.domain.member.service.MemberService;
+import seb42_main_026.mainproject.exception.CustomException;
+import seb42_main_026.mainproject.exception.ExceptionCode;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class CommentService {
+
+    private final MemberService memberService;
+    private final AnswerService answerService;
+    private final CommentRepository commentRepository;
+
+    public Comment createComment(Comment comment, long answerId, long memberId){
+        //comment 에 회원 연결
+        comment.setMember(memberService.findVerifiedMember(memberId));
+        //comment 에 답변 연결
+        comment.setAnswer(answerService.findAnswer(answerId));
+
+        return commentRepository.save(comment);
+    }
+
+    public Comment updateComment(Comment comment, long memberId){
+        Comment foundComment = findComment(comment.getCommentId());
+        // todo MemberService verifyMemberByMemberId 메서드 추가
+//        memberService.verifyMemberByMemberId(memberId, foundComment.getMember().getMemberId());
+
+        // todo 음성파일도 수정 하도록
+        Optional.ofNullable(comment.getContent())
+                .ifPresent(foundComment::setContent);
+
+        return commentRepository.save(foundComment);
+    }
+
+    public void deleteComment(long commentId, long memberId){
+        Comment comment = findComment(commentId);
+
+//        memberService.verifyMemberByMemberId(memberId, comment.getMember().getMemberId());
+
+        commentRepository.delete(comment);
+    }
+
+    public Comment findComment(long commentId){
+        return findVerifiedComment(commentId);
+    }
+
+    private Comment findVerifiedComment(long commentId){
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        Comment foundComment = optionalComment.orElseThrow(() -> new CustomException(ExceptionCode.COMMENT_NOT_FOUND));
+
+        return foundComment;
+    }
 }
