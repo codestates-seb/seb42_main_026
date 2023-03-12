@@ -208,7 +208,7 @@ section{
   --color_gray01: #878B93,
   --color_gray02:#ABAEB4,
   --color_gray03: #D1D3D7,
-  --color_gray04: "#EEEEEF",
+  --color_gray04: #EEEEEF,
   --font_size18: 18px,
   --font_size16: 16px,
   --font_size14: 14px,
