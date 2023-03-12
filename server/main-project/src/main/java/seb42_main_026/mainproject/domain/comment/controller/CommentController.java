@@ -3,6 +3,7 @@ package seb42_main_026.mainproject.domain.comment.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
@@ -35,4 +36,26 @@ public class CommentController {
                 new SingleResponseDto<>(mapper.commentToCommentResponse(comment)), HttpStatus.CREATED);
     }
 
+    @PatchMapping("/questions/{question-id}/{answer-id}/{comment-id}")
+    public ResponseEntity patchComment(@PathVariable("question-id") @Positive long questionId,
+                                       @PathVariable("answer-id") @Positive long answerId,
+                                       @PathVariable("comment-id") @Positive long commentId,
+                                       @Valid @RequestBody CommentDto.Patch commentPatchDto){
+        commentPatchDto.setCommentId(commentId);
+        Comment comment = commentService.updateComment(
+                mapper.commentPatchDtoToComment(commentPatchDto), commentPatchDto.getMemberId());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.commentToCommentResponse(comment)),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/questions/{question-id}/{answer-id}/{comment-id}")
+    public ResponseEntity deleteComment(@PathVariable("question-id") @Positive long questionId,
+                                        @PathVariable("answer-id") @Positive long answerId,
+                                        @PathVariable("comment-id") @Positive long commentId,
+                                        @Positive @RequestParam long memberId){
+        commentService.deleteComment(commentId,memberId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
