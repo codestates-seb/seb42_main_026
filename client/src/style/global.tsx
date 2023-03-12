@@ -188,8 +188,8 @@ section{
   --font-weight600: 600;
   --font-weight400: 400;
   --font-weight300: 300;
-  --font-spacing_title: -0.05em;
-  --font-spacing_bottom: -0.035em;
+  --font-spacing-title: -0.05em;
+  --font-spacing-bottom: -0.035em;
   }
   `;
 
