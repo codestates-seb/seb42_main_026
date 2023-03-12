@@ -1,8 +1,12 @@
+import ProfileCard from "../container/mypage/ProfileCard";
+import RankCard from "../container/mypage/RankCard";
+
 const MyPage = () => {
   return (
-    <div>
-      <span>MyPage!</span>
-    </div>
+    <>
+      <ProfileCard></ProfileCard>
+      <RankCard></RankCard>
+    </>
   );
 };
 
