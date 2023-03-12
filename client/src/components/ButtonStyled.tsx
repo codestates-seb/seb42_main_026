@@ -27,7 +27,7 @@ const LoginButton = styled.button<ButtonProps>`
   border-radius: 5px;
   color: ${(props) => props.color === "pink"  ? '#fff' : props.theme.colors.gray01};
   border: ${(props) => props.color === "pink"  ? 'none' : `solid 1px ${props.theme.colors.gray03}`};
-  background-color: ${(props) => props.color === "pink" ? props.theme.colors.webMain : '#fff'};
+  background-color: ${(props) => props.color === "pink" ? props.theme.colors.mobMain : '#fff'};
 `;
 const LoginText = styled.span<ButtonProps>`
   font-family: "Noto Sans KR";
