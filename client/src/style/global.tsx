@@ -160,9 +160,10 @@ select {
 }
 section{
   background-color: white;
-  width: 100%;
+  width: calc(100% -32px);
   height: calc(100% -174px);
   min-height: calc(844px -174px);
+  padding: 0 16px;
 }
 
 .App{
