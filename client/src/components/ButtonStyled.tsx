@@ -32,14 +32,14 @@ const LoginButton = styled.button<ButtonProps>`
   align-items: center;
   border-radius: ${(props) => (props.radius === "" ? "5px" : props.radius)};
   color: ${(props) =>
-    props.color === "pink" ? "#fff" : props.theme.colors.gray01};
+    props.color === "pink" ? `var(--color-white01)` : `var(--color-gray01)`};
   border: ${(props) =>
-    props.color === "pink" ? "none" : `solid 1px ${props.theme.colors.gray03}`};
+    props.color === "pink" ? "none" : `solid 1px var(--color-gray03)`};
   background-color: ${(props) =>
-    props.color === "pink" ? props.theme.colors.mobMain : "#fff"};
+    props.color === "pink" ? `var(--color-mobMain)` : `var(--color-white01)`};
 `;
-const LoginText = styled.span<ButtonProps>`
+const LoginText = styled.span`
   font-family: "Noto Sans KR";
-  font-size: "14px";
-  letter-spacing: -0.05em;
+  font-size: var(--font-size14);
+  letter-spacing: var(--font-spacing-title);
 `;
