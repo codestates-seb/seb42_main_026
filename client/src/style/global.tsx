@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import { DefaultTheme } from 'styled-components';
 import "styled-components";
 
 declare module "styled-components" {
@@ -7,35 +6,34 @@ declare module "styled-components" {
     colors: {
       webMain: string;
       mobMain: string;
-      black01: string
-      gray01: string
-      gray02: string
-      gray03: string
-      gray04: string
+      black01: string;
+      gray01: string;
+      gray02: string;
+      gray03: string;
+      gray04: string;
     };
-    fontSize:{
-      max: string,
-      size16: string,
-      size14: string,
-      size12: string,
-      min: string,
+    fontSize: {
+      max: string;
+      size16: string;
+      size14: string;
+      size12: string;
+      min: string;
     };
-    fontWeight:{
-      bold: string,
-      regular: string,
-      thin: string,
+    fontWeight: {
+      bold: string;
+      regular: string;
+      thin: string;
     };
-    letterSpacing :{
-      title: string,
-      bottom: string,
-      contents: string,
-    },
-
+    letterSpacing: {
+      title: string;
+      bottom: string;
+      contents: string;
+    };
   }
 }
 
-export function style() {  
-const GlobalStyle = createGlobalStyle`
+export function style() {
+  const GlobalStyle = createGlobalStyle`
 html,
 body,
 div,
@@ -166,6 +164,7 @@ input,
 textarea {
   font-size: 16px; /*모든글자 기본글자크기*/
   font-weight: 400; /* IE8 이하버전 대응 */
+  letter-spacing: 0;
 }
 input,
 button {
@@ -202,40 +201,26 @@ section{
   justify-content: center;
 }
 
-`;
+:root{
+  --color_webMain: #FF4F6E,
+  --color_mobMain: #FF607C,
+  --color_black01:#212123,
+  --color_gray01: #878B93,
+  --color_gray02:#ABAEB4,
+  --color_gray03: #D1D3D7,
+  --color_gray04: "#EEEEEF",
+  --font_size18: 18px,
+  --font_size16: 16px,
+  --font_size14: 14px,
+  --font_size12: 12px,
+  --font_size10: 10px,
+  --font_weight700: 700,
+  --font_weight600: 600,
+  --font_weight400: 400,
+  --font_spacing_title: -0.05em,
+  --font_spacing_bottom: -0.035em,
+  }
+  `;
 
-const theme : DefaultTheme = {
-  colors:{
-    webMain: "#FF4F6E",
-    mobMain: "#FF607C",
-    black01: "#212123",
-    gray01: "#878B93",
-    gray02: "#ABAEB4",
-    gray03: "#D1D3D7",
-    gray04: "#EEEEEF",
-  },
-
-  fontSize:{
-      max: "18px",
-      size16:"16px",
-      size14:"14px",
-      size12:"12px",
-      min: "10px",
-  },
-
-  fontWeight:{
-      bold: "700",
-      regular: "600",
-      thin: "400"
-  },
-
-  letterSpacing :{
-      title: "-5%",
-      bottom: "-3.5%",
-      contents: "0%",
-  },
-
-};
-
-  return { GlobalStyle, theme };
+  return { GlobalStyle };
 }
