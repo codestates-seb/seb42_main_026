@@ -1,7 +1,41 @@
 import { createGlobalStyle } from "styled-components";
+import { DefaultTheme } from 'styled-components';
+import "styled-components";
 
-export function style() {
-  const GlobalStyle = createGlobalStyle`
+declare module "styled-components" {
+  export interface DefaultTheme {
+    colors: {
+      webMain: string;
+      mobMain: string;
+      black01: string
+      gray01: string
+      gray02: string
+      gray03: string
+      gray04: string
+    };
+    fontSize:{
+      max: string,
+      size16: string,
+      size14: string,
+      size12: string,
+      min: string,
+    };
+    fontWeight:{
+      bold: string,
+      regular: string,
+      thin: string,
+    };
+    letterSpacing :{
+      title: string,
+      bottom: string,
+      contents: string,
+    },
+
+  }
+}
+
+export function style() {  
+const GlobalStyle = createGlobalStyle`
 html,
 body,
 div,
@@ -163,12 +197,45 @@ section{
   min-height: calc(844px -174px);
 }
 
+.App{
+  display: flex;
+  justify-content: center;
+}
 
 `;
 
-  const Theme = createGlobalStyle`
+const theme : DefaultTheme = {
+  colors:{
+    webMain: "#FF4F6E",
+    mobMain: "#FF607C",
+    black01: "#212123",
+    gray01: "#878B93",
+    gray02: "#ABAEB4",
+    gray03: "#D1D3D7",
+    gray04: "#EEEEEF",
+  },
 
-  
-`;
-  return { GlobalStyle, Theme };
+  fontSize:{
+      max: "18px",
+      size16:"16px",
+      size14:"14px",
+      size12:"12px",
+      min: "10px",
+  },
+
+  fontWeight:{
+      bold: "700",
+      regular: "600",
+      thin: "400"
+  },
+
+  letterSpacing :{
+      title: "-5%",
+      bottom: "-3.5%",
+      contents: "0%",
+  },
+
+};
+
+  return { GlobalStyle, theme };
 }
