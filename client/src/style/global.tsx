@@ -183,7 +183,7 @@ section{
   --font-size16: 16px;
   --font-size14: 14px;
   --font-size12: 12px;
-  --font_size10: 10px;
+  --font-size10: 10px;
   --font-weight700: 700;
   --font-weight600: 600;
   --font-weight400: 400;
