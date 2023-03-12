@@ -11,10 +11,13 @@ export default function Tags({ title, size }: TagesProps) {
 
 const TagsStyle = styled.span<TagesProps>`
   display: flex;
+  align-items: center;
   width: fit-content;
+  height: 22px;
   color: #285f94;
   background-color: #edf7f9;
-  padding: ${(props) => (props.size === "big" ? `4px 10px ` : `2px 5px `)};
+  padding: ${(props) =>
+    props.size === "big" ? `4px 10px ` : ` 1.5px 8px 2px; `};
   border-radius: 5px;
   font-size: ${(props) =>
     props.size === "big" ? `var(--font-size14)` : `var(--font-size12)`};
