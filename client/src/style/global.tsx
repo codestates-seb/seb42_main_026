@@ -1,37 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import "styled-components";
 
-declare module "styled-components" {
-  export interface DefaultTheme {
-    colors: {
-      webMain: string;
-      mobMain: string;
-      black01: string;
-      gray01: string;
-      gray02: string;
-      gray03: string;
-      gray04: string;
-    };
-    fontSize: {
-      max: string;
-      size16: string;
-      size14: string;
-      size12: string;
-      min: string;
-    };
-    fontWeight: {
-      bold: string;
-      regular: string;
-      thin: string;
-    };
-    letterSpacing: {
-      title: string;
-      bottom: string;
-      contents: string;
-    };
-  }
-}
-
 export function style() {
   const GlobalStyle = createGlobalStyle`
 html,
@@ -110,7 +79,7 @@ video {
 */
 body {
   font-family: "Noto Sans KR", "Roboto";
-  background-color: aliceblue;
+  background-color: #f6f6f6;
 }
 html,
 body {
@@ -202,23 +171,25 @@ section{
 }
 
 :root{
-  --color_webMain: #FF4F6E,
-  --color_mobMain: #FF607C,
-  --color_black01:#212123,
-  --color_gray01: #878B93,
-  --color_gray02:#ABAEB4,
-  --color_gray03: #D1D3D7,
-  --color_gray04: #EEEEEF,
-  --font_size18: 18px,
-  --font_size16: 16px,
-  --font_size14: 14px,
-  --font_size12: 12px,
-  --font_size10: 10px,
-  --font_weight700: 700,
-  --font_weight600: 600,
-  --font_weight400: 400,
-  --font_spacing_title: -0.05em,
-  --font_spacing_bottom: -0.035em,
+  --color-webMain: #FF4F6E;
+  --color-mobMain: #FF607C;
+  --color-white01: #ffffff;
+  --color-black01:#212123;
+  --color-gray01: #878B93;
+  --color-gray02:#ABAEB4;
+  --color-gray03: #D1D3D7;
+  --color-gray04: #EEEEEF;
+  --font-size18: 18px;
+  --font-size16: 16px;
+  --font-size14: 14px;
+  --font-size12: 12px;
+  --font-size10: 10px;
+  --font-weight700: 700;
+  --font-weight600: 600;
+  --font-weight400: 400;
+  --font-weight300: 300;
+  --font-spacing-title: -0.05em;
+  --font-spacing-bottom: -0.035em;
   }
   `;
 
