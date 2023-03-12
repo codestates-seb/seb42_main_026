@@ -5,11 +5,18 @@ interface ButtonProps {
   color?: "pink" | "normal";
   width?: string;
   height?: string;
+  radius?: string;
 }
 
-const Button = ({ color, title, width = '', height = '' }: ButtonProps) => {
+const Button = ({
+  color,
+  title,
+  width = "",
+  height = "",
+  radius = "",
+}: ButtonProps) => {
   return (
-    <LoginButton color={color} width={width} height={height}>
+    <LoginButton color={color} width={width} height={height} radius={radius}>
       <LoginText>{title}</LoginText>
     </LoginButton>
   );
@@ -18,12 +25,12 @@ const Button = ({ color, title, width = '', height = '' }: ButtonProps) => {
 export default Button;
 
 const LoginButton = styled.button<ButtonProps>`
-  width: ${(props) => props.width === ''? '100%' : props.width};
-  height: ${(props) => props.height === ''? '55px' : props.height};
+  width: ${(props) => (props.width === "" ? "100%" : props.width)};
+  height: ${(props) => (props.height === "" ? "55px" : props.height)};
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: ${(props) => (props.radius === "" ? "5px" : props.radius)};
   color: ${(props) =>
     props.color === "pink" ? "#fff" : props.theme.colors.gray01};
   border: ${(props) =>
