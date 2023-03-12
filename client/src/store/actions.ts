@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from './constants';
+import { LOGIN, LOGOUT,SET_PAGE } from './constants';
 
 
 export const login = () => ({
@@ -8,3 +8,9 @@ export const login = () => ({
 export const logout = () => ({
   type: LOGOUT,
 });
+
+export const setPage = (page: string) => ({
+  type: SET_PAGE,
+  payload: page
+});
+

@@ -1,46 +1,62 @@
 import styled from "styled-components";
-import { ReactComponent as ICON_HOME } from "../assets/ic_gnb_home_button.svg";
-import { ReactComponent as ICON_JANSORI } from "../assets/ic_gnb_jansori_button.svg";
-import { ReactComponent as ICON_WRITE } from "../assets/ic_gnb_write_button.svg";
-import { ReactComponent as ICON_RANK } from "../assets/ic_gnb_rank_button.svg";
-import { ReactComponent as ICON_MYPAGE } from "../assets/ic_gnb_mypage_button.svg";
+import { ReactComponent as ICON_HOME } from "../assets/ic_bottomnav_home_button.svg";
+import { ReactComponent as ICON_JANSORI } from "../assets/ic_bottomnav_jansori_button.svg";
+import { ReactComponent as ICON_WRITE } from "../assets/ic_bottomnav_write_button.svg";
+import { ReactComponent as ICON_RANK } from "../assets/ic_bottomnav_rank_button.svg";
+import { ReactComponent as ICON_MYPAGE } from "../assets/ic_bottomnav_mypage_button.svg";
 import { useAuth } from "../hooks/useAuth";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const Gnb = () => {
+const BottomNav = () => {
   const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  const [clickedMenu, setClickedMenu] = useState("");
+
+  const menuData = [
+    { id: "home", icon: ICON_HOME, text: "홈", link: "/", security: false },
+    {
+      id: "nagging",
+      icon: ICON_JANSORI,
+      text: "잔소리",
+      link: "/NaggingBoard",
+      security: false,
+    },
+    { id: "write", icon: ICON_WRITE, link: "/", security: true },
+    {
+      id: "rank",
+      icon: ICON_RANK,
+      text: "랭킹",
+      link: "/Rank",
+      security: true,
+    },
+    {
+      id: "mypage",
+      icon: ICON_MYPAGE,
+      text: "마이페이지",
+      link: "/MyPage",
+      security: true,
+    },
+  ];
+
+  const handleMenuClick = (id: string, link: string, security: boolean) => {
+    setClickedMenu(id);
+    navigate(isLoggedIn ? link : security ? "/Login" : link); //추후 navigate 수정 page 이동시마다 login 검증 필요
+  };
 
   return (
     <GnbWrapper>
-      <Link to={"/"}>
-        <MenuContainer>
-          <ICON_HOME />
-          <MenuText>홈</MenuText>
+      {menuData.map(({ id, icon: Icon, text, link, security }) => (
+        <MenuContainer
+          key={id}
+          onClick={() => handleMenuClick(id, link, security)}
+        >
+          <Icon fill={`${clickedMenu === id ? "#FF607C" : "#212123"}`} />
+          <MenuText color={`${clickedMenu === id ? "#FF607C" : "#212123"}`}>
+            {text}
+          </MenuText>
         </MenuContainer>
-      </Link>
-      <Link to={"/NaggingBoard"}>
-        <MenuContainer>
-          <ICON_JANSORI />
-          <MenuText>잔소리</MenuText>
-        </MenuContainer>
-      </Link>
-      <Link to={isLoggedIn ? "/Editor" : "/Login"}>
-        <MenuContainer>
-          <ICON_WRITE />
-        </MenuContainer>
-      </Link>
-      <Link to={isLoggedIn ? "/Rank" : "/Login"}>
-        <MenuContainer>
-          <ICON_RANK />
-          <MenuText>랭킹</MenuText>
-        </MenuContainer>
-      </Link>
-      <Link to={isLoggedIn ? "/MyPage" : "/Login"}>
-        <MenuContainer>
-          <ICON_MYPAGE />
-          <MenuText>마이페이지</MenuText>
-        </MenuContainer>
-      </Link>
+      ))}
     </GnbWrapper>
   );
 };
@@ -76,7 +92,7 @@ const MenuText = styled.span`
   font-family: "Noto Sans KR";
   font-weight: 300;
   font-size: 10px;
-  color: #212123;
+  color: ${(props) => props.color};
 `;
 
-export default Gnb;
+export default BottomNav;

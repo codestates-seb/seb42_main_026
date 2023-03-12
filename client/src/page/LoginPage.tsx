@@ -2,6 +2,7 @@ import styled from "styled-components";
 import GoogleLoginButton from "../container/login/GoogleLoginButton";
 import KakaoLoginButton from "../container/login/KakaoLoginButton";
 import NaverLoginButton from "../container/login/NaverLoginButton";
+import ButtonStyled from "../components/ButtonStyled";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -13,10 +14,8 @@ const LoginPage = () => {
       <Title>PPONG</Title>
       <InputContainer>
         <LoginInput placeholder="이메일"></LoginInput>
-        <LoginInput placeholder="비밀번호"></LoginInput>
-        <LoginButton onClick={loginHandler}>
-          <LoginText>로그인</LoginText>
-        </LoginButton>
+        <LoginInput type="password" placeholder="비밀번호"></LoginInput>
+        <ButtonStyled color="pink" title="로그인"></ButtonStyled>
       </InputContainer>
       <ContourContainer>
         <ContourLine></ContourLine>
@@ -87,23 +86,6 @@ const ContourText = styled.span`
   font-weight: 400;
   font-size: 14px;
   color: #abaeb4;
-`;
-
-const LoginButton = styled.button`
-  height: 55px;
-  align-self: stretch;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  border: none;
-  background-color: #ff607c;
-`;
-const LoginText = styled.span`
-  font-family: "Noto Sans KR";
-  font-size: 14px;
-  color: #ffffff;
-  letter-spacing: -0.05em;
 `;
 
 const Title = styled.span`
