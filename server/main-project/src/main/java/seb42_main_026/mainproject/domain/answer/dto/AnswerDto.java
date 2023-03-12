@@ -7,6 +7,7 @@ import lombok.Setter;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class AnswerDto {
     @Getter
@@ -16,12 +17,15 @@ public class AnswerDto {
         @NotNull
         private String content;
 
+        /**
+         * voice file - todo
+         */
+
         public void addQuestionId(long questionId){
             this.questionId = questionId;
         }
     }
 
-    //todo Patch,Response 작성
     @Getter
     @Setter
     public static class Patch{
@@ -32,13 +36,25 @@ public class AnswerDto {
         @NotBlank(message = "내용을 입력해 주세요.")
         private String content;
 
+        /**
+         * voice file - todo
+         */
+
         //채택 시, 스테이스 변경도 Patch 로
         private Answer.AnswerStatus answerStatus;
     }
 
-    @AllArgsConstructor
     @Getter
     public static class Response{
+        private long answerId;
+        private String content;
+        private String nickname;
+        private Answer.AnswerStatus answerStatus;
+        private LocalDateTime createdAt;
+
+        /**
+         * voice file - todo
+         */
 
     }
 }
