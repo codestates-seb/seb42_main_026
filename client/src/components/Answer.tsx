@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ICON_PROFILE from "../assets/ic_mypage_profile.svg";
 import ButtonStyled from "../components/ButtonStyled";
 import ICON_MENUBUTTON from "../assets/ic_answer_menubutton.svg";
+import ICON_LIKE from "../assets/ic_boardItem_like.svg";
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -32,7 +33,12 @@ const Answer = ({
               <TimeWrapper>{time}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              <ButtonStyled color="pink" title="채택중"></ButtonStyled>
+              <ButtonStyled
+                color="pink"
+                title="채택중"
+                width="55px"
+                height="22px"
+              ></ButtonStyled>
               <MenuButtonWrapper>
                 <img src={ICON_MENUBUTTON} alt="메뉴버튼" />
               </MenuButtonWrapper>
@@ -45,11 +51,10 @@ const Answer = ({
           <BottomWrapper>
             <BottomLeftWrapper>
               <LikeWrapper>
-                {/* <thumbsup></thumbsup>
-                <likeNumber></likeNumber> */}
+                <img src={ICON_LIKE} alt="좋아요"></img>
+                <LikeNumber>2</LikeNumber>
               </LikeWrapper>
-
-              <SubComment>답글쓰기</SubComment>
+              <SubAnswer>답글쓰기</SubAnswer>
             </BottomLeftWrapper>
           </BottomWrapper>
         </TextWrapper>
@@ -63,12 +68,8 @@ export default Answer;
 const AnswerWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  /* justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0.5rem; */
-  /* background-color: #ffffff; */
-  border: solid aqua;
   width: 100%;
+  gap: 8px;
 `;
 
 const ImageWrapper = styled.div`
@@ -76,17 +77,14 @@ const ImageWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  /* gap: 10px; */
-  background-color: #ffffff;
-  border: solid red;
 `;
 
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: solid black;
   width: 100%;
+  gap: 8px;
 `;
 
 const TopWrapper = styled.div`
@@ -104,9 +102,17 @@ const InfoWrapper = styled.div`
   align-items: flex-start;
 `;
 
-const NameWrapper = styled.div``;
+const NameWrapper = styled.div`
+  color: var(--color-black01);
+  font-weight: var(--font-weight700);
+  font-size: var(--font-size12);
+`;
 
-const TimeWrapper = styled.div``;
+const TimeWrapper = styled.div`
+  color: var(--color-gray02);
+  font-weight: var(--font-weight300);
+  font-size: var(--font-size12);
+`;
 
 const MenuButtonWrapper = styled.div``;
 
@@ -124,7 +130,8 @@ const MiddleWrapper = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  border: solid red;
+  line-height: 22.4px;
+  font-weight: var(--font-weight300);
 `;
 const BottomWrapper = styled.div`
   display: flex;
@@ -132,30 +139,32 @@ const BottomWrapper = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  border: solid red;
 `;
 
-const LikeWrapper = styled.div``;
+const LikeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2px;
+  align-items: center;
+`;
 
-// const thumbsup = styled.div``;
+const LikeNumber = styled.div`
+  font-weight: var(--font-weight700);
+  font-size: var(--font-size12);
+  color: var(--color-gray02);
+`;
 
-// const likeNumber = styled.div``;
+const SubAnswer = styled.div`
+  font-weight: var(--font-weight700);
+  font-size: var(--font-size12);
+  color: var(--color-gray02);
+`;
 
-const SubComment = styled.div``;
-
-const BottomLeftWrapper = styled.div``;
-
-/* <MiddleWrapper>
-          아이맥스, 2D 모두 마감되었어요! 2D는 포스터 이벤트 또 올라올 것 같은데
-          급한게 아니면 한번 기다려보시는 것도 좋을 것 같아요b
-        </MiddleWrapper>
-        <BottomWrapper>
-          <BottomLeftWrapper>
-            <LikeWrapper>
-              <thumbsup></thumbsup>
-              <likeNumber></likeNumber>
-            </LikeWrapper>
-
-            <SubComment>답글쓰기</SubComment>
-          </BottomLeftWrapper>
-        </BottomWrapper> */
+const BottomLeftWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+`;
