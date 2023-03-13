@@ -1,13 +1,15 @@
 import styled from 'styled-components';
-import { ReactComponent as ICON_ALRAM } from '../assets/ic_topnav_alram_button.svg';
-import { ReactComponent as ICON_BADGE } from '../assets/ic_topnav_alram_badge.svg';
+import { ReactComponent as ICON_ALARM } from '../assets/ic_topnav_alarm_button.svg';
+import { ReactComponent as ICON_BADGE } from '../assets/ic_topnav_alarm_badge.svg';
 import { ReactComponent as ICON_LOGO } from '../assets/ic_topnav_logo_button.svg';
 import { ReactComponent as ICON_BACK } from '../assets/ic_topnav_back_button.svg';
+import { useAuth } from '../hooks/useAuth';
 import { usePage } from '../hooks/usePage';
 import { useNavigate } from 'react-router-dom';
 
 export default function TopNav() {
-  const { getPageHandler } = usePage();
+  const { isLoggedIn } = useAuth();
+  const { getPageHandler, setPageHandler } = usePage();
   const navigate = useNavigate();
 
   const getTitle = () => {
@@ -24,6 +26,8 @@ export default function TopNav() {
         return '';
       case 'mypage':
         return '';
+      case 'alarms':
+        return '알람';
       default:
         return '';
     }
@@ -33,12 +37,13 @@ export default function TopNav() {
 
   return (
     <TopNavWrapper>
+      {/* 뒤로가기 수정해야함 */}
       <LeftContainer>{showBackButton() ? <ICON_BACK width={8} height={14} onClick={() => navigate(-1)} /> : <ICON_LOGO width={25} height={25} />}</LeftContainer>
       <LogoTitle theme={getPageHandler !== 'home' ? 'normal' : undefined}>{getTitle()}</LogoTitle>
       <RightContainer>
         {getPageHandler === 'home' && (
           <>
-            <ICON_ALRAM />
+            <ICON_ALARM onClick={() => setPageHandler(isLoggedIn, 'alarms', '/Alarms', true)} />
             <ICON_BADGE />
           </>
         )}

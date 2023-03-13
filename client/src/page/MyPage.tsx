@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ProfileCard from '../container/mypage/ProfileCard';
 import RankCard from '../container/mypage/RankCard';
-import MyPost from '../container/mypage/MyPost'
+import MyPost from '../container/mypage/MyPost';
 
 const MyPage = () => {
   return (
