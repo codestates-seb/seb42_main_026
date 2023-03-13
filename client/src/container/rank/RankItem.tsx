@@ -1,25 +1,34 @@
-import styled from "styled-components";
-import { ReactComponent as ICON_RANK_NO1 } from "../assets/ic_Rank_no1.svg";
-import ImageBox from "../../components/ImageBox";
+import styled from 'styled-components';
+import { ReactComponent as ICON_RANK_NO1 } from '../../assets/ic_Rank_no1.svg';
+import { ReactComponent as ICON_RANK_NO2 } from '../../assets/ic_Rank_no2.svg';
+import { ReactComponent as ICON_RANK_NO3 } from '../../assets/ic_Rank_no3.svg';
+import RankImgCard from '../../components/RankImgCard';
 
 interface RankItemProps {
-  subText: string;
-  nickName: string;
-  url: string;
+  url?: string;
+  nickName?: string;
+  subText?: string;
+  index: number;
 }
 
-export default function RankItem({ subText, nickName, url }: RankItemProps) {
+function setRankIcon({ index }: RankItemProps) {
+  switch (index) {
+    case 1:
+      return <ICON_RANK_NO1 />;
+    case 2:
+      return <ICON_RANK_NO2 />;
+    case 3:
+      return <ICON_RANK_NO3 />;
+    default:
+      return <RankText>{index}등</RankText>;
+  }
+}
+
+export default function RankItem({ subText, nickName, url, index }: RankItemProps) {
   return (
     <RankItemStyle>
-      <IconForm>
-        <ICON_RANK_NO1 />
-      </IconForm>
-      <ImageBox
-        imgUrl={url}
-        mainText={nickName}
-        subText={subText}
-        lang="string"
-      />
+      <IconForm>{setRankIcon({ index })}</IconForm>
+      <RankImgCard imgUrl={url} mainText={nickName} subText={subText} index={index} />
     </RankItemStyle>
   );
 }
@@ -27,10 +36,15 @@ export default function RankItem({ subText, nickName, url }: RankItemProps) {
 const RankItemStyle = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   padding: 6px 0px 6px 10px;
   gap: 14px;
+`;
+
+const RankText = styled.span`
+  font-size: var(--font-size18);
+  letter-spacing: var(--font-spacing-title);
 `;
 
 const IconForm = styled.div`

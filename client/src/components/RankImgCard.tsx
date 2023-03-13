@@ -5,22 +5,22 @@ interface ImgCardProps {
   imgUrl?: string;
   mainText?: string;
   subText?: string;
-  lang: string;
+  index: number;
 }
 
-const ImageBox = ({ imgUrl, mainText, subText, lang }: ImgCardProps) => {
+const RankImgCard = ({ imgUrl, mainText, subText, index }: ImgCardProps) => {
   return (
     <ImageBoxWrapper>
       <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" />
       <InfoBoxWrapper>
-        <MainText lang={lang}>{mainText}</MainText>
+        <MainText index={index}>{mainText}</MainText>
         <SubText>{subText}</SubText>
       </InfoBoxWrapper>
     </ImageBoxWrapper>
   );
 };
 
-export default ImageBox;
+export default RankImgCard;
 
 const ImageBoxWrapper = styled.div`
   position: relative;
@@ -47,16 +47,16 @@ const InfoBoxWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 `;
-const MainText = styled.div`
+const MainText = styled.div<ImgCardProps>`
   text-align: left;
-  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
-  color: var(--color-black01);
+  color: ${(props) => (props.index !== undefined && props.index <= 3 ? 'var(--color-mobMain)' : 'var(--color-black01)')};
+  font-weight: ${(props) => (props.index !== undefined && props.index <= 3 ? 'var(--font-weight700)' : '')};
   font-size: var(--font-size18);
 `;
 const SubText = styled.div`
   text-align: left;
   font-size: var(--font-size12);
-  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
+  font-family: 'Roboto';
   letter-spacing: -0.05em;
   color: var(--color-gray02);
 `;
