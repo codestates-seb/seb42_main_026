@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.repository.QuestionRepository;
+import seb42_main_026.mainproject.domain.tag.Tag;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +16,14 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class QuestionService {
+    private final MemberService memberService;
     private final QuestionRepository questionRepository;
 
-    // Todo: 이미지 파일 저장 추가
+    // Todo: 태그, 이미지 파일 저장 추가
     public Question createQuestion(Question question) {
+        // 가입된 회원인지 체크
+        memberService.findVerifiedMember(question.getMember().getMemberId());
+
         return questionRepository.save(question);
     }
 

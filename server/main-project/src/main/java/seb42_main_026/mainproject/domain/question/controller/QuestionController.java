@@ -9,9 +9,13 @@ import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.mapper.QuestionMapper;
 import seb42_main_026.mainproject.domain.question.service.QuestionService;
+import seb42_main_026.mainproject.domain.tag.Tag;
 import seb42_main_026.mainproject.dto.SingleResponseDto;
+import seb42_main_026.mainproject.security.utils.UriCreator;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 
 @Validated
@@ -19,19 +23,24 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/questions")
 public class QuestionController {
+    private final static String QUESTION_DEFAULT_URL = "/questions";
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
-    @PostMapping
-    public ResponseEntity<?> postQuestion(@RequestBody @Valid QuestionDto.Post questionPostDto) {
+    // Todo: 태그, 이미지 파일 업로드
+    @PostMapping("/{member-id}")
+    public ResponseEntity<?> postQuestion(@RequestBody @Valid QuestionDto.Post questionPostDto,
+                                          @PathVariable("member-id") @Positive long memberId) {
+        questionPostDto.setMemberId(memberId);
+
         Question question = questionMapper.questionPostDtoToQuestion(questionPostDto);
+//        question.setTag(new Tag());
 
         Question createdQuestion = questionService.createQuestion(question);
 
-        QuestionDto.Response response = questionMapper.questionToQuestionResponseDto(createdQuestion);
+        URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, createdQuestion.getQuestionId());
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(response), HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("{question-id}")
