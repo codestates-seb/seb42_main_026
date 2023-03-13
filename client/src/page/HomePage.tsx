@@ -1,7 +1,9 @@
+import SubApp from '../container/home/SubApp';
+
 const HomePage = () => {
   return (
     <div>
-      <span>HomePage!</span>
+      <SubApp />
     </div>
   );
 };
