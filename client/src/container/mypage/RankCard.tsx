@@ -1,22 +1,12 @@
-import styled from "styled-components";
-import ImageBox from "../../components/ImageBox";
+import styled from 'styled-components';
+import ImageBox from '../../components/ImageBox';
 
 const RankCard = () => {
   return (
     <>
       <RankCardWrapper>
-        <ImageBox
-          imgUrl=""
-          mainText="티어"
-          subText="뿅망치"
-          lang="EN"
-        ></ImageBox>
-        <ImageBox
-          imgUrl=""
-          mainText="랭크"
-          subText="127위"
-          lang="EN"
-        ></ImageBox>
+        <ImageBox imgUrl="" mainText="티어" subText="뿅망치" lang="KR"></ImageBox>
+        <ImageBox imgUrl="" mainText="랭크" subText="127위" lang="KR"></ImageBox>
       </RankCardWrapper>
     </>
   );
@@ -28,13 +18,10 @@ const RankCardWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  /* padding: 20px 0; */
-  padding: 20px;
   width: calc(100% -40px);
-  gap: 20px;
-  /* justify-content: space-between; */
+  gap: 40px;
   align-items: flex-start;
-  /* padding-left: 20px; */
-  border: solid var(--color-gray03);
+  border: 1px solid var(--color-gray03);
   border-radius: 5px;
+  padding: 20px 0;
 `;
