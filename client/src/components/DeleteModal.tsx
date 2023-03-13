@@ -19,15 +19,19 @@ const DeleteModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 buttonClickHandler={onClose}
                 color="normal"
                 title="취소"
+                width="161px"
+                height="55px"
               ></ButtonStyled>
               <ButtonStyled
                 buttonClickHandler={onClose}
                 color="pink"
                 title="삭제하기"
+                width="161px"
+                height="55px"
               ></ButtonStyled>
             </ButtonWrapper>
           </ModalWrapper>
-          <ModalClose onClick={onClose}>X</ModalClose>
+
           <ModalBackground onClick={onClose}></ModalBackground>
         </>
       )}
@@ -56,37 +60,30 @@ const ModalWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;
   left: 50%;
   height: 135px;
   z-index: 9999;
+  width: 390px;
+  height: 175px;
+  gap: 30px;
 `;
 
 const AskWrapper = styled.div`
-  font-size: var(--font-size16);
-  width: 350px;
-  padding-bottom: 20px;
-`;
-
-const ModalClose = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
+  color: var(--color-mobMain);
+  /* width: 350px; */
+  font-weight: var(--font-weight600);
+  letter-spacing: var(--font-spacing-title);
+  align-items: center;
+  padding: 10px 0 0;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 161px;
-  height: 55px;
   gap: 10px;
 `;
