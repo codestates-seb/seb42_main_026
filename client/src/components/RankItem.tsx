@@ -1,23 +1,23 @@
 import styled from "styled-components";
 import { ReactComponent as ICON_RANK_NO1 } from "../assets/ic_Rank_no1.svg";
-import imageBox from "../components/ImageBox";
+import ImageBox from "./ImageBox";
 
 interface RankItemProps {
-  score: number;
+  subText: number;
   nickName: string;
   url: string;
 }
 
-export default function RankItem({ score, nickName }: RankItemProps) {
+export default function RankItem({ subText, nickName, url }: RankItemProps) {
   return (
     <RankItemStyle>
       <IconForm>
         <ICON_RANK_NO1 />
       </IconForm>
-      <imageBox
+      <ImageBox
         imgUrl={url}
         mainText={nickName}
-        subText={score}
+        subText={subText}
         lang="string"
       />
     </RankItemStyle>
