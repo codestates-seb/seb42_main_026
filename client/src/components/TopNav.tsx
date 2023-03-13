@@ -62,6 +62,7 @@ const TopNavWrapper = styled.header`
   align-items: center;
   background-color: var(--color-white01);
   padding: 44px 16px 0px 16px;
+  border-bottom: 1px solid var(--color-gray03);
 `;
 
 const RightContainer = styled.div`
