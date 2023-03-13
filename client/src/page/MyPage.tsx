@@ -20,7 +20,6 @@ const MyPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 0px 20px;
 `;
 
 const MyPageTitle = styled.span`
