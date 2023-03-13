@@ -161,8 +161,8 @@ select {
 section{
   background-color: white;
   width: calc(100% -32px);
-  height: calc(100% -174px);
-  min-height: calc(844px -174px);
+  height: calc(100% -214px);
+  min-height: calc(844px -214px);
   padding: 20px 16px;
 }
 
