@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 <<<<<<< HEAD
 import lombok.Setter;
+import seb42_main_026.mainproject.domain.tag.Tag;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;

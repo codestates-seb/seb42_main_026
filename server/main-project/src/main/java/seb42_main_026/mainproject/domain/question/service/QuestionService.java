@@ -10,8 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.repository.QuestionRepository;
+<<<<<<< HEAD
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
+=======
+import seb42_main_026.mainproject.domain.tag.Tag;
+>>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)
 
 import java.util.List;
 import java.util.Optional;

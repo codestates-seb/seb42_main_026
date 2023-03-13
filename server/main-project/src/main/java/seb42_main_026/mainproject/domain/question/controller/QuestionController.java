@@ -11,7 +11,11 @@ import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.mapper.QuestionMapper;
 import seb42_main_026.mainproject.domain.question.service.QuestionService;
+<<<<<<< HEAD
 import seb42_main_026.mainproject.dto.MultiResponseDto;
+=======
+import seb42_main_026.mainproject.domain.tag.Tag;
+>>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)
 import seb42_main_026.mainproject.dto.SingleResponseDto;
 import seb42_main_026.mainproject.security.utils.UriCreator;
 
@@ -30,7 +34,11 @@ public class QuestionController {
     private final QuestionMapper questionMapper;
 
     // Todo: 태그, 이미지 파일 업로드
+<<<<<<< HEAD
     @PostMapping("questions/{member-id}")
+=======
+    @PostMapping("/{member-id}")
+>>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)
     public ResponseEntity<?> postQuestion(@RequestBody @Valid QuestionDto.Post questionPostDto,
                                           @PathVariable("member-id") @Positive long memberId) {
         questionPostDto.setMemberId(memberId);
@@ -43,6 +51,7 @@ public class QuestionController {
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, createdQuestion.getQuestionId());
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         return new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.CREATED);
 =======
@@ -50,6 +59,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
+=======
+        return ResponseEntity.created(location).build();
+    }
+>>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)
 
 import java.util.List;
 
