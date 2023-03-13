@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import ButtonStyled from "../components/ButtonStyled";
+import styled from 'styled-components';
+import ButtonStyled from '../components/ButtonStyled';
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,12 +15,8 @@ const DeleteModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <ModalWrapper>
             <AskWrapper>댓글을 삭제하시겠습니까?</AskWrapper>
             <ButtonWrapper>
-              <ButtonStyled
-                color="normal"
-                title="취소"
-                onClick={() => onClose}
-              ></ButtonStyled>
-              <ButtonStyled color="pink" title="삭제하기"></ButtonStyled>
+              <ButtonStyled buttonClickHandler={onClose} color="normal" title="취소"></ButtonStyled>
+              <ButtonStyled buttonClickHandler={onClose} color="pink" title="삭제하기"></ButtonStyled>
             </ButtonWrapper>
           </ModalWrapper>
           <ModalClose onClick={onClose}>X</ModalClose>
