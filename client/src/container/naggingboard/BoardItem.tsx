@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import StatusChips from "../../components/StatusChips ";
 import Tags from "../../components/Tags";
-import { ReactComponent as ICON_LIKE } from "../assets/ic_boardItem_like.svg";
-import { ReactComponent as ICON_ANSWER } from "../assets/ic_boardItem_answer.svg";
+import { ReactComponent as ICON_LIKE } from "../../assets/ic_boardItem_like.svg";
+import { ReactComponent as ICON_ANSWER } from "../../assets/ic_boardItem_answer.svg";
 
 interface ItemProps {
   title: string;
@@ -11,13 +11,7 @@ interface ItemProps {
   answerCount: number;
   nickname: string;
 }
-export default function BoardItem({
-  title,
-  createdAt,
-  likeCount,
-  answerCount,
-  nickname,
-}: ItemProps) {
+export default function BoardItem({ title, createdAt, likeCount, answerCount, nickname }: ItemProps) {
   return (
     <BoardItemStyle>
       <ItemTop>
