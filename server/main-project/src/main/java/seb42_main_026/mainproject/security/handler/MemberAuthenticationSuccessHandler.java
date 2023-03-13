@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.security.security.handler;
+package seb42_main_026.mainproject.security.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
