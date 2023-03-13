@@ -12,13 +12,13 @@ interface AnswerCardProps {
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({
+const SubAnswer = ({
   imgUrl = "",
   nickname = "닉네임",
   time = "23시간전",
 }: AnswerCardProps) => {
   return (
-    <>
+    <SubAnswerWrapper>
       <AnswerWrapper>
         <ImageWrapper>
           <img
@@ -54,16 +54,23 @@ const Answer = ({
                 <img src={ICON_LIKE} alt="좋아요"></img>
                 <LikeNumber>2</LikeNumber>
               </LikeWrapper>
-              <SubAnswer>답글쓰기</SubAnswer>
+              <SubAnswerButton>답글쓰기</SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
         </TextWrapper>
       </AnswerWrapper>
-    </>
+    </SubAnswerWrapper>
   );
 };
 
-export default Answer;
+export default SubAnswer;
+
+const SubAnswerWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 36px);
+  padding-left: 36px;
+`;
 
 const AnswerWrapper = styled.div`
   display: flex;
@@ -155,7 +162,7 @@ const LikeNumber = styled.div`
   color: var(--color-gray02);
 `;
 
-const SubAnswer = styled.div`
+const SubAnswerButton = styled.div`
   font-weight: var(--font-weight700);
   font-size: var(--font-size12);
   color: var(--color-gray02);
