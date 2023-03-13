@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import ICON_PROFILE from '../assets/ic_mypage_profile.svg';
+import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 
 interface ImgCardProps {
   imgUrl?: string;
