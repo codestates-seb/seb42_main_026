@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import ButtonStyled from '../components/ButtonStyled';
+import styled from "styled-components";
+import ButtonStyled from "../components/ButtonStyled";
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,16 +11,25 @@ const DeleteModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   return (
     <>
       {isOpen && (
-        <ModalBackground>
+        <>
           <ModalWrapper>
             <AskWrapper>댓글을 삭제하시겠습니까?</AskWrapper>
             <ButtonWrapper>
-              <ButtonStyled buttonClickHandler={onClose} color="normal" title="취소"></ButtonStyled>
-              <ButtonStyled buttonClickHandler={onClose} color="pink" title="삭제하기"></ButtonStyled>
+              <ButtonStyled
+                buttonClickHandler={onClose}
+                color="normal"
+                title="취소"
+              ></ButtonStyled>
+              <ButtonStyled
+                buttonClickHandler={onClose}
+                color="pink"
+                title="삭제하기"
+              ></ButtonStyled>
             </ButtonWrapper>
           </ModalWrapper>
           <ModalClose onClick={onClose}>X</ModalClose>
-        </ModalBackground>
+          <ModalBackground onClick={onClose}></ModalBackground>
+        </>
       )}
     </>
   );
@@ -38,7 +47,7 @@ const ModalBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: 500;
 `;
 
 const ModalWrapper = styled.div`
@@ -50,10 +59,11 @@ const ModalWrapper = styled.div`
   padding: 20px;
   border-radius: 5px;
   transform: translate(-50%, -50%);
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   height: 135px;
+  z-index: 9999;
 `;
 
 const AskWrapper = styled.div`
