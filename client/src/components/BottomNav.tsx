@@ -6,12 +6,10 @@ import { ReactComponent as ICON_RANK } from '../assets/ic_bottomnav_rank_button.
 import { ReactComponent as ICON_MYPAGE } from '../assets/ic_bottomnav_mypage_button.svg';
 import { useAuth } from '../hooks/useAuth';
 import { usePage } from '../hooks/usePage';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const BottomNav = () => {
   const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
   const { setPageHandler } = usePage();
 
   const [clickedMenu, setClickedMenu] = useState('');
@@ -41,12 +39,6 @@ const BottomNav = () => {
       security: true,
     },
   ];
-
-  // const handleMenuClick = (id: string, link: string, security: boolean) => {
-  //   setClickedMenu(id);
-  //   // setPageHandler(isLoggedIn,id,security)
-  //   // navigate(isLoggedIn ? link : security ? '/Login' : link); //추후 navigate 수정 page 이동시마다 login 검증 필요
-  // };
 
   return (
     <GnbWrapper>

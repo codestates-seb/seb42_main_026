@@ -22,6 +22,8 @@ export default function TopNav() {
         return '랭킹';
       case 'login':
         return '';
+      case 'mypage':
+        return '';
       default:
         return '';
     }
