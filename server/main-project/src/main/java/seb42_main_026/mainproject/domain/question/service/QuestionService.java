@@ -36,9 +36,9 @@ public class QuestionService {
 //    }
 //
     // 특정 질문 조회
-//    public Question findQuestion(long questionId) {
-//        return findVerifiedQuestion(questionId);
-//    }
+    public Question findQuestion(long questionId) {
+        return findVerifiedQuestion(questionId);
+    }
 
     // 홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
     public List<Question> findQuestionsAtHome() {

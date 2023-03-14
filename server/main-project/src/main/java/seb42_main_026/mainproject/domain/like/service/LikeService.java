@@ -15,8 +15,9 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final QuestionService questionService;
 
-    public Like createLike(Like like, long questionId) {
-        Question matchedQuestion = questionService.findVerifiedQuestion(questionId);
+    public Like createLike(Like like) {
+        Question matchedQuestion =
+                questionService.findVerifiedQuestion(like.getQuestion().getQuestionId());
 
         matchedQuestion.setLikeCount(matchedQuestion.getLikeCount() + 1);
 
