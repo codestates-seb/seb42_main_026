@@ -3,10 +3,9 @@ package seb42_main_026.mainproject.domain.question.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import seb42_main_026.mainproject.domain.tag.Tag;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 
 public class QuestionDto {
     @Getter
@@ -28,10 +27,14 @@ public class QuestionDto {
     @AllArgsConstructor
     @Getter
     @Setter
-    public static class Response {
+    public static class Responses {
         private Long questionId;
+        private Long memberId;
         private String title;
-        private String content;
+        private int likeCount;
+//        private int answerCount;
+//        private String tagName;
         private String questionStatus;
+        private LocalDateTime createdAt;
     }
 }

@@ -5,7 +5,8 @@ import org.mapstruct.Mapping;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
-import seb42_main_026.mainproject.domain.tag.Tag;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper {
@@ -22,5 +23,9 @@ public interface QuestionMapper {
         return question;
     };
 
-    QuestionDto.Response questionToQuestionResponseDto(Question question);
+    @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "questionStatus.description", target = "questionStatus")
+    QuestionDto.Responses questionToQuestionResponseDto(Question question);
+
+    List<QuestionDto.Responses> questionsToQuestionResponseDtos(List<Question> questions);
 }

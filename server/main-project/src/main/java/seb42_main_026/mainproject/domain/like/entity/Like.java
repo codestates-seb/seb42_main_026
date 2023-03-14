@@ -1,4 +1,4 @@
-package seb42_main_026.mainproject.domain.like;
+package seb42_main_026.mainproject.domain.like.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +16,6 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
-
-    @Column(nullable = false)
-    private int likeCount;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")

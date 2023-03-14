@@ -2,12 +2,14 @@ package seb42_main_026.mainproject.domain.question.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.repository.QuestionRepository;
-import seb42_main_026.mainproject.domain.tag.Tag;
+import seb42_main_026.mainproject.exception.CustomException;
+import seb42_main_026.mainproject.exception.ExceptionCode;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,35 +33,35 @@ public class QuestionService {
 //
 //    }
 //
-//    // 특정 질문 조회
+    // 특정 질문 조회
 //    public Question findQuestion(long questionId) {
-//
+//        return findVerifiedQuestion(questionId);
 //    }
-//
-//    // 마이페이지에서 자신이 작성한 질문 목록 조회
-//    public List<Question> findQuestionsOfMember(long memberId) {
-//
-//    }
-//
-//    // 홈에서 인기글 목록 조회
-//    public List<Question> findQuestionsAtHome() {
-//
-//    }
-//
-//    // 게시판에서 질문 목록 조회
+
+    // 홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
+    public List<Question> findQuestionsAtHome() {
+        return questionRepository.findPopularQuestions();
+    }
+
+    // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
 //    public Page<Question> findQuestionsAtBoard(int page, int size) {
 //
 //    }
+
+    // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
+//    public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
 //
+//    }
+
 //    public void deleteQuestion(long questionId) {
 //
 //    }
-//
-//    private Question findVerifiedQuestion(long questionId) {
-//        Optional<Question> optionalQuestion =
-//                questionRepository.findById(questionId);
-//
-//        return optionalQuestion.orElseThrow(() ->
-//                new RuntimeException("QUESTION_NOT_FOUND"));
-//    }
+
+    public Question findVerifiedQuestion(long questionId) {
+        Optional<Question> optionalQuestion =
+                questionRepository.findById(questionId);
+
+        return optionalQuestion.orElseThrow(() ->
+                new CustomException(ExceptionCode.QUESTION_NOT_FOUND));
+    }
 }
