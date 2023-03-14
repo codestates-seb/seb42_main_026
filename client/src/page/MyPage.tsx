@@ -1,7 +1,8 @@
-import styled from 'styled-components';
-import ProfileCard from '../container/mypage/ProfileCard';
-import RankCard from '../container/mypage/RankCard';
-import MyPost from '../container/mypage/MyPost';
+import styled from "styled-components";
+import ProfileCard from "../container/mypage/ProfileCard";
+import RankCard from "../container/mypage/RankCard";
+import MyPost from "../container/mypage/MyPost";
+import Logout from "../container/mypage/Logout";
 
 const MyPage = () => {
   return (
@@ -10,6 +11,7 @@ const MyPage = () => {
       <ProfileCard />
       <RankCard />
       <MyPost />
+      <Logout />
     </MyPageWrapper>
   );
 };
@@ -20,6 +22,7 @@ const MyPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
+  padding: 16px;
 `;
 
 const MyPageTitle = styled.span`
