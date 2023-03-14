@@ -41,15 +41,21 @@ public class Answer extends Auditable {
 
     // voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5bdab09 (feat: 조회 기능 #9)
 //    @Column
 //    private String profileImgUrl;
 //
 //    @Column
 //    private String voiceFileUrl;
+<<<<<<< HEAD
 =======
     @Column
     private String fileName;
 >>>>>>> ad507db (feat: Answer 미디어파일 업로드 기능#15)
+=======
+>>>>>>> 5bdab09 (feat: 조회 기능 #9)
 
 
     /**todo 연관관계 매핑 (회원,질문,댓글)
