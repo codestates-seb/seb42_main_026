@@ -16,7 +16,10 @@ const RemoveAccountPage = () => {
       </TextWrapper>
       <ButtonWrapper>
         <ButtonStyled color="normal" title="네, 삭제할래요"></ButtonStyled>
-        <ButtonStyled color="pink" title="네, 더 사용해볼래요"></ButtonStyled>
+        <ButtonStyled
+          color="pink"
+          title="아니요, 더 사용해볼래요"
+        ></ButtonStyled>
       </ButtonWrapper>
     </RemoveWrapper>
   );
