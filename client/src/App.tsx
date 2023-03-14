@@ -1,32 +1,31 @@
-import React from "react";
+import React from 'react';
 // import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store/store";
-import HomePage from "./page/HomePage";
-import AlarmsPage from "./page/AlarmsPage";
-import ChecklistPage from "./page/ChecklistPage";
-import EditorPage from "./page/EditorPage";
-import LoginPage from "./page/LoginPage";
-import MyPage from "./page/MyPage";
-import MyPostsPage from "./page/MyPostsPage";
-import NaggingBoardPage from "./page/NaggingBoardPage";
-import PostDetailPage from "./page/PostDetailPage";
-import RemoveAccountPage from "./page/RemoveAccountPage";
-import SignupPage from "./page/SignupPage";
-import UserEditPage from "./page/UserEditPage";
-import BottomNav from "./components/BottomNav";
-import TopNav from "./components/TopNav";
-import RankPage from "./page/RankPage";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import HomePage from './page/HomePage';
+import AlarmsPage from './page/AlarmsPage';
+import ChecklistPage from './page/ChecklistPage';
+import EditorPage from './page/EditorPage';
+import LoginPage from './page/LoginPage';
+import MyPage from './page/MyPage';
+import MyPostsPage from './page/MyPostsPage';
+import NaggingBoardPage from './page/NaggingBoardPage';
+import PostDetailPage from './page/PostDetailPage';
+import RemoveAccountPage from './page/RemoveAccountPage';
+import SignupPage from './page/SignupPage';
+import UserEditPage from './page/UserEditPage';
+import BottomNav from './components/BottomNav';
+import TopNav from './components/TopNav';
+import RankPage from './page/RankPage';
 
 export default function App() {
   return (
     <Provider store={store}>
       <div className="App">
         <BrowserRouter>
-          <div className="wrap">
             <TopNav />
-            <section className="container">
+            <main>
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/Alarms" element={<AlarmsPage />} />
@@ -42,9 +41,8 @@ export default function App() {
                 <Route path="/Signup" element={<SignupPage />} />
                 <Route path="/UserEdit" element={<UserEditPage />} />
               </Routes>
-            </section>
+            </main>
             <BottomNav />
-          </div>
         </BrowserRouter>
       </div>
     </Provider>

@@ -1,8 +1,35 @@
-import { createGlobalStyle } from "styled-components";
-import "styled-components";
+import { createGlobalStyle } from 'styled-components';
+import 'styled-components';
 
 export function style() {
   const GlobalStyle = createGlobalStyle`
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
+main{
+  background-color: white;
+  padding: 112px 0px 102px 0px;
+  width: 100%;
+  height: 100%;
+  min-height: 670px;
+  z-index: 0;
+}
+
+.App{
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  max-width: 720px;
+  min-width: 390px;
+  width: 100%;
+  height: 100%;
+}
+
+
 html,
 body,
 div,
@@ -81,11 +108,6 @@ body {
   font-family: "Noto Sans KR", "Roboto",'Apple SD Gothic','맑은고딕','Nanum Gothic',sans-serif;;
   background-color: #f6f6f6;
 }
-html,
-body {
-  width: 100%;
-  height: 100%;
-}
 html {
   /* ************************************************************
 		종류:overflow(가로,세로)/overflow-x(가로)/overflow-y(세로)
@@ -152,25 +174,6 @@ input,
 select {
   vertical-align: middle;
 } /*문자와 나란히 입력박스를 배치하면 높낮이가 맞지않아 맞추기 위함 */
-.wrap{
-  width: 100%;
-  height: 100%;
-  max-width: 720px;
-  min-width: 320px;
-}
-section{
-  background-color: white;
-  width: calc(100% -32px);
-  height: calc(100% -214px);
-  min-height: calc(844px -214px);
-  padding: 20px 0px;
-}
-
-.App{
-  display: flex;
-  justify-content: center;
-}
-
 :root{
   --color-webMain: #FF4F6E;
   --color-mobMain: #FF607C;

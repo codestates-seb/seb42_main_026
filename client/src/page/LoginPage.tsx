@@ -11,7 +11,6 @@ const LoginPage = () => {
 
   return (
     <LoginWrapper>
-      <Title>PPONG</Title>
       <InputContainer>
         <LoginInput placeholder="이메일"></LoginInput>
         <LoginInput type="password" placeholder="비밀번호"></LoginInput>
@@ -33,7 +32,7 @@ const LoginPage = () => {
   );
 };
 
-const LoginWrapper = styled.div`
+const LoginWrapper = styled.section`
   position: relative;
   /* top: 92px; */
   width: 100%;

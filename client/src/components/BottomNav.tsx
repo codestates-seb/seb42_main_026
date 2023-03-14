@@ -59,7 +59,9 @@ const BottomNav = () => {
 };
 
 const GnbWrapper = styled.footer`
-  position: relative;
+  position: fixed;
+  width: calc(720px - 32px);
+  z-index: 3000;
   bottom: 0;
   width: calc(100% -32px);
   user-select: none;

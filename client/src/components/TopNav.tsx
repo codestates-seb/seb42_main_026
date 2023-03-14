@@ -57,6 +57,10 @@ export default function TopNav() {
 }
 
 const TopNavWrapper = styled.header`
+  position: fixed;
+  z-index: 3000;
+  width: calc(720px - 32px);
+  top: 0;
   user-select: none;
   align-self: stretch;
   height: 48px;
