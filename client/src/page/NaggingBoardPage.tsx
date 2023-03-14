@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import Tags from "../components/Tags";
 import BoardItem from "../container/naggingboard/BoardItem";
 
 export default function NaggingBoardPage() {
   const dummyData = [
-    { title: "잔소리 오지게 해줄 사람", nickname: "황금올리브닭다리", likeCount: 220, createdAt: "03/07", answerCount: 20 },
+    { title: "잔소리오지게해줄사람잔소리오지게해줄사람", nickname: "황금올리브닭다리", likeCount: 220, createdAt: "23/03/07", answerCount: 20 },
     { title: "잔소리 오지게 해줄 사람", nickname: "고양킹", likeCount: 100, createdAt: "03/07", answerCount: 20 },
     { title: "잔소리 오지게 해줄 사람", nickname: "강아지는귀여워", likeCount: 660, createdAt: "03/07", answerCount: 20 },
     { title: "잔소리 오지게 해줄 사람", nickname: "자르반 4세", likeCount: 603, createdAt: "03/07", answerCount: 20 },
@@ -18,6 +19,12 @@ export default function NaggingBoardPage() {
 
   return (
     <NaggingBoardWrapper>
+      <TagSelector>
+        <Tags title={"운동"} size="big" />
+        <Tags title={"공부"} size="big" />
+        <Tags title={"기상"} size="big" />
+        <Tags title={"기타"} size="big" />
+      </TagSelector>
       {dummyData.map(({ title, nickname, likeCount, createdAt, answerCount }, index) => (
         <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={createdAt} answerCount={answerCount} />
       ))}
@@ -27,4 +34,10 @@ export default function NaggingBoardPage() {
 
 const NaggingBoardWrapper = styled.div`
   padding: 0 16px;
+`;
+const TagSelector = styled.div`
+  display: flex;
+  gap: 6px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-gray03);
 `;
