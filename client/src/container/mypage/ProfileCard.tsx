@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ImageBox from '../../components/ImageBox';
 
@@ -6,7 +7,7 @@ const ProfileCard = () => {
     <ProfileCardWrapper>
       <ImageBox imgUrl="" mainText="abc@gmain.com" subText="별명" lang="EN"></ImageBox>
       <EditWrapper>
-        <EditButton>수정</EditButton>
+        <Link to="/UserEdit">수정</Link>
       </EditWrapper>
     </ProfileCardWrapper>
   );
@@ -30,12 +31,13 @@ const EditWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-`;
 
-const EditButton = styled.div`
-  width: 38px;
-  text-align: center;
-  font-size: var(--font-size14);
-  letter-spacing: var(--font-spacing-title);
-  color: var(--color-mobMain);
+  a {
+    color: #ff607c;
+    font-weight: 500;
+    text-align: center;
+    font-size: var(--font-size14);
+    letter-spacing: var(--font-spacing-title);
+    color: var(--color-mobMain);
+  }
 `;
