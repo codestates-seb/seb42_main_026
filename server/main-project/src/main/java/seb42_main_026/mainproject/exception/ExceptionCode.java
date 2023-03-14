@@ -16,6 +16,7 @@ public enum ExceptionCode {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다.");
 =======
     NICKNAME_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 별명입니다.");
@@ -47,6 +48,13 @@ public enum ExceptionCode {
     QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다.");
 
 >>>>>>> 74f06b9 (Fix: commit 내용 수정)
+=======
+    ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 답변입니다."),
+
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
+
+    QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다.");
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
 
 
     @Getter

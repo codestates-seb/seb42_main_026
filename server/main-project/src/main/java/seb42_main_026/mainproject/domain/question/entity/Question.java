@@ -10,6 +10,7 @@ import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import seb42_main_026.mainproject.audit.Auditable;
 >>>>>>> a78f2f0 (Feat: Auditable 추상 클래스 구현)
@@ -20,6 +21,9 @@ import seb42_main_026.mainproject.domain.tag.Tag;
 >>>>>>> 74f06b9 (Fix: commit 내용 수정)
 =======
 import seb42_main_026.mainproject.domain.like.Like;
+=======
+import seb42_main_026.mainproject.domain.like.entity.Like;
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.tag.Tag;
 >>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)

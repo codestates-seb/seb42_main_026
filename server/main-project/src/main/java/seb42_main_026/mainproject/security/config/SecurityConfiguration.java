@@ -60,13 +60,19 @@ public class SecurityConfiguration {
                         // Question
                         .antMatchers(HttpMethod.POST, "/questions/**").hasRole("USER")
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
                         .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/home/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/board/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/members/**/questions").hasRole("USER")
 
+<<<<<<< HEAD
 =======
 >>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)
+=======
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
                         .anyRequest().permitAll()              // JWT를 적용하기 전이므로 우선은 모든 HTTP request 요청에 대해서 접근을 허용하도록 설정했다.
                 );
 

@@ -15,8 +15,11 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     // 홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
     @Query(value = "SELECT * FROM QUESTION ORDER BY like_count DESC LIMIT 10", nativeQuery = true)
     List<Question> findPopularQuestions();
+<<<<<<< HEAD
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     @Query(value = "SELECT * FROM QUESTION WHERE member_id = :memberId", nativeQuery = true)
     List<Question> findMyQuestions(long memberId);
+=======
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
 }

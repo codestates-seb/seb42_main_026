@@ -2,8 +2,11 @@ package seb42_main_026.mainproject.domain.question.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+<<<<<<< HEAD
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+=======
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,11 +14,16 @@ import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.repository.QuestionRepository;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 =======
 import seb42_main_026.mainproject.domain.tag.Tag;
 >>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)
+=======
+import seb42_main_026.mainproject.exception.CustomException;
+import seb42_main_026.mainproject.exception.ExceptionCode;
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
 
 import java.util.List;
 import java.util.Optional;
@@ -40,9 +48,15 @@ public class QuestionService {
 //    }
 //
     // 특정 질문 조회
+<<<<<<< HEAD
     public Question findQuestion(long questionId) {
         return findVerifiedQuestion(questionId);
     }
+=======
+//    public Question findQuestion(long questionId) {
+//        return findVerifiedQuestion(questionId);
+//    }
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
 
     // 홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
     public List<Question> findQuestionsAtHome() {
@@ -50,6 +64,7 @@ public class QuestionService {
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
+<<<<<<< HEAD
     public Page<Question> findQuestionsAtBoard(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
@@ -60,6 +75,16 @@ public class QuestionService {
 
         return new PageImpl<>(myQuestions, PageRequest.of(page, size), myQuestions.size());
     }
+=======
+//    public Page<Question> findQuestionsAtBoard(int page, int size) {
+//
+//    }
+
+    // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
+//    public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
+//
+//    }
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
 
 //    public void deleteQuestion(long questionId) {
 //

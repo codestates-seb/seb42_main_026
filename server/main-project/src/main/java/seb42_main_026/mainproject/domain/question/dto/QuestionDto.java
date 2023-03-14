@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 <<<<<<< HEAD
 import lombok.Setter;
-import seb42_main_026.mainproject.domain.tag.Tag;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -39,6 +38,7 @@ public class QuestionDto {
     @Getter
     @Setter
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     @AllArgsConstructor
     @Getter
@@ -47,6 +47,9 @@ public class QuestionDto {
 =======
     public static class Responses {
 >>>>>>> 74f06b9 (Fix: commit 내용 수정)
+=======
+    public static class Responses {
+>>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
         private Long questionId;
         private Long memberId;
         private String title;
