@@ -56,6 +56,7 @@ public class QuestionService {
 //
     // 특정 질문 조회
 <<<<<<< HEAD
+<<<<<<< HEAD
     public Question findQuestion(long questionId) {
         return findVerifiedQuestion(questionId);
     }
@@ -64,6 +65,11 @@ public class QuestionService {
 //        return findVerifiedQuestion(questionId);
 //    }
 >>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
+=======
+    public Question findQuestion(long questionId) {
+        return findVerifiedQuestion(questionId);
+    }
+>>>>>>> ea5a806 (Refactor: 좋아요 기능 리팩터링)
 
     // 홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
     public List<Question> findQuestionsAtHome() {
