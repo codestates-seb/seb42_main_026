@@ -2,6 +2,7 @@ package seb42_main_026.mainproject.domain.question.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -50,9 +51,11 @@ public class QuestionService {
     }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
-//    public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
-//
-//    }
+    public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
+        List<Question> myQuestions = questionRepository.findMyQuestions(memberId);
+
+        return new PageImpl<>(myQuestions, PageRequest.of(page, size), myQuestions.size());
+    }
 
 //    public void deleteQuestion(long questionId) {
 //

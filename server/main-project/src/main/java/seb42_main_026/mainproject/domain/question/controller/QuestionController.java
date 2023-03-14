@@ -86,16 +86,18 @@ public class QuestionController {
     }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
-//    @GetMapping("/members/{member-id}/questions")
-//    public ResponseEntity<?> getQuestionsAtMyPage(@PathVariable("member-id") @Positive long memberId, int page, int size) {
-//        Page<Question> pageQuestions = questionService.findQuestionsAtMyPage(memberId, page - 1, size);
-//
-//        List<Question> questions = pageQuestions.getContent();
-//
-//        List<QuestionDto.Responses> responses = questionMapper.questionsToQuestionResponseDtos(questions);
-//
-//        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
-//    }
+    @GetMapping("/members/{member-id}/questions")
+    public ResponseEntity<?> getQuestionsAtMyPage(@PathVariable("member-id") @Positive long memberId,
+                                                  @RequestParam @Positive int page,
+                                                  @RequestParam @Positive int size) {
+        Page<Question> pageQuestions = questionService.findQuestionsAtMyPage(memberId, page - 1, size);
+
+        List<Question> questions = pageQuestions.getContent();
+
+        List<QuestionDto.Responses> responses = questionMapper.questionsToQuestionResponseDtos(questions);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
+    }
 
 //    @DeleteMapping("{question-id}")
 //    public ResponseEntity<?> deleteQuestion() {
