@@ -57,7 +57,7 @@ jobs:
       
     - name: Code Deploy
       run: >
-        aws deploy create-deployment --application-name seb42-main-026-app
+        aws deploy create-deployment --application-name SEB42_MAIN_026
         --deployment-config-name CodeDeployDefault.AllAtOnce
-        --deployment-group-name seb42-main-026-app-group
+        --deployment-group-name SEB42_MAIN_026-group
         --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=seb42-main-026-deploy.zip
