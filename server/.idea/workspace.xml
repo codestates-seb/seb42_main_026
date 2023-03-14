@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6805313b-0cd9-4114-9a5e-60dc0750c530" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main-project/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/main-project/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
