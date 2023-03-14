@@ -39,8 +39,8 @@ jobs:
       with:
         gradle-version: 7.6.1
         arguments: build
-        build-file-path: server/main-project/build.gradle
-        project-dir: server/main-project/src
+        build-file-path: ./server/main-project/build.gradle
+        project-dir: ./server/main-project/src
 
       
 
