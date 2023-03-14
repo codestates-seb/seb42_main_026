@@ -28,6 +28,8 @@ export default function TopNav() {
         return '';
       case 'alarms':
         return '알람';
+      case 'editor':
+        return '글쓰기';
       default:
         return '';
     }

@@ -23,7 +23,7 @@ const BottomNav = () => {
       link: '/NaggingBoard',
       security: false,
     },
-    { id: 'write', icon: ICON_WRITE, link: '/', security: true },
+    { id: 'editor', icon: ICON_WRITE, link: '/Editor', security: true },
     {
       id: 'rank',
       icon: ICON_RANK,
