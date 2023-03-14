@@ -35,7 +35,11 @@ jobs:
       run: chmod +x ./server/main-project/gradlew 
     - run: gradle init
     - name: Build with Gradle
-      run: ./server/main-project/gradlew build -x test
+      uses: ./server/main-project/gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        gradle-version: 7.6.1
+        arguments: build
+
       
 
     - name: Make zip file
