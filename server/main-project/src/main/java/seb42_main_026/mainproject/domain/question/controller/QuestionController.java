@@ -73,16 +73,17 @@ public class QuestionController {
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
-//    @GetMapping("/board/questions")
-//    public ResponseEntity<?> getQuestionsAtBoard(int page, int size) {
-//        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size);
-//
-//        List<Question> questions = pageQuestions.getContent();
-//
-//        List<QuestionDto.Responses> responses = questionMapper.questionsToQuestionResponseDtos(questions);
-//
-//        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
-//    }
+    @GetMapping("/board/questions")
+    public ResponseEntity<?> getQuestionsAtBoard(@RequestParam @Positive int page,
+                                                 @RequestParam @Positive int size) {
+        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size);
+
+        List<Question> questions = pageQuestions.getContent();
+
+        List<QuestionDto.Responses> responses = questionMapper.questionsToQuestionResponseDtos(questions);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
+    }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
 //    @GetMapping("/members/{member-id}/questions")

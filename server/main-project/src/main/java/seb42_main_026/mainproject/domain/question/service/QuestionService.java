@@ -2,6 +2,7 @@ package seb42_main_026.mainproject.domain.question.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,9 +45,9 @@ public class QuestionService {
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
-//    public Page<Question> findQuestionsAtBoard(int page, int size) {
-//
-//    }
+    public Page<Question> findQuestionsAtBoard(int page, int size) {
+        return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
+    }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
 //    public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
