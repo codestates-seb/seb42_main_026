@@ -37,7 +37,7 @@ const PostDetailWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 16px;
-  padding: 0 0 53px 0;
+  padding: 0 16px 53px 16px;
 `;
 
 const TagWrapper = styled.div`
