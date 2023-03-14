@@ -1,8 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { useNavigate } from "react-router";
 
 const MyPost = () => {
+  const navigate = useNavigate();
   return (
-    <MyPostWrapper>
+    <MyPostWrapper onClick={() => navigate(`/myposts`)}>
       <MyPostButton>내가 쓴 글 조회 </MyPostButton>
     </MyPostWrapper>
   );
