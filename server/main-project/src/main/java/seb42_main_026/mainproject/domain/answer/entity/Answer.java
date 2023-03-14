@@ -29,8 +29,11 @@ public class Answer extends Auditable {
     private String content;
 
     // voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
-    @Column
-    private String fileName;
+//    @Column
+//    private String profileImgUrl;
+//
+//    @Column
+//    private String voiceFileUrl;
 
 
     /**todo 연관관계 매핑 (회원,질문,댓글)

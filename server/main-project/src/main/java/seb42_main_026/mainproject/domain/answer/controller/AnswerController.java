@@ -47,9 +47,7 @@ public class AnswerController {
                 mapper.answerPostDtoToAnswer(answerPostDto), questionId, answerPostDto.getMemberId()/*,mediaFile*/);
 
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answerToAnswerResponse(answer)), HttpStatus.CREATED
-        );
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     /**
      * Patch 매서드로 수정기능 - done
@@ -63,8 +61,7 @@ public class AnswerController {
         answerPatchDto.setAnswerId(answerId);
         Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId());
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answerToAnswerResponse(answer)),HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 채택 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
