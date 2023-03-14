@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 12d2c58 (Feat: 게시글 조회 기능 구현(마이페이지))
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 =======
@@ -80,6 +83,7 @@ public class QuestionService {
 
         return new PageImpl<>(myQuestions, PageRequest.of(page, size), myQuestions.size());
     }
+<<<<<<< HEAD
 =======
 //    public Page<Question> findQuestionsAtBoard(int page, int size) {
 //
@@ -95,6 +99,8 @@ public class QuestionService {
 //
 //    }
 >>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
+=======
+>>>>>>> 12d2c58 (Feat: 게시글 조회 기능 구현(마이페이지))
 
 //    public void deleteQuestion(long questionId) {
 //
