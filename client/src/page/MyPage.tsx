@@ -1,24 +1,21 @@
-import styled from "styled-components";
-import ProfileCard from "../container/mypage/ProfileCard";
-import RankCard from "../container/mypage/RankCard";
-import MyPost from "../container/mypage/MyPost";
-import LogoutModal from "../components/LogoutModal";
-import React, { useState } from "react";
+import styled from 'styled-components';
+import ProfileCard from '../container/mypage/ProfileCard';
+import RankCard from '../container/mypage/RankCard';
+import MyPost from '../container/mypage/MyPost';
+import LogoutModal from '../components/LogoutModal';
+import React, { useState } from 'react';
 
 const MyPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <MyPageWrapper>
-      <MyPageTitle>회원정보</MyPageTitle>
+      {/* <MyPageTitle>회원정보</MyPageTitle> */}
       <ProfileCard />
       <RankCard />
       <MyPost />
       <LogoutButton onClick={() => setIsModalOpen(true)}>로그아웃</LogoutButton>
-      <LogoutModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      ></LogoutModal>
+      <LogoutModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}></LogoutModal>
     </MyPageWrapper>
   );
 };

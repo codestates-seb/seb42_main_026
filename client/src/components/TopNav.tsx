@@ -25,7 +25,9 @@ export default function TopNav() {
       case 'login':
         return '';
       case 'mypage':
-        return '';
+        return '마이페이지';
+      case 'UserEdit':
+        return '회원정보수정';
       case 'alarms':
         return '알람';
       case 'editor':
