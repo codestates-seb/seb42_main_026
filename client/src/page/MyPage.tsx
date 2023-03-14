@@ -2,16 +2,23 @@ import styled from "styled-components";
 import ProfileCard from "../container/mypage/ProfileCard";
 import RankCard from "../container/mypage/RankCard";
 import MyPost from "../container/mypage/MyPost";
-import Logout from "../container/mypage/Logout";
+import LogoutModal from "../components/LogoutModal";
+import React, { useState } from "react";
 
-const MyPage = () => {
+const MyPage: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <MyPageWrapper>
       <MyPageTitle>회원정보</MyPageTitle>
       <ProfileCard />
       <RankCard />
       <MyPost />
-      <Logout />
+      <LogoutButton onClick={() => setIsModalOpen(true)}>로그아웃</LogoutButton>
+      <LogoutModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      ></LogoutModal>
     </MyPageWrapper>
   );
 };
@@ -30,4 +37,16 @@ const MyPageTitle = styled.span`
   font-weight: var(--font-weight700);
   color: var(--color-mobMain);
   letter-spacing: var(--font-spacing-title);
+`;
+
+const LogoutButton = styled.button`
+  position: relative;
+  left: calc(50% - 48px);
+  width: 96px;
+  border: none;
+  background: none;
+  /* font-size: var(--font-size16); */
+  color: var(--color-gray02);
+  letter-spacing: var(--font-spacing-title);
+  font-weight: 100;
 `;
