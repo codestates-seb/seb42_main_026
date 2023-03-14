@@ -1,16 +1,20 @@
 package seb42_main_026.mainproject.domain.answer.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.mapper.AnswerMapper;
 import seb42_main_026.mainproject.domain.answer.service.AnswerService;
 import seb42_main_026.mainproject.dto.SingleResponseDto;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
@@ -24,12 +28,23 @@ public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
-    @PostMapping("/{question-id}/answers")
+
+    /** voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
+     *  S3 접근 Configuration 작성 - done (test 후, 환경변수로 숨길 것.)
+     *  AnswerController 수정 (1) @MultipartConfig 설정 하기 (필요한가? 고민해보기) - todo
+     *  AnswerController 수정 (2) RequestPart 로 multipartFile 받기 - done
+     *  Answer 엔티티에 fileName 추가 - done
+     *  파일 업로드 관련 service 로직 작성 (1) S3StorageService - done
+     *  파일 업로드 관련 service 로직 작성 (2) AnswerService - done
+     */
+    @PostMapping(value = "/{question-id}/answers"/*, consumes =
+            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}*/)
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
-            @Valid @RequestBody AnswerDto.Post answerPostDto){
+                                     @Valid @RequestBody AnswerDto.Post answerPostDto/*,
+                                     @RequestPart MultipartFile mediaFile*/){
         answerPostDto.addQuestionId(questionId);
         Answer answer = answerService.createAnswer(
-                mapper.answerPostDtoToAnswer(answerPostDto), questionId, answerPostDto.getMemberId());
+                mapper.answerPostDtoToAnswer(answerPostDto), questionId, answerPostDto.getMemberId()/*,mediaFile*/);
 
 
         return new ResponseEntity<>(
