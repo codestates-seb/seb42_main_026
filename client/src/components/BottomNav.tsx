@@ -1,41 +1,41 @@
-import styled from "styled-components";
-import { ReactComponent as ICON_HOME } from "../assets/ic_bottomnav_home_button.svg";
-import { ReactComponent as ICON_JANSORI } from "../assets/ic_bottomnav_jansori_button.svg";
-import { ReactComponent as ICON_WRITE } from "../assets/ic_bottomnav_write_button.svg";
-import { ReactComponent as ICON_RANK } from "../assets/ic_bottomnav_rank_button.svg";
-import { ReactComponent as ICON_MYPAGE } from "../assets/ic_bottomnav_mypage_button.svg";
-import { useAuth } from "../hooks/useAuth";
-import { usePage } from "../hooks/usePage";
-import { useState } from "react";
+import styled from 'styled-components';
+import { ReactComponent as ICON_HOME } from '../assets/ic_bottomnav_home_button.svg';
+import { ReactComponent as ICON_JANSORI } from '../assets/ic_bottomnav_jansori_button.svg';
+import { ReactComponent as ICON_WRITE } from '../assets/ic_bottomnav_write_button.svg';
+import { ReactComponent as ICON_RANK } from '../assets/ic_bottomnav_rank_button.svg';
+import { ReactComponent as ICON_MYPAGE } from '../assets/ic_bottomnav_mypage_button.svg';
+import { useAuth } from '../hooks/useAuth';
+import { usePage } from '../hooks/usePage';
+import { useState } from 'react';
 
 const BottomNav = () => {
   const { isLoggedIn } = useAuth();
   const { setPageHandler } = usePage();
 
-  const [clickedMenu, setClickedMenu] = useState("");
+  const [clickedMenu, setClickedMenu] = useState('');
 
   const menuData = [
-    { id: "home", icon: ICON_HOME, text: "홈", link: "/", security: false },
+    { id: 'home', icon: ICON_HOME, text: '홈', link: '/', security: false },
     {
-      id: "nagging",
+      id: 'nagging',
       icon: ICON_JANSORI,
-      text: "잔소리",
-      link: "/NaggingBoard",
+      text: '잔소리',
+      link: '/NaggingBoard',
       security: false,
     },
-    { id: "editor", icon: ICON_WRITE, link: "/Editor", security: true },
+    { id: 'editor', icon: ICON_WRITE, link: '/Editor', security: true },
     {
-      id: "rank",
+      id: 'rank',
       icon: ICON_RANK,
-      text: "랭킹",
-      link: "/Rank",
+      text: '랭킹',
+      link: '/Rank',
       security: true,
     },
     {
-      id: "mypage",
+      id: 'mypage',
       icon: ICON_MYPAGE,
-      text: "마이페이지",
-      link: "/MyPage",
+      text: '마이페이지',
+      link: '/MyPage',
       security: true,
     },
   ];
@@ -50,8 +50,8 @@ const BottomNav = () => {
             setPageHandler(isLoggedIn, id, link, security);
           }}
         >
-          <Icon fill={`${clickedMenu === id ? "#FF607C" : "#212123"}`} />
-          <MenuText color={`${clickedMenu === id ? "#FF607C" : "#212123"}`}>{text}</MenuText>
+          <Icon fill={`${clickedMenu === id ? '#FF607C' : '#212123'}`} />
+          <MenuText color={`${clickedMenu === id ? '#FF607C' : '#212123'}`}>{text}</MenuText>
         </MenuContainer>
       ))}
     </GnbWrapper>
@@ -61,10 +61,9 @@ const BottomNav = () => {
 const GnbWrapper = styled.footer`
   position: fixed;
   max-width: calc(720px - 32px);
-  width: 100%;
   z-index: 3000;
   bottom: 0;
-  width: calc(100% -32px);
+  width: calc(100% - 32px);
   user-select: none;
   align-self: stretch;
   height: 63px;
@@ -90,7 +89,7 @@ const MenuContainer = styled.div`
 const MenuText = styled.span`
   text-align: center;
   letter-spacing: -0.05em;
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-weight: 300;
   font-size: 10px;
   color: ${(props) => props.color};

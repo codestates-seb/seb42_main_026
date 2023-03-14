@@ -11,7 +11,8 @@ export function style() {
 
 main{
   position: relative;
-  top: 92px;
+  top: 48px;
+  /* 92 - 44*/
   padding: 20px 0px 102px 0px;
   width: 100%;
   height: auto;

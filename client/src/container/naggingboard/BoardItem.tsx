@@ -66,7 +66,6 @@ const ItemTitleform = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  font-weight: 300;
 `;
 
 const ItemTitle = styled.div`

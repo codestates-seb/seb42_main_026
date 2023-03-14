@@ -69,7 +69,7 @@ const TopNavWrapper = styled.header`
   position: fixed;
   z-index: 3000;
   max-width: calc(720px - 32px);
-  width: 100%;
+  width: calc(100% - 32px);
   top: 0;
   user-select: none;
   align-self: stretch;
@@ -79,8 +79,9 @@ const TopNavWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: var(--color-white01);
-  padding: 44px 16px 0px 16px;
-  border-top: 1.5px solid var(--color-mobMain);
+  /* padding: 44px 16px 0px 16px; */
+  padding: 0px 16px 0px 16px;
+  /* border-top: 1.5px solid var(--color-mobMain); */
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.25);
 `;
 

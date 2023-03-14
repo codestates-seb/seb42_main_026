@@ -39,5 +39,5 @@ const PopulerBoardTitle = styled.div`
   font-size: var(--font-size18);
   font-weight: var(--font-weight700);
   letter-spacing: var(--font-spacing-title);
-  border-top: solid 10px #f6f6f6;
+  border-top: solid 1px #f6f6f6;
 `;

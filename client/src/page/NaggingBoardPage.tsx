@@ -4,7 +4,7 @@ import BoardItem from "../container/naggingboard/BoardItem";
 
 export default function NaggingBoardPage() {
   const dummyData = [
-    { title: "잔소리오지게해줄사람잔소리오지게해줄사람", nickname: "황금올리브닭다리", likeCount: 220, createdAt: "23/03/07", answerCount: 20 },
+    { title: "잔소리오지게해줄사람잔소리오지", nickname: "황금올리브닭다리", likeCount: 220, createdAt: "23/03/07", answerCount: 20 },
     { title: "잔소리 오지게 해줄 사람", nickname: "고양킹", likeCount: 100, createdAt: "03/07", answerCount: 20 },
     { title: "잔소리 오지게 해줄 사람", nickname: "강아지는귀여워", likeCount: 660, createdAt: "03/07", answerCount: 20 },
     { title: "잔소리 오지게 해줄 사람", nickname: "자르반 4세", likeCount: 603, createdAt: "03/07", answerCount: 20 },

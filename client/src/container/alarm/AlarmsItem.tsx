@@ -46,7 +46,7 @@ const ItemForm = styled.div`
   flex-direction: column;
   justify-content: flex-start;
 
-  gap: 4px;
+  gap: 12px;
 `;
 
 const ItemTitle = styled.div`
