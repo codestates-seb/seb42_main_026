@@ -60,7 +60,8 @@ const BottomNav = () => {
 
 const GnbWrapper = styled.footer`
   position: fixed;
-  width: calc(720px - 32px);
+  max-width: calc(720px - 32px);
+  width: 100%;
   z-index: 3000;
   bottom: 0;
   width: calc(100% -32px);
