@@ -35,11 +35,8 @@ jobs:
       run: chmod +x ./server/main-project/gradlew 
     - run: gradle init
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        gradle-version: 7.6.1
-        arguments: build
-        
+      run: ./server/main-project/gradlew build -x test
+      
 
     - name: Make zip file
       run: zip -r ./seb42-main-026-deploy.zip .
