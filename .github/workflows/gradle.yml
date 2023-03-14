@@ -37,7 +37,7 @@ jobs:
     - uses: gradle/gradle-build-action@v2
       with:
         arguments: build
-        gradle-executable: server/main-project/gradle
+        gradle-executable: server/main-project
       
       
         
