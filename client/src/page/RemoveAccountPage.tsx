@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import ButtonStyled from "../components/ButtonStyled";
+import { useNavigate } from "react-router-dom";
 
 const RemoveAccountPage = () => {
+  const navigate = useNavigate();
+
   return (
     <RemoveWrapper>
       <TitleWrapper>회원 탈퇴</TitleWrapper>
@@ -15,10 +18,16 @@ const RemoveAccountPage = () => {
         <span>정말 계정을 삭제하시겠습니까?</span>
       </TextWrapper>
       <ButtonWrapper>
-        <ButtonStyled color="normal" title="네, 삭제할래요"></ButtonStyled>
+        <ButtonStyled
+          color="normal"
+          title="네, 삭제할래요"
+          width="161px"
+        ></ButtonStyled>
         <ButtonStyled
           color="pink"
           title="아니요, 더 사용해볼래요"
+          width="161px"
+          buttonClickHandler={() => navigate(`/mypage`)}
         ></ButtonStyled>
       </ButtonWrapper>
     </RemoveWrapper>
@@ -88,46 +97,7 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  /* padding: 1.4375rem 0.6875rem; */
   gap: 16px;
   width: 100%;
   padding: 23px 0;
 `;
-// const btn = styled.div`
-//   border-radius: 0.3125rem;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 0.875rem 9.375rem;
-//   gap: 0.625rem;
-//   border: 0.0625rem solid #d1d3d7;
-// `;
-// const text3 = styled.div`
-//   text-align: center;
-//   vertical-align: middle;
-//   font-size: 14px;
-//   font-family: Noto Sans;
-//   letter-spacing: -5%;
-//   line-height: auto;
-//   color: #878b93;
-// `;
-// const btn = styled.div`
-//   border-radius: 0.3125rem;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 0.875rem 9.375rem;
-//   gap: 0.625rem;
-//   background-color: #ff607c;
-// `;
-// const text4 = styled.div`
-//   text-align: center;
-//   vertical-align: middle;
-//   font-size: 16px;
-//   font-family: Noto Sans;
-//   letter-spacing: -5%;
-//   line-height: auto;
-//   color: #ffffff;
-// `;
