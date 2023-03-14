@@ -40,14 +40,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ${{ env.working-directory }}
-    
-
       
-        
-        
-
-      
-
     - name: Make zip file
       run: zip -r ./seb42-main-026-deploy.zip .
       shell: bash
