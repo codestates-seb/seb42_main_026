@@ -1,6 +1,7 @@
+import styled from "styled-components";
 import BoardItem from "../container/naggingboard/BoardItem";
 
-const NaggingBoardPage = () => {
+export default function NaggingBoardPage() {
   const dummyData = [
     { title: "잔소리 오지게 해줄 사람", nickname: "황금올리브닭다리", likeCount: 220, createdAt: "03/07", answerCount: 20 },
     { title: "잔소리 오지게 해줄 사람", nickname: "고양킹", likeCount: 100, createdAt: "03/07", answerCount: 20 },
@@ -16,12 +17,14 @@ const NaggingBoardPage = () => {
   ];
 
   return (
-    <div>
+    <NaggingBoardWrapper>
       {dummyData.map(({ title, nickname, likeCount, createdAt, answerCount }, index) => (
         <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={createdAt} answerCount={answerCount} />
       ))}
-    </div>
+    </NaggingBoardWrapper>
   );
-};
+}
 
-export default NaggingBoardPage;
+const NaggingBoardWrapper = styled.div`
+  padding: 0 16px;
+`;
