@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import 'styled-components';
+import { createGlobalStyle } from "styled-components";
+import "styled-components";
 
 export function style() {
   const GlobalStyle = createGlobalStyle`
@@ -30,75 +30,10 @@ main{
 }
 
 
-html,
-body,
-div,
-span,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-abbr,
-address,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-samp,
-small,
-strong,
-sub,
-sup,
-var,
-b,
-i,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,
+code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,
+canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,
+mark,audio,video {
   margin: 0;
   padding: 0;
 }
@@ -117,16 +52,7 @@ html {
   overflow-x: hidden; /* 문서전체에 가로 스크롤바자국 항상 숨김 */
 }
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,
 section {
   display: block;
   /*시맨틱태그를 지원하지 않은 브라우저 
@@ -140,25 +66,17 @@ a {
   color: inherit; /*하이퍼링크의 글자색 부모한테 상속받기*/
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1,h2,h3,h4,h5,h6 {
   font-size: 100%;
 }
 /*제목 태그들에 글자크기를 초기화하여 앞으로 부여하는 크기의 기준을 똑같이 설정함*/
 
-body,
-input,
-textarea {
+body,input,textarea {
   font-size: 16px; /*모든글자 기본글자크기*/
   font-weight: 400; /* IE8 이하버전 대응 */
   letter-spacing: 0;
 }
-input,
-button {
+input,button {
   cursor: pointer;
 }
 
