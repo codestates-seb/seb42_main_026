@@ -1,11 +1,16 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import ImageBox from '../../components/ImageBox';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import ImageBox from "../../components/ImageBox";
 
 const ProfileCard = () => {
   return (
     <ProfileCardWrapper>
-      <ImageBox imgUrl="" mainText="abc@gmain.com" subText="별명" lang="EN"></ImageBox>
+      <ImageBox
+        imgUrl=""
+        mainText="abc@gmain.com"
+        subText="별명"
+        lang="EN"
+      ></ImageBox>
       <EditWrapper>
         <Link to="/UserEdit">수정</Link>
       </EditWrapper>
@@ -16,6 +21,7 @@ const ProfileCard = () => {
 export default ProfileCard;
 
 const ProfileCardWrapper = styled.div`
+  padding: 0 0 0 20px;
   height: 75px;
   display: flex;
   flex-direction: row;

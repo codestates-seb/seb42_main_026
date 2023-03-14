@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import ICON_PROFILE from '../assets/ic_mypage_profile.svg';
+import styled from "styled-components";
+import ICON_PROFILE from "../assets/ic_mypage_profile.svg";
 
 interface ImgCardProps {
   imgUrl?: string;
@@ -11,7 +11,7 @@ interface ImgCardProps {
 const ImageBox = ({ imgUrl, mainText, subText, lang }: ImgCardProps) => {
   return (
     <ImageBoxWrapper>
-      <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" />
+      <img src={imgUrl === "" ? ICON_PROFILE : imgUrl} alt="profile_image" />
       <InfoBoxWrapper>
         <MainText lang={lang}>{mainText}</MainText>
         <SubText>{subText}</SubText>
@@ -27,7 +27,7 @@ const ImageBoxWrapper = styled.div`
   display: flex;
   gap: 15px;
   display: flex;
-  left: 20px;
+  /* left: 20px; */
   flex-direction: row;
   justify-content: flex-start;
 
@@ -49,14 +49,14 @@ const InfoBoxWrapper = styled.div`
 `;
 const MainText = styled.div`
   text-align: left;
-  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
+  font-family: ${(props) => (props.lang === "EN" ? "Roboto" : "Noto Sans KR")};
   color: var(--color-black01);
   font-size: var(--font-size18);
 `;
 const SubText = styled.div`
   text-align: left;
   font-size: var(--font-size12);
-  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
+  font-family: ${(props) => (props.lang === "EN" ? "Roboto" : "Noto Sans KR")};
   letter-spacing: -0.05em;
   color: var(--color-gray02);
 `;
