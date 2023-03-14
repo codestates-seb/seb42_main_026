@@ -23,8 +23,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./server/main-project
 
     steps:
     - uses: actions/checkout@v3
@@ -33,13 +31,16 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      working-directory: ${{ env.working-directory }}
-  
+    - name: Add permission 
+      run: chmod +x server/main-project/gradlew 
+    - run: gradle init
     - name: Build with Gradle
-      run: ./gradlew clean build --debug
-      working-directory: ${{ env.working-directory }}
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        gradle-version: 7.6.1
+        arguments: build
+        build-file-path: server/main-project/build.gradle
+        project-dir: server/main-project/src
       
       
         
