@@ -50,11 +50,10 @@ const SubAnswer = ({
           </MiddleWrapper>
           <BottomWrapper>
             <BottomLeftWrapper>
-              <LikeWrapper>
+              {/* <LikeWrapper>
                 <img src={ICON_LIKE} alt="좋아요"></img>
                 <LikeNumber>2</LikeNumber>
-              </LikeWrapper>
-              <SubAnswerButton>답글쓰기</SubAnswerButton>
+              </LikeWrapper> */}
             </BottomLeftWrapper>
           </BottomWrapper>
         </TextWrapper>
@@ -148,25 +147,19 @@ const BottomWrapper = styled.div`
   width: 100%;
 `;
 
-const LikeWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 2px;
-  align-items: center;
-`;
+// const LikeWrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   gap: 2px;
+//   align-items: center;
+// `;
 
-const LikeNumber = styled.div`
-  font-weight: var(--font-weight700);
-  font-size: var(--font-size12);
-  color: var(--color-gray02);
-`;
-
-const SubAnswerButton = styled.div`
-  font-weight: var(--font-weight700);
-  font-size: var(--font-size12);
-  color: var(--color-gray02);
-`;
+// const LikeNumber = styled.div`
+//   font-weight: var(--font-weight700);
+//   font-size: var(--font-size12);
+//   color: var(--color-gray02);
+// `;
 
 const BottomLeftWrapper = styled.div`
   display: flex;
