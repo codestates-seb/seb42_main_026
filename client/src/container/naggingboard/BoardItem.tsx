@@ -51,6 +51,7 @@ const BoardItemStyle = styled.div`
   flex-direction: column;
   gap: 8px;
   border-bottom: solid 0.5px var(--color-gray03);
+  padding: 6px 6px;
 `;
 
 const ItemTop = styled.div`
@@ -63,8 +64,9 @@ const ItemTop = styled.div`
 
 const ItemTitleform = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 4px;
+  font-weight: 300;
 `;
 
 const ItemTitle = styled.div`
