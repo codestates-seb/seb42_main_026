@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import GoogleLoginButton from "../container/login/GoogleLoginButton";
-import KakaoLoginButton from "../container/login/KakaoLoginButton";
-import NaverLoginButton from "../container/login/NaverLoginButton";
-import ButtonStyled from "../components/ButtonStyled";
-import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import styled from 'styled-components';
+import GoogleLoginButton from '../container/login/GoogleLoginButton';
+import KakaoLoginButton from '../container/login/KakaoLoginButton';
+import NaverLoginButton from '../container/login/NaverLoginButton';
+import ButtonStyled from '../components/ButtonStyled';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
   const { loginHandler } = useAuth();
@@ -49,7 +49,7 @@ const LoginWrapper = styled.div`
 `;
 
 const SignupText = styled.span`
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-size: 14px;
   color: #878b93;
   text-align: center;
@@ -82,14 +82,14 @@ const ContourText = styled.span`
   text-align: center;
   letter-spacing: -0.05em;
   background-color: #ffffff;
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-weight: 400;
   font-size: 14px;
   color: #abaeb4;
 `;
 
 const Title = styled.span`
-  font-family: "Roboto";
+  font-family: 'Roboto';
   color: #ff607c;
   text-align: center;
   font-weight: 900;
@@ -120,7 +120,7 @@ const InputContainer = styled.div`
     outline: none;
   }
   input::placeholder {
-    font-family: "Noto Sans";
+    font-family: 'Noto Sans';
     font-size: 12px;
     letter-spacing: -0.05em;
     color: #abaeb4;

@@ -22,6 +22,7 @@ const EditorPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
+  padding: 0 16px;
   input::placeholder {
     color: var(--color-gray02);
   }
