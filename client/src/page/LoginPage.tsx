@@ -4,11 +4,8 @@ import KakaoLoginButton from '../container/login/KakaoLoginButton';
 import NaverLoginButton from '../container/login/NaverLoginButton';
 import ButtonStyled from '../components/ButtonStyled';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
-  const { loginHandler } = useAuth();
-
   return (
     <LoginWrapper>
       <InputContainer>
@@ -85,15 +82,6 @@ const ContourText = styled.span`
   font-weight: 400;
   font-size: 14px;
   color: #abaeb4;
-`;
-
-const Title = styled.span`
-  font-family: 'Roboto';
-  color: #ff607c;
-  text-align: center;
-  font-weight: 900;
-  font-size: 40px;
-  letter-spacing: -0.05em;
 `;
 
 const LoginInput = styled.input`

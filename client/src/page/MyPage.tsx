@@ -29,13 +29,6 @@ const MyPageWrapper = styled.div`
   padding: 16px;
 `;
 
-const MyPageTitle = styled.span`
-  font-size: 22px;
-  font-weight: var(--font-weight700);
-  color: var(--color-mobMain);
-  letter-spacing: var(--font-spacing-title);
-`;
-
 const LogoutButton = styled.button`
   position: relative;
   left: calc(50% - 48px);

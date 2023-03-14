@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import "styled-components";
+import { createGlobalStyle } from 'styled-components';
+import 'styled-components';
 
 export function style() {
   const GlobalStyle = createGlobalStyle`
@@ -10,11 +10,11 @@ export function style() {
 }
 
 main{
-  background-color: white;
-  padding: 112px 0px 102px 0px;
+  position: relative;
+  top: 92px;
+  padding: 20px 0px 102px 0px;
   width: 100%;
-  height: 100%;
-  min-height: 670px;
+  height: auto;
   z-index: 0;
 }
 
@@ -41,7 +41,7 @@ mark,audio,video {
 */
 body {
   font-family: "Noto Sans KR", "Roboto",'Apple SD Gothic','맑은고딕','Nanum Gothic',sans-serif;;
-  background-color: #f6f6f6;
+  background-color: white;
 }
 html {
   /* ************************************************************
