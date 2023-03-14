@@ -23,6 +23,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./server/main-project
 
     steps:
     - uses: actions/checkout@v3
@@ -32,10 +34,12 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Add permission 
-      run: chmod +x server/main-project/gradlew
-    - run: gradle init
+      run: chmod +x gradlew
+      working-directory: ${{ env.working-directory }}
+   
     - name: Build with Gradle
       run: ./gradlew build
+      working-directory: ${{ env.working-directory }}
     
 
       
