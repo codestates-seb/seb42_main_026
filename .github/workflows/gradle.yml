@@ -32,15 +32,15 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Add permission 
-      run: chmod +x ./server/main-project/gradlew 
+      run: chmod +x server/main-project/gradlew 
     - run: gradle init
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         gradle-version: 7.6.1
         arguments: build
-        build-file-path: ./server/main-project/build.gradle
-        project-dir: ./server/main-project/src
+        build-file-path: server/main-project/build.gradle
+        project-dir: server/main-project/src
 
       
 
