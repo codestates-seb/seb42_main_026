@@ -20,8 +20,8 @@ export default function HomePage() {
   return (
     <HomePageWrapper>
       <SubApp />
+      <PopulerBoardTitle>인기 잔소리</PopulerBoardTitle>
       <PopulerBoard>
-        <PopulerBoardTitle>인기 잔소리</PopulerBoardTitle>
         {dummyData.map(({ title, nickname, likeCount, createdAt, answerCount }, index) => (
           <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={createdAt} answerCount={answerCount} />
         ))}
@@ -32,11 +32,12 @@ export default function HomePage() {
 
 const HomePageWrapper = styled.div``;
 const PopulerBoard = styled.div`
-  padding-top: 14px;
+  padding: 14px 16px;
 `;
 const PopulerBoardTitle = styled.div`
-  padding: 8px 0 10px 0;
+  padding: 20px 0 0px 16px;
   font-size: var(--font-size18);
   font-weight: var(--font-weight700);
   letter-spacing: var(--font-spacing-title);
+  border-top: solid 10px #f6f6f6;
 `;

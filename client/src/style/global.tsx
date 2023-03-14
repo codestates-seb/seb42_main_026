@@ -163,7 +163,7 @@ section{
   width: calc(100% -32px);
   height: calc(100% -214px);
   min-height: calc(844px -214px);
-  padding: 20px 16px;
+  padding: 20px 0px;
 }
 
 .App{

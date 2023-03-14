@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { ReactComponent as ICON_POPULAR } from '../../assets/ic_home_sub_popular.svg';
-import { ReactComponent as ICON_CHECKLIST } from '../../assets/ic_home_sub_checklist.svg';
-import { ReactComponent as ICON_PRE } from '../../assets/ic_home_sub_pre.svg';
+import styled from "styled-components";
+import { ReactComponent as ICON_POPULAR } from "../../assets/ic_home_sub_popular.svg";
+import { ReactComponent as ICON_CHECKLIST } from "../../assets/ic_home_sub_checklist.svg";
+import { ReactComponent as ICON_PRE } from "../../assets/ic_home_sub_pre.svg";
 
 const SubApp = () => {
   return (
@@ -31,7 +31,7 @@ export default SubApp;
 const SubAppWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 40px 20px 40px;
   gap: 18px;
   user-select: none;
 `;
@@ -44,7 +44,7 @@ const SubAppContainer = styled.div`
   width: 62px;
   height: 62px;
   gap: 9px;
-  cursor: pointer;;
+  cursor: pointer; ;
 `;
 
 const SubAppText = styled.span`
@@ -52,5 +52,5 @@ const SubAppText = styled.span`
   vertical-align: middle;
   text-align: center;
   font-size: var(--font-size12);
-  color: ${(props) => (props.color === 'gray' ? `var(--color-gray01)` : `var(--color-black01)`)};
+  color: ${(props) => (props.color === "gray" ? `var(--color-gray01)` : `var(--color-black01)`)};
 `;
