@@ -8,6 +8,9 @@ interface ModalProps {
 }
 
 const LogoutModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  if (!isOpen) {
+    return null;
+  }
   return (
     <>
       {isOpen && (
@@ -31,7 +34,6 @@ const LogoutModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               ></ButtonStyled>
             </ButtonWrapper>
           </ModalWrapper>
-
           <ModalBackground onClick={onClose}></ModalBackground>
         </>
       )}
