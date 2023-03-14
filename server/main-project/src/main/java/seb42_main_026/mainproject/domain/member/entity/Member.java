@@ -36,8 +36,7 @@ public class Member extends Auditable {
     @Enumerated(value = EnumType.STRING)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-    @Column(nullable = true)
-    @ColumnDefault("0")
+    @Column(nullable = false)
     private Long score;
 
     @Enumerated(EnumType.STRING)
@@ -45,6 +44,9 @@ public class Member extends Auditable {
 
     @Column
     private String profileImageUrl;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>(); // List, Set 같은 컬렉션 타입의 필드는 @ElementCollection 애너테이션을 추가하면 User 권한 정보와 관련된 별도의 엔티티 클래스를 생성하지 않아도 간단하게 매핑 처리가 됩니다.
 
     /*@OneToMany(mappedBy = "member")
     private List<Quesiton> quesitons = new ArrayList<>();
