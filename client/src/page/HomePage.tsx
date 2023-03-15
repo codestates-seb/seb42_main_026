@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import SubApp from "../container/home/SubApp";
 import BoardItem from "../container/naggingboard/BoardItem";
+import useGetReq from "../hooks/useEffect";
 
 export default function HomePage() {
   const dummyData = [
@@ -16,6 +17,8 @@ export default function HomePage() {
     { title: "잔소리 오지게 해줄 사람", nickname: "코드로 밥먹기", likeCount: 654, createdAt: "03/07", answerCount: 20 },
     // 동점이면 날짜순으로 하는 코드 작성해야함 백엔드와 상의
   ];
+
+  useGetReq(`/home/questions`);
 
   return (
     <HomePageWrapper>
