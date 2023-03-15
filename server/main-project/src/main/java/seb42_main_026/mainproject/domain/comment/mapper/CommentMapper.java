@@ -29,7 +29,21 @@ public interface CommentMapper {
 
     Comment commentPatchDtoToComment(CommentDto.Patch commentPatchDto);
 
-    CommentDto.Response commentToCommentResponse(Comment comment);
+//    CommentDto.Response commentToCommentResponse(Comment comment);
+    default CommentDto.Response commentToCommentResponse(Comment comment){
+        if (comment == null){return null;}
+
+        CommentDto.Response commentResponse = new CommentDto.Response();
+
+        commentResponse.setCommentId(comment.getCommentId());
+        commentResponse.setAnswerId(comment.getAnswer().getAnswerId());
+        commentResponse.setMemberId(comment.getMember().getMemberId());
+        commentResponse.setContent(comment.getContent());
+        commentResponse.setNickname(comment.getMember().getNickname());
+        commentResponse.setCreatedAt(comment.getCreatedAt());
+
+        return commentResponse;
+    }
 
     List<CommentDto.Response> commentsToCommentResponses(List<Comment> comments);
 }

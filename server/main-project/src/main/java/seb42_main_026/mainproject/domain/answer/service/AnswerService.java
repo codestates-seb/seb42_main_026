@@ -67,10 +67,9 @@ public class AnswerService {
 //            s3StorageService.store(mediaFile);
 //        }
 
+        //점수 증가 메서드(+10점) -> 메서드 갖다 쓰기
+//        answer.getMember().setScore(answer.getMember().getScore() + 10);
 
-        //점수 증가 메서드(+10점)
-        //answer.getMember().setScore(answer.getMember().getScore() + 10);
-        
         return answerRepository.save(answer);
     }
 
