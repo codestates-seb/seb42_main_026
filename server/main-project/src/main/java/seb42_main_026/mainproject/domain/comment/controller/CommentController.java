@@ -30,10 +30,9 @@ public class CommentController {
                                       @Valid @RequestBody CommentDto.Post commentPostDto){
         commentPostDto.setAnswerId(answerId);
         Comment comment = commentService.createComment(
-                mapper.commentPostDtoToComment(commentPostDto),answerId,commentPostDto.getMemberId());
+                mapper.commentPostDtoToComment(commentPostDto));
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.commentToCommentResponse(comment)), HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/questions/{question-id}/{answer-id}/{comment-id}")

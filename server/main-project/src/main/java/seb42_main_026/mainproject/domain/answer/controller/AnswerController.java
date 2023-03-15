@@ -44,7 +44,7 @@ public class AnswerController {
                                      @RequestPart MultipartFile mediaFile*/){
         answerPostDto.addQuestionId(questionId);
         Answer answer = answerService.createAnswer(
-                mapper.answerPostDtoToAnswer(answerPostDto), questionId, answerPostDto.getMemberId()/*,mediaFile*/);
+                mapper.answerPostDtoToAnswer(answerPostDto)/*,mediaFile*/);
 
 
         return new ResponseEntity<>(HttpStatus.CREATED);

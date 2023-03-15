@@ -32,7 +32,7 @@ public class MemberController {
 
     private final ScoreMapper scoreMapper;
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto) {
 
         Member member = memberMapper.memberPostToMember(memberPostDto);

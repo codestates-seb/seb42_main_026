@@ -9,6 +9,7 @@ import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
+import seb42_main_026.mainproject.domain.question.service.QuestionService;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
@@ -26,6 +27,8 @@ public class AnswerService {
 
     private final MemberRepository memberRepository;
 
+    private final QuestionService questionService;
+
 
 
     /**
@@ -35,12 +38,13 @@ public class AnswerService {
      * 점수 증가 메서드(+10점) - done
      */
     //memberId Request 에 포함되는지?
-    public Answer createAnswer(Answer answer, long questionId, long memberId/*, MultipartFile mediaFile*/){
+    public Answer createAnswer(Answer answer/*, MultipartFile mediaFile*/){
         //answer 에 회원 추가, 등록된 회원인지 확인
-//        answer.setMember(memberService.findMember(memberId));
+        memberService.findVerifiedMember(answer.getMember().getMemberId());
         //answer 에 질문 추가, 존재하는 질문인지 확인
-//        answer.setQuestion(questionService.findQuestion(questionId));
-        //답변등록자 == 질문등록자 -> 예외
+        questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
+
+        //답변등록자 == 질문등록자 -> 예외 (안하기로)
 //        if (memberId == answer.getQuestion().getMemberId())throw new ExceptionCode.???;
 
 
@@ -63,9 +67,9 @@ public class AnswerService {
 //            s3StorageService.store(mediaFile);
 //        }
 
-        //점수 증가 메서드(+10점)
-        //answer.getMember().setScore(answer.getMember().getScore() + 10);
-        
+        //점수 증가 메서드(+10점) -> 메서드 갖다 쓰기
+//        answer.getMember().setScore(answer.getMember().getScore() + 10);
+
         return answerRepository.save(answer);
     }
 

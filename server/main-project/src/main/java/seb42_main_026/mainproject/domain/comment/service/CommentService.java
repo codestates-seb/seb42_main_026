@@ -19,11 +19,11 @@ public class CommentService {
     private final AnswerService answerService;
     private final CommentRepository commentRepository;
 
-    public Comment createComment(Comment comment, long answerId, long memberId){
+    public Comment createComment(Comment comment){
         //comment 에 회원 연결
-        comment.setMember(memberService.findVerifiedMember(memberId));
+        memberService.findVerifiedMember(comment.getMember().getMemberId());
         //comment 에 답변 연결
-        comment.setAnswer(answerService.findAnswer(answerId));
+        answerService.findAnswer(comment.getAnswer().getAnswerId());
 
         return commentRepository.save(comment);
     }
