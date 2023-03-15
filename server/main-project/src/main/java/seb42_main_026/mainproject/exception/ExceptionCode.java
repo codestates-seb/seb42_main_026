@@ -28,8 +28,13 @@ public enum ExceptionCode {
 =======
     ANSWER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다."),
 
+<<<<<<< HEAD
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다.");
 >>>>>>> 411a03a (feat: 질문, 댓글 관련 예외 Enum 추가)
+=======
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
+    UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "해당 회원은 권한이 없습니다.");
+>>>>>>> 7b5d68e (Feat: Member Score 추가)
 
 
     @Getter
