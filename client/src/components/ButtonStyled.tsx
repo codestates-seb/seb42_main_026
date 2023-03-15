@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title?: string;
   color?: 'pink' | 'normal';
   width?: string;
@@ -9,9 +9,9 @@ interface ButtonProps {
   buttonClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button = ({ color, title, width = '', height = '', radius = '', buttonClickHandler }: ButtonProps) => {
+const Button = ({ color, title, width = '', height = '', radius = '', buttonClickHandler, type }: ButtonProps) => {
   return (
-    <LoginButton onClick={buttonClickHandler} color={color} width={width} height={height} radius={radius}>
+    <LoginButton type={type || 'button'} onClick={buttonClickHandler} color={color} width={width} height={height} radius={radius}>
       <LoginText>{title}</LoginText>
     </LoginButton>
   );

@@ -4,14 +4,26 @@ import KakaoLoginButton from '../container/login/KakaoLoginButton';
 import NaverLoginButton from '../container/login/NaverLoginButton';
 import ButtonStyled from '../components/ButtonStyled';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
+  const { loginHandler } = useAuth();
+
+  function handleLogin(e: any) {
+    e.preventDefault();
+    const member = {
+      username: e.target[0].value,
+      password: e.target[1].value,
+    };
+    loginHandler(member.username, member.password); // 리덕스
+  }
+
   return (
     <LoginWrapper>
-      <InputContainer>
-        <LoginInput placeholder="이메일"></LoginInput>
+      <InputContainer onSubmit={handleLogin}>
+        <LoginInput type="email" placeholder="이메일"></LoginInput>
         <LoginInput type="password" placeholder="비밀번호"></LoginInput>
-        <ButtonStyled color="pink" title="로그인"></ButtonStyled>
+        <ButtonStyled type="submit" color="pink" title="로그인"></ButtonStyled>
       </InputContainer>
       <ContourContainer>
         <ContourLine></ContourLine>
@@ -95,7 +107,7 @@ const LoginInput = styled.input`
   padding-left: 8px;
 `;
 
-const InputContainer = styled.div`
+const InputContainer = styled.form`
   align-self: stretch;
   padding: 20px;
   display: flex;
