@@ -2,8 +2,10 @@ package seb42_main_026.mainproject.domain.answer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -17,6 +19,10 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 >>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
 =======
 >>>>>>> 76bfecf (feat: Answer 채택 기능)
+=======
+import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
+import seb42_main_026.mainproject.domain.member.service.MemberService;
+>>>>>>> 74f06b9 (Fix: commit 내용 수정)
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
@@ -52,13 +58,34 @@ public class AnswerService {
      * 점수 증가 메서드(+10점) - done
      */
     //memberId Request 에 포함되는지?
-    public Answer createAnswer(Answer answer, long questionId, long memberId){
+    public Answer createAnswer(Answer answer, long questionId, long memberId/*, MultipartFile mediaFile*/){
         //answer 에 회원 추가, 등록된 회원인지 확인
 //        answer.setMember(memberService.findMember(memberId));
         //answer 에 질문 추가, 존재하는 질문인지 확인
 //        answer.setQuestion(questionService.findQuestion(questionId));
         //답변등록자 == 질문등록자 -> 예외
 //        if (memberId == answer.getQuestion().getMemberId())throw new ExceptionCode.???;
+
+
+        //실험
+//        answer.setFileName(mediaFile.getOriginalFilename());
+//
+//        //미디어 파일 존재하면, answer 에 이름 저장 - todo
+//        Optional.ofNullable(mediaFile)
+//                        .ifPresent(mediaFile -> );
+//
+//        //미디어 파일 존재하면, S3 버킷에 업로드 - todo
+//        Optional.ofNullable(mediaFile)
+//                .ifPresent(s3StorageService.store(mediaFile););
+
+
+        //진짜 - > 주석해제
+        //mediaFile 이 null 이 아닐시, answer 에 이름 저장, S3 버킷에 업로드
+//        if (mediaFile != null){
+//            answer.setFileName(mediaFile.getOriginalFilename());
+//            s3StorageService.store(mediaFile);
+//        }
+
         //점수 증가 메서드(+10점)
         answer.getMember().setScore(answer.getMember().getScore() + 10);
 

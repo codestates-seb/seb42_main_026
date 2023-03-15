@@ -8,9 +8,15 @@ import lombok.Setter;
 <<<<<<< HEAD
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
+<<<<<<< HEAD
 =======
 import seb42_main_026.mainproject.audit.Auditable;
 >>>>>>> a78f2f0 (Feat: Auditable 추상 클래스 구현)
+=======
+import seb42_main_026.mainproject.domain.like.entity.Like;
+import seb42_main_026.mainproject.domain.member.entity.Member;
+import seb42_main_026.mainproject.domain.tag.Tag;
+>>>>>>> 74f06b9 (Fix: commit 내용 수정)
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -36,6 +42,9 @@ public class Question extends Auditable {
 
     @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private int likeCount;
 
     @Column(nullable = true)
     private String questionImageName;
@@ -69,6 +78,7 @@ public class Question extends Auditable {
     }
 <<<<<<< HEAD
 
+<<<<<<< HEAD
     // Todo: 연관관계 매핑
 //    @ManyToOne
 //    @JoinColumn(name = "MEMBER_ID")
@@ -84,4 +94,18 @@ public class Question extends Auditable {
 //    private List<Like> likes = new ArrayList<>();
 =======
 >>>>>>> f038ba0 (Feat: Question Entity 구현)
+=======
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Tag tag;
+
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Like> likes = new ArrayList<>();
+>>>>>>> 74f06b9 (Fix: commit 내용 수정)
 }
