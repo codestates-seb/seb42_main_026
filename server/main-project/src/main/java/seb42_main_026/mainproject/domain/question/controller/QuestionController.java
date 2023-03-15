@@ -53,14 +53,14 @@ public class QuestionController {
 //    }
 
     // 특정 질문조회
-//    @GetMapping("/questions/{question-id}")
-//    public ResponseEntity<?> getQuestion(@PathVariable("question-id") @Positive long questionId) {
-//        Question foundQuestion = questionService.findQuestion(questionId);
-//
-//        QuestionDto.DetailResponse response = questionMapper.questionToQuestionDetailResponseDto(foundQuestion);
-//
-//        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
-//    }
+    @GetMapping("/questions/{question-id}")
+    public ResponseEntity<?> getQuestion(@PathVariable("question-id") @Positive long questionId) {
+        Question foundQuestion = questionService.findQuestion(questionId);
+
+        QuestionDto.DetailResponse response = questionMapper.questionToQuestionDetailResponseDto(foundQuestion);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
 
 //     홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
     @GetMapping("/home/questions")
