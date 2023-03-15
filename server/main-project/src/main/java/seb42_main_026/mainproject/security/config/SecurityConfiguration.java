@@ -59,20 +59,11 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
                         // Question
                         .antMatchers(HttpMethod.POST, "/questions/**").hasRole("USER")
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
                         .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/home/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/board/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/members/**/questions").hasRole("USER")
 
-<<<<<<< HEAD
-=======
->>>>>>> d1bc2d9 (Refactor: API 명세서 내용에 맞게 createQuestion 리팩토링)
-=======
->>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
                         .anyRequest().permitAll()              // JWT를 적용하기 전이므로 우선은 모든 HTTP request 요청에 대해서 접근을 허용하도록 설정했다.
                 );
 
@@ -109,7 +100,7 @@ public class SecurityConfiguration {
 
     // Custom Configurer인 CustomFilterConfigurer 클래스이다. CustomFilterConfigurer는 구현한 JwtAuthenticationFilter를 등록하는 역할을 한다.
     public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity>{  // AbstractHttpConfigurer를 상속해서 Custom Configurer를 구현할 수 있다.
-                                                                                                               // AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity>와 같이 AbstractHttpConfigurer 를 상속하는 타입과 HttpSecurityBuilder 를 상속하는 타입을 제너릭 타입으로 지정할 수 있다.
+        // AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity>와 같이 AbstractHttpConfigurer 를 상속하는 타입과 HttpSecurityBuilder 를 상속하는 타입을 제너릭 타입으로 지정할 수 있다.
 
         @Override
         public void configure(HttpSecurity builder) throws Exception{  // configure() 메서드를 오버라이드해서 Configuration을 커스터마이징할 수 있다.

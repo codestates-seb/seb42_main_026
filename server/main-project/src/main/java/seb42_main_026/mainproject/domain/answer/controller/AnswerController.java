@@ -28,24 +28,6 @@ public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    @PostMapping("/{question-id}") //todo 프론트와 협의 후 엔드포인트 결정
-=======
-    @PostMapping
->>>>>>> 7ccffca (refactor: 생성자 리팩토링)
-=======
-    @PostMapping("/{question-id}") //todo 프론트와 협의 후 엔드포인트 결정
->>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
-=======
-    @PostMapping("/{question-id}/answers")
->>>>>>> c6ea679 (refactor: Answer endpoint #15, #16, #17, #18)
-=======
-=======
->>>>>>> ad507db (feat: Answer 미디어파일 업로드 기능#15)
 
     /** voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
      *  S3 접근 Configuration 작성 - done (test 후, 환경변수로 숨길 것.)
@@ -57,10 +39,6 @@ public class AnswerController {
      */
     @PostMapping(value = "/{question-id}/answers"/*, consumes =
             {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}*/)
-<<<<<<< HEAD
->>>>>>> 74f06b9 (Fix: commit 내용 수정)
-=======
->>>>>>> ad507db (feat: Answer 미디어파일 업로드 기능#15)
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
                                      @Valid @RequestBody AnswerDto.Post answerPostDto/*,
                                      @RequestPart MultipartFile mediaFile*/){
@@ -85,10 +63,6 @@ public class AnswerController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
 
     // 채택 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
     @PatchMapping("/{question-id}/answers/{answer-id}/select")
@@ -100,10 +74,6 @@ public class AnswerController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 733ae29 (feat: Answer 삭제 기능)
 
     // 삭제 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
     @DeleteMapping("/{question-id}/{answer-id}")
@@ -114,11 +84,4 @@ public class AnswerController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-<<<<<<< HEAD
-=======
->>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
-=======
->>>>>>> 733ae29 (feat: Answer 삭제 기능)
 }

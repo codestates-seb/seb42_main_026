@@ -5,29 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
-<<<<<<< HEAD
-=======
->>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
-=======
-import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
-import seb42_main_026.mainproject.domain.member.service.MemberService;
->>>>>>> 74f06b9 (Fix: commit 내용 수정)
-=======
-import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
-import seb42_main_026.mainproject.domain.member.service.MemberService;
->>>>>>> b221c87 (Fix: 컨플릭트 해결)
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
@@ -41,19 +22,10 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
     private final MemberService memberService;
 
     private final MemberRepository memberRepository;
 
-<<<<<<< HEAD
-=======
->>>>>>> 7ccffca (refactor: 생성자 리팩토링)
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
 
 
     /**
@@ -110,10 +82,6 @@ public class AnswerService {
         return answerRepository.save(foundAnswer);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
     /** 필요 메서드
      * questionService.findQuestion() - todo
      * memberService.verifyMemberByMemberId() - todo
@@ -136,10 +104,6 @@ public class AnswerService {
 //        memberRepository.save(answerMember); // -> 이 과정 필요 없다.
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 733ae29 (feat: Answer 삭제 기능)
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
         Answer answer = findAnswer(answerId);
@@ -148,13 +112,6 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
-<<<<<<< HEAD
-=======
->>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
-=======
->>>>>>> 76bfecf (feat: Answer 채택 기능)
-=======
->>>>>>> 733ae29 (feat: Answer 삭제 기능)
     public Answer findAnswer(long answerId){
         return findVerifiedAnswer(answerId);
     }

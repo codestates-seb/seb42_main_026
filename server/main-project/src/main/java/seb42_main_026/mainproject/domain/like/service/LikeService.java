@@ -15,23 +15,11 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final QuestionService questionService;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     public Like createLike(Like like) {
         Question matchedQuestion =
                 questionService.findVerifiedQuestion(like.getQuestion().getQuestionId());
-=======
-    public Like createLike(Like like, long questionId) {
-        Question matchedQuestion = questionService.findVerifiedQuestion(questionId);
->>>>>>> 954e762 (Feat: 게시글 조회 기능 구현(홈))
-=======
-    public Like createLike(Like like) {
-        Question matchedQuestion =
-                questionService.findVerifiedQuestion(like.getQuestion().getQuestionId());
->>>>>>> ea5a806 (Refactor: 좋아요 기능 리팩터링)
 
         matchedQuestion.setLikeCount(matchedQuestion.getLikeCount() + 1);
 
         return likeRepository.save(like);
     }
-}

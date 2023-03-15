@@ -2,19 +2,9 @@ package seb42_main_026.mainproject.domain.member.service;
 
 
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-import org.springframework.context.ApplicationEventPublisher;
-=======
->>>>>>> 573b47a (Fix: Security 수정)
-=======
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
->>>>>>> 7b5d68e (Feat: Member Score 추가)
 import org.springframework.security.crypto.password.PasswordEncoder;
-=======
->>>>>>> c3405f4 (feat: 멤버 구현)
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb42_main_026.mainproject.domain.member.entity.Member;
@@ -23,17 +13,9 @@ import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.repository.ScoreRepository;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import seb42_main_026.mainproject.security.security.utils.CustomAuthorityUtils;
-=======
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
->>>>>>> 573b47a (Fix: Security 수정)
 
 import java.util.List;
-=======
-
->>>>>>> c3405f4 (feat: 멤버 구현)
 import java.util.Optional;
 import java.util.Random;
 
@@ -43,7 +25,6 @@ import java.util.Random;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-<<<<<<< HEAD
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 
@@ -115,19 +96,6 @@ public class MemberService {
     }
 
     public void verifyExistsEmail(String email){
-=======
-
-    public Member createdMember(Member member){
-        veryfyExistsEmail(member.getEmail());
-        veryfyExistsNickName(member.getNickname());
-
-        Member createdMember = memberRepository.save(member);
-
-        return createdMember;
-    }
-
-    public void veryfyExistsEmail(String email){
->>>>>>> c3405f4 (feat: 멤버 구현)
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if (member.isPresent()){
@@ -135,11 +103,7 @@ public class MemberService {
         }
     }
 
-<<<<<<< HEAD
     public void verifyExistsNickName(String nickname){
-=======
-    public void veryfyExistsNickName(String nickname){
->>>>>>> c3405f4 (feat: 멤버 구현)
         Optional<Member> member = memberRepository.findByNickname(nickname);
 
         if (member.isPresent()){
@@ -147,7 +111,6 @@ public class MemberService {
         }
     }
 
-<<<<<<< HEAD
     public Member findVerifiedMember(Long memberId){
         Optional<Member> member = memberRepository.findById(memberId);
         Member verifiedMember = member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -155,8 +118,6 @@ public class MemberService {
         return verifiedMember;
     }
 
-=======
->>>>>>> c3405f4 (feat: 멤버 구현)
 
     public void verifyLoginMember(Long memberId){
         if(! getTokenMemberId().equals(memberId)){

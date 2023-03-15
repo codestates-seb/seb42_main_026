@@ -4,20 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
->>>>>>> c6ea679 (refactor: Answer endpoint #15, #16, #17, #18)
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
-=======
->>>>>>> 8c8f3d4 (feat: answer Patch 추가(v1))
-=======
-import seb42_main_026.mainproject.domain.member.entity.Member;
-import seb42_main_026.mainproject.domain.question.entity.Question;
->>>>>>> 76bfecf (feat: Answer 채택 기능)
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -40,22 +29,11 @@ public class Answer extends Auditable {
     private String content;
 
     // voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 5bdab09 (feat: 조회 기능 #9)
 //    @Column
 //    private String profileImgUrl;
 //
 //    @Column
 //    private String voiceFileUrl;
-<<<<<<< HEAD
-=======
-    @Column
-    private String fileName;
->>>>>>> ad507db (feat: Answer 미디어파일 업로드 기능#15)
-=======
->>>>>>> 5bdab09 (feat: 조회 기능 #9)
 
 
     /**todo 연관관계 매핑 (회원,질문,댓글)
