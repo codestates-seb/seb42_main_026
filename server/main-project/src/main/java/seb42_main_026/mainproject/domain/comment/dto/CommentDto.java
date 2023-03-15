@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 public class CommentDto {
 
     @Getter
@@ -29,10 +31,16 @@ public class CommentDto {
 
     }
 
+    @Getter
+    @Setter
     public static class Response{
+        private long commentId;
         private long answerId;
+        private long memberId;
         private String content;
         private String nickname;
+        private LocalDateTime createdAt;
+//        private String profileImgUrl;
 
     }
 }
