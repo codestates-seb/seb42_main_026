@@ -21,8 +21,8 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
       <InputContainer onSubmit={handleLogin}>
-        <LoginInput type="email" placeholder="이메일"></LoginInput>
-        <LoginInput type="password" placeholder="비밀번호"></LoginInput>
+        <LoginInput name='email' type="text" placeholder="이메일"></LoginInput>
+        <LoginInput name='password' type="password" placeholder="비밀번호"></LoginInput>
         <ButtonStyled type="submit" color="pink" title="로그인"></ButtonStyled>
       </InputContainer>
       <ContourContainer>

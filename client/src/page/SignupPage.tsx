@@ -20,13 +20,13 @@ const SignupPage = () => {
       <Title>PPONG</Title>
       <InputContainer onSubmit={handleSignup}>
         <InputText>이메일</InputText>
-        <SignupInput type="email" placeholder="이메일"></SignupInput>
+        <SignupInput name="email" type="text" placeholder="이메일"></SignupInput>
         <InputText>닉네임</InputText>
-        <SignupInput type="text" placeholder="닉네임"></SignupInput>
+        <SignupInput name="nickname" type="text" placeholder="닉네임"></SignupInput>
         <InputText>비밀번호</InputText>
-        <SignupInput type="password" placeholder="비밀번호"></SignupInput>
+        <SignupInput name="password" type="password" placeholder="비밀번호"></SignupInput>
         <InputText>비밀번호 확인</InputText>
-        <SignupInput type="password" placeholder="비밀번호 확인"></SignupInput>
+        <SignupInput name="passwordcheck" type="password" placeholder="비밀번호 확인"></SignupInput>
         <SignupButton type="submit">
           <SignupButtonText>회원가입</SignupButtonText>
         </SignupButton>
