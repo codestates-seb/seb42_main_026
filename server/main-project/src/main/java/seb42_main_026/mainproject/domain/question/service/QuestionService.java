@@ -25,7 +25,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final CustomBeanUtils<Question> customBeanUtils;
 
-    // Todo: 태그, 이미지 파일 저장 추가
+    // Todo: 태그, 이미지 파일 저장
     public Question createQuestion(Question question) {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(question.getMember().getMemberId());
@@ -33,6 +33,7 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
+    // Todo: 태그, 이미지 파일 수정
     public void updateQuestion(Question question) {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(question.getMember().getMemberId());
@@ -61,14 +62,21 @@ public class QuestionService {
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(memberId);
+
         List<Question> myQuestions = questionRepository.findMyQuestions(memberId);
 
         return new PageImpl<>(myQuestions, PageRequest.of(page, size), myQuestions.size());
     }
 
-//    public void deleteQuestion(long questionId) {
-//
-//    }
+    public void deleteQuestion(long questionId, long memberId) {
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(memberId);
+
+        // DB에서 삭제
+        questionRepository.deleteById(questionId);
+    }
 
     public Question findVerifiedQuestion(long questionId) {
         Optional<Question> optionalQuestion =
