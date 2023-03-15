@@ -29,8 +29,9 @@ export function useAuth() {
         password,
       });
       const { data } = response;
-      document.cookie = `accessToken=${response.headers['authorization']}; path=/; domain=${process.env.REACT_APP_COOKIE_DOMAIN}; secure; httpOnly`;
-      document.cookie = `refreshToken=${response.headers['refresh']}; path=/; domain=${process.env.REACT_APP_COOKIE_DOMAIN}; secure; httpOnly`;
+      //domain=${process.env.REACT_APP_COOKIE_DOMAIN}; secure; httpOnly
+      document.cookie = `accessToken=${response.headers['authorization']}; path=/;`;
+      document.cookie = `refreshToken=${response.headers['refresh']}; path=/;`;
       const cookieString = document.cookie;
       const cookies = cookieString.split('; ');
       const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
