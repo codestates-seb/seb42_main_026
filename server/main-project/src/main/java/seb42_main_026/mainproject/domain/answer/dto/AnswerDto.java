@@ -55,7 +55,7 @@ public class AnswerDto {
         private long memberId;
         private String content;
         private String nickname;
-        private Answer.AnswerStatus answerStatus;
+        private String answerStatus;
         private LocalDateTime createdAt;
 //        private String profileImgUrl;
 //        private String voiceFileUrl;
