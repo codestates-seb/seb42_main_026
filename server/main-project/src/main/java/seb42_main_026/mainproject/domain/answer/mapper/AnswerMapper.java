@@ -26,7 +26,7 @@ public interface AnswerMapper {
         answerResponseDto.setNickname(answer.getMember().getNickname());
         answerResponseDto.setAnswerId(answer.getAnswerId());
         answerResponseDto.setContent(answer.getContent());
-        answerResponseDto.setAnswerStatus(answer.getAnswerStatus());
+        answerResponseDto.setAnswerStatus(answer.getAnswerStatus().getStatus());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
 //        answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
 //        answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());

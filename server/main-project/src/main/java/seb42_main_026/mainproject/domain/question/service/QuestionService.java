@@ -40,9 +40,9 @@ public class QuestionService {
         return findVerifiedQuestion(questionId);
     }
 
-    // 홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
+    // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 오래된 순, 10개만 조회)
     public List<Question> findQuestionsAtHome() {
-        return questionRepository.findPopularQuestions();
+        return questionRepository.findTop10ByOrderByLikeCountDescQuestionIdAsc();
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
