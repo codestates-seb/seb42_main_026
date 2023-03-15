@@ -3,6 +3,8 @@ package seb42_main_026.mainproject.domain.question.mapper;
 import org.mapstruct.Mapper;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
+import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
+import seb42_main_026.mainproject.domain.comment.entity.Comment;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
@@ -49,6 +51,22 @@ public interface QuestionMapper {
 ////                            answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
 ////                            answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
 ////                            answerResponseDto.setLikeCount(answer.getLikeCount());
+                            List<Comment> comments = answer.getComments();
+                            List<CommentDto.Response> commentResponses = comments.stream()
+                                    .map(comment -> {
+                                        CommentDto.Response commentResponse = new CommentDto.Response();
+                                        commentResponse.setCommentId(comment.getCommentId());
+                                        commentResponse.setAnswerId(comment.getAnswer().getAnswerId());
+                                        commentResponse.setMemberId(comment.getMember().getMemberId());
+                                        commentResponse.setContent(comment.getContent());
+                                        commentResponse.setNickname(comment.getMember().getNickname());
+                                        commentResponse.setCreatedAt(comment.getCreatedAt());
+
+                                        return commentResponse;
+                                    }).collect(Collectors.toList());
+
+                            answerResponse.setComments(commentResponses);
+
                             return answerResponse;
                         }).collect(Collectors.toList());
 
