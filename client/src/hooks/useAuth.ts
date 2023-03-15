@@ -8,7 +8,19 @@ export function useAuth() {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLogin);
   const dispatch = useDispatch();
-  const jwt = require('jsonwebtoken');
+
+  function decodeJwt(token: string) {
+    //jwt 디코딩 코드 나중에 라이브러리로 대체 가능
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((char) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  }
 
   const loginHandler = async (username: string, password: string) => {
     try {
@@ -17,10 +29,19 @@ export function useAuth() {
         password,
       });
       const { data } = response;
-      console.log(response);
       document.cookie = `accessToken=${response.headers['authorization']}; path=/;`;
       document.cookie = `refreshToken=${response.headers['refresh']}; path=/;`;
-      dispatch(login());
+      const cookieString = document.cookie;
+      const cookies = cookieString.split('; ');
+      const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
+      if (accessTokenCookie) {
+        const accessToken = accessTokenCookie.split('=')[1];
+        const decoded = decodeJwt(accessToken);
+        console.log(decoded);
+        dispatch(login());
+        navigate('/');
+        alert('로그인 성공!');
+      }
       return data;
     } catch (error) {
       console.error(error);
