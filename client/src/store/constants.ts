@@ -1,3 +1,3 @@
-export const LOGIN = 'counter/LOGIN';
-export const LOGOUT = 'counter/LOGOUT';
-export const SET_PAGE = 'counter/SET_PAGE'
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const SET_PAGE = 'SET_PAGE';
