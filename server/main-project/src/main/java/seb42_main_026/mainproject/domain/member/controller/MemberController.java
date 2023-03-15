@@ -110,7 +110,14 @@ import java.util.List;
             private final MemberMapper memberMapper;
             private final MemberService memberService;
 
+<<<<<<< HEAD
             private final ScoreMapper scoreMapper;
+=======
+    private final ScoreMapper scoreMapper;
+
+    @PostMapping
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto) {
+>>>>>>> 7aae6283483c3e1590577f9e18fae9443185338a
 
             @PostMapping
             public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto) {
@@ -126,6 +133,7 @@ import java.util.List;
                 Member member = memberService.getMember(memberId);
                 MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
+<<<<<<< HEAD
                 return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
 
             }
@@ -163,3 +171,40 @@ import java.util.List;
             }
 
         }
+=======
+    }
+
+    @GetMapping("/rank")
+    public ResponseEntity getRank(){
+
+        List<Score> scoreRank = memberService.getRank();
+
+        List<ScoreDto.Response> scoreRanks = scoreMapper.scoresToScoreResponseDto(scoreRank);
+
+        return new ResponseEntity<>(new SingleResponseDto(scoreRanks), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{member-id}")
+    public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
+                                      MemberDto.Patch memberPatchDto){
+        Member member = memberMapper.memberPatchToMember(memberPatchDto);
+        member.setMemberId(memberId);
+        Member updateMember = memberService.updateMember(member);
+
+        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
+
+        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/{member-id}")
+    public ResponseEntity deleteMember(@PathVariable("member-id") @Positive Long memberId){
+
+        memberService.deleteMember(memberId);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
+}
+>>>>>>> 7aae6283483c3e1590577f9e18fae9443185338a

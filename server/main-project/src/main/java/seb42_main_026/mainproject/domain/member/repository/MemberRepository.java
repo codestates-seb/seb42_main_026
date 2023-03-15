@@ -13,4 +13,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     //List<Member> findTop10ByOrderByScoreAsc();
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7aae6283483c3e1590577f9e18fae9443185338a

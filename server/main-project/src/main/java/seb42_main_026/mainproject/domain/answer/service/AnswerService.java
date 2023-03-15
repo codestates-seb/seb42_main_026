@@ -5,10 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
-import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
-import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
