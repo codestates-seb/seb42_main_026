@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
+import seb42_main_026.mainproject.domain.like.entity.Like;
+import seb42_main_026.mainproject.domain.member.entity.Member;
+import seb42_main_026.mainproject.domain.tag.Tag;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ public class Question extends Auditable {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private int likeCount;
+
     @Column(nullable = true)
     private String questionImageName;
 
@@ -41,17 +47,16 @@ public class Question extends Auditable {
         private final String description;
     }
 
-    // Todo: 연관관계 매핑
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
-//
-//    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<Answer> answers = new ArrayList<>();
-//
-//    @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private Tag tag;
-//
-//    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<Like> likes = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Tag tag;
+
+    @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Like> likes = new ArrayList<>();
 }

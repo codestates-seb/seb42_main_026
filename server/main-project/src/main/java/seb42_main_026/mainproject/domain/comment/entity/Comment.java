@@ -22,7 +22,8 @@ public class Comment extends Auditable {
     @Column(nullable = false)
     private String content;
 
-
+//    @Column
+//    private String profileImgUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ANSWER_ID")
