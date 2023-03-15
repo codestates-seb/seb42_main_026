@@ -6,6 +6,7 @@ import lombok.Setter;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,10 +21,15 @@ public class QuestionDto {
         private String content;
     }
 
+    @Getter
+    @Setter
     public static class Patch {
         private Long questionId;
+        @Positive
+        private Long memberId;
         private String title;
         private String content;
+//        private String tagName;
     }
 
     @Getter

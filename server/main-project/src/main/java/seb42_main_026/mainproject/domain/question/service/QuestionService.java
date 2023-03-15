@@ -12,6 +12,7 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.repository.QuestionRepository;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
+import seb42_main_026.mainproject.utils.CustomBeanUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,19 +23,27 @@ import java.util.Optional;
 public class QuestionService {
     private final MemberService memberService;
     private final QuestionRepository questionRepository;
+    private final CustomBeanUtils<Question> customBeanUtils;
 
     // Todo: 태그, 이미지 파일 저장 추가
     public Question createQuestion(Question question) {
-        // 가입된 회원인지 체크
-        memberService.findVerifiedMember(question.getMember().getMemberId());
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(question.getMember().getMemberId());
 
         return questionRepository.save(question);
     }
 
-//    public Question updateQuestion(Question question) {
-//
-//    }
-//
+    public void updateQuestion(Question question) {
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(question.getMember().getMemberId());
+
+        // 수정 대상 질문
+        Question foundQuestion = findVerifiedQuestion(question.getQuestionId());
+
+        // 질문 수정
+        customBeanUtils.copyNonNullProperties(question, foundQuestion);
+    }
+
     // 특정 질문 조회
     public Question findQuestion(long questionId) {
         return findVerifiedQuestion(questionId);

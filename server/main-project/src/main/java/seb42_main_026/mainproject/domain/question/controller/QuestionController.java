@@ -44,13 +44,18 @@ public class QuestionController {
         return ResponseEntity.created(location).build();
     }
 
-//    @PatchMapping("{question-id}")
-//    public ResponseEntity<?> patchQuestion() {
-//        QuestionDto.Response response =
-//                new QuestionDto.Response(2L, "수정된 제목", "수정된 내용", "갱생 중");
-//
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    // Todo: 태그, 이미지 파일 수정
+    @PatchMapping("questions/{question-id}")
+    public ResponseEntity<?> patchQuestion(@RequestBody @Valid QuestionDto.Patch questionPatchDto,
+                                           @PathVariable("question-id") @Positive long questionId) {
+        questionPatchDto.setQuestionId(questionId);
+
+        Question question = questionMapper.questionPatchDtoToQuestion(questionPatchDto);
+
+        questionService.updateQuestion(question);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     // 특정 질문조회
     @GetMapping("/questions/{question-id}")
@@ -62,7 +67,7 @@ public class QuestionController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-//     홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
+    // 홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
     @GetMapping("/home/questions")
     public ResponseEntity<?> getQuestionsAtHome() {
         List<Question> questions = questionService.findQuestionsAtHome();
