@@ -16,3 +16,5 @@ const signup = async (email: string, password: string, nickname: string) => {
 };
 
 export default signup;
+
+
