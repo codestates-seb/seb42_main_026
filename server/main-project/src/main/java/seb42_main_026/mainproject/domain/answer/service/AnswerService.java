@@ -8,6 +8,7 @@ import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 76bfecf (feat: Answer 채택 기능)
 import seb42_main_026.mainproject.domain.member.entity.Member;
@@ -23,6 +24,10 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 >>>>>>> 74f06b9 (Fix: commit 내용 수정)
+=======
+import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
+import seb42_main_026.mainproject.domain.member.service.MemberService;
+>>>>>>> b221c87 (Fix: 컨플릭트 해결)
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 
