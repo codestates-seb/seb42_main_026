@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
+import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AnswerDto {
     @Getter
@@ -16,6 +18,8 @@ public class AnswerDto {
         private long questionId;
         @NotNull
         private String content;
+
+        private String voiceFileUrl;
 
         /**
          * voice file - todo
@@ -45,16 +49,19 @@ public class AnswerDto {
     }
 
     @Getter
+    @Setter
     public static class Response{
         private long answerId;
+        private long memberId;
         private String content;
         private String nickname;
         private Answer.AnswerStatus answerStatus;
         private LocalDateTime createdAt;
+//        private String profileImgUrl;
+//        private String voiceFileUrl;
+//        private int likeCount;
+        private List<CommentDto.Response> comments;
 
-        /**
-         * voice file - todo
-         */
 
     }
 }
