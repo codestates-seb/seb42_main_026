@@ -44,6 +44,8 @@ public class MemberDto {
 
         private String nickname;
 
+        //private Long score;
+
 
     }
 }

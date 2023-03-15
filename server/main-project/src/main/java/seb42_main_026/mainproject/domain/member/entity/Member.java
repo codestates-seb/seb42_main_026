@@ -4,13 +4,12 @@ package seb42_main_026.mainproject.domain.member.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.lang.Nullable;
 import seb42_main_026.mainproject.audit.Auditable;
+import seb42_main_026.mainproject.domain.answer.entity.Answer;
+import seb42_main_026.mainproject.domain.like.entity.Like;
+import seb42_main_026.mainproject.domain.question.entity.Question;
 
 import javax.persistence.*;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +35,8 @@ public class Member extends Auditable {
     @Enumerated(value = EnumType.STRING)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-    @Column(nullable = false)
-    private Long score;
+   /* @Column(nullable = false)
+    private Long score;*/
 
     @Enumerated(EnumType.STRING)
     private HammerTier hammerTier = HammerTier.BASIC_HAMMER;
@@ -48,22 +47,26 @@ public class Member extends Auditable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>(); // List, Set 같은 컬렉션 타입의 필드는 @ElementCollection 애너테이션을 추가하면 User 권한 정보와 관련된 별도의 엔티티 클래스를 생성하지 않아도 간단하게 매핑 처리가 됩니다.
 
-    /*@OneToMany(mappedBy = "member")
-    private List<Quesiton> quesitons = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Like> likes = new ArrayList<>();
-*/
 
+
+    @OneToOne(mappedBy = "member")
+    private Score score;
 
 
     public enum MemberStatus{
 
         MEMBER_ACTIVE("활동 회원"),
-        MEMBER_SLEEP("휴먼 회원");
+        MEMBER_SLEEP("휴먼 회원"),
+
+        MEMBER_DELETE("삭제 대기");
 
 
         @Getter
