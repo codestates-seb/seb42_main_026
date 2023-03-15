@@ -46,8 +46,8 @@ public class QuestionController {
 
 //    @PatchMapping("{question-id}")
 //    public ResponseEntity<?> patchQuestion() {
-//        QuestionDto.Responses response =
-//                new QuestionDto.Responses(2L, "수정된 제목", "수정된 내용", "갱생 중");
+//        QuestionDto.Response response =
+//                new QuestionDto.Response(2L, "수정된 제목", "수정된 내용", "갱생 중");
 //
 //        return new ResponseEntity<>(response, HttpStatus.OK);
 //    }
@@ -57,9 +57,9 @@ public class QuestionController {
 //    public ResponseEntity<?> getQuestion(@PathVariable("question-id") @Positive long questionId) {
 //        Question foundQuestion = questionService.findQuestion(questionId);
 //
-//        QuestionDto.Responses responses = questionMapper.questionToQuestionResponseDto(foundQuestion);
+//        QuestionDto.DetailResponse response = questionMapper.questionToQuestionDetailResponseDto(foundQuestion);
 //
-//        return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);
+//        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
 //    }
 
 //     홈에서 인기 질문 목록 조회(좋아요 순, 10개만)
@@ -67,7 +67,7 @@ public class QuestionController {
     public ResponseEntity<?> getQuestionsAtHome() {
         List<Question> questions = questionService.findQuestionsAtHome();
 
-        List<QuestionDto.Responses> responses = questionMapper.questionsToQuestionResponseDtos(questions);
+        List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponseDtos(questions);
 
         return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class QuestionController {
 
         List<Question> questions = pageQuestions.getContent();
 
-        List<QuestionDto.Responses> responses = questionMapper.questionsToQuestionResponseDtos(questions);
+        List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponseDtos(questions);
 
         return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }
@@ -94,7 +94,7 @@ public class QuestionController {
 
         List<Question> questions = pageQuestions.getContent();
 
-        List<QuestionDto.Responses> responses = questionMapper.questionsToQuestionResponseDtos(questions);
+        List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponseDtos(questions);
 
         return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }

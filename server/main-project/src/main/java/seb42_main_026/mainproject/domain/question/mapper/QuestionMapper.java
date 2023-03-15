@@ -1,7 +1,8 @@
 package seb42_main_026.mainproject.domain.question.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
+import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
@@ -23,9 +24,28 @@ public interface QuestionMapper {
         return question;
     };
 
-    @Mapping(source = "member.memberId", target = "memberId")
-    @Mapping(source = "questionStatus.description", target = "questionStatus")
-    QuestionDto.Responses questionToQuestionResponseDto(Question question);
+//    default QuestionDto.DetailResponse questionToQuestionDetailResponseDto(Question question) {
+//        QuestionDto.DetailResponse detailResponse = new QuestionDto.DetailResponse();
+//        detailResponse.setQuestionId(question.getQuestionId());
+//        detailResponse.setMemberId(question.getMember().getMemberId());
+//        detailResponse.setTitle(question.getTitle());
+//        detailResponse.setContent(question.getContent());
+//        detailResponse.setNickname(question.getMember().getNickname());
+//        detailResponse.setCreatedAt(question.getCreatedAt());
+//        detailResponse.setQuestionStatus(question.getQuestionStatus().getDescription());
+//        detailResponse.setLikeCount(question.getLikeCount());
+//
+//        List<Answer> answers = question.getAnswers();
+//        List<AnswerDto.Response> answerResponses = answers.stream()
+//                        .map(answer -> {
+//                            AnswerDto.Response answerResponse = new AnswerDto.Response();
+//                            answerResponse.setAnswerId(answer.getAnswerId());
+//                            answerResponse.
+//                        })
+//
+//        detailResponse.setAnswers();
+//
+//    };
 
-    List<QuestionDto.Responses> questionsToQuestionResponseDtos(List<Question> questions);
+    List<QuestionDto.Response> questionsToQuestionResponseDtos(List<Question> questions);
 }
