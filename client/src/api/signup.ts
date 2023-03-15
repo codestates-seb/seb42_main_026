@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const signup = async (email: string, password: string, nickname: string) => {
   try {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/members`, {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/members/signup`, {
       email,
       password,
       nickname,
