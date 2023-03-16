@@ -146,7 +146,7 @@ public class MemberService {
         // score 순 테스트
         Random random = new Random();
 
-        score.setScore(2L);
+        score.setScore(random.nextLong());
         score.setMember(getMember(memberId));
 
         scoreRepository.save(score);
