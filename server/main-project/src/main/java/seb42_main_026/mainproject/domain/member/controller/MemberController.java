@@ -22,7 +22,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/members")
+//@RequestMapping("/members")
 @RequiredArgsConstructor
 @Validated
 public class MemberController {
@@ -41,7 +41,7 @@ public class MemberController {
        return ResponseEntity.created(URI.create("/members/" + createdMember.getMemberId())).build();
     }
 
-    @GetMapping("/{member-id}")
+    @GetMapping("/members/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") @Positive Long memberId){
         Member member = memberService.getMember(memberId);
         MemberDto.Response response = memberMapper.memberToMemberResponse(member);
@@ -50,7 +50,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/rank")
+    @GetMapping("/home/rank")
     public ResponseEntity getRank(){
 
         List<Score> scoreRank = memberService.getRank();
@@ -60,7 +60,7 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto(scoreRanks), HttpStatus.OK);
     }
 
-    @PatchMapping("/{member-id}")
+    @PatchMapping("/members/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
                                       MemberDto.Patch memberPatchDto){
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
@@ -73,7 +73,7 @@ public class MemberController {
 
     }
 
-    @DeleteMapping("/{member-id}")
+    @DeleteMapping("/members/{member-id}")
     public ResponseEntity deleteMember(@PathVariable("member-id") @Positive Long memberId){
 
         memberService.deleteMember(memberId);

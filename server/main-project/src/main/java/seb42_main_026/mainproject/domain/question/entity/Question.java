@@ -33,7 +33,7 @@ public class Question extends Auditable {
     private int likeCount;
 
     @Column(nullable = true)
-    private String questionImageName;
+    private String questionImageUrl;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
