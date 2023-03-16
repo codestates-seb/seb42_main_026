@@ -50,6 +50,7 @@ public interface AnswerMapper {
         answerResponseDto.setContent(answer.getContent());
         answerResponseDto.setAnswerStatus(answer.getAnswerStatus().getStatus());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
+        answerResponseDto.setLikeCount(answer.getLikeCount());
 //        answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
 //        answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
 //        answerResponseDto.setLikeCount(answer.getLikeCount());

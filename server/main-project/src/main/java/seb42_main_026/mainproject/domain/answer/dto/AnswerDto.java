@@ -55,7 +55,7 @@ public class AnswerDto {
         private LocalDateTime createdAt;
 //        private String profileImgUrl;
 //        private String voiceFileUrl;
-//        private int likeCount;
+        private int likeCount;
         private List<CommentDto.Response> comments;
 
 
