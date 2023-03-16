@@ -69,5 +69,8 @@ public interface QuestionMapper {
         return detailResponse;
     };
 
+    @Mapping(source = "member.memberId", target = "memberId")
+    QuestionDto.Response questionToQuestionResponseDto(Question question);
+
     List<QuestionDto.Response> questionsToQuestionResponseDtos(List<Question> questions);
 }
