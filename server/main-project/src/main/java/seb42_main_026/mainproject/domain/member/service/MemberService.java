@@ -140,7 +140,7 @@ public class MemberService {
         }
     }
 
-    private void setScore(Long memberId){
+    public void setScore(Long memberId){
         Score score = new Score();
 
         // score 순 테스트
@@ -148,6 +148,7 @@ public class MemberService {
 
         score.setScore(random.nextLong());
         score.setMember(getMember(memberId));
+        score.setNickname(getMember(memberId).getNickname());
 
         scoreRepository.save(score);
 

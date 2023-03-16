@@ -14,11 +14,13 @@ public class ScoreDto {
     @AllArgsConstructor
     public static class Response{
 
-        private Long scoreId;
+        //private Long scoreId;
 
-        private Long memberId;
+        //private Long memberId;
 
         private Long score;
+
+        private String nickname;
 
         private LocalDateTime modifiedAt;
 
