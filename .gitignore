@@ -40,3 +40,4 @@ index.html
 *.DS_Store
 .idea/
 /server/main-project/src/generated/
+/server/main-project/.gitignore

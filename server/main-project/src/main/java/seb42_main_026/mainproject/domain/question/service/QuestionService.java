@@ -12,6 +12,7 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.repository.QuestionRepository;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
+import seb42_main_026.mainproject.utils.CustomBeanUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,19 +23,34 @@ import java.util.Optional;
 public class QuestionService {
     private final MemberService memberService;
     private final QuestionRepository questionRepository;
+    private final CustomBeanUtils<Question> customBeanUtils;
 
-    // Todo: 태그, 이미지 파일 저장 추가
+    // Todo: 태그, 이미지 파일 저장
     public Question createQuestion(Question question) {
-        // 가입된 회원인지 체크
-        memberService.findVerifiedMember(question.getMember().getMemberId());
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(question.getMember().getMemberId());
+
+//        question.getMember().getScore().setScore(
+//                question.getMember().getScore().getScore() + 20); // 기존 점수를 가져와 20점 추가
+
+        // 잔소리 요청글 20점 부여
+        memberService.updateScore(question.getMember().getMemberId(), 20L);
 
         return questionRepository.save(question);
     }
 
-//    public Question updateQuestion(Question question) {
-//
-//    }
-//
+    // Todo: 태그, 이미지 파일 수정
+    public void updateQuestion(Question question) {
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(question.getMember().getMemberId());
+
+        // 수정 대상 질문
+        Question foundQuestion = findVerifiedQuestion(question.getQuestionId());
+
+        // 질문 수정
+        customBeanUtils.copyNonNullProperties(question, foundQuestion);
+    }
+
     // 특정 질문 조회
     public Question findQuestion(long questionId) {
         return findVerifiedQuestion(questionId);
@@ -52,14 +68,21 @@ public class QuestionService {
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(memberId);
+
         List<Question> myQuestions = questionRepository.findMyQuestions(memberId);
 
         return new PageImpl<>(myQuestions, PageRequest.of(page, size), myQuestions.size());
     }
 
-//    public void deleteQuestion(long questionId) {
-//
-//    }
+    public void deleteQuestion(long questionId, long memberId) {
+        // 로그인된 회원인지 체크
+        memberService.verifyLoginMember(memberId);
+
+        // DB에서 삭제
+        questionRepository.deleteById(questionId);
+    }
 
     public Question findVerifiedQuestion(long questionId) {
         Optional<Question> optionalQuestion =
