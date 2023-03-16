@@ -22,6 +22,9 @@ public class Score extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column
+    private String nickname;
+
     @Column(nullable = false)
     private Long score;
 }
