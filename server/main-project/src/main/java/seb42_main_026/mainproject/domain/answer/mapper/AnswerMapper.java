@@ -34,7 +34,7 @@ public interface AnswerMapper {
         return answer;
     }
 
-    @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "memberId", target = "member.memberId")
     Answer answerPatchDtoToAnswer(AnswerDto.Patch answerPatchDto);
 
     //todo 필요한가?
