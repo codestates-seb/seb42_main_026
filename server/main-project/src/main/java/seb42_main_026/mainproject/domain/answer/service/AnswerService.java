@@ -104,8 +104,11 @@ public class AnswerService {
 //        //answer 상태 채택으로 변경 -> 저장
         Answer answer = findAnswer(answerId);
         answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_SELECTED);
-//
-//        //answer 작성자 점수 + 30 -> 저장
+
+        //질문 상태 변경
+        question.setQuestionStatus(Question.QuestionStatus.QUESTION_COMPLETE);
+
+        //answer 작성자 점수 + 30 -> 저장
         Member answerMember = memberService.findVerifiedMember(answer.getMember().getMemberId());
 //        answerMember.setScore(answerMember.getScore() + 30);
         memberService.updateScore(answerMember.getMemberId(), 30L);
