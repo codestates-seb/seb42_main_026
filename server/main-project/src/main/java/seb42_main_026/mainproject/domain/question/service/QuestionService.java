@@ -25,7 +25,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final CustomBeanUtils<Question> customBeanUtils;
 
-    // Todo: 태그, 이미지 파일 저장
+    // Todo: 이미지 파일 저장
     public Question createQuestion(Question question) {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(question.getMember().getMemberId());
@@ -39,7 +39,7 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    // Todo: 태그, 이미지 파일 수정
+    // Todo: 이미지 파일 수정
     public void updateQuestion(Question question) {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(question.getMember().getMemberId());
