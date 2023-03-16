@@ -73,7 +73,7 @@ public class AnswerService {
 
         //점수 증가 메서드(+10점) -> 메서드 갖다 쓰기
 //        answer.getMember().setScore(answer.getMember().getScore() + 10);
-//        memberService.updateScore(answer.getMember().getMemberId(), 10L);
+        memberService.updateScore(answer.getMember().getMemberId(), 10L);
 
         return answerRepository.save(answer);
     }
@@ -117,7 +117,7 @@ public class AnswerService {
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
         Answer answer = findAnswer(answerId);
-//        memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
+        memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
 
         answerRepository.delete(answer);
     }
