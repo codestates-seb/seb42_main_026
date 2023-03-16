@@ -12,7 +12,7 @@ import java.util.List;
 public interface ScoreMapper{
 
 
-    @Mapping(source = "member.memberId", target = "memberId")
+    //@Mapping(source = "member.memberId", target = "memberId")
     ScoreDto.Response scoreToScoreResponseDto(Score score);
 
     List<ScoreDto.Response> scoresToScoreResponseDto(List<Score> scores);
