@@ -1,6 +1,7 @@
 package seb42_main_026.mainproject.domain.answer.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
@@ -32,6 +33,8 @@ public interface AnswerMapper {
 
         return answer;
     }
+
+    @Mapping(source = "member.memberId", target = "memberId")
     Answer answerPatchDtoToAnswer(AnswerDto.Patch answerPatchDto);
 
     //todo 필요한가?
