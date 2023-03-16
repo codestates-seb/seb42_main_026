@@ -1,6 +1,7 @@
 package seb42_main_026.mainproject.domain.question.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
@@ -14,18 +15,11 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper {
-    default Question questionPostDtoToQuestion(QuestionDto.Post questionPostDto) {
-        Question question = new Question();
-        question.setTitle(questionPostDto.getTitle());
-        question.setContent(questionPostDto.getContent());
+    @Mapping(source = "memberId", target = "member.memberId")
+    Question questionPostDtoToQuestion(QuestionDto.Post questionPostDto);
 
-        Member member = new Member();
-        member.setMemberId(questionPostDto.getMemberId());
-
-        question.setMember(member);
-
-        return question;
-    };
+    @Mapping(source = "memberId", target = "member.memberId")
+    Question questionPatchDtoToQuestion(QuestionDto.Patch questionPatchDto);
 
     default QuestionDto.DetailResponse questionToQuestionDetailResponseDto(Question question) {
         QuestionDto.DetailResponse detailResponse = new QuestionDto.DetailResponse();
