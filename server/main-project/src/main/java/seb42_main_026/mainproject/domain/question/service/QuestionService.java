@@ -30,6 +30,11 @@ public class QuestionService {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(question.getMember().getMemberId());
 
+        // 잔소리 요청글 20점 부여
+        question.getMember().getScore().setScore(
+                question.getMember().getScore().getScore() + 20 // 기존 점수를 가져와 20점 추가
+        );
+
         return questionRepository.save(question);
     }
 
