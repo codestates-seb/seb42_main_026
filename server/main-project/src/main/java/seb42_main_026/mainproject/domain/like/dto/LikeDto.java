@@ -13,4 +13,12 @@ public class LikeDto {
         @Positive
         private Long questionId;
     }
+
+    @Getter
+    public static class AnswerPost {
+        @Positive
+        private Long memberId;
+        @Positive
+        private Long answerId;
+    }
 }

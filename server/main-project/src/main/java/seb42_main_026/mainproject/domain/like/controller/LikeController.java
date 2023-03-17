@@ -14,21 +14,32 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/likes")
+@RequestMapping("/questions")
 @RequiredArgsConstructor
 @Validated
 public class LikeController {
-    private final static String LIKE_DEFAULT_URL = "/likes";
+    private final static String LIKE_DEFAULT_URL = "/questions";
 
     private final LikeService likeService;
 
     private final LikeMapper likeMapper;
 
-    @PostMapping
+    @PostMapping("/{question-id}/likes")
     public ResponseEntity<?> postLike(@RequestBody @Valid LikeDto.Post likePostDto) {
         Like like = likeMapper.likePostDtoToLike(likePostDto);
 
         Like createdLike = likeService.createLike(like);
+
+        URI location = UriCreator.createUri(LIKE_DEFAULT_URL, createdLike.getLikeId());
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/{question-id}/{answer-id}/likes")
+    public ResponseEntity<?> postAnswerLike(@RequestBody @Valid LikeDto.AnswerPost answerLikeDto) {
+        Like like = likeMapper.answerLikeDtoToLike(answerLikeDto);
+
+        Like createdLike = likeService.createAnswerLike(like);
 
         URI location = UriCreator.createUri(LIKE_DEFAULT_URL, createdLike.getLikeId());
 

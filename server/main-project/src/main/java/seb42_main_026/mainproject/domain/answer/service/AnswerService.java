@@ -12,6 +12,7 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.service.QuestionService;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
+import seb42_main_026.mainproject.utils.CustomBeanUtils;
 
 import java.util.Optional;
 
@@ -29,12 +30,15 @@ public class AnswerService {
 
     private final QuestionService questionService;
 
+    private final CustomBeanUtils<Answer> customBeanUtils;
+
 
 
     /**
-     * answer 에 회원 추가, 등록된 회원인지 확인 - todo
-     * answer 에 질문 추가, 존재하는 질문인지 확인 - todo
+     * answer 에 회원 추가, 등록된 회원인지 확인 - done
+     * answer 에 질문 추가, 존재하는 질문인지 확인 - done
      * 질문 작성한 회원인지 확인 - todo
+     * 미디어파일 업로드 기능 - todo
      * 점수 증가 메서드(+10점) - done
      */
     //memberId Request 에 포함되는지?
@@ -69,6 +73,7 @@ public class AnswerService {
 
         //점수 증가 메서드(+10점) -> 메서드 갖다 쓰기
 //        answer.getMember().setScore(answer.getMember().getScore() + 10);
+        memberService.updateScore(answer.getMember().getMemberId(), 10L);
 
         return answerRepository.save(answer);
     }
@@ -76,42 +81,46 @@ public class AnswerService {
     public Answer updateAnswer(Answer answer, long memberId){
         Answer foundAnswer = findAnswer(answer.getAnswerId());
 
+        //로그인된 회원인지 확인
+//        memberService.verifyLoginMember(answer.getMember().getMemberId());
+
         //수정하려는 회원이 같은 회원인지 검증
-//        memberService.verifyMemberByMemberId(memberId, foundAnswer.getMember().getMemberId());
+        memberService.verifyMemberByMemberId(memberId,answer.getMember().getMemberId());
 
         //람다식 문제 있을지??
-        Optional.ofNullable(answer.getContent())
-                .ifPresent(foundAnswer::setContent);
+//        Optional.ofNullable(answer.getContent())
+//                .ifPresent(foundAnswer::setContent);
+        customBeanUtils.copyNonNullProperties(answer, foundAnswer);
 
         return answerRepository.save(foundAnswer);
     }
 
-    /** 필요 메서드
-     * questionService.findQuestion() - todo
-     * memberService.verifyMemberByMemberId() - todo
-     * memberService.findMember() - todo
-     */
+
     public void selectAnswer(long memberId, long questionId, long answerId){
 //        //questionId 와 작성자 Id 같은지 검증
-//        Question question = questionService.findQuestion(questionId);
-//        memberService.verifyMemberByMemberId(memberId, question.getMember().getMemberId());
+        Question question = questionService.findQuestion(questionId);
+        memberService.verifyMemberByMemberId(memberId, question.getMember().getMemberId());
 //
 //        //answer 상태 채택으로 변경 -> 저장
-//        Answer answer = findAnswer(answerId);
-//        answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_SELECTED);
-//
-//        //answer 작성자 점수 + 30 -> 저장
-//        Member answerMember = memberService.findMember(answer.getMember().getMemberId());
+        Answer answer = findAnswer(answerId);
+        answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_SELECTED);
+
+        //질문 상태 변경
+        question.setQuestionStatus(Question.QuestionStatus.QUESTION_COMPLETE);
+
+        //answer 작성자 점수 + 30 -> 저장
+        Member answerMember = memberService.findVerifiedMember(answer.getMember().getMemberId());
 //        answerMember.setScore(answerMember.getScore() + 30);
+        memberService.updateScore(answerMember.getMemberId(), 30L);
 //
-//        answerRepository.save(answer);
+        answerRepository.save(answer);
 //        memberRepository.save(answerMember); // -> 이 과정 필요 없다.
     }
 
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
         Answer answer = findAnswer(answerId);
-//        memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
+        memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
 
         answerRepository.delete(answer);
     }

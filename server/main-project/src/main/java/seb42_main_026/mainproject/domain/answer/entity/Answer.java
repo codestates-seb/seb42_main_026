@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
+import seb42_main_026.mainproject.domain.like.entity.Like;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -27,6 +28,9 @@ public class Answer extends Auditable {
     //보이스 리플 작성하면 빈칸 허용?
     @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    private int likeCount;
 
     // voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
 //    @Column
@@ -51,6 +55,9 @@ public class Answer extends Auditable {
 
     @OneToMany(mappedBy = "answer")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "answer")
+    private List<Like> likes = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
