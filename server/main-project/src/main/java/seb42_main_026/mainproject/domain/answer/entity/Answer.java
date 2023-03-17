@@ -32,7 +32,7 @@ public class Answer extends Auditable {
     @Column(nullable = false)
     private int likeCount;
 
-    // voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
+    // todo voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
 //    @Column
 //    private String profileImgUrl;
 //
@@ -40,11 +40,7 @@ public class Answer extends Auditable {
 //    private String voiceFileUrl;
 
 
-    /**todo 연관관계 매핑 (회원,질문,댓글)
-     * Member(ManyToOne) - done
-     * Question(ManyToOne) - done
-     * Comment(OneToMany) - done
-     */
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -53,20 +49,17 @@ public class Answer extends Auditable {
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Like> likes = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private AnswerStatus answerStatus = AnswerStatus.ANSWER_NORMAL;
 
-    /**todo addMember, addQuestion
-     * addMember - todo
-     * addQuestion - todo
-     */
+
 
     public enum AnswerStatus{
         ANSWER_NORMAL("일반 상태"),
