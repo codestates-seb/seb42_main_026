@@ -29,7 +29,6 @@ public interface AnswerMapper {
         answer.setMember(member);
         answer.setQuestion(question);
         answer.setContent(answerPostDto.getContent());
-//        answer.setVoiceFileUrl(answerPostDto.getVoiceFileUrl());
 
         return answer;
     }
@@ -52,7 +51,7 @@ public interface AnswerMapper {
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
         answerResponseDto.setLikeCount(answer.getLikeCount());
 //        answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
-//        answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
+        answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
 //        answerResponseDto.setLikeCount(answer.getLikeCount());
 
         List<Comment> comments = answer.getComments();

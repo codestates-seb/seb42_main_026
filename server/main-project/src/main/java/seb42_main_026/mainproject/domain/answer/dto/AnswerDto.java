@@ -54,7 +54,7 @@ public class AnswerDto {
         private String answerStatus;
         private LocalDateTime createdAt;
 //        private String profileImgUrl;
-//        private String voiceFileUrl;
+        private String voiceFileUrl;
         private int likeCount;
         private List<CommentDto.Response> comments;
 

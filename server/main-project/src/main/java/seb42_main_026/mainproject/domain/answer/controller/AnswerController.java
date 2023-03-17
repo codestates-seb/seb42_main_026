@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import seb42_main_026.mainproject.cloud.service.S3StorageService;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.mapper.AnswerMapper;
@@ -28,6 +29,8 @@ public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
+    private final S3StorageService s3StorageService;
+
 
     /** voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
      *  S3 접근 Configuration 작성 - done (test 후, 환경변수로 숨길 것.)
@@ -37,15 +40,15 @@ public class AnswerController {
      *  파일 업로드 관련 service 로직 작성 (1) S3StorageService - done
      *  파일 업로드 관련 service 로직 작성 (2) AnswerService - done
      */
-    @PostMapping(value = "/{question-id}/answers"/*, consumes =
-            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}*/)
+    @PostMapping(value = "/{question-id}/answers", consumes =
+            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
-                                     @Valid @RequestBody AnswerDto.Post answerPostDto/*,
-                                     @RequestPart MultipartFile mediaFile*/){
+                                     @Valid @RequestPart AnswerDto.Post answerPostDto,
+                                     @RequestPart MultipartFile mediaFile){
         answerPostDto.addQuestionId(questionId);
-        Answer answer = answerService.createAnswer(
-                mapper.answerPostDtoToAnswer(answerPostDto)/*,mediaFile*/);
 
+        Answer answer = answerService.createAnswer(
+                mapper.answerPostDtoToAnswer(answerPostDto),mediaFile);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
