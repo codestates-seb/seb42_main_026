@@ -14,10 +14,10 @@ public class S3Config {
      * test 끝나면 해당 키 노출 안되게 변경 - todo
      */
 
-    @Value("${cloud.aws.credentials.access-key}")
+    @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
 
-    @Value("${cloud.aws.credentials.secret-key}")
+    @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
 
     @Value("${cloud.aws.region.static}")
