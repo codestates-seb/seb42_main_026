@@ -25,3 +25,13 @@ jwt:
   key: jimmy1234123412341234123412341234
   access-token-expiration-minutes: 10
   refresh-token-expiration-minutes: 30
+cloud:
+  aws:
+    s3:
+      bucket: main26-resource-bucket
+      url: s3://main26-resource-bucket/https://main26-resource-bucket/
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIA4EHZR5WECD4AGN77
+      secretKey: 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
