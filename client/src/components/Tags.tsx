@@ -1,12 +1,17 @@
 import styled from "styled-components";
 
-interface TagesProps {
+interface TagesProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title?: string;
   size?: "big" | "small";
+  tagClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function Tags({ title, size }: TagesProps) {
-  return <TagsStyle size={size}>{title}</TagsStyle>;
+export default function Tags({ title, size, tagClickHandler }: TagesProps) {
+  return (
+    <TagsStyle size={size} onClick={tagClickHandler}>
+      {title}
+    </TagsStyle>
+  );
 }
 
 const TagsStyle = styled.span<TagesProps>`
