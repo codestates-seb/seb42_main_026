@@ -6,25 +6,26 @@ import LogoutModal from "../components/LogoutModal";
 import React, { useState } from "react";
 import useGetMembers from "../hooks/useGetMembers";
 
+interface dataProps {
+  email?: string;
+  nickname?: string;
+  [score: number]: any;
+  [hammerTier: string]: any;
+  profileImageUrl?: string;
+}
+
 const MyPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   //로컬스토리지에서 memberId 갖고오기
   const memberId = localStorage.getItem("memberId");
-
-  // interface dataProps {
-  //   email: string;
-  //   memberId: number;
-  //   nickname: string;
-  // }
-
-  const data: any = useGetMembers(`/members/${memberId}`);
-  console.log(data.email);
+  const data: dataProps = useGetMembers(`/members/${memberId}`);
+  console.log(data);
 
   return (
     <MyPageWrapper>
       {/* <MyPageTitle>회원정보</MyPageTitle> */}
-      <ProfileCard />
-      <RankCard />
+      <ProfileCard imgUrl={data.profileImageUrl} mainText={data.email} subText={data.nickname} lang="EN" />
+      <RankCard score={data.score} hammerTier={data.hammerTier} mainText="티어" subText={`${data.hammerTier}망치`} lang="KR" />
       <MyPost />
       <LogoutButton onClick={() => setIsModalOpen(true)}>로그아웃</LogoutButton>
       <LogoutModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}></LogoutModal>

@@ -7,7 +7,15 @@ import ICON_TIER_SILVER from "../../assets/ic_tier_silver.svg";
 import ICON_TIER_GOLD from "../../assets/ic_tier_gold.svg";
 import ICON_TIER_PPONG from "../../assets/ic_tier_ppong.svg";
 
-const RankCard = () => {
+interface myProps {
+  score: number;
+  hammerTier: string;
+  mainText: string;
+  subText: string;
+  lang: string;
+}
+
+const RankCard = ({ score, hammerTier, mainText, subText, lang }: myProps) => {
   function setIcon(icon: String) {
     switch (icon) {
       case "동":
@@ -23,20 +31,20 @@ const RankCard = () => {
     }
   }
 
-  const memberDummyData = {
-    email: "email@email.com",
-    nickname: "junbo",
-    score: 0,
-    hammerTier: "뿅",
-    rank: 1,
-    profileImageUrl: "http://...",
-  };
+  // const memberDummyData = {
+  //   email: "email@email.com",
+  //   nickname: "junbo",
+  //   score: 0,
+  //   hammerTier: "뿅",
+  //   rank: 1,
+  //   profileImageUrl: "http://...",
+  // };
 
   return (
     <>
       <RankCardWrapper>
-        <ImageBox imgUrl={setIcon(memberDummyData.hammerTier)} mainText="티어" subText="뿅망치" lang="KR"></ImageBox>
-        <ImageBox imgUrl={ICON_RANK} mainText="랭크" subText="127위" lang="KR"></ImageBox>
+        <ImageBox imgUrl={setIcon(hammerTier)} mainText="티어" subText={`${hammerTier}망치`} lang="KR"></ImageBox>
+        <ImageBox imgUrl={ICON_RANK} mainText="나의 활동점수" subText={`${score}점`} lang="KR"></ImageBox>
       </RankCardWrapper>
     </>
   );
