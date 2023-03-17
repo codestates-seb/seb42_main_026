@@ -15,7 +15,7 @@ const RankPage = () => {
   return (
     <RankingWrapper>
       {sortedData.map(({ createdAt, nickname, score }: dataProps, index: number) => (
-        <RankItem key={index} index={index + 1} url={createdAt} nickName={nickname} subText={`${score}`} />
+        <RankItem key={index} index={index + 1} url="https://main26-resource-bucket.s3.ap-northeast-2.amazonaws.com/DefaultProfile.svg" nickName={nickname} subText={`${score}`} />
       ))}
     </RankingWrapper>
   );
