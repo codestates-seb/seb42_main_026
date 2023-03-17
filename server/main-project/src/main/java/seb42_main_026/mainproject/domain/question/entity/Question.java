@@ -8,7 +8,6 @@ import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.like.entity.Like;
 import seb42_main_026.mainproject.domain.member.entity.Member;
-import seb42_main_026.mainproject.domain.tag.Tag;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -32,6 +31,9 @@ public class Question extends Auditable {
     @Column(nullable = false)
     private int likeCount;
 
+//    @Column(nullable = false)
+//    private int answerCount;
+
     @Column(nullable = true)
     private String questionImageUrl;
 
@@ -39,12 +41,28 @@ public class Question extends Auditable {
     @Column(nullable = false)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_REQUEST;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Tag tag;
+
     @Getter
     @AllArgsConstructor
     public enum QuestionStatus {
         QUESTION_REQUEST("갱생 중"),
         QUESTION_COMPLETE("갱생 완료");
-        private final String description;
+
+        private final String status;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum Tag {
+        EXERCISE("운동"),
+        WAKE_UP("기상"),
+        STUDY("공부"),
+        ETC("기타");
+
+        private final String name;
     }
 
     @ManyToOne
@@ -54,8 +72,8 @@ public class Question extends Auditable {
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Tag tag;
+//    @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+//    private Tag tag;
 
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Like> likes = new ArrayList<>();

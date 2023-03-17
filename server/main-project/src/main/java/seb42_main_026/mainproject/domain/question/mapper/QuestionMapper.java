@@ -6,7 +6,6 @@ import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
-import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -29,7 +28,8 @@ public interface QuestionMapper {
         detailResponse.setContent(question.getContent());
         detailResponse.setNickname(question.getMember().getNickname());
         detailResponse.setCreatedAt(question.getCreatedAt());
-        detailResponse.setQuestionStatus(question.getQuestionStatus().getDescription());
+        detailResponse.setQuestionStatus(question.getQuestionStatus().getStatus());
+        detailResponse.setTag(question.getTag().getName());
         detailResponse.setLikeCount(question.getLikeCount());
 
         List<Answer> answers = question.getAnswers();
@@ -70,6 +70,7 @@ public interface QuestionMapper {
     };
 
     @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "tag.name", target = "tag")
     QuestionDto.Response questionToQuestionResponseDto(Question question);
 
     List<QuestionDto.Response> questionsToQuestionResponseDtos(List<Question> questions);
