@@ -79,8 +79,9 @@ public class QuestionController {
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
     @GetMapping("/board/questions")
     public ResponseEntity<?> getQuestionsAtBoard(@RequestParam @Positive int page,
-                                                 @RequestParam @Positive int size) {
-        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size);
+                                                 @RequestParam @Positive int size,
+                                                 @RequestParam(required = false) Question.Tag tag) {
+        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size, tag);
 
         List<Question> questions = pageQuestions.getContent();
 
@@ -90,18 +91,18 @@ public class QuestionController {
     }
 
     // 게시판에서 태그에 맞는 질문 목록 조회(최신 순, 페이지네이션)
-    @GetMapping("/board/questions/tag")
-    public ResponseEntity<?> getQuestionsAtBoardByTag(@RequestParam @Positive int page,
-                                                      @RequestParam @Positive int size,
-                                                      @RequestParam Question.Tag tag) {
-        Page<Question> pageQuestions = questionService.findQuestionsAtBoardByTag(page - 1, size, tag);
-
-        List<Question> questions = pageQuestions.getContent();
-
-        List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponseDtos(questions);
-
-        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
-    }
+//    @GetMapping("/board/questions/tag")
+//    public ResponseEntity<?> getQuestionsAtBoardByTag(@RequestParam @Positive int page,
+//                                                      @RequestParam @Positive int size,
+//                                                      @RequestParam Question.Tag tag) {
+//        Page<Question> pageQuestions = questionService.findQuestionsAtBoardByTag(page - 1, size, tag);
+//
+//        List<Question> questions = pageQuestions.getContent();
+//
+//        List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponseDtos(questions);
+//
+//        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
+//    }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     @GetMapping("/members/{member-id}/questions")
