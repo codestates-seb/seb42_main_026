@@ -40,10 +40,6 @@ public class AnswerDto {
         @NotBlank(message = "내용을 입력해 주세요.")
         private String content;
 
-        /**
-         * voice file - todo
-         */
-
         //채택 시, 스테이스 변경도 Patch 로
         private Answer.AnswerStatus answerStatus;
     }
@@ -59,7 +55,7 @@ public class AnswerDto {
         private LocalDateTime createdAt;
 //        private String profileImgUrl;
 //        private String voiceFileUrl;
-//        private int likeCount;
+        private int likeCount;
         private List<CommentDto.Response> comments;
 
 

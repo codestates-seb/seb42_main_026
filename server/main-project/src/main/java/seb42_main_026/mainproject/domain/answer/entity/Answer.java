@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
+import seb42_main_026.mainproject.domain.like.entity.Like;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -28,7 +29,10 @@ public class Answer extends Auditable {
     @Column(nullable = false)
     private String content;
 
-    // voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
+    @Column(nullable = false)
+    private int likeCount;
+
+    // todo voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
 //    @Column
 //    private String profileImgUrl;
 //
@@ -36,11 +40,7 @@ public class Answer extends Auditable {
 //    private String voiceFileUrl;
 
 
-    /**todo 연관관계 매핑 (회원,질문,댓글)
-     * Member(ManyToOne) - done
-     * Question(ManyToOne) - done
-     * Comment(OneToMany) - done
-     */
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -49,17 +49,17 @@ public class Answer extends Auditable {
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Like> likes = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private AnswerStatus answerStatus = AnswerStatus.ANSWER_NORMAL;
 
-    /**todo addMember, addQuestion
-     * addMember - todo
-     * addQuestion - todo
-     */
+
 
     public enum AnswerStatus{
         ANSWER_NORMAL("일반 상태"),

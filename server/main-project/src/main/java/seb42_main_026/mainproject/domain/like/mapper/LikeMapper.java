@@ -12,4 +12,8 @@ public interface LikeMapper {
     @Mapping(source = "memberId", target = "member.memberId")
     @Mapping(source = "questionId", target = "question.questionId")
     Like likePostDtoToLike(LikeDto.Post likePostDto);
+
+    @Mapping(source = "memberId", target = "member.memberId")
+    @Mapping(source = "answerId", target = "answer.answerId")
+    Like answerLikeDtoToLike(LikeDto.AnswerPost answerLikeDto);
 }

@@ -28,7 +28,7 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
-    // Todo: 태그, 이미지 파일 업로드
+    // Todo: 이미지 파일 업로드
     @PostMapping("/questions/{member-id}")
     public ResponseEntity<?> postQuestion(@RequestBody @Valid QuestionDto.Post questionPostDto,
                                           @PathVariable("member-id") @Positive long memberId) {
@@ -43,7 +43,7 @@ public class QuestionController {
         return ResponseEntity.created(location).build();
     }
 
-    // Todo: 태그, 이미지 파일 수정
+    // Todo: 이미지 파일 수정
     @PatchMapping("/questions/{question-id}")
     public ResponseEntity<?> patchQuestion(@RequestBody @Valid QuestionDto.Patch questionPatchDto,
                                            @PathVariable("question-id") @Positive long questionId) {

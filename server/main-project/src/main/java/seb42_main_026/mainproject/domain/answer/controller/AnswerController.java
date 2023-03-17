@@ -59,7 +59,10 @@ public class AnswerController {
                                       @PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch answerPatchDto){
         answerPatchDto.setAnswerId(answerId);
-        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId());
+//        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId());
+        Answer answer = mapper.answerPatchDtoToAnswer(answerPatchDto);
+
+        answerService.updateAnswer(answer, answerPatchDto.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
