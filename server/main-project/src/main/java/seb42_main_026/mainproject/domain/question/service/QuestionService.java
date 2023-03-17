@@ -69,16 +69,23 @@ public class QuestionService {
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
-    public Page<Question> findQuestionsAtBoard(int page, int size) {
+    public Page<Question> findQuestionsAtBoard(int page, int size, Question.Tag tag) {
+        // 태그가 있으면 태그에 맞는 질문 목록만 조회
+        if (tag != null) {
+            List<Question> taggedQuestions = questionRepository.findQuestionsByTag(tag);
+
+            return new PageImpl<>(taggedQuestions, PageRequest.of(page, size), taggedQuestions.size());
+        }
+        // 태그가 없으면 모든 질문 목록 조회
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
     // 게시판에서 태그에 맞는 질문 목록 조회(최신 순, 페이지네이션)
-    public Page<Question> findQuestionsAtBoardByTag(int page, int size, Question.Tag tag) {
-        List<Question> taggedQuestions = questionRepository.findQuestionsByTag(tag);
-
-        return new PageImpl<>(taggedQuestions, PageRequest.of(page, size), taggedQuestions.size());
-    }
+//    public Page<Question> findQuestionsAtBoardByTag(int page, int size, Question.Tag tag) {
+//        List<Question> taggedQuestions = questionRepository.findQuestionsByTag(tag);
+//
+//        return new PageImpl<>(taggedQuestions, PageRequest.of(page, size), taggedQuestions.size());
+//    }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
