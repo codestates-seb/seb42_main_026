@@ -95,7 +95,7 @@ public class AnswerService {
         return answerRepository.save(foundAnswer);
     }
 
-
+    //todo answer.getMember().getMemberId() == question.getMember().getMemberId() throw Exception
     public void selectAnswer(long memberId, long questionId, long answerId){
 //        //questionId 와 작성자 Id 같은지 검증
         Question question = questionService.findQuestion(questionId);
