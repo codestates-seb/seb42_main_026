@@ -18,7 +18,9 @@ public enum ExceptionCode {
 
     QUESTION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 질문입니다."),
 
-    UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "권한이 없는 회원입니다.");
+    UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "권한이 없는 회원입니다."),
+
+    ALREADY_COMPLETED_QUESTION(HttpStatus.CONFLICT, "이미 갱생된 질문입니다");
 
 
     @Getter

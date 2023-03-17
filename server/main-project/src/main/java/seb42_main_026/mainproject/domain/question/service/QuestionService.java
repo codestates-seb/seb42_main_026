@@ -47,9 +47,12 @@ public class QuestionService {
         // 수정 대상 질문
         Question foundQuestion = findVerifiedQuestion(question.getQuestionId());
 
-        // 자신의 질문인지 체크
+        // 자신의 질문만 수정 가능
         memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(),
                 question.getMember().getMemberId());
+
+        // 갱생 완료 상태일 때는 수정 불가능
+        verifyQuestionStatus(foundQuestion);
 
         // 질문 수정
         customBeanUtils.copyNonNullProperties(question, foundQuestion);
@@ -87,7 +90,7 @@ public class QuestionService {
         // 삭제 대상 질문
         Question foundQuestion = findVerifiedQuestion(questionId);
 
-        // 자신의 질문인지 체크
+        // 자신의 질문만 삭제 가능
         memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(), memberId);
 
         // DB에서 삭제
@@ -100,5 +103,11 @@ public class QuestionService {
 
         return optionalQuestion.orElseThrow(() ->
                 new CustomException(ExceptionCode.QUESTION_NOT_FOUND));
+    }
+
+    private void verifyQuestionStatus(Question question) {
+        if (question.getQuestionStatus().equals(Question.QuestionStatus.QUESTION_COMPLETE)) {
+            throw new CustomException(ExceptionCode.ALREADY_COMPLETED_QUESTION);
+        }
     }
 }
