@@ -2,15 +2,17 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ImageBox from "../../components/ImageBox";
 
-const ProfileCard = () => {
+interface profileProps {
+  imgUrl?: string;
+  mainText?: string;
+  subText?: string;
+  lang: string;
+}
+
+const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
   return (
     <ProfileCardWrapper>
-      <ImageBox
-        imgUrl=""
-        mainText="abc@gmain.com"
-        subText="별명"
-        lang="EN"
-      ></ImageBox>
+      <ImageBox imgUrl={imgUrl} mainText={mainText} subText={subText} lang={lang}></ImageBox>
       <EditWrapper>
         <Link to="/UserEdit">수정</Link>
       </EditWrapper>
