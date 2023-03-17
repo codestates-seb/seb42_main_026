@@ -1,33 +1,81 @@
 import styled from "styled-components";
 import Tags from "../components/Tags";
 import BoardItem from "../container/naggingboard/BoardItem";
+import axios from "axios";
+import { useEffect, useState, useRef, useCallback } from "react";
+import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 export default function NaggingBoardPage() {
-  const dummyData = [
-    { title: "잔소리오지게해줄사람잔소리오지", nickname: "황금올리브닭다리", likeCount: 220, createdAt: "23/03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "고양킹", likeCount: 100, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "강아지는귀여워", likeCount: 660, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "자르반 4세", likeCount: 603, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "피그마로 밥먹는 사람", likeCount: 610, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "백엔드의 황제", likeCount: 500, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "당신누구요", likeCount: 620, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "연진아너X됐어", likeCount: 699, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "리액트가뭔가요", likeCount: 601, createdAt: "03/07", answerCount: 20 },
-    { title: "잔소리 오지게 해줄 사람", nickname: "코드로 밥먹기", likeCount: 654, createdAt: "03/07", answerCount: 20 },
-    // 동점이면 날짜순으로 하는 코드 작성해야함 백엔드와 상의
-  ];
+  const [list, setList] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const [tag, setTag] = useState("");
+
+  const observer = useRef();
+
+  const parseDate = (props: Date) => {
+    const now = new Date(props);
+    const MM =
+      Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
+    const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
+    return `${MM}/${dd}`;
+  };
+
+  async function naggingBoard() {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/board/questions/${
+          tag === "" ? "" : "tag"
+        }?page=2&size=20${tag === "" ? "" : "&tag=" + tag}`
+      );
+      console.log(response?.data);
+      if (response?.data.data.length) {
+        setList(response?.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    console.log(tag);
+    naggingBoard();
+    // setPage(page + 1);
+  }, [tag]);
 
   return (
     <NaggingBoardWrapper>
       <TagSelector>
-        <Tags title={"운동"} size="big" />
-        <Tags title={"공부"} size="big" />
-        <Tags title={"기상"} size="big" />
-        <Tags title={"기타"} size="big" />
+        <Tags
+          title={"운동"}
+          size="big"
+          tagClickHandler={() => setTag("EXERCISE")}
+        />
+        <Tags
+          title={"공부"}
+          size="big"
+          tagClickHandler={() => setTag("STUDY")}
+        />
+        <Tags
+          title={"기상"}
+          size="big"
+          tagClickHandler={() => setTag("WAKE_UP")}
+        />
+        <Tags title={"기타"} size="big" tagClickHandler={() => setTag("ETC")} />
       </TagSelector>
-      {dummyData.map(({ title, nickname, likeCount, createdAt, answerCount }, index) => (
-        <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={createdAt} answerCount={answerCount} />
-      ))}
+      {list.map(
+        ({ title, nickname, likeCount, createdAt, answerCount }, index) => (
+          <BoardItem
+            key={index}
+            title={title}
+            likeCount={likeCount}
+            nickname={nickname}
+            createdAt={parseDate(createdAt)}
+            answerCount={answerCount}
+          />
+          // {isLoaded && <p ref={setRef}>Loading...</p>}
+        )
+      )}
     </NaggingBoardWrapper>
   );
 }
