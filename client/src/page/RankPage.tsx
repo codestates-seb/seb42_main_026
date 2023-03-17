@@ -11,7 +11,7 @@ interface dataProps {
 
 const RankPage = () => {
   const data: dataProps[] = useGetReq("/home/rank");
-  const sortedData = data.sort((a: any, b: any) => b.score - a.score); //score 기준으로 내림차순 정렬
+  const sortedData = data.sort((a, b) => b.score - a.score); //score 기준으로 내림차순 정렬
   return (
     <RankingWrapper>
       {sortedData.map(({ createdAt, nickname, score }: dataProps, index: number) => (
