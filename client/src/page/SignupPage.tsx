@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import signup from '../api/signup';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 const SignupPage = () => {
   const [errorMessage, setErrorMessage] = useState({ field: '', message: '' });
@@ -26,16 +26,16 @@ const SignupPage = () => {
       <InputContainer onSubmit={handleSignup}>
         <InputText>이메일</InputText>
         <SignupInput name="email" type="id" placeholder="이메일"></SignupInput>
-        {errorMessage.field === 'email' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
+        {errorMessage.field === 'email' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
         <InputText>닉네임</InputText>
         <SignupInput name="nickname" type="text" placeholder="닉네임"></SignupInput>
-        {errorMessage.field === 'nickname' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
+        {errorMessage.field === 'nickname' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
         <InputText>비밀번호</InputText>
         <SignupInput name="password" type="password" placeholder="비밀번호"></SignupInput>
-        {errorMessage.field === 'password' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
+        {errorMessage.field === 'password' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
         <InputText>비밀번호 확인</InputText>
         <SignupInput name="passwordcheck" type="password" placeholder="비밀번호 확인"></SignupInput>
-        {errorMessage.field === 'passwordcheck' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
+        {errorMessage.field === 'passwordcheck' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
         <SignupButton type="submit" onClick={() => setErrorMessage({ field: '', message: '' })}>
           <SignupButtonText>회원가입</SignupButtonText>
         </SignupButton>
@@ -63,7 +63,7 @@ const SignupText = styled.span`
     font-weight: 500;
   }
 `;
-const VaildCheckText = styled.span`
+const ValidCheckText = styled.span`
   text-align: center;
   letter-spacing: -0.05em;
   font-family: 'Noto Sans KR';
