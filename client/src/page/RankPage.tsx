@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import RankItem from "../container/rank/RankItem";
-import useGetReq from "../hooks/useGetReq";
+import useGetRank from "../hooks/useGetRank";
 
 interface dataProps {
   createdAt: string;
@@ -10,7 +10,7 @@ interface dataProps {
 }
 
 const RankPage = () => {
-  const data: dataProps[] = useGetReq("/home/rank");
+  const data: dataProps[] = useGetRank("/home/rank");
   const sortedData = data.sort((a, b) => b.score - a.score); //score 기준으로 내림차순 정렬
   return (
     <RankingWrapper>

@@ -1,12 +1,24 @@
-import styled from 'styled-components';
-import ProfileCard from '../container/mypage/ProfileCard';
-import RankCard from '../container/mypage/RankCard';
-import MyPost from '../container/mypage/MyPost';
-import LogoutModal from '../components/LogoutModal';
-import React, { useState } from 'react';
+import styled from "styled-components";
+import ProfileCard from "../container/mypage/ProfileCard";
+import RankCard from "../container/mypage/RankCard";
+import MyPost from "../container/mypage/MyPost";
+import LogoutModal from "../components/LogoutModal";
+import React, { useState } from "react";
+import useGetMembers from "../hooks/useGetMembers";
 
 const MyPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //로컬스토리지에서 memberId 갖고오기
+  const memberId = localStorage.getItem("memberId");
+
+  // interface dataProps {
+  //   email: string;
+  //   memberId: number;
+  //   nickname: string;
+  // }
+
+  const data: any = useGetMembers(`/members/${memberId}`);
+  console.log(data.email);
 
   return (
     <MyPageWrapper>
