@@ -1,16 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import customAxios from "../api/apis";
 
 export default function useGetReq(url: string) {
+  const [data, setData] = useState([]);
   useEffect(() => {
     customAxios
       .get(url)
       .then((response) => {
-        console.log(response.data);
+        setData(response.data.data);
       })
       .catch((err) => {
-        console.log(process.env.REACT_APP_BASE_URL);
-        alert(err);
+        console.log(err);
       });
-  }, []);
+  }, [url]);
+  return data;
 }

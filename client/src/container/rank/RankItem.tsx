@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { ReactComponent as ICON_RANK_NO1 } from '../../assets/ic_Rank_no1.svg';
-import { ReactComponent as ICON_RANK_NO2 } from '../../assets/ic_Rank_no2.svg';
-import { ReactComponent as ICON_RANK_NO3 } from '../../assets/ic_Rank_no3.svg';
-import RankImgCard from './RankImgCard';
+import styled from "styled-components";
+import { ReactComponent as ICON_RANK_NO1 } from "../../assets/ic_Rank_no1.svg";
+import { ReactComponent as ICON_RANK_NO2 } from "../../assets/ic_Rank_no2.svg";
+import { ReactComponent as ICON_RANK_NO3 } from "../../assets/ic_Rank_no3.svg";
+import RankImgCard from "./RankImgCard";
 
 interface RankItemProps {
   url?: string;
@@ -56,20 +56,3 @@ const IconForm = styled.div`
   width: 44px;
   height: 44px;
 `;
-
-// const ContentForm = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin-left: 8px;
-// `;
-
-// const NickName = styled.div`
-//   color: var(--color-mobMain);
-//   font-weight: var(--font-weight700);
-//   font-size: var(--font-size16);
-//   letter-spacing: var(--font-spacing-title);
-// `;
-// const Score = styled.div`
-//   color: var(--color-gray01);
-//   font-size: var(--font-size12);
-// `;
