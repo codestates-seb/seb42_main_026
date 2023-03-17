@@ -18,6 +18,10 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
 mail:
   address:
     admin: admin@gmail.com

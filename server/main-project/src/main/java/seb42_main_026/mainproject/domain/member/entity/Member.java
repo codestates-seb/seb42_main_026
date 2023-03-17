@@ -39,7 +39,7 @@ public class Member extends Auditable {
     private Long score;*/
 
     @Enumerated(EnumType.STRING)
-    private HammerTier hammerTier = HammerTier.BASIC_HAMMER;
+    private HammerTier hammerTier = HammerTier.STONE_HAMMER;
 
     @Column
     private String profileImageUrl;
@@ -56,18 +56,14 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member")
     private List<Like> likes = new ArrayList<>();
 
-
     @OneToOne(mappedBy = "member")
     private Score score;
 
-
-    public enum MemberStatus{
+    public enum MemberStatus {
 
         MEMBER_ACTIVE("활동 회원"),
         MEMBER_SLEEP("휴먼 회원"),
-
         MEMBER_DELETE("삭제 대기");
-
 
         @Getter
         private String status;
@@ -76,16 +72,19 @@ public class Member extends Auditable {
 
     }
 
-    public enum HammerTier{
+    public enum HammerTier {
 
-        BASIC_HAMMER("돌망치");
-
+        STONE_HAMMER("돌"),
+        BRONZE_HAMMER("동"),
+        SILVER_HAMMER("은"),
+        GOLD_HAMMER("금"),
+        PPONG_HAMMER("뿅");
 
         @Getter
         private String tier;
 
         HammerTier(String tier) {this.tier = tier;}
-    }
 
+    }
 
 }
