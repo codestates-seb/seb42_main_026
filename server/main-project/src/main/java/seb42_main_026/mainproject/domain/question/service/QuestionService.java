@@ -47,6 +47,10 @@ public class QuestionService {
         // 수정 대상 질문
         Question foundQuestion = findVerifiedQuestion(question.getQuestionId());
 
+        // 자신의 질문인지 체크
+        memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(),
+                question.getMember().getMemberId());
+
         // 질문 수정
         customBeanUtils.copyNonNullProperties(question, foundQuestion);
     }
@@ -79,6 +83,12 @@ public class QuestionService {
     public void deleteQuestion(long questionId, long memberId) {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(memberId);
+
+        // 삭제 대상 질문
+        Question foundQuestion = findVerifiedQuestion(questionId);
+
+        // 자신의 질문인지 체크
+        memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(), memberId);
 
         // DB에서 삭제
         questionRepository.deleteById(questionId);
