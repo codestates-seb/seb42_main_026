@@ -22,7 +22,7 @@ mail:
   address:
     admin: admin@gmail.com
 jwt:
-  key: jimmy1234123412341234123412341234
+  key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 10
   refresh-token-expiration-minutes: 30
 cloud:
@@ -33,5 +33,5 @@ cloud:
     stack.auto: false
     region.static: ap-northeast-2
     credentials:
-      accessKey: AKIA4EHZR5WECD4AGN77
-      secretKey: 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
+      accessKey: ${S3_ACCESS_KEY}
+      secretKey: ${S3_SECRET_ACCESS_KEY}
