@@ -73,6 +73,13 @@ public class QuestionService {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
+    // 게시판에서 태그에 맞는 질문 목록 조회(최신 순, 페이지네이션)
+    public Page<Question> findQuestionsAtBoardByTag(int page, int size, Question.Tag tag) {
+        List<Question> taggedQuestions = questionRepository.findQuestionsByTag(tag);
+
+        return new PageImpl<>(taggedQuestions, PageRequest.of(page, size), taggedQuestions.size());
+    }
+
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
         // 로그인된 회원인지 체크
