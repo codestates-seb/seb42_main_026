@@ -7,7 +7,7 @@ interface CustomError extends Error {
   };
 }
 
-const signup = async (email: string, password: string, nickname: string) => {
+const signup = async (email: string, password: string, nickname: string, setErrorMessage: React.Dispatch<React.SetStateAction<any>>) => {
   try {
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/signup`, {
       email,
@@ -20,10 +20,10 @@ const signup = async (email: string, password: string, nickname: string) => {
     const customErr = error as CustomError;
     console.log(customErr.response?.data.fieldErrors[0].field);
     console.log(customErr.response?.data.fieldErrors[0].message);
-    return {
+    return setErrorMessage({
       field: customErr.response?.data.fieldErrors[0].field,
       message: customErr.response?.data.fieldErrors[0].message,
-    };
+    });
   }
 };
 

@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import signup from '../api/signup';
+import { useState, useEffect, useRef } from 'react';
 
 const SignupPage = () => {
+  const [errorMessage, setErrorMessage] = useState({ field: '', message: '' });
+
   function handleSignup(e: any) {
     e.preventDefault();
     const member = {
@@ -11,23 +14,29 @@ const SignupPage = () => {
       password: e.target[2].value,
       passwordcheck: e.target[3].value,
     };
-    if ((member.email || member.nickname || member.password || member.passwordcheck) === '') return window.alert('빈칸을 채워주세요.');
-    if (member.password === member.passwordcheck) return signup(member.email, member.password, member.nickname);
+    if (member.password === member.passwordcheck) return signup(member.email, member.password, member.nickname, setErrorMessage);
+    else setErrorMessage({ field: 'passwordcheck', message: '비밀번호를 다시 확인해주세요.' });
   }
+
+  useEffect(() => {}, [errorMessage]);
 
   return (
     <SignupWrapper>
       <Title>PPONG</Title>
       <InputContainer onSubmit={handleSignup}>
         <InputText>이메일</InputText>
-        <SignupInput name="email" type="text" placeholder="이메일"></SignupInput>
+        <SignupInput name="email" type="id" placeholder="이메일"></SignupInput>
+        {errorMessage.field === 'email' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
         <InputText>닉네임</InputText>
         <SignupInput name="nickname" type="text" placeholder="닉네임"></SignupInput>
+        {errorMessage.field === 'nickname' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
         <InputText>비밀번호</InputText>
         <SignupInput name="password" type="password" placeholder="비밀번호"></SignupInput>
+        {errorMessage.field === 'password' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
         <InputText>비밀번호 확인</InputText>
         <SignupInput name="passwordcheck" type="password" placeholder="비밀번호 확인"></SignupInput>
-        <SignupButton type="submit">
+        {errorMessage.field === 'passwordcheck' ? <VaildCheckText>{errorMessage.message}</VaildCheckText> : null}
+        <SignupButton type="submit" onClick={() => setErrorMessage({ field: '', message: '' })}>
           <SignupButtonText>회원가입</SignupButtonText>
         </SignupButton>
       </InputContainer>
@@ -53,6 +62,15 @@ const SignupText = styled.span`
     color: #ff607c;
     font-weight: 500;
   }
+`;
+const VaildCheckText = styled.span`
+  text-align: center;
+  letter-spacing: -0.05em;
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+  font-size: 12px;
+  color: red;
+  opacity: 0.8;
 `;
 
 const ContourContainer = styled.div`
@@ -148,6 +166,7 @@ const InputContainer = styled.form`
   justify-content: center;
   align-items: flex-start;
   input:focus {
+    /* outline-color: red; */
     outline: none;
   }
   input::placeholder {
