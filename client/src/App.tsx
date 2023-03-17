@@ -18,31 +18,32 @@ import UserEditPage from './page/UserEditPage';
 import BottomNav from './components/BottomNav';
 import TopNav from './components/TopNav';
 import RankPage from './page/RankPage';
-
+import PrivateRoute from './hooks/PrivateRoute';
 export default function App() {
   return (
     <Provider store={store}>
       <div className="App">
         <BrowserRouter>
-            <TopNav />
-            <main>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/Alarms" element={<AlarmsPage />} />
-                <Route path="/Checklist" element={<ChecklistPage />} />
-                <Route path="/Rank" element={<RankPage />} />
-                <Route path="/Editor" element={<EditorPage />} />
-                <Route path="/Login" element={<LoginPage />} />
-                <Route path="/MyPage" element={<MyPage />} />
-                <Route path="/MyPosts" element={<MyPostsPage />} />
-                <Route path="/NaggingBoard" element={<NaggingBoardPage />} />
-                <Route path="/PostDetail" element={<PostDetailPage />} />
-                <Route path="/RemoveAccount" element={<RemoveAccountPage />} />
-                <Route path="/Signup" element={<SignupPage />} />
-                <Route path="/UserEdit" element={<UserEditPage />} />
-              </Routes>
-            </main>
-            <BottomNav />
+          <TopNav />
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/*" element={<HomePage />} />
+              <Route path="/Rank" element={<PrivateRoute><RankPage /></PrivateRoute>} />
+              <Route path="/MyPage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
+              <Route path="/Alarms" element={<PrivateRoute><AlarmsPage /></PrivateRoute>} />
+              <Route path="/Checklist" element={<PrivateRoute><ChecklistPage /></PrivateRoute>} />
+              <Route path="/Editor" element={<PrivateRoute><EditorPage /></PrivateRoute>} />
+              <Route path="/Login" element={<LoginPage />} />
+              <Route path="/MyPosts" element={<PrivateRoute><MyPostsPage /></PrivateRoute>} />
+              <Route path="/NaggingBoard" element={<NaggingBoardPage />} />
+              <Route path="/PostDetail" element={<PostDetailPage />} />
+              <Route path="/RemoveAccount" element={<PrivateRoute><RemoveAccountPage /></PrivateRoute>} />
+              <Route path="/Signup" element={<SignupPage />} />
+              <Route path="/UserEdit" element={<PrivateRoute><UserEditPage /></PrivateRoute>} />
+            </Routes>
+          </main>
+          <BottomNav />
         </BrowserRouter>
       </div>
     </Provider>

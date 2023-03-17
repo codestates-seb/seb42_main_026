@@ -1,22 +1,18 @@
-import React from 'react';
-import { Route, useNavigate } from 'react-router-dom';
+import { useEffect, PropsWithChildren } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './useAuth';
 
-interface PrivateRouteProps {
-  component: React.ComponentType<any>;
-  isAuthenticated: boolean;
-}
-
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }: PrivateRouteProps) => {
-  const navigate = useNavigate();
+const PrivateRoute = ({ children }: PropsWithChildren<any>) => {
   const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
-  if (!isLoggedIn) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/login', { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
 
-  return <Route {...rest} element={<Component />} />;
+  return children;
 };
 
 export default PrivateRoute;
