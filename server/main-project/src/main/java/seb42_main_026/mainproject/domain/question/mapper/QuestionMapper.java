@@ -43,7 +43,7 @@ public interface QuestionMapper {
                             answerResponse.setAnswerStatus(answer.getAnswerStatus().getStatus());
                             answerResponse.setCreatedAt(answer.getCreatedAt());
 ////                            answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
-////                            answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
+                            answerResponse.setVoiceFileUrl(answer.getVoiceFileUrl());
                             answerResponse.setLikeCount(answer.getLikeCount());
                             List<Comment> comments = answer.getComments();
                             List<CommentDto.Response> commentResponses = comments.stream()

@@ -1,8 +1,10 @@
 package seb42_main_026.mainproject.domain.answer.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import seb42_main_026.mainproject.cloud.service.S3StorageService;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
 import seb42_main_026.mainproject.domain.member.entity.Member;
@@ -32,6 +34,13 @@ public class AnswerService {
 
     private final CustomBeanUtils<Answer> customBeanUtils;
 
+    private final S3StorageService s3StorageService;
+
+    @Value("${cloud.aws.s3.url}")
+    private String bucketUrl;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
 
 
     /**
@@ -42,7 +51,7 @@ public class AnswerService {
      * 점수 증가 메서드(+10점) - done
      */
     //memberId Request 에 포함되는지?
-    public Answer createAnswer(Answer answer/*, MultipartFile mediaFile*/){
+    public Answer createAnswer(Answer answer, MultipartFile mediaFile){
         //answer 에 회원 추가, 등록된 회원인지 확인
         memberService.findVerifiedMember(answer.getMember().getMemberId());
         //answer 에 질문 추가, 존재하는 질문인지 확인
@@ -64,12 +73,17 @@ public class AnswerService {
 //                .ifPresent(s3StorageService.store(mediaFile););
 
 
+        String fileName = mediaFile.getOriginalFilename();
+
         //진짜 - > 주석해제
         //mediaFile 이 null 이 아닐시, answer 에 이름 저장, S3 버킷에 업로드
-//        if (mediaFile != null){
-//            answer.setFileName(mediaFile.getOriginalFilename());
-//            s3StorageService.store(mediaFile);
-//        }
+        if (mediaFile != null){
+
+            answer.setVoiceFileUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
+            s3StorageService.store(mediaFile);
+        }
+
+
 
         //점수 증가 메서드(+10점) -> 메서드 갖다 쓰기
 //        answer.getMember().setScore(answer.getMember().getScore() + 10);
@@ -95,7 +109,7 @@ public class AnswerService {
         return answerRepository.save(foundAnswer);
     }
 
-
+    //todo answer.getMember().getMemberId() == question.getMember().getMemberId() throw Exception
     public void selectAnswer(long memberId, long questionId, long answerId){
 //        //questionId 와 작성자 Id 같은지 검증
         Question question = questionService.findQuestion(questionId);

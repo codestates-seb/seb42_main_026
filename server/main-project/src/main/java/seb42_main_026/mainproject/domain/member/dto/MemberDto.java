@@ -39,13 +39,19 @@ public class MemberDto {
     @AllArgsConstructor
     public static class Response{
 
-        private Long memberId;
+//        private Long memberId;
 
         private String email;
 
         private String nickname;
 
-        //private Long score;
+        private Long score;
+
+        private String hammerTier;
+
+//        private int rank;
+//
+//        private String profileImageUrl;
 
 
     }

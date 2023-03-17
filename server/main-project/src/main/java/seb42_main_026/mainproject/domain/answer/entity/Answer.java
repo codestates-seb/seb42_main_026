@@ -33,11 +33,11 @@ public class Answer extends Auditable {
     private int likeCount;
 
     // todo voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
-//    @Column
-//    private String profileImgUrl;
-//
-//    @Column
-//    private String voiceFileUrl;
+    @Column
+    private String profileImgUrl;
+
+    @Column
+    private String voiceFileUrl;
 
 
 
