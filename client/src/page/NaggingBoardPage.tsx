@@ -1,33 +1,28 @@
-import styled from "styled-components";
-import Tags from "../components/Tags";
-import BoardItem from "../container/naggingboard/BoardItem";
-import axios from "axios";
-import { useEffect, useState, useRef, useCallback } from "react";
-import useIntersectionObserver from "../hooks/useIntersectionObserver";
+import styled from 'styled-components';
+import Tags from '../components/Tags';
+import BoardItem from '../container/naggingboard/BoardItem';
+import axios from 'axios';
+import { useEffect, useState, useRef, useCallback } from 'react';
+// import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 export default function NaggingBoardPage() {
   const [list, setList] = useState([]);
   const [page, setPage] = useState(1);
 
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState('');
 
   const observer = useRef();
 
   const parseDate = (props: Date) => {
     const now = new Date(props);
-    const MM =
-      Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
+    const MM = Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
     const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
     return `${MM}/${dd}`;
   };
 
   async function naggingBoard() {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/board/questions/${
-          tag === "" ? "" : "tag"
-        }?page=2&size=20${tag === "" ? "" : "&tag=" + tag}`
-      );
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/board/questions/${tag === '' ? '' : 'tag'}?page=2&size=20${tag === '' ? '' : '&tag=' + tag}`);
       console.log(response?.data);
       if (response?.data.data.length) {
         setList(response?.data.data);
@@ -46,36 +41,15 @@ export default function NaggingBoardPage() {
   return (
     <NaggingBoardWrapper>
       <TagSelector>
-        <Tags
-          title={"운동"}
-          size="big"
-          tagClickHandler={() => setTag("EXERCISE")}
-        />
-        <Tags
-          title={"공부"}
-          size="big"
-          tagClickHandler={() => setTag("STUDY")}
-        />
-        <Tags
-          title={"기상"}
-          size="big"
-          tagClickHandler={() => setTag("WAKE_UP")}
-        />
-        <Tags title={"기타"} size="big" tagClickHandler={() => setTag("ETC")} />
+        <Tags title={'운동'} size="big" tagClickHandler={() => setTag('EXERCISE')} />
+        <Tags title={'공부'} size="big" tagClickHandler={() => setTag('STUDY')} />
+        <Tags title={'기상'} size="big" tagClickHandler={() => setTag('WAKE_UP')} />
+        <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} />
       </TagSelector>
-      {list.map(
-        ({ title, nickname, likeCount, createdAt, answerCount }, index) => (
-          <BoardItem
-            key={index}
-            title={title}
-            likeCount={likeCount}
-            nickname={nickname}
-            createdAt={parseDate(createdAt)}
-            answerCount={answerCount}
-          />
-          // {isLoaded && <p ref={setRef}>Loading...</p>}
-        )
-      )}
+      {list.map(({ title, nickname, likeCount, createdAt, answerCount }, index) => (
+        <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} />
+        // {isLoaded && <p ref={setRef}>Loading...</p>}
+      ))}
     </NaggingBoardWrapper>
   );
 }
