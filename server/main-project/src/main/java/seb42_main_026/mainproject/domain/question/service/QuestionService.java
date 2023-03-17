@@ -47,9 +47,12 @@ public class QuestionService {
         // 수정 대상 질문
         Question foundQuestion = findVerifiedQuestion(question.getQuestionId());
 
-        // 자신의 질문인지 체크
+        // 자신의 질문만 수정 가능
         memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(),
                 question.getMember().getMemberId());
+
+        // 갱생 완료 상태일 때는 수정 불가능
+        verifyQuestionStatus(foundQuestion);
 
         // 질문 수정
         customBeanUtils.copyNonNullProperties(question, foundQuestion);
@@ -70,6 +73,13 @@ public class QuestionService {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
+    // 게시판에서 태그에 맞는 질문 목록 조회(최신 순, 페이지네이션)
+    public Page<Question> findQuestionsAtBoardByTag(int page, int size, Question.Tag tag) {
+        List<Question> taggedQuestions = questionRepository.findQuestionsByTag(tag);
+
+        return new PageImpl<>(taggedQuestions, PageRequest.of(page, size), taggedQuestions.size());
+    }
+
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
         // 로그인된 회원인지 체크
@@ -87,7 +97,7 @@ public class QuestionService {
         // 삭제 대상 질문
         Question foundQuestion = findVerifiedQuestion(questionId);
 
-        // 자신의 질문인지 체크
+        // 자신의 질문만 삭제 가능
         memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(), memberId);
 
         // DB에서 삭제
@@ -100,5 +110,11 @@ public class QuestionService {
 
         return optionalQuestion.orElseThrow(() ->
                 new CustomException(ExceptionCode.QUESTION_NOT_FOUND));
+    }
+
+    private void verifyQuestionStatus(Question question) {
+        if (question.getQuestionStatus().equals(Question.QuestionStatus.QUESTION_COMPLETE)) {
+            throw new CustomException(ExceptionCode.ALREADY_COMPLETED_QUESTION);
+        }
     }
 }
