@@ -29,7 +29,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/*" element={<HomePage />} />
-              <Route path="/Rank" element={<PrivateRoute><RankPage /></PrivateRoute>} />
+              <Route path="/Rank" element={<RankPage />}/>
               <Route path="/MyPage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
               <Route path="/Alarms" element={<PrivateRoute><AlarmsPage /></PrivateRoute>} />
               <Route path="/Checklist" element={<PrivateRoute><ChecklistPage /></PrivateRoute>} />
