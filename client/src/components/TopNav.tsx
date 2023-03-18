@@ -3,41 +3,40 @@ import { ReactComponent as ICON_ALARM } from '../assets/ic_topnav_alarm_button.s
 import { ReactComponent as ICON_BADGE } from '../assets/ic_topnav_alarm_badge.svg';
 import { ReactComponent as ICON_LOGO } from '../assets/ic_topnav_logo_button.svg';
 import { ReactComponent as ICON_BACK } from '../assets/ic_topnav_back_button.svg';
-import { useAuth } from '../hooks/useAuth';
-import { usePage } from '../hooks/usePage';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function TopNav() {
-  const { isLoggedIn } = useAuth();
-  const { getPageHandler, setPageHandler } = usePage();
   const navigate = useNavigate();
+  const history = useLocation();
 
   const getTitle = () => {
-    switch (getPageHandler) {
-      case 'home':
+    switch (history.pathname) {
+      case '/':
         return '';
-      case 'signup':
+      case '/signup':
         return '회원가입';
-      case 'nagging':
+      case '/nagging':
         return '잔소리';
-      case 'rank':
+      case '/rank':
         return '랭킹';
-      case 'login':
+      case '/login':
         return '로그인';
-      case 'mypage':
+      case '/mypage':
         return '마이페이지';
-      case 'UserEdit':
+      case '/useredit':
         return '회원정보수정';
-      case 'alarms':
-        return '알람';
-      case 'editor':
+      case '/alarms':
+        return '알림';
+      case '/editor':
         return '글쓰기';
+      case '/naggingboard':
+        return '잔소리';
       default:
         return '';
     }
   };
 
-  const showBackButton = () => getPageHandler !== 'home';
+  const showBackButton = () => history.pathname !== '/';
 
   return (
     <TopNavWrapper>
@@ -46,17 +45,17 @@ export default function TopNav() {
         {showBackButton() ? (
           <ICON_BACK width={8} height={14} onClick={() => navigate(-1)} />
         ) : (
-          <LogoTitle theme={getPageHandler !== 'home' ? 'normal' : undefined}>
+          <LogoTitle theme={history.pathname !== '/' ? 'normal' : undefined}>
             <ICON_LOGO width={25} height={25} />
             PPONG
           </LogoTitle>
         )}
       </LeftContainer>
-      <LogoTitle theme={getPageHandler !== 'home' ? 'normal' : undefined}>{getTitle()}</LogoTitle>
+      <LogoTitle theme={history.pathname !== '/' ? 'normal' : undefined}>{getTitle()}</LogoTitle>
       <RightContainer>
-        {getPageHandler === 'home' && (
+        {history.pathname === '/' && (
           <>
-            <ICON_ALARM onClick={() => setPageHandler(isLoggedIn, 'alarms', '/Alarms', true)} />
+            <ICON_ALARM onClick={() => navigate('/alarms')} />
             <ICON_BADGE />
           </>
         )}

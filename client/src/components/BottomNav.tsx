@@ -17,20 +17,20 @@ const BottomNav = () => {
       id: 'nagging',
       icon: ICON_JANSORI,
       text: '잔소리',
-      link: '/NaggingBoard',
+      link: '/naggingboard',
     },
-    { id: 'editor', icon: ICON_WRITE, link: '/Editor' },
+    { id: 'editor', icon: ICON_WRITE, link: '/editor' },
     {
       id: 'rank',
       icon: ICON_RANK,
       text: '랭킹',
-      link: '/Rank',
+      link: '/rank',
     },
     {
       id: 'mypage',
       icon: ICON_MYPAGE,
       text: '마이페이지',
-      link: '/MyPage',
+      link: '/mypage',
     },
   ];
 
