@@ -59,10 +59,18 @@ export default function TopNav() {
             <ICON_BADGE />
           </>
         )}
+        {history.pathname === '/editor' && <TopNavEditorButton id='editorBtn' onClick={() => console.log('hi')}>완료</TopNavEditorButton>}
       </RightContainer>
     </TopNavWrapper>
   );
 }
+
+const TopNavEditorButton = styled.button`
+  border: none;
+  font-size: var(--font-size14);
+  white-space: nowrap;
+  background-color: var(--color-white01);
+`;
 
 const TopNavWrapper = styled.header`
   position: fixed;
