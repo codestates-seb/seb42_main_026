@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Tags from "../components/Tags";
 
@@ -8,16 +8,12 @@ const EditorPage = () => {
   const editorBtn = document.getElementById("editorBtn");
   const [tag, setTag] = useState("true");
 
-  // const two = useRef<HTMLDivElement>(null);
-  // console.log(document.querySelector("button"));
-
   useEffect(() => {
     if (editorBtn instanceof HTMLButtonElement) {
       title === "" && content === ""
         ? (editorBtn.disabled = true)
         : (editorBtn.disabled = false);
     }
-    // console.log(two.current);
     console.log(tag);
   }, [title, content]);
 
@@ -28,12 +24,6 @@ const EditorPage = () => {
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
-
-  // const buttonHandler = () => {
-  //   setTag("운동");
-  //   console.log("dd");
-  //   setTag("");
-  // };
 
   return (
     <EditorPageWrapper>
