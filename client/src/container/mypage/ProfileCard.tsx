@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import ImageBox from "../../components/ImageBox";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import ImageBox from '../../components/ImageBox';
 
 interface profileProps {
   imgUrl?: string;
@@ -14,7 +14,7 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
     <ProfileCardWrapper>
       <ImageBox imgUrl={imgUrl} mainText={mainText} subText={subText} lang={lang}></ImageBox>
       <EditWrapper>
-        <Link to="/UserEdit">수정</Link>
+        <Link to="/useredit">수정</Link>
       </EditWrapper>
     </ProfileCardWrapper>
   );
