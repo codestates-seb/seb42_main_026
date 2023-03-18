@@ -4,50 +4,44 @@ import { ReactComponent as ICON_JANSORI } from '../assets/ic_bottomnav_jansori_b
 import { ReactComponent as ICON_WRITE } from '../assets/ic_bottomnav_write_button.svg';
 import { ReactComponent as ICON_RANK } from '../assets/ic_bottomnav_rank_button.svg';
 import { ReactComponent as ICON_MYPAGE } from '../assets/ic_bottomnav_mypage_button.svg';
-import { useAuth } from '../hooks/useAuth';
-import { usePage } from '../hooks/usePage';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const BottomNav = () => {
-  const { isLoggedIn } = useAuth();
-  const { setPageHandler } = usePage();
-
+  const navigate = useNavigate();
   const [clickedMenu, setClickedMenu] = useState('');
 
   const menuData = [
-    { id: 'home', icon: ICON_HOME, text: '홈', link: '/', security: false },
+    { id: 'home', icon: ICON_HOME, text: '홈', link: '/' },
     {
       id: 'nagging',
       icon: ICON_JANSORI,
       text: '잔소리',
       link: '/NaggingBoard',
-      security: false,
     },
-    { id: 'editor', icon: ICON_WRITE, link: '/Editor', security: true },
+    { id: 'editor', icon: ICON_WRITE, link: '/Editor' },
     {
       id: 'rank',
       icon: ICON_RANK,
       text: '랭킹',
       link: '/Rank',
-      security: true,
     },
     {
       id: 'mypage',
       icon: ICON_MYPAGE,
       text: '마이페이지',
       link: '/MyPage',
-      security: true,
     },
   ];
 
   return (
     <GnbWrapper>
-      {menuData.map(({ id, icon: Icon, text, link, security }) => (
+      {menuData.map(({ id, icon: Icon, text, link }) => (
         <MenuContainer
           key={id}
           onClick={() => {
             setClickedMenu(id);
-            setPageHandler(isLoggedIn, id, link, security);
+            navigate(link);
           }}
         >
           <Icon fill={`${clickedMenu === id ? '#FF607C' : '#212123'}`} />

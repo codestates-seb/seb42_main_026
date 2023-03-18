@@ -1,21 +1,23 @@
+
 import styled from "styled-components";
 import Tags from "../components/Tags";
 import BoardItem from "../container/naggingboard/BoardItem";
 import axios from "axios";
 import { useEffect, useState, useRef, useCallback } from "react";
 
+
 export default function NaggingBoardPage() {
   const [list, setList] = useState([]);
 
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState('');
 
   const parseDate = (props: Date) => {
     const now = new Date(props);
-    const MM =
-      Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
+    const MM = Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
     const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
     return `${MM}/${dd}`;
   };
+
 
   const naggingBoard = useCallback(
     async function () {
@@ -44,22 +46,10 @@ export default function NaggingBoardPage() {
   return (
     <NaggingBoardWrapper>
       <TagSelector>
-        <Tags
-          title={"운동"}
-          size="big"
-          tagClickHandler={() => setTag("EXERCISE")}
-        />
-        <Tags
-          title={"공부"}
-          size="big"
-          tagClickHandler={() => setTag("STUDY")}
-        />
-        <Tags
-          title={"기상"}
-          size="big"
-          tagClickHandler={() => setTag("WAKE_UP")}
-        />
-        <Tags title={"기타"} size="big" tagClickHandler={() => setTag("ETC")} />
+        <Tags title={'운동'} size="big" tagClickHandler={() => setTag('EXERCISE')} />
+        <Tags title={'공부'} size="big" tagClickHandler={() => setTag('STUDY')} />
+        <Tags title={'기상'} size="big" tagClickHandler={() => setTag('WAKE_UP')} />
+        <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} />
       </TagSelector>
       {list.map(
         (
