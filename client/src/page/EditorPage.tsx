@@ -1,7 +1,27 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Tags from '../components/Tags';
 
 const EditorPage = () => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  const editorBtn = document.getElementById('editorBtn');
+
+  useEffect(() => {
+    if (editorBtn instanceof HTMLButtonElement) {
+      title === '' && content === '' ? (editorBtn.disabled = true) : (editorBtn.disabled = false);
+    }
+  }, [title, content]);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
+  };
+
   return (
     <EditorPageWrapper>
       <TagSelector>
@@ -10,8 +30,8 @@ const EditorPage = () => {
         <Tags title={'기상'} size="small" />
         <Tags title={'기타'} size="small" />
       </TagSelector>
-      <TitleInput placeholder="제목"></TitleInput>
-      <ContentInput placeholder="나에게 필요한 잔소리를 요청해보세요!"></ContentInput>
+      <TitleInput value={title} onChange={handleTitleChange} placeholder="제목"></TitleInput>
+      <ContentInput value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!"></ContentInput>
     </EditorPageWrapper>
   );
 };

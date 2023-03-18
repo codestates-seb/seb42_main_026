@@ -1,8 +1,9 @@
-import styled from "styled-components";
-import axios from "axios";
-import SubApp from "../container/home/SubApp";
-import BoardItem from "../container/naggingboard/BoardItem";
-import { useEffect, useState } from "react";
+import styled from 'styled-components';
+import axios from 'axios';
+import SubApp from '../container/home/SubApp';
+import BoardItem from '../container/naggingboard/BoardItem';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export interface IQuestion {
   title: string;
@@ -10,6 +11,8 @@ export interface IQuestion {
   likeCount: number;
   createdAt: Date;
   answerCount: number;
+  tag: string;
+  questionId: number;
 }
 
 export default function HomePage() {
@@ -17,17 +20,14 @@ export default function HomePage() {
 
   const parseDate = (props: Date) => {
     const now = new Date(props);
-    const MM =
-      Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
+    const MM = Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
     const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
     return `${MM}/${dd}`;
   };
 
   async function homequestions() {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/home/questions`
-      );
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/home/questions`);
       if (response?.data.data.length) {
         setList(response?.data.data);
       }
@@ -35,7 +35,6 @@ export default function HomePage() {
       console.log(error);
     }
   }
-  console.log(list);
 
   useEffect(() => {
     homequestions();
@@ -46,21 +45,11 @@ export default function HomePage() {
       <SubApp />
       <PopulerBoardTitle>인기 잔소리</PopulerBoardTitle>
       <PopulerBoard>
-        {list.map(
-          (
-            { title, nickname, likeCount, createdAt, answerCount }: IQuestion,
-            index: number
-          ) => (
-            <BoardItem
-              key={index}
-              title={title}
-              likeCount={likeCount}
-              nickname={nickname}
-              createdAt={parseDate(createdAt)}
-              answerCount={answerCount}
-            />
-          )
-        )}
+        {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }: IQuestion, index: number) => (
+          <Link to={`/questions/${questionId}`} key={index}>
+            <BoardItem title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+          </Link>
+        ))}
       </PopulerBoard>
     </HomePageWrapper>
   );

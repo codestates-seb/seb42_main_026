@@ -1,29 +1,36 @@
-import StatusChips from "./StatusChips ";
-import Tags from "./Tags";
-import styled from "styled-components";
-import ImageBox from "./ImageBox";
+import StatusChips from '../../components/StatusChips ';
+import Tags from '../../components/Tags';
+import styled from 'styled-components';
+import ImageBox from '../../components/ImageBox';
 
-const PostDetail = () => {
+type PostDetailProps = {
+  content: string;
+  createdAt: Date;
+  nickname: string;
+  tag: string;
+  title: string;
+};
+
+const PostDetail = ({ content, createdAt, nickname, tag, title }: PostDetailProps) => {
+  const parseDate = (props: Date) => {
+    const now = new Date(props);
+    const MM = Number(now.getMonth() + 1) < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
+    const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
+    return `${MM}/${dd}`;
+  };
+
   return (
     <PostDetailWrapper>
       <TagWrapper>
         <StatusChips />
-        <Tags title="운동" />
+        <Tags title={tag} />
       </TagWrapper>
       <UserInfoWrapper>
-        <ImageBox
-          imgUrl=""
-          mainText="코드 두 줄 치는 사람"
-          subText="03/07"
-          lang="KR"
-        ></ImageBox>
+        <ImageBox imgUrl="" mainText={nickname} subText={parseDate(createdAt)} lang="KR"></ImageBox>
       </UserInfoWrapper>
       <ContentsWrapper>
-        <TitleWrapper>잔소리 오지게 해줄 사람</TitleWrapper>
-        <PostWrapper>
-          혹시 내가 너무 게을러서 그러는데 잔소리해줄사람 ..나 진짜 미라클
-          모닝하고싶어 ㅜㅜ답없는 내 인생좀 갱생시켜주실분
-        </PostWrapper>
+        <TitleWrapper>{title}</TitleWrapper>
+        <PostWrapper>{content}</PostWrapper>
       </ContentsWrapper>
     </PostDetailWrapper>
   );
