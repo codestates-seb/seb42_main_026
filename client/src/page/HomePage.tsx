@@ -10,6 +10,7 @@ export interface IQuestion {
   likeCount: number;
   createdAt: Date;
   answerCount: number;
+  tag: string;
 }
 
 export default function HomePage() {
@@ -48,7 +49,14 @@ export default function HomePage() {
       <PopulerBoard>
         {list.map(
           (
-            { title, nickname, likeCount, createdAt, answerCount }: IQuestion,
+            {
+              title,
+              nickname,
+              likeCount,
+              createdAt,
+              answerCount,
+              tag,
+            }: IQuestion,
             index: number
           ) => (
             <BoardItem
@@ -58,6 +66,7 @@ export default function HomePage() {
               nickname={nickname}
               createdAt={parseDate(createdAt)}
               answerCount={answerCount}
+              tag={tag}
             />
           )
         )}
