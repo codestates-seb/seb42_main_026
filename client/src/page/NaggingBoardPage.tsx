@@ -21,7 +21,6 @@ export default function NaggingBoardPage() {
     async function () {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=1&size=20${tag === '' ? '' : '&tag=' + tag}`);
-        console.log(response?.data);
         if (response?.data.data.length) {
           setList(response?.data.data);
         }
@@ -33,7 +32,6 @@ export default function NaggingBoardPage() {
   );
 
   useEffect(() => {
-    console.log(list);
     naggingBoard();
   }, [tag, naggingBoard]);
 
@@ -46,8 +44,8 @@ export default function NaggingBoardPage() {
         <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} />
       </TagSelector>
       {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }, index) => (
-        <Link to={`/questions/${questionId}`}>
-          <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+        <Link to={`/questions/${questionId}`} key={index}>
+          <BoardItem title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
         </Link>
       ))}
     </NaggingBoardWrapper>
