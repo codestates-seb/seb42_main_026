@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import Tags from '../components/Tags';
 import BoardItem from '../container/naggingboard/BoardItem';
 import axios from 'axios';
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function NaggingBoardPage() {
   const [list, setList] = useState([]);
@@ -44,8 +45,10 @@ export default function NaggingBoardPage() {
         <Tags title={'기상'} size="big" tagClickHandler={() => setTag('WAKE_UP')} />
         <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} />
       </TagSelector>
-      {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag }, index) => (
-        <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+      {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }, index) => (
+        <Link to={`/questions/${questionId}`}>
+          <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+        </Link>
       ))}
     </NaggingBoardWrapper>
   );
