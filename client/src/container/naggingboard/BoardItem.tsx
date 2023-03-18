@@ -10,8 +10,16 @@ interface ItemProps {
   likeCount: number;
   answerCount: number;
   nickname: string;
+  tag?: string;
 }
-export default function BoardItem({ title, createdAt, likeCount, answerCount, nickname }: ItemProps) {
+export default function BoardItem({
+  title,
+  createdAt,
+  likeCount,
+  answerCount,
+  nickname,
+  tag,
+}: ItemProps) {
   return (
     <BoardItemStyle>
       <ItemTop>
@@ -19,26 +27,22 @@ export default function BoardItem({ title, createdAt, likeCount, answerCount, ni
           <ItemTitle>{title}</ItemTitle>
           <ItemDate>{createdAt}</ItemDate>
         </ItemTitleform>
-
         <ItemCountForm>
           <ItemLikeForm>
             <ICON_LIKE />
             <ItemLikeCount>{likeCount}</ItemLikeCount>
           </ItemLikeForm>
-
           <ItemAnswerForm>
             <ICON_ANSWER />
             <div>{answerCount}</div>
           </ItemAnswerForm>
         </ItemCountForm>
       </ItemTop>
-
       <ItemBottom>
         <ItemChipForm>
           <StatusChips color="pink" />
-          <Tags title="운동" size="small" />
+          <Tags title={tag} size="small"></Tags>
         </ItemChipForm>
-
         <ItemNickname>{nickname}</ItemNickname>
       </ItemBottom>
     </BoardItemStyle>

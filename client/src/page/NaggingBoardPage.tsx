@@ -1,17 +1,15 @@
-import styled from 'styled-components';
-import Tags from '../components/Tags';
-import BoardItem from '../container/naggingboard/BoardItem';
-import axios from 'axios';
-import { useEffect, useState, useRef, useCallback } from 'react';
-// import useIntersectionObserver from "../hooks/useIntersectionObserver";
+
+import styled from "styled-components";
+import Tags from "../components/Tags";
+import BoardItem from "../container/naggingboard/BoardItem";
+import axios from "axios";
+import { useEffect, useState, useRef, useCallback } from "react";
+
 
 export default function NaggingBoardPage() {
   const [list, setList] = useState([]);
-  const [page, setPage] = useState(1);
 
   const [tag, setTag] = useState('');
-
-  const observer = useRef();
 
   const parseDate = (props: Date) => {
     const now = new Date(props);
@@ -20,23 +18,30 @@ export default function NaggingBoardPage() {
     return `${MM}/${dd}`;
   };
 
-  async function naggingBoard() {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/board/questions/${tag === '' ? '' : 'tag'}?page=2&size=20${tag === '' ? '' : '&tag=' + tag}`);
-      console.log(response?.data);
-      if (response?.data.data.length) {
-        setList(response?.data.data);
+
+  const naggingBoard = useCallback(
+    async function () {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/board/questions/?page=1&size=20${
+            tag === "" ? "" : "&tag=" + tag
+          }`
+        );
+        console.log(response?.data);
+        if (response?.data.data.length) {
+          setList(response?.data.data);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    },
+    [tag]
+  );
 
   useEffect(() => {
-    console.log(tag);
+    console.log(list);
     naggingBoard();
-    // setPage(page + 1);
-  }, [tag]);
+  }, [tag, naggingBoard]);
 
   return (
     <NaggingBoardWrapper>
@@ -46,10 +51,22 @@ export default function NaggingBoardPage() {
         <Tags title={'기상'} size="big" tagClickHandler={() => setTag('WAKE_UP')} />
         <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} />
       </TagSelector>
-      {list.map(({ title, nickname, likeCount, createdAt, answerCount }, index) => (
-        <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} />
-        // {isLoaded && <p ref={setRef}>Loading...</p>}
-      ))}
+      {list.map(
+        (
+          { title, nickname, likeCount, createdAt, answerCount, tag },
+          index
+        ) => (
+          <BoardItem
+            key={index}
+            title={title}
+            likeCount={likeCount}
+            nickname={nickname}
+            createdAt={parseDate(createdAt)}
+            answerCount={answerCount}
+            tag={tag}
+          />
+        )
+      )}
     </NaggingBoardWrapper>
   );
 }
