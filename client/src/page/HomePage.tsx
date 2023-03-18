@@ -35,7 +35,6 @@ export default function HomePage() {
       console.log(error);
     }
   }
-  console.log(list);
 
   useEffect(() => {
     homequestions();
@@ -47,8 +46,8 @@ export default function HomePage() {
       <PopulerBoardTitle>인기 잔소리</PopulerBoardTitle>
       <PopulerBoard>
         {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }: IQuestion, index: number) => (
-          <Link to={`/questions/${questionId}`}>
-            <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+          <Link to={`/questions/${questionId}`} key={index}>
+            <BoardItem title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
           </Link>
         ))}
       </PopulerBoard>
