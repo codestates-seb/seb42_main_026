@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Tags from '../components/Tags';
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import Tags from "../components/Tags";
 
 const EditorPage = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-
-  const editorBtn = document.getElementById('editorBtn');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const editorBtn = document.getElementById("editorBtn");
+  const [tag, setTag] = useState("true");
 
   useEffect(() => {
     if (editorBtn instanceof HTMLButtonElement) {
-      title === '' && content === '' ? (editorBtn.disabled = true) : (editorBtn.disabled = false);
+      title === "" && content === ""
+        ? (editorBtn.disabled = true)
+        : (editorBtn.disabled = false);
     }
+    console.log(tag);
   }, [title, content]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,13 +28,45 @@ const EditorPage = () => {
   return (
     <EditorPageWrapper>
       <TagSelector>
-        <Tags title={'운동'} size="small" />
-        <Tags title={'공부'} size="small" />
-        <Tags title={'기상'} size="small" />
-        <Tags title={'기타'} size="small" />
+        <Tags
+          title={"운동"}
+          size="small"
+          tagClickHandler={() => setTag("운동")}
+          disabled={tag === "운동"}
+          type="button"
+        />
+        <Tags
+          title={"공부"}
+          size="small"
+          tagClickHandler={() => setTag("공부")}
+          disabled={tag === "공부"}
+          type="button"
+        />
+        <Tags
+          title={"기상"}
+          size="small"
+          tagClickHandler={() => setTag("기상")}
+          disabled={tag === "기상"}
+          type="button"
+        />
+        <Tags
+          title={"기타"}
+          size="small"
+          tagClickHandler={() => setTag("기타")}
+          disabled={tag === "기타"}
+          type="button"
+        />
       </TagSelector>
-      <TitleInput value={title} onChange={handleTitleChange} placeholder="제목"></TitleInput>
-      <ContentInput value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!"></ContentInput>
+      <TitleInput
+        value={title}
+        onChange={handleTitleChange}
+        placeholder="제목"
+      ></TitleInput>
+      <ContentInput
+        value={content}
+        onChange={handleContentChange}
+        placeholder="나에게 필요한 잔소리를 요청해보세요!"
+      ></ContentInput>
     </EditorPageWrapper>
   );
 };
@@ -73,7 +108,7 @@ const TitleInput = styled.input`
 
 const ContentInput = styled.textarea`
   border: none;
-  font-family: 'Noto Sans KR';
+  font-family: "Noto Sans KR";
   font-size: var(--font-size16);
   font-weight: var(--font-weight400);
   letter-spacing: -0.025em;
