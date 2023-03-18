@@ -1,10 +1,8 @@
-
-import styled from "styled-components";
-import Tags from "../components/Tags";
-import BoardItem from "../container/naggingboard/BoardItem";
-import axios from "axios";
-import { useEffect, useState, useRef, useCallback } from "react";
-
+import styled from 'styled-components';
+import Tags from '../components/Tags';
+import BoardItem from '../container/naggingboard/BoardItem';
+import axios from 'axios';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 export default function NaggingBoardPage() {
   const [list, setList] = useState([]);
@@ -13,20 +11,15 @@ export default function NaggingBoardPage() {
 
   const parseDate = (props: Date) => {
     const now = new Date(props);
-    const MM = Number(now.getMonth()) < 10 ? `0${now.getMonth()}` : now.getMonth();
+    const MM = Number(now.getMonth() + 1) < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
     const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
     return `${MM}/${dd}`;
   };
 
-
   const naggingBoard = useCallback(
     async function () {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/board/questions/?page=1&size=20${
-            tag === "" ? "" : "&tag=" + tag
-          }`
-        );
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=1&size=20${tag === '' ? '' : '&tag=' + tag}`);
         console.log(response?.data);
         if (response?.data.data.length) {
           setList(response?.data.data);
@@ -51,22 +44,9 @@ export default function NaggingBoardPage() {
         <Tags title={'기상'} size="big" tagClickHandler={() => setTag('WAKE_UP')} />
         <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} />
       </TagSelector>
-      {list.map(
-        (
-          { title, nickname, likeCount, createdAt, answerCount, tag },
-          index
-        ) => (
-          <BoardItem
-            key={index}
-            title={title}
-            likeCount={likeCount}
-            nickname={nickname}
-            createdAt={parseDate(createdAt)}
-            answerCount={answerCount}
-            tag={tag}
-          />
-        )
-      )}
+      {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag }, index) => (
+        <BoardItem key={index} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+      ))}
     </NaggingBoardWrapper>
   );
 }

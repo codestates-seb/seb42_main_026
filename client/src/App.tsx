@@ -37,7 +37,7 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/myposts" element={<PrivateRoute><MyPostsPage /></PrivateRoute>} />
               <Route path="/naggingboard" element={<NaggingBoardPage />} />
-              <Route path="/postdetail" element={<PostDetailPage />} />
+              <Route path="/questions/:questionId" element={<PostDetailPage />} />
               <Route path="/removeaccount" element={<PrivateRoute><RemoveAccountPage /></PrivateRoute>} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/useredit" element={<PrivateRoute><UserEditPage /></PrivateRoute>} />
