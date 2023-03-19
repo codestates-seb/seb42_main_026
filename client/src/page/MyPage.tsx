@@ -19,7 +19,6 @@ const MyPage: React.FC = () => {
   //로컬스토리지에서 memberId 갖고오기
   const memberId = localStorage.getItem("memberId");
   const data: dataProps = useGetMembers(`/members/${memberId}`);
-  console.log(data);
 
   return (
     <MyPageWrapper>
