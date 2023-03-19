@@ -57,8 +57,6 @@ export default function NaggingBoardPage() {
   }, [tag]);
 
   useEffect(() => {
-    console.log("dsafg", tag);
-    // useEffect에서 dependency array에 들어있는 tag가 빈값일 때 업데이트 시키지 않으려면 tag가 있는 지 없는 지 확인하고 function 부름
     if (tag) {
       page.current = 1;
       naggingBoard();
