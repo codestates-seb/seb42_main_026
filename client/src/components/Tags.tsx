@@ -27,7 +27,7 @@ const TagsStyle = styled.button<TagesProps>`
   width: fit-content;
   height: 22px;
   color: #285f94;
-  background-color: ${(props) => (props.disabled ? "#edf7f9" : "")};
+  background-color: ${(props) => (props.disabled ? "" : "#edf7f9")};
   padding: ${(props) =>
     props.size === "big" ? `4px 10px ` : ` 1.5px 8px 2px; `};
   border-radius: 5px;
