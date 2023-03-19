@@ -9,8 +9,9 @@ interface ItemProps {
   createdAt: string;
   likeCount: number;
   answerCount: number;
-  nickname: string;
+  nickname?: string;
   tag?: string;
+  children?: any;
 }
 export default function BoardItem({
   title,
@@ -19,6 +20,7 @@ export default function BoardItem({
   answerCount,
   nickname,
   tag,
+  children,
 }: ItemProps) {
   return (
     <BoardItemStyle>
@@ -45,6 +47,7 @@ export default function BoardItem({
         </ItemChipForm>
         <ItemNickname>{nickname}</ItemNickname>
       </ItemBottom>
+      {children}
     </BoardItemStyle>
   );
 }
