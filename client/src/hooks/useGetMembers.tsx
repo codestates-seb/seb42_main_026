@@ -1,11 +1,11 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
-import customAxios from "../api/apis";
 
 export default function useGetMembers(url: string) {
   const [data, setData] = useState({});
   useEffect(() => {
-    customAxios
-      .get(url)
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}${url}`)
       .then((response) => {
         setData(response.data.data);
       })
