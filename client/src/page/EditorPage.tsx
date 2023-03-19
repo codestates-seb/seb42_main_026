@@ -6,7 +6,7 @@ const EditorPage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const editorBtn = document.getElementById("editorBtn");
-  const [tag, setTag] = useState("true");
+  const [tag, setTag] = useState("기타");
 
   useEffect(() => {
     if (editorBtn instanceof HTMLButtonElement) {
