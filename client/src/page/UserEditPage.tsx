@@ -1,22 +1,104 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 const UserEditPage = () => {
+  const nickname = localStorage.getItem("nickname");
+  const memberId = localStorage.getItem("memberId");
+  const [newNickname, setNewNickname] = useState(nickname);
+  const [isNameError, setIsNameError] = useState(true);
+  const [isNowPasswordError, setIsNowPasswordError] = useState(true);
+  const [isNewPasswordError, setIsNewPasswordError] = useState(true);
+
+  const handleNameChange = (e: any) => {
+    setNewNickname(e.target.value);
+  };
+
+  const handleNicknameChange = (e: any) => {
+    e.preventDefault();
+    console.log(newNickname);
+
+    function getCookie(key: string | RegExp | undefined) {
+      key = new RegExp(key + "=([^;]*)"); // 쿠키들을 세미콘론으로 구분하는 정규표현식 정의
+      return key.test(document.cookie) ? unescape(RegExp.$1) : ""; // 인자로 받은 키에 해당하는 키가 있으면 값을 반환
+    }
+    if (nickname === newNickname) {
+      setIsNameError(false);
+    } else {
+      setIsNameError(true);
+      const headers = {
+        Authorization: getCookie("accessToken"),
+      };
+      axios
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { nickname: e.target[0].value }, { headers })
+        .then((response) => {
+          setNewNickname(e.target[0].value);
+          alert("닉네임이 변경되었습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("닉네임에 실패했습니다. 다시 시도해주세요.");
+        });
+    }
+  };
+
+  const handlePassworeChange = (e: any) => {
+    e.preventDefault();
+    function getCookie(key: string | RegExp | undefined) {
+      key = new RegExp(key + "=([^;]*)"); // 쿠키들을 세미콘론으로 구분하는 정규표현식 정의
+      return key.test(document.cookie) ? unescape(RegExp.$1) : ""; // 인자로 받은 키에 해당하는 키가 있으면 값을 반환
+    }
+
+    if (e.target[1].value !== e.target[2].value) {
+      console.log(e.target[1].value);
+      console.log(e.target[2].value);
+      setIsNewPasswordError(false);
+    } else {
+      setIsNewPasswordError(true);
+      const headers = {
+        Authorization: getCookie("accessToken"),
+      };
+      axios
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/changepassword/${memberId}`, { password: e.target[0].value, changepassword: e.target[1].value }, { headers })
+        .then((response) => {
+          setIsNowPasswordError(true);
+          alert("비밀번호가 변경되었습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsNowPasswordError(false);
+        });
+    }
+  };
+
   return (
     <UserEditPageWrapper>
-      <InputContainer>
+      <NicknameContainer>
         <InputText>닉네임</InputText>
-        <UserEditInput placeholder="변경할 닉네임을 입력해주세요."></UserEditInput>
+        <NicknameForm onSubmit={handleNicknameChange}>
+          <NameInput name="nickname" type="text" value={newNickname || ""} onChange={handleNameChange}></NameInput>
+          <NameEditButton type="submit">
+            닉네임
+            <br />
+            저장
+          </NameEditButton>
+        </NicknameForm>
+        {isNameError === false ? <div className="err">변경사항이 없습니다.</div> : null}
+      </NicknameContainer>
+
+      <InputPasswordContainer onSubmit={handlePassworeChange}>
         <InputText>현재 비밀번호</InputText>
-        <UserEditInput placeholder="현재 비밀번호를 입력해주세요."></UserEditInput>
+        <PasswordEditInput name="nowPassword" placeholder="현재 비밀번호를 입력해주세요."></PasswordEditInput>
+        {isNowPasswordError === false ? <div className="err">현재 비밀번호와 일치하지 않습니다.</div> : null}
         <InputText>새 비밀번호</InputText>
-        <UserEditInput placeholder="변경할 비밀번호를 입력해주세요."></UserEditInput>
+        <PasswordEditInput name="newPassword" placeholder="변경할 비밀번호를 입력해주세요."></PasswordEditInput>
         <InputText>새 비밀번호 확인</InputText>
-        <UserEditInput placeholder="변경할 비밀번호를 한 번 더 입력해주세요."></UserEditInput>
-        <UserEditButton>
-          <UserEditButtonText>수정하기</UserEditButtonText>
-        </UserEditButton>
-      </InputContainer>
+        <PasswordEditInput name="passwordCheck" placeholder="변경할 비밀번호를 한 번 더 입력해주세요."></PasswordEditInput>
+        {isNewPasswordError === false ? <div className="err">변경할 비밀번호를 제대로 입력해 주세요</div> : null}
+        <PasswordEditButton type="submit">새 비밀번호 저장</PasswordEditButton>
+      </InputPasswordContainer>
+
       <UserEditText>
         {/* 탈퇴페이지로 수정해야함 */}
         <Link to="/RemoveAccount">탈퇴</Link>
@@ -24,9 +106,139 @@ const UserEditPage = () => {
     </UserEditPageWrapper>
   );
 };
+const UserEditPageWrapper = styled.div`
+  user-select: none;
+  height: 844px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  gap: 10px;
+  padding: 0px 16px;
 
+  input::placeholder {
+    font-family: "Noto Sans";
+    font-size: 12px;
+    letter-spacing: -0.05em;
+    color: #abaeb4;
+  }
+  .err {
+    text-align: center;
+    letter-spacing: -0.05em;
+    font-family: "Noto Sans KR";
+    font-weight: 500;
+    font-size: 12px;
+    color: red;
+    opacity: 0.8;
+    margin-left: 5px;
+  }
+  input:focus {
+    outline: 0.1px solid var(--color-mobMain);
+    color: var(--color-black01);
+    background-color: var(--color-white01);
+    box-shadow: 0px 0.5px 1px rgba(255, 96, 124, 1);
+  }
+`;
+const NicknameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+`;
+const NicknameForm = styled.form`
+  display: flex;
+  width: 100%;
+  padding-bottom: 10px;
+  input::placeholder {
+    font-family: "Noto Sans";
+    font-size: 12px;
+    letter-spacing: -0.05em;
+    color: #abaeb4;
+  }
+  .err {
+    text-align: center;
+    letter-spacing: -0.05em;
+    font-family: "Noto Sans KR";
+    font-weight: 500;
+    font-size: 12px;
+    color: red;
+    opacity: 0.8;
+  }
+`;
+
+const NameInput = styled.input`
+  width: 80%;
+  height: 48px;
+  background-color: var(--color-gray04);
+  border: none;
+  border-radius: 5px;
+  padding-left: 10px;
+  margin-right: 10px;
+  color: var(--color-gray01);
+`;
+const InputText = styled.div`
+  font-family: "Noto Sans KR";
+  font-weight: 400;
+  font-size: 14px;
+  padding-bottom: 6px;
+  color: #abaeb4;
+  margin-top: 14px;
+`;
+
+const NameEditButton = styled.button`
+  width: 20%;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: none;
+  background-color: #ff607c;
+  color: var(--color-white01);
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  padding: 4px 10px;
+`;
+
+const InputPasswordContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 18px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: solid 0.5px var(--color-gray04);
+`;
+const PasswordEditInput = styled.input`
+  width: calc(100% - 8px);
+  height: 48px;
+  background: #eeeeef;
+  border: none;
+  border-radius: 5px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+`;
+
+const PasswordEditButton = styled.button`
+  margin-top: 15px;
+  width: 100%;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: none;
+  background-color: #ff607c;
+  color: var(--color-white01);
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+`;
 const UserEditText = styled.span`
-  font-family: 'Noto Sans KR';
+  font-family: "Noto Sans KR";
   font-size: 14px;
   color: #878b93;
   text-align: center;
@@ -36,70 +248,4 @@ const UserEditText = styled.span`
     font-weight: 500;
   }
 `;
-
-const UserEditPageWrapper = styled.div`
-  user-select: none;
-  align-self: stretch;
-  height: 844px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: white;
-  gap: 10px;
-`;
-
-const UserEditButton = styled.button`
-  margin-top: 12px;
-  height: 55px;
-  align-self: stretch;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  border: none;
-  background-color: #ff607c;
-`;
-const UserEditButtonText = styled.span`
-  font-family: 'Noto Sans KR';
-  font-size: 14px;
-  color: #ffffff;
-  letter-spacing: -0.05em;
-`;
-const UserEditInput = styled.input`
-  /* Frame 23 */
-  align-self: stretch;
-  height: 48px;
-  /* Gray 04 */
-  background: #eeeeef;
-  border: none;
-  border-radius: 5px;
-  padding-left: 8px;
-`;
-const InputText = styled.span`
-  font-family: 'Noto Sans KR';
-  font-weight: 400;
-  font-size: 14px;
-  padding: 4px 0px;
-  color: #abaeb4;
-`;
-
-const InputContainer = styled.div`
-  align-self: stretch;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  input:focus {
-    outline: none;
-  }
-  input::placeholder {
-    font-family: 'Noto Sans';
-    font-size: 12px;
-    letter-spacing: -0.05em;
-    color: #abaeb4;
-  }
-`;
-
 export default UserEditPage;
