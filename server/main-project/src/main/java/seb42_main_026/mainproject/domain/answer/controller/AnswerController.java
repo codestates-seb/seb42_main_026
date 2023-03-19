@@ -44,7 +44,7 @@ public class AnswerController {
             {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
                                      @Valid @RequestPart AnswerDto.Post answerPostDto,
-                                     @RequestPart MultipartFile mediaFile){
+                                     @RequestPart(required = false) MultipartFile mediaFile){
         answerPostDto.addQuestionId(questionId);
 
         Answer answer = answerService.createAnswer(

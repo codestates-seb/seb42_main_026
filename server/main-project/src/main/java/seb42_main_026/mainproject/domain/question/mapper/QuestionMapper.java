@@ -31,6 +31,7 @@ public interface QuestionMapper {
         detailResponse.setQuestionStatus(question.getQuestionStatus().getStatus());
         detailResponse.setTag(question.getTag().getName());
         detailResponse.setLikeCount(question.getLikeCount());
+        detailResponse.setAnswerCount(question.getAnswerCount());
 
         List<Answer> answers = question.getAnswers();
         List<AnswerDto.Response> answerResponses = answers.stream()

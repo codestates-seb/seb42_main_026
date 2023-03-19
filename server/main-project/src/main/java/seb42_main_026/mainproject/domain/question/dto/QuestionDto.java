@@ -46,7 +46,7 @@ public class QuestionDto {
         private String questionStatus;
         private int likeCount;
         private List<AnswerDto.Response> answers;
-//        private int answerCount;
+        private int answerCount;
         private String tag;
 //        private String profileImageUrl;
 //        private String questionImageUrl;
@@ -60,7 +60,7 @@ public class QuestionDto {
         private Long memberId;
         private String title;
         private int likeCount;
-//        private int answerCount;
+        private int answerCount;
         private String tag;
         private String questionStatus;
         private LocalDateTime createdAt;
