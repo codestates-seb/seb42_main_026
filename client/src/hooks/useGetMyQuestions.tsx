@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function useGetMembers(url: string) {
-  const [data, setData] = useState({});
+export default function useGetMyQuestions(url: string) {
+  const [data, setData] = useState([]);
 
   function getCookie(key: string | RegExp | undefined) {
     key = new RegExp(key + "=([^;]*)"); // 쿠키들을 세미콘론으로 구분하는 정규표현식 정의
@@ -21,6 +21,6 @@ export default function useGetMembers(url: string) {
       .catch((err) => {
         console.log(err);
       });
-  }, [url]);
+  }, []);
   return data;
 }

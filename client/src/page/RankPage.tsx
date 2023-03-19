@@ -1,9 +1,11 @@
+// import axios from "axios";
+// import { useEffect, useState } from "react";
 import styled from "styled-components";
 import RankItem from "../container/rank/RankItem";
 import useGetRank from "../hooks/useGetRank";
 
 interface dataProps {
-  createdAt: string;
+  url: string;
   nickname: string;
   score: number;
   modifiedAt: string;
@@ -11,11 +13,11 @@ interface dataProps {
 
 const RankPage = () => {
   const data: dataProps[] = useGetRank("/home/rank");
-  const sortedData = data.sort((a, b) => b.score - a.score); //score 기준으로 내림차순 정렬
+  const sortedData = data.sort((a: dataProps, b: dataProps) => b.score - a.score); //score 기준으로 내림차순 정렬
   return (
     <RankingWrapper>
-      {sortedData.map(({ createdAt, nickname, score }: dataProps, index: number) => (
-        <RankItem key={index} index={index + 1} url={createdAt} nickName={nickname} subText={`${score}`} />
+      {sortedData.map(({ url, nickname, score }: dataProps, index: number) => (
+        <RankItem key={index} index={index + 1} url={url} nickName={nickname} subText={`${score}`} />
       ))}
     </RankingWrapper>
   );
