@@ -40,6 +40,7 @@ export function useAuth() {
         const decoded = decodeJwt(accessToken);
         console.log(decoded);
         localStorage.setItem("memberId", decoded.memberId);
+        localStorage.setItem("nickname", decoded.sub);
         dispatch(login());
         navigate("/");
         alert("로그인 성공!");
