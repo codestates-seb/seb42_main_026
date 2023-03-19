@@ -92,13 +92,23 @@ public class QuestionService {
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
-    public Page<Question> findQuestionsAtBoard(int page, int size, Question.Tag tag) {
+    public Page<Question> findQuestionsAtBoard(int page, int size, Question.Tag tag, String searchKeyword) {
         // 태그가 있으면 태그에 맞는 질문 목록만 조회
         if (tag != null) {
-            List<Question> taggedQuestions = questionRepository.findQuestionsByTag(tag);
+//            List<Question> taggedQuestions = questionRepository.findQuestionsByTag(tag);
+//            return new PageImpl<>(taggedQuestions, PageRequest.of(page, size), taggedQuestions.size());
 
-            return new PageImpl<>(taggedQuestions, PageRequest.of(page, size), taggedQuestions.size());
+            return questionRepository.findByTag(tag, PageRequest.of(page, size, Sort.by("questionId").descending()));
         }
+
+        // 검색 키워드가 있으면 키워드에 맞는 질문 목록만 조회
+        if (searchKeyword != null) {
+//            List<Question> foundQuestions = questionRepository.findByTitleContaining(searchKeyword);
+//            return new PageImpl<>(foundQuestions, PageRequest.of(page, size), foundQuestions.size());
+
+            return questionRepository.findByTitleContaining(searchKeyword, PageRequest.of(page, size, Sort.by("questionId").descending()));
+        }
+
         // 태그가 없으면 모든 질문 목록 조회
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
@@ -115,9 +125,10 @@ public class QuestionService {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(memberId);
 
-        List<Question> myQuestions = questionRepository.findMyQuestions(memberId);
+//        List<Question> myQuestions = questionRepository.findMyQuestions(memberId);
+//        return new PageImpl<>(myQuestions, PageRequest.of(page, size), myQuestions.size());
 
-        return new PageImpl<>(myQuestions, PageRequest.of(page, size), myQuestions.size());
+        return questionRepository.findByMember_MemberId(memberId, PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
     public void deleteQuestion(long questionId, long memberId) {

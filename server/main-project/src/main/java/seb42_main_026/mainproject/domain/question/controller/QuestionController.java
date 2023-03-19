@@ -86,8 +86,9 @@ public class QuestionController {
     @GetMapping("/board/questions")
     public ResponseEntity<?> getQuestionsAtBoard(@RequestParam @Positive int page,
                                                  @RequestParam @Positive int size,
-                                                 @RequestParam(required = false) Question.Tag tag) {
-        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size, tag);
+                                                 @RequestParam(required = false) Question.Tag tag,
+                                                 @RequestParam(required = false) String searchKeyword) {
+        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size, tag, searchKeyword);
 
         List<Question> questions = pageQuestions.getContent();
 
