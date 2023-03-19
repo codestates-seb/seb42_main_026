@@ -61,5 +61,5 @@ const RankCardWrapper = styled.div`
   align-items: flex-start;
   border: 1px solid var(--color-gray03);
   border-radius: 5px;
-  padding: 20px 12px;
+  padding: 35px 12px;
 `;
