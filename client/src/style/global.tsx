@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import 'styled-components';
+import { createGlobalStyle } from "styled-components";
+import "styled-components";
 
 export function style() {
   const GlobalStyle = createGlobalStyle`
@@ -78,6 +78,7 @@ body,input,textarea {
   letter-spacing: 0;
 }
 input,button {
+  padding: 0;
   cursor: pointer;
 }
 
