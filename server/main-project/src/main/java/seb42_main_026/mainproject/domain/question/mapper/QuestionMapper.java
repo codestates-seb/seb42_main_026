@@ -31,7 +31,7 @@ public interface QuestionMapper {
         detailResponse.setQuestionStatus(question.getQuestionStatus().getStatus());
         detailResponse.setTag(question.getTag().getName());
         detailResponse.setLikeCount(question.getLikeCount());
-//        detailResponse.setAnswerCount(question.getAnswerCount());
+        detailResponse.setAnswerCount(question.getAnswerCount());
 //        detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
         detailResponse.setQuestionImageUrl(question.getQuestionImageUrl());
 
