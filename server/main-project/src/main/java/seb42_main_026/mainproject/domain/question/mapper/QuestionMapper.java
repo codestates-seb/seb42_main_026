@@ -75,6 +75,7 @@ public interface QuestionMapper {
     };
 
     @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "questionStatus.status", target = "questionStatus")
     @Mapping(source = "tag.name", target = "tag")
     QuestionDto.Response questionToQuestionResponseDto(Question question);
 

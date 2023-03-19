@@ -82,16 +82,19 @@ public class QuestionService {
     }
 
     // 특정 질문 조회
+    @Transactional(readOnly = true)
     public Question findQuestion(long questionId) {
         return findVerifiedQuestion(questionId);
     }
 
     // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 오래된 순, 10개만 조회)
+    @Transactional(readOnly = true)
     public List<Question> findQuestionsAtHome() {
         return questionRepository.findTop10ByOrderByLikeCountDescQuestionIdAsc();
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
+    @Transactional(readOnly = true)
     public Page<Question> findQuestionsAtBoard(int page, int size, Question.Tag tag, String searchKeyword) {
         // 태그가 있으면 태그에 맞는 질문 목록만 조회
         if (tag != null) {
@@ -121,6 +124,7 @@ public class QuestionService {
 //    }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
+    @Transactional(readOnly = true)
     public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
         // 로그인된 회원인지 체크
         memberService.verifyLoginMember(memberId);
