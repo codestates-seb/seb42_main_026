@@ -23,7 +23,7 @@ const MyPage: React.FC = () => {
   return (
     <MyPageWrapper>
       {/* <MyPageTitle>회원정보</MyPageTitle> */}
-      <ProfileCard imgUrl="https://main26-resource-bucket.s3.ap-northeast-2.amazonaws.com/DefaultProfile.svg" mainText={data.email} subText={data.nickname} lang="EN" />
+      <ProfileCard imgUrl={data.profileImageUrl} mainText={data.email} subText={data.nickname} lang="EN" />
       <RankCard score={data.score} hammerTier={data.hammerTier} mainText="티어" subText={`${data.hammerTier}망치`} lang="KR" />
       <MyPost />
       <LogoutButton onClick={() => setIsModalOpen(true)}>로그아웃</LogoutButton>
