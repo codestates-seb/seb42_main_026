@@ -13,7 +13,6 @@ export default function Tags({
   tagClickHandler,
   disabled,
 }: TagesProps) {
-  console.log(disabled);
   return (
     <TagsStyle size={size} onClick={tagClickHandler} disabled={disabled}>
       {title}
