@@ -4,7 +4,7 @@ interface TagesProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title?: string;
   size?: "big" | "small";
   tagClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
-  disabled?: any;
+  disabled?: boolean;
 }
 
 export default function Tags({
