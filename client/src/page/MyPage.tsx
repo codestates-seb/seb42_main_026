@@ -16,32 +16,16 @@ interface dataProps {
 
 const MyPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //로컬스토리지에서 memberId 갖고오기
   const memberId = localStorage.getItem("memberId");
   const data: dataProps = useGetMembers(`/members/${memberId}`);
 
   return (
     <MyPageWrapper>
-      {/* <MyPageTitle>회원정보</MyPageTitle> */}
-      <ProfileCard
-        imgUrl={data.profileImageUrl}
-        mainText={data.nickname}
-        subText={data.email}
-        lang="EN"
-      />
-      <RankCard
-        score={data.score}
-        hammerTier={data.hammerTier}
-        mainText="티어"
-        subText={`${data.hammerTier}망치`}
-        lang="KR"
-      />
+      <ProfileCard imgUrl={data.profileImageUrl} mainText={data.nickname} subText={data.email} lang="EN" />
+      <RankCard score={data.score} hammerTier={data.hammerTier} mainText="티어" subText={`${data.hammerTier}망치`} lang="KR" />
       <MyPost />
       <LogoutButton onClick={() => setIsModalOpen(true)}>로그아웃</LogoutButton>
-      <LogoutModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      ></LogoutModal>
+      <LogoutModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}></LogoutModal>
     </MyPageWrapper>
   );
 };
@@ -61,7 +45,6 @@ const LogoutButton = styled.button`
   width: 96px;
   border: none;
   background: none;
-  /* font-size: var(--font-size16); */
   color: var(--color-gray02);
   letter-spacing: var(--font-spacing-title);
   font-weight: 100;
