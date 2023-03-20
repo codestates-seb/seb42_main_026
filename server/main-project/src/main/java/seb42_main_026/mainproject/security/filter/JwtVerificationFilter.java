@@ -1,5 +1,6 @@
 package seb42_main_026.mainproject.security.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.SignatureException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +30,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // OncePerRequ
         Map<String, Object> claims = verifyJws(request);
 
         setAuthenticationToContext(claims); //  Authentication 객체를 SecurityContext에 저장하기 위한 private 메서드이다.
+
 
         filterChain.doFilter(request, response);
 

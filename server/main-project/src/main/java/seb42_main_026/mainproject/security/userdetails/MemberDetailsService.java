@@ -54,6 +54,8 @@ public class MemberDetailsService implements UserDetailsService {
             return getEmail();
         }
 
+
+
         @Override
         public boolean isAccountNonExpired(){
             return true;
@@ -76,3 +78,4 @@ public class MemberDetailsService implements UserDetailsService {
     }
 
 }
+
