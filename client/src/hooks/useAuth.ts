@@ -27,8 +27,9 @@ export function useAuth() {
       if (accessTokenCookie) {
         const accessToken = accessTokenCookie.split("=")[1];
         const decoded = decodeJwt(accessToken);
+        console.log(response);
         localStorage.setItem("memberId", decoded.memberId);
-        localStorage.setItem("nickname", decoded.sub);
+        localStorage.setItem("nickname", decoded.name);
         dispatch(login());
         navigate("/");
         alert("로그인 성공!");
