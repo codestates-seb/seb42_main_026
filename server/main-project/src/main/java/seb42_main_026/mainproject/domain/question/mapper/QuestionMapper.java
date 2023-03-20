@@ -31,7 +31,7 @@ public interface QuestionMapper {
         detailResponse.setQuestionStatus(question.getQuestionStatus().getStatus());
         detailResponse.setTag(question.getTag().getName());
         detailResponse.setLikeCount(question.getLikeCount());
-//        detailResponse.setAnswerCount(question.getAnswerCount());
+        detailResponse.setAnswerCount(question.getAnswerCount());
 //        detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
         detailResponse.setQuestionImageUrl(question.getQuestionImageUrl());
 
@@ -74,9 +74,9 @@ public interface QuestionMapper {
         return detailResponse;
     };
 
-//    @Mapping(source = "member.memberId", target = "memberId")
-    @Mapping(source = "tag.name", target = "tag")
+    @Mapping(source = "member.memberId", target = "memberId")
     @Mapping(source = "questionStatus.status", target = "questionStatus")
+    @Mapping(source = "tag.name", target = "tag")
     QuestionDto.Response questionToQuestionResponseDto(Question question);
 
     List<QuestionDto.Response> questionsToQuestionResponseDtos(List<Question> questions);
