@@ -11,6 +11,7 @@ import seb42_main_026.mainproject.domain.like.service.LikeService;
 import seb42_main_026.mainproject.security.utils.UriCreator;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @RestController
@@ -25,10 +26,12 @@ public class LikeController {
     private final LikeMapper likeMapper;
 
     @PostMapping("/{question-id}/likes")
-    public ResponseEntity<?> postLike(@RequestBody @Valid LikeDto.Post likePostDto) {
-        Like like = likeMapper.likePostDtoToLike(likePostDto);
+    public ResponseEntity<?> postQuestionLike(@RequestBody @Valid LikeDto.QuestionPost likeQuestionPostDto,
+                                              @PathVariable("question-id") @Positive long questionId) {
+        likeQuestionPostDto.setQuestionId(questionId);
+        Like like = likeMapper.questionLikeDtoToLike(likeQuestionPostDto);
 
-        Like createdLike = likeService.createLike(like);
+        Like createdLike = likeService.createQuestionLike(like);
 
         URI location = UriCreator.createUri(LIKE_DEFAULT_URL, createdLike.getLikeId());
 
@@ -36,7 +39,9 @@ public class LikeController {
     }
 
     @PostMapping("/{question-id}/{answer-id}/likes")
-    public ResponseEntity<?> postAnswerLike(@RequestBody @Valid LikeDto.AnswerPost answerLikeDto) {
+    public ResponseEntity<?> postAnswerLike(@RequestBody @Valid LikeDto.AnswerPost answerLikeDto,
+                                            @PathVariable("answer-id") @Positive long answerId) {
+        answerLikeDto.setAnswerId(answerId);
         Like like = likeMapper.answerLikeDtoToLike(answerLikeDto);
 
         Like createdLike = likeService.createAnswerLike(like);

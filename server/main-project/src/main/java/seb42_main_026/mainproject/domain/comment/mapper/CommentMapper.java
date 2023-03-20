@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-//    Comment commentPostDtoToComment(CommentDto.Post commentPostDto);
+//    Comment commentPostDtoToComment(CommentDto.QuestionPost commentPostDto);
     default Comment commentPostDtoToComment(CommentDto.Post commentPostDto){
         Comment comment = new Comment();
 

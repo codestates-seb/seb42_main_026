@@ -19,7 +19,7 @@ public class LikeService {
 
     private final AnswerService answerService;
 
-    public Like createLike(Like like) {
+    public Like createQuestionLike(Like like) {
         Question matchedQuestion =
                 questionService.findVerifiedQuestion(like.getQuestion().getQuestionId());
 
