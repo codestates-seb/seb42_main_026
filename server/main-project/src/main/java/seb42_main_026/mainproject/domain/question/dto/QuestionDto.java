@@ -49,7 +49,7 @@ public class QuestionDto {
         private int answerCount;
         private String tag;
 //        private String profileImageUrl;
-//        private String questionImageUrl;
+        private String questionImageUrl;
     }
 
     @AllArgsConstructor
@@ -57,7 +57,7 @@ public class QuestionDto {
     @Setter
     public static class Response {
         private Long questionId;
-        private Long memberId;
+//        private Long memberId;
         private String title;
         private int likeCount;
         private int answerCount;

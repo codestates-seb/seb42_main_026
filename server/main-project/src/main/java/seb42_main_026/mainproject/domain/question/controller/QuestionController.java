@@ -3,9 +3,11 @@ package seb42_main_026.mainproject.domain.question.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.mapper.QuestionMapper;
@@ -29,14 +31,16 @@ public class QuestionController {
     private final QuestionMapper questionMapper;
 
     // Todo: 이미지 파일 업로드
-    @PostMapping("/questions/{member-id}")
-    public ResponseEntity<?> postQuestion(@RequestBody @Valid QuestionDto.Post questionPostDto,
-                                          @PathVariable("member-id") @Positive long memberId) {
+    @PostMapping(value = "/questions/{member-id}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> postQuestion(@PathVariable("member-id") @Positive long memberId,
+                                          @RequestPart @Valid QuestionDto.Post questionPostDto,
+                                          @RequestPart(required = false) MultipartFile questionImage) {
         questionPostDto.setMemberId(memberId);
 
         Question question = questionMapper.questionPostDtoToQuestion(questionPostDto);
 
-        Question createdQuestion = questionService.createQuestion(question);
+        Question createdQuestion = questionService.createQuestion(question, questionImage);
 
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, createdQuestion.getQuestionId());
 
@@ -44,14 +48,16 @@ public class QuestionController {
     }
 
     // Todo: 이미지 파일 수정
-    @PatchMapping("/questions/{question-id}")
-    public ResponseEntity<?> patchQuestion(@RequestBody @Valid QuestionDto.Patch questionPatchDto,
-                                           @PathVariable("question-id") @Positive long questionId) {
+    @PatchMapping(value = "/questions/{question-id}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> patchQuestion(@PathVariable("question-id") @Positive long questionId,
+                                           @RequestPart @Valid QuestionDto.Patch questionPatchDto,
+                                           @RequestPart(required = false) MultipartFile questionImage) {
         questionPatchDto.setQuestionId(questionId);
 
         Question question = questionMapper.questionPatchDtoToQuestion(questionPatchDto);
 
-        questionService.updateQuestion(question);
+        questionService.updateQuestion(question, questionImage);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -80,8 +86,9 @@ public class QuestionController {
     @GetMapping("/board/questions")
     public ResponseEntity<?> getQuestionsAtBoard(@RequestParam @Positive int page,
                                                  @RequestParam @Positive int size,
-                                                 @RequestParam(required = false) Question.Tag tag) {
-        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size, tag);
+                                                 @RequestParam(required = false) Question.Tag tag,
+                                                 @RequestParam(required = false) String searchKeyword) {
+        Page<Question> pageQuestions = questionService.findQuestionsAtBoard(page - 1, size, tag, searchKeyword);
 
         List<Question> questions = pageQuestions.getContent();
 
