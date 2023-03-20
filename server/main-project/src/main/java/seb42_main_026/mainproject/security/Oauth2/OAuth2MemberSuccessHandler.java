@@ -81,8 +81,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private String delegateAccessToken(String username, String nickname, List<String> authorities) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", username);
-        claims.put("nickname", nickname);
+        //claims.put("username", username);
+        claims.put("name", nickname);
         claims.put("roles", authorities);
 
         String subject = username;
@@ -114,8 +114,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
-                .port(3000)
-                //.path("/receive-token.html")
+                //.port(3000)
+                .path("/receive-token.html")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
