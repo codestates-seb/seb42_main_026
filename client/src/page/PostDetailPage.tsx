@@ -28,8 +28,6 @@ const PostDetailPage = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}`);
       const { data } = response.data;
-      console.log(data);
-      console.log(data.likeCount);
       setPost(data); // 서버에서 발급한 토큰 등의 정보가 담긴 객체
       setPostDetailHandler(data.memberId, data.questionId);
     } catch (error) {
