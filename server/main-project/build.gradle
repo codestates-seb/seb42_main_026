@@ -38,6 +38,9 @@ dependencies {
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	implementation 'com.google.code.gson:gson:2.10.1'
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'   // HTML 화면을 구성하기 위한 템플릿이당..
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
