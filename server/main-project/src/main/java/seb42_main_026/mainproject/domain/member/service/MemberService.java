@@ -59,10 +59,9 @@ public class MemberService {
         // 이미지 url 저장
         if (mediaFile != null){
 
-            String fileName = mediaFile.getOriginalFilename();
-
-            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
-            s3StorageService.store(mediaFile);
+            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
+            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + encodedFileName);
+            s3StorageService.store(mediaFile, encodedFileName);
         }
 
         Member savedMember = memberRepository.save(member);
@@ -109,10 +108,9 @@ public class MemberService {
 
         if (mediaFile != null){
 
-            String fileName = mediaFile.getOriginalFilename();
-
-            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
-            s3StorageService.store(mediaFile);
+            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
+            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + encodedFileName);
+            s3StorageService.store(mediaFile, encodedFileName);
         }
 
 
