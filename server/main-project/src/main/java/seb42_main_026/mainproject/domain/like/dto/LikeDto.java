@@ -7,14 +7,15 @@ import javax.validation.constraints.Positive;
 
 public class LikeDto {
     @Getter
-    public static class Post {
+    @Setter
+    public static class QuestionPost {
         @Positive
         private Long memberId;
-        @Positive
         private Long questionId;
     }
 
     @Getter
+    @Setter
     public static class AnswerPost {
         @Positive
         private Long memberId;

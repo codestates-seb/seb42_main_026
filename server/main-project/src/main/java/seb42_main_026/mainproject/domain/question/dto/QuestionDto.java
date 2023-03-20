@@ -57,7 +57,7 @@ public class QuestionDto {
     @Setter
     public static class Response {
         private Long questionId;
-        private Long memberId;
+//        private Long memberId;
         private String title;
         private int likeCount;
         private int answerCount;
