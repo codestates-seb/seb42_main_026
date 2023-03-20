@@ -8,17 +8,17 @@ interface ModalProps {
   onData: (data: any) => void;
 }
 
-const NiggingSerchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) => {
-  const [input, setinput] = useState("");
+const NaggingSearchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) => {
+  const [input, setInput] = useState("");
   const handleInputDelete = () => {
-    setinput("");
+    setInput("");
   };
 
   if (!isOpen) {
     return null;
   }
 
-  function hanblerKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handlerKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.keyCode === 13) {
       axios
         .get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=1&size=20&searchKeyword=${input}`)
@@ -27,7 +27,7 @@ const NiggingSerchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) =>
           onData(data);
           onClose();
           console.log(data);
-          setinput("");
+          setInput("");
         })
         .catch((err) => {
           console.log(err);
@@ -40,7 +40,7 @@ const NiggingSerchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) =>
         <>
           <ModalWrapper>
             <InputWrapper>
-              <SerchInput placeholder="검색어를 입력해주세요 ." value={input} onChange={(e) => setinput(e.target.value)} onKeyDown={(e) => hanblerKeyDown(e)}></SerchInput>
+              <SearchInput placeholder="검색어를 입력해주세요 ." value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => handlerKeyDown(e)}></SearchInput>
               <InputDeleteButton onClick={handleInputDelete}>X</InputDeleteButton>
             </InputWrapper>
           </ModalWrapper>
@@ -51,7 +51,7 @@ const NiggingSerchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) =>
   );
 };
 
-export default NiggingSerchModal;
+export default NaggingSearchModal;
 
 const ModalBackground = styled.div`
   display: flex;
@@ -95,7 +95,7 @@ const CloseButtonStyled = styled.button`
   border: none;
 `;
 
-const SerchInput = styled.input`
+const SearchInput = styled.input`
   width: 90%;
   padding: 14px 14px 14px 18px;
   font-weight: var(--font-weight600);
