@@ -40,7 +40,7 @@ public class CommentDto {
         private String content;
         private String nickname;
         private LocalDateTime createdAt;
-//        private String profileImgUrl;
+        private String profileImageUrl;
 
     }
 }

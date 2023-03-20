@@ -30,10 +30,13 @@ public interface QuestionMapper {
         detailResponse.setCreatedAt(question.getCreatedAt());
         detailResponse.setQuestionStatus(question.getQuestionStatus().getStatus());
         detailResponse.setTag(question.getTag().getName());
+
         detailResponse.setLikeCount(question.getLikeCount());
         detailResponse.setLikeCheck(question.isLikeCheck());
+
         detailResponse.setAnswerCount(question.getAnswerCount());
-//        detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
+
+        detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
         detailResponse.setQuestionImageUrl(question.getQuestionImageUrl());
 
         List<Answer> answers = question.getAnswers();
@@ -46,8 +49,10 @@ public interface QuestionMapper {
                             answerResponse.setContent(answer.getContent());
                             answerResponse.setAnswerStatus(answer.getAnswerStatus().getStatus());
                             answerResponse.setCreatedAt(answer.getCreatedAt());
-////                            answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
+
+                            answerResponse.setProfileImageUrl(answer.getProfileImageUrl());
                             answerResponse.setVoiceFileUrl(answer.getVoiceFileUrl());
+
                             answerResponse.setLikeCount(answer.getLikeCount());
                             answerResponse.setLikeCheck(answer.isLikeCheck());
 
@@ -61,7 +66,8 @@ public interface QuestionMapper {
                                         commentResponse.setContent(comment.getContent());
                                         commentResponse.setNickname(comment.getMember().getNickname());
                                         commentResponse.setCreatedAt(comment.getCreatedAt());
-//                                        commentResponse.setProfileImageUrl(comment.getMember().getProfileImageUrl());
+
+                                        commentResponse.setProfileImageUrl(comment.getMember().getProfileImageUrl());
 
                                         return commentResponse;
                                     }).collect(Collectors.toList());

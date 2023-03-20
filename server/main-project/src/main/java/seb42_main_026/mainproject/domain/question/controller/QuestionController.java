@@ -30,7 +30,6 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
-    // Todo: 이미지 파일 업로드
     @PostMapping(value = "/questions/{member-id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> postQuestion(@PathVariable("member-id") @Positive long memberId,
@@ -47,7 +46,6 @@ public class QuestionController {
         return ResponseEntity.created(location).build();
     }
 
-    // Todo: 이미지 파일 수정
     @PatchMapping(value = "/questions/{question-id}",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> patchQuestion(@PathVariable("question-id") @Positive long questionId,
@@ -59,7 +57,7 @@ public class QuestionController {
 
         questionService.updateQuestion(question, questionImage);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     // 특정 질문조회
@@ -97,20 +95,6 @@ public class QuestionController {
         return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }
 
-    // 게시판에서 태그에 맞는 질문 목록 조회(최신 순, 페이지네이션)
-//    @GetMapping("/board/questions/tag")
-//    public ResponseEntity<?> getQuestionsAtBoardByTag(@RequestParam @Positive int page,
-//                                                      @RequestParam @Positive int size,
-//                                                      @RequestParam Question.Tag tag) {
-//        Page<Question> pageQuestions = questionService.findQuestionsAtBoardByTag(page - 1, size, tag);
-//
-//        List<Question> questions = pageQuestions.getContent();
-//
-//        List<QuestionDto.Response> responses = questionMapper.questionsToQuestionResponseDtos(questions);
-//
-//        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
-//    }
-
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     @GetMapping("/members/{member-id}/questions")
     public ResponseEntity<?> getQuestionsAtMyPage(@PathVariable("member-id") @Positive long memberId,
@@ -130,6 +114,6 @@ public class QuestionController {
                                             @RequestParam @Positive long memberId) {
         questionService.deleteQuestion(questionId, memberId);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }
