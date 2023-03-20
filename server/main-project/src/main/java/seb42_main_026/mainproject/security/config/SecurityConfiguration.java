@@ -2,6 +2,7 @@ package seb42_main_026.mainproject.security.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,14 +11,26 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
+import seb42_main_026.mainproject.security.Oauth2.CustomOAuth2UserService;
+import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberSuccessHandler;
 import seb42_main_026.mainproject.security.filter.JwtAuthenticationFilter;
 import seb42_main_026.mainproject.security.filter.JwtVerificationFilter;
+import seb42_main_026.mainproject.security.handler.MemberAccessDeniedHandler;
+import seb42_main_026.mainproject.security.handler.MemberAuthenticationEntryPoint;
 import seb42_main_026.mainproject.security.handler.MemberAuthenticationFailureHandler;
 import seb42_main_026.mainproject.security.handler.MemberAuthenticationSuccessHandler;
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
@@ -31,14 +44,36 @@ import static org.springframework.security.config.Customizer.withDefaults;
 //@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    private String googleClientId;
+    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    private String googleClientSecret;
+
+    @Value("${spring.security.oauth2.client.registration.naver.client-id}")
+    private String naverClientId;
+    @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
+    private String naverClientSecret;
+
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
+    private String kakaoClientId;
+    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
+    private String kakaoClientSecret;
+
+
+
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final MemberRepository memberRepository;
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
 
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+
         http
                 .headers().frameOptions().sameOrigin() // h2 웹 콘솔을 정상적으로 사용할 수 있게 함. .frameOptions().sameOrigin() 을 호출하면 동일 출처로부터 들어오는 request만 페이지 렌더링을 허용한다.
                 .and()
@@ -48,6 +83,10 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable() // SSR(Server Side Rendering) 애플리케이션에서 주로 사용하는 폼 로그인 방식입니다. CSR(Client Side Rendering) 방식에서 주로 사용하는 JSON 포맷으로 Username과 Password를 전송하는 방식을 사용할 것이므로 (4)와 같이 폼 로그인 방식을 비활성화한다.
                 .httpBasic().disable() // HTTP Basic 인증은 request를 전송할 때마다 Username/Password 정보를 HTTP Header에 실어서 인증을 하는 방식으로 우리 코스에서는 사용하지 않으므로 (5)와 같이 HTTP Basic 인증 방식을 비활성화합니다.
+                .exceptionHandling()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .accessDeniedHandler(new MemberAccessDeniedHandler())
+                .and()
                 .apply(new CustomFilterConfigurer()) //  Custom Configurer는 쉽게 말해서 Spring Security의 Configuration을 개발자 입맛에 맞게 정의할 수 있는 기능이다.
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
@@ -67,8 +106,17 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/members/**/questions").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/questions/**").hasRole("USER")
 
-                        .anyRequest().permitAll()              // JWT를 적용하기 전이므로 우선은 모든 HTTP request 요청에 대해서 접근을 허용하도록 설정했다.
-                );
+
+                        .anyRequest().permitAll()//authenticated()              // JWT를 적용하기 전이므로 우선은 모든 HTTP request 요청에 대해서 접근을 허용하도록 설정했다.
+
+                )
+               /* .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository)));*/ // OAuth 2 로그인 인증을 활성화한다.
+                .oauth2Login()
+                    .userInfoEndpoint()
+                        .userService(customOAuth2UserService)
+                .and()
+                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository));
 
         return http.build();
     }
@@ -119,8 +167,71 @@ public class SecurityConfiguration {
 
             builder
                     .addFilter(jwtAuthenticationFilter) //  JwtAuthenticationFilter를 Spring Security Filter Chain에 추가한다.
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class); // JwtVerificationFilter가 JwtAuthenticationFilter가 수행된 바로 다음에 동작하도록 JwtAuthenticationFilter 뒤에 추가한다.
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class)
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);  // JwtVerificationFilter가 JwtAuthenticationFilter가 수행된 바로 다음에 동작하도록 JwtAuthenticationFilter 뒤에 추가한다.
+
 
         }
+
+
     }
+
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository(){
+        var googleClientRegistration = clientRegistration();
+
+        var naverClientRegistration = naverClientRegistration();
+
+        var kakaoClientRegistration = kakaoClientRegistration();
+
+        return new InMemoryClientRegistrationRepository(googleClientRegistration, naverClientRegistration, kakaoClientRegistration); // ClientRegistrationRepository 인터페이스의 구현 클래스인InMemoryClientRegistrationRepository의 인스턴스를 생성한다.
+    }
+
+    private ClientRegistration clientRegistration(){
+        return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
+                .GOOGLE
+                .getBuilder("google")
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/google")
+                .clientId(googleClientId)
+                .clientSecret(googleClientSecret)
+                .scope("profile", "email")
+                .build();
+    }
+
+    private ClientRegistration naverClientRegistration(){
+        return ClientRegistration.withRegistrationId("naver")
+                .clientId(naverClientId)
+                .clientSecret(naverClientSecret)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/naver")
+                .scope("name", "email")
+                .authorizationUri("https://nid.naver.com/oauth2.0/authorize")
+                .tokenUri("https://nid.naver.com/oauth2.0/token")
+                .userInfoUri("https://openapi.naver.com/v1/nid/me")
+                .userNameAttributeName("response")
+                .clientName("Naver")
+                .build();
+    }
+
+    private ClientRegistration kakaoClientRegistration(){
+        return ClientRegistration.withRegistrationId("kakao")
+                .clientId(kakaoClientId)
+                .clientSecret(kakaoClientSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/kakao")
+                .scope("profile_nickname", "account_email")
+                .authorizationUri("https://kauth.kakao.com/oauth/authorize")
+                .tokenUri("https://kauth.kakao.com/oauth/token")
+                .userInfoUri("https://kapi.kakao.com/v2/user/me")
+                .userNameAttributeName("id")
+                .clientName("Kakao")
+                .build();
+    }
+
+
+
+
+
+
 }

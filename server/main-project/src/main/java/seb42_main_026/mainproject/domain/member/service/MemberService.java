@@ -1,12 +1,16 @@
 package seb42_main_026.mainproject.domain.member.service;
 
 
+import io.jsonwebtoken.io.Decoders;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import seb42_main_026.mainproject.cloud.service.S3StorageService;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.entity.Score;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
@@ -30,21 +34,41 @@ public class MemberService {
 
     private final ScoreRepository scoreRepository;
 
+    private final S3StorageService s3StorageService;
 
-    public Member createMember(Member member){
+    @Value("${cloud.aws.s3.url}")
+    private String bucketUrl;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
+
+
+    public Member createMember(Member member, MultipartFile mediaFile){
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword()); // Password 암호화
+
         member.setPassword(encryptedPassword);
 
         List<String> roles = authorityUtils.createRoles(member.getEmail()); // DB에 User Role 저장
 
         member.setRoles(roles);
 
+
+        // 이미지 url 저장
+        if (mediaFile != null){
+
+            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
+            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + encodedFileName);
+            s3StorageService.store(mediaFile, encodedFileName);
+        }
+
         Member savedMember = memberRepository.save(member);
 
         setScore(member.getMemberId());
+
+
 
 
 
@@ -66,7 +90,7 @@ public class MemberService {
         return member;
     }
 
-    public Member updateMember(Member member){
+    public Member updateMember(Member member, MultipartFile mediaFile){
 
         // 로그인 멤버 권한 검사
         verifyLoginMember(member.getMemberId());
@@ -77,10 +101,44 @@ public class MemberService {
         // 바꾸려는 닉네임 중복 확인
         verifyExistsNickName(member.getNickname());
 
-        Optional.ofNullable(member.getNickname()).ifPresent(name -> verifiedMember.setNickname(name));
-        Optional.ofNullable(member.getPassword()).ifPresent(password -> verifiedMember.setNickname(password));
+        // 닉네임 변경
+        verifiedMember.setNickname(member.getNickname());
+
+        // 프로필 사진 변경
+
+        if (mediaFile != null){
+
+            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
+            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + encodedFileName);
+            s3StorageService.store(mediaFile, encodedFileName);
+        }
+
 
         return verifiedMember;
+
+    }
+
+    public Member changePaaswordMember(List<Member> members){
+        // 로그인 멤버 권한 검사
+        verifyLoginMember(members.get(0).getMemberId());
+
+        // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
+        Member member = findVerifiedMember(members.get(0).getMemberId());
+
+        // 현재 패스워드 매치
+        // 일치 했을떄
+        if(passwordEncoder.matches(members.get(0).getPassword(),member.getPassword())){
+            System.out.println(members.get(1).getPassword());
+            // 새로운 비밀번호변경
+            member.setPassword(members.get(1).getPassword());
+            return member;
+        // 불일치 했을때
+        }else {
+            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
+        }
+
+
+
 
     }
 
@@ -143,10 +201,7 @@ public class MemberService {
     public void setScore(Long memberId){
         Score score = new Score();
 
-        // score 순 테스트
-        Random random = new Random();
-
-        score.setScore(random.nextLong());
+        score.setScore(0L);
         score.setMember(getMember(memberId));
         score.setNickname(getMember(memberId).getNickname());
 
@@ -155,10 +210,30 @@ public class MemberService {
     }
 
     public Score updateScore(Long memberId, Long score){
-
+        Member member = findVerifiedMember(memberId);
         Score updateScore = scoreRepository.findByMember_MemberId(memberId);
+        Long changedScore = updateScore.getScore() + score;
+
+        if(changedScore>= 50 && 100 > changedScore){
+
+            member.setHammerTier(Member.HammerTier.BRONZE_HAMMER);
+
+        }else if(changedScore >= 100 && 150 > changedScore ){
+
+            member.setHammerTier(Member.HammerTier.SILVER_HAMMER);
+
+        }else if(changedScore >= 150 && 200 > changedScore){
+
+            member.setHammerTier(Member.HammerTier.GOLD_HAMMER);
+
+        }else if(changedScore >= 200){
+
+            member.setHammerTier(Member.HammerTier.PPONG_HAMMER);
+
+        }
 
         updateScore.setScore(updateScore.getScore() + score);
+
 
         return updateScore;
 
