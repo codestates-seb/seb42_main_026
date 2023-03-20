@@ -23,7 +23,7 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, length = 10, unique = true)
+    @Column(nullable = false, length = 15, unique = true)
     private String nickname;
 
     @Column(nullable = false, unique = true)
@@ -34,9 +34,6 @@ public class Member extends Auditable {
 
     @Enumerated(value = EnumType.STRING)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
-
-   /* @Column(nullable = false)
-    private Long score;*/
 
     @Enumerated(EnumType.STRING)
     private HammerTier hammerTier = HammerTier.BASIC_HAMMER;
@@ -57,7 +54,7 @@ public class Member extends Auditable {
     private List<Like> likes = new ArrayList<>();
 
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Score score;
 
 
@@ -78,8 +75,11 @@ public class Member extends Auditable {
 
     public enum HammerTier{
 
-        BASIC_HAMMER("돌망치");
-
+        BASIC_HAMMER("돌망치"),
+        BRONZE_HAMMER("동"),
+        SILVER_HAMMER("은"),
+        GOLD_HAMMER("금"),
+        PPONG_HAMMER("뿅");
 
         @Getter
         private String tier;

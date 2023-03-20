@@ -1,6 +1,7 @@
 package seb42_main_026.mainproject.domain.member.controller;
 
 
+import io.jsonwebtoken.io.Decoders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,10 +63,27 @@ public class MemberController {
 
     @PatchMapping("/members/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
-                                      MemberDto.Patch memberPatchDto){
+                                      @RequestBody MemberDto.Patch memberPatchDto){
+
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
         member.setMemberId(memberId);
         Member updateMember = memberService.updateMember(member);
+
+        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
+
+        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
+
+    }
+
+    @PatchMapping("/members/changepassword/{member-id}")
+    public ResponseEntity patchMemberPassword(@PathVariable("member-id") @Positive Long memberId,
+                                      @RequestBody MemberDto.PatchPassword memberPatchDto){
+
+
+        List<Member> members = memberMapper.memberPasswordPatchToMember(memberPatchDto, memberId);
+
+
+        Member updateMember = memberService.changePaaswordMember(members);
 
         MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
 
