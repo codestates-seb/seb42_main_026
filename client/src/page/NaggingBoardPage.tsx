@@ -4,7 +4,7 @@ import BoardItem from "../container/naggingboard/BoardItem";
 import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
-import NiggingSerchModal from "../components/NiggingSerchModal";
+import NaggingSearchModal from "../components/NaggingSearchModal";
 
 interface ItemProps {
   title: string;
@@ -79,7 +79,7 @@ export default function NaggingBoardPage() {
   return (
     <NaggingBoardWrapper>
       <button onClick={() => setIsModalOpen(true)}>serch</button>
-      <NiggingSerchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onData={handleData}></NiggingSerchModal>
+      <NaggingSearchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onData={handleData}></NaggingSearchModal>
       <TagSelector>
         <Tags title={"전체"} size="big" tagClickHandler={() => setTag("전체")} disabled={tag === "전체" || tag === ""} />
         <Tags title={"운동"} size="big" tagClickHandler={() => setTag("EXERCISE")} disabled={tag === "EXERCISE"} />
