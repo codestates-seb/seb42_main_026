@@ -20,9 +20,7 @@ import java.net.URI;
 @Validated
 public class LikeController {
     private final static String LIKE_DEFAULT_URL = "/questions";
-
     private final LikeService likeService;
-
     private final LikeMapper likeMapper;
 
     @PostMapping("/{question-id}/likes")
