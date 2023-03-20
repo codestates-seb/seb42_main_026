@@ -18,7 +18,6 @@ export function useAuth() {
         password,
       });
       const { data } = response;
-      //domain=${process.env.REACT_APP_COOKIE_DOMAIN}; secure; httpOnly
       document.cookie = `accessToken=${response.headers["authorization"]}; path=/;`;
       document.cookie = `refreshToken=${response.headers["refresh"]}; path=/;`;
       const cookieString = document.cookie;
@@ -27,7 +26,6 @@ export function useAuth() {
       if (accessTokenCookie) {
         const accessToken = accessTokenCookie.split("=")[1];
         const decoded = decodeJwt(accessToken);
-        console.log(response);
         localStorage.setItem("memberId", decoded.memberId);
         localStorage.setItem("nickname", decoded.name);
         dispatch(login());
@@ -73,6 +71,7 @@ export function useAuth() {
     localStorage.removeItem("memberId");
     localStorage.removeItem("nickname");
     localStorage.removeItem("undefined");
+    localStorage.removeItem("searchHistory");
     dispatch(logout());
     navigate("/");
   };
