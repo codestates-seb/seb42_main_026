@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
-//    Answer answerPostDtoToAnswer(AnswerDto.Post answerPostDto);
+//    Answer answerPostDtoToAnswer(AnswerDto.QuestionPost answerPostDto);
     default Answer answerPostDtoToAnswer(AnswerDto.Post answerPostDto){
         Answer answer = new Answer();
 

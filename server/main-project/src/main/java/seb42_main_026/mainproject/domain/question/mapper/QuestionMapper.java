@@ -32,6 +32,9 @@ public interface QuestionMapper {
         detailResponse.setTag(question.getTag().getName());
         detailResponse.setLikeCount(question.getLikeCount());
         detailResponse.setAnswerCount(question.getAnswerCount());
+//        detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
+        detailResponse.setQuestionImageUrl(question.getQuestionImageUrl());
+
 
         List<Answer> answers = question.getAnswers();
         List<AnswerDto.Response> answerResponses = answers.stream()
@@ -46,6 +49,7 @@ public interface QuestionMapper {
 ////                            answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
                             answerResponse.setVoiceFileUrl(answer.getVoiceFileUrl());
                             answerResponse.setLikeCount(answer.getLikeCount());
+
                             List<Comment> comments = answer.getComments();
                             List<CommentDto.Response> commentResponses = comments.stream()
                                     .map(comment -> {
@@ -56,6 +60,7 @@ public interface QuestionMapper {
                                         commentResponse.setContent(comment.getContent());
                                         commentResponse.setNickname(comment.getMember().getNickname());
                                         commentResponse.setCreatedAt(comment.getCreatedAt());
+//                                        commentResponse.setProfileImageUrl(comment.getMember().getProfileImageUrl());
 
                                         return commentResponse;
                                     }).collect(Collectors.toList());
@@ -71,6 +76,7 @@ public interface QuestionMapper {
     };
 
     @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "questionStatus.status", target = "questionStatus")
     @Mapping(source = "tag.name", target = "tag")
     QuestionDto.Response questionToQuestionResponseDto(Question question);
 
