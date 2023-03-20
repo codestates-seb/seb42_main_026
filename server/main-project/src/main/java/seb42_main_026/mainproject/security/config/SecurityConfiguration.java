@@ -192,6 +192,7 @@ public class SecurityConfiguration {
                 .GOOGLE
                 .getBuilder("google")
                 .redirectUri("http://3.36.228.134:8080/login/oauth2/code/google")
+                //.redirectUri("http://localhost:8080/login/oauth2/code/google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
                 .scope("profile", "email")
