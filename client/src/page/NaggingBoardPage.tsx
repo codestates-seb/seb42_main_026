@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import NaggingSearchModal from "../components/NaggingSearchModal";
+import ICON_SEARCH from "../assets/ic_search.svg";
 
 interface ItemProps {
   title: string;
@@ -79,14 +80,18 @@ export default function NaggingBoardPage() {
 
   return (
     <NaggingBoardWrapper>
-      <button onClick={() => setIsModalOpen(true)}>serch</button>
       <NaggingSearchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onData={handleData}></NaggingSearchModal>
       <TagSelector>
-        <Tags title={"전체"} size="big" tagClickHandler={() => setTag("전체")} disabled={tag === "전체" || tag === ""} />
-        <Tags title={"운동"} size="big" tagClickHandler={() => setTag("EXERCISE")} disabled={tag === "EXERCISE"} />
-        <Tags title={"공부"} size="big" tagClickHandler={() => setTag("STUDY")} disabled={tag === "STUDY"} />
-        <Tags title={"기상"} size="big" tagClickHandler={() => setTag("WAKE_UP")} disabled={tag === "WAKE_UP"} />
-        <Tags title={"기타"} size="big" tagClickHandler={() => setTag("ETC")} disabled={tag === "ETC"} />
+        <div className="tagContainer">
+          <Tags title={"전체"} size="big" tagClickHandler={() => setTag("전체")} disabled={tag === "전체" || tag === ""} />
+          <Tags title={"운동"} size="big" tagClickHandler={() => setTag("EXERCISE")} disabled={tag === "EXERCISE"} />
+          <Tags title={"공부"} size="big" tagClickHandler={() => setTag("STUDY")} disabled={tag === "STUDY"} />
+          <Tags title={"기상"} size="big" tagClickHandler={() => setTag("WAKE_UP")} disabled={tag === "WAKE_UP"} />
+          <Tags title={"기타"} size="big" tagClickHandler={() => setTag("ETC")} disabled={tag === "ETC"} />
+        </div>
+        <div className="search" onClick={() => setIsModalOpen(true)}>
+          <img src={ICON_SEARCH} alt="search icon" />
+        </div>
       </TagSelector>
       {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }, index) => (
         <Link to={`/questions/${questionId}`} key={index}>
@@ -104,7 +109,23 @@ const NaggingBoardWrapper = styled.div`
 `;
 const TagSelector = styled.div`
   display: flex;
-  gap: 6px;
+  justify-content: space-between;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--color-gray03);
+  .tagContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+  }
+  .search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
 `;
