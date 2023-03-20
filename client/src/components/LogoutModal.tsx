@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import styled from "styled-components";
 import ButtonStyled from "../components/ButtonStyled";
 import { useAuth } from "../hooks/useAuth";
