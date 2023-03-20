@@ -4,10 +4,12 @@ import { ReactComponent as ICON_BADGE } from '../assets/ic_topnav_alarm_badge.sv
 import { ReactComponent as ICON_LOGO } from '../assets/ic_topnav_logo_button.svg';
 import { ReactComponent as ICON_BACK } from '../assets/ic_topnav_back_button.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { usePage } from '../hooks/usePage';
 
 export default function TopNav() {
   const navigate = useNavigate();
   const history = useLocation();
+  const { getEditorHandler,pushPostHandler} = usePage();
 
   const getTitle = () => {
     switch (history.pathname) {
@@ -59,7 +61,8 @@ export default function TopNav() {
             <ICON_BADGE />
           </>
         )}
-        {history.pathname === '/editor' && <TopNavEditorButton id='editorBtn' onClick={() => console.log('hi')}>완료</TopNavEditorButton>}
+        {history.pathname === '/editor' && <TopNavEditorButton id='editorBtn' disabled={getEditorHandler.title === '' && getEditorHandler.content === ''}
+        onClick={pushPostHandler}>완료</TopNavEditorButton>}
       </RightContainer>
     </TopNavWrapper>
   );

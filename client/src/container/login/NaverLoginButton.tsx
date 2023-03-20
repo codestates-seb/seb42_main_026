@@ -29,9 +29,13 @@ const Text = styled.span`
   color: #FFFFFF;
 `;
 
+const handleNaverLogin = async () => {
+  window.location.href = `http://3.36.228.134:8080/login/oauth2/code/google`;
+};
+
 const NaverLoginButton = () => {
   return (
-      <NaverLoginWrapper>
+      <NaverLoginWrapper onClick={handleNaverLogin}>
         <img src={ICON_NAVER} alt="kakao" />
         <Text>네이버 로그인</Text>
       </NaverLoginWrapper>

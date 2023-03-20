@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import ICON_PROFILE from "../assets/ic_mypage_profile.svg";
-import ButtonStyled from "../components/ButtonStyled";
-import ICON_MENUBUTTON from "../assets/ic_answer_menubutton.svg";
-import ICON_LIKE from "../assets/ic_boardItem_like.svg";
+import styled from 'styled-components';
+import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
+import ButtonStyled from '../../components/ButtonStyled';
+import ICON_MENUBUTTON from '../../assets/ic_answer_menubutton.svg';
+import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -12,19 +12,12 @@ interface AnswerCardProps {
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({
-  imgUrl = "",
-  nickname = "닉네임",
-  time = "23시간전",
-}: AnswerCardProps) => {
+const SubAnswer = ({ imgUrl = '', nickname = '닉네임', time = '23시간전' }: AnswerCardProps) => {
   return (
-    <>
+    <SubAnswerWrapper>
       <AnswerWrapper>
         <ImageWrapper>
-          <img
-            src={imgUrl === "" ? ICON_PROFILE : imgUrl}
-            alt="profile_image"
-          />
+          <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -33,37 +26,35 @@ const Answer = ({
               <TimeWrapper>{time}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              <ButtonStyled
-                color="pink"
-                title="채택중"
-                width="55px"
-                height="22px"
-              ></ButtonStyled>
+              <ButtonStyled color="pink" title="채택중" width="55px" height="22px"></ButtonStyled>
               <MenuButtonWrapper>
                 <img src={ICON_MENUBUTTON} alt="메뉴버튼" />
               </MenuButtonWrapper>
             </TopRightWrapper>
           </TopWrapper>
-          <MiddleWrapper>
-            아이맥스, 2D 모두 마감되었어요! 2D는 포스터 이벤트 또 올라올 것
-            같은데 급한게 아니면 한번 기다려보시는 것도 좋을 것 같아요b
-          </MiddleWrapper>
+          <MiddleWrapper>아이맥스, 2D 모두 마감되었어요! 2D는 포스터 이벤트 또 올라올 것 같은데 급한게 아니면 한번 기다려보시는 것도 좋을 것 같아요b</MiddleWrapper>
           <BottomWrapper>
             <BottomLeftWrapper>
-              <LikeWrapper>
+              {/* <LikeWrapper>
                 <img src={ICON_LIKE} alt="좋아요"></img>
                 <LikeNumber>2</LikeNumber>
-              </LikeWrapper>
-              <SubAnswer>답글쓰기</SubAnswer>
+              </LikeWrapper> */}
             </BottomLeftWrapper>
           </BottomWrapper>
         </TextWrapper>
       </AnswerWrapper>
-    </>
+    </SubAnswerWrapper>
   );
 };
 
-export default Answer;
+export default SubAnswer;
+
+const SubAnswerWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 36px);
+  padding-left: 36px;
+`;
 
 const AnswerWrapper = styled.div`
   display: flex;
@@ -141,25 +132,19 @@ const BottomWrapper = styled.div`
   width: 100%;
 `;
 
-const LikeWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 2px;
-  align-items: center;
-`;
+// const LikeWrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   gap: 2px;
+//   align-items: center;
+// `;
 
-const LikeNumber = styled.div`
-  font-weight: var(--font-weight700);
-  font-size: var(--font-size12);
-  color: var(--color-gray02);
-`;
-
-const SubAnswer = styled.div`
-  font-weight: var(--font-weight700);
-  font-size: var(--font-size12);
-  color: var(--color-gray02);
-`;
+// const LikeNumber = styled.div`
+//   font-weight: var(--font-weight700);
+//   font-size: var(--font-size12);
+//   color: var(--color-gray02);
+// `;
 
 const BottomLeftWrapper = styled.div`
   display: flex;

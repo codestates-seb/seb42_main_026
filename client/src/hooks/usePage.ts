@@ -1,18 +1,39 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { RootState } from '../store/store';
-import { setPage } from '../store/actions';
+import { setEditor } from '../store/actions';
+import getCookie from '../utils/cookieUtils';
+import axios from 'axios';
 
 export function usePage() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const getPageHandler = useSelector((state: RootState) => state.page.currentPage);
+  const getEditorHandler = useSelector((state: RootState) => state.page);
 
-  const setPageHandler = (isLoggedIn: boolean, id: string, link: string, security: boolean) => {
-    console.log(id);
-    dispatch(isLoggedIn ? setPage(id) : setPage('login'));
-    navigate(isLoggedIn ? link : security ? '/Login' : link); //추후 navigate 수정 page 이동시마다 login 검증 필요
+  const setEditorHandler = (title: string, content: string, tag: string) => {
+    dispatch(setEditor(title, content, tag));
   };
 
-  return { setPageHandler, getPageHandler };
+  const pushPostHandler = async () => {
+    const data = {
+      title: getEditorHandler.title,
+      content: getEditorHandler.content,
+      tag: getEditorHandler.tag,
+    };
+
+    let formData = new FormData();
+    formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${localStorage.getItem('memberId')}`, formData, {
+        headers: {
+          Authorization: getCookie('accessToken'),
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  return { getEditorHandler, setEditorHandler, pushPostHandler };
 }

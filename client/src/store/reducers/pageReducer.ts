@@ -1,17 +1,21 @@
-import { SET_PAGE } from "../constants";
+import { EDITOR_STATE } from '../constants';
 
-export interface currentPage {
-  currentPage: string;
+export interface editorPage {
+  title: string;
+  content: string;
+  tag: string;
 }
 
-const initialState: currentPage = {
-  currentPage: "home",
+const initialState: editorPage = {
+  title: '',
+  content: '',
+  tag: '',
 };
 
 const pageReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case SET_PAGE:
-      return { ...state, currentPage: action.payload };
+    case EDITOR_STATE:
+      return { ...state, ...action.payload };
     default:
       return state;
   }

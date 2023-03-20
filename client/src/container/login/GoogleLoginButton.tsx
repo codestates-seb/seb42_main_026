@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import ICON_GOOGLE from '../../assets/ic_login_google.svg'
+import styled from 'styled-components';
+import ICON_GOOGLE from '../../assets/ic_login_google.svg';
 
 const GoogleLoginWrapper = styled.button`
   position: relative;
@@ -9,7 +9,7 @@ const GoogleLoginWrapper = styled.button`
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-  border: 0.5px solid #9FA6AD;
+  border: 0.5px solid #9fa6ad;
   box-sizing: border-box;
   img {
     position: absolute;
@@ -20,7 +20,7 @@ const GoogleLoginWrapper = styled.button`
 `;
 
 const Text = styled.span`
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-weight: 400;
   text-align: center;
   vertical-align: top;
@@ -30,12 +30,16 @@ const Text = styled.span`
   color: #3a3f44;
 `;
 
+const handleGoogleLogin = async () => {
+  window.location.href = `http://3.36.228.134:8080/login/oauth2/code/google`;
+};
+
 const GoogleLoginButton = () => {
   return (
-      <GoogleLoginWrapper>
-        <img src={ICON_GOOGLE} alt="google" />
-        <Text>구글 로그인</Text>
-      </GoogleLoginWrapper>
+    <GoogleLoginWrapper onClick={handleGoogleLogin}>
+      <img src={ICON_GOOGLE} alt="google" />
+      <Text>구글 로그인</Text>
+    </GoogleLoginWrapper>
   );
 };
 
