@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './useAuth';
 
 const PrivateRoute = ({ children }: PropsWithChildren<any>) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, checkTokenExpiration } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !checkTokenExpiration()) {
       navigate('/login', { replace: true });
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, checkTokenExpiration]);
 
   return children;
 };
