@@ -121,9 +121,6 @@ const ModalWrapper = styled.div`
     }
   }
 `;
-const RecentSearch = styled.div`
-  color: #fff;
-`;
 const SearchInput = styled.input`
   width: 90%;
   padding: 14px 14px 14px 18px;
