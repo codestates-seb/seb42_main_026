@@ -21,11 +21,13 @@ const NiggingSerchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) =>
   function hanblerKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.keyCode === 13) {
       axios
-        .get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=1&size=20&searchKeyowrd=${input}`)
+        .get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=1&size=20&searchKeyword=${input}`)
         .then((response) => {
           const data = response.data.data;
           onData(data);
           onClose();
+          console.log(data);
+          setinput("");
         })
         .catch((err) => {
           console.log(err);
