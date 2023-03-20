@@ -49,7 +49,7 @@ public class QuestionDto {
 //        private int answerCount;
         private String tag;
 //        private String profileImageUrl;
-//        private String questionImageUrl;
+        private String questionImageUrl;
     }
 
     @AllArgsConstructor
