@@ -17,6 +17,7 @@ import seb42_main_026.mainproject.exception.ExceptionCode;
 import seb42_main_026.mainproject.utils.CustomBeanUtils;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -56,11 +57,12 @@ public class AnswerService {
         //answer 에 질문 추가, 존재하는 질문인지 확인
         Question foundQuestion = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
 
-        String fileName = mediaFile.getOriginalFilename();
 
         //진짜 - > 주석해제
         //mediaFile 이 null 이 아닐시, answer 에 이름 저장, S3 버킷에 업로드
         if (mediaFile != null){
+
+            String fileName = mediaFile.getOriginalFilename();
 
             answer.setVoiceFileUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
             s3StorageService.store(mediaFile);
@@ -79,7 +81,7 @@ public class AnswerService {
         Answer foundAnswer = findAnswer(answer.getAnswerId());
 
         //로그인된 회원인지 확인
-//        memberService.verifyLoginMember(answer.getMember().getMemberId());
+        memberService.verifyLoginMember(answer.getMember().getMemberId());
 
         //수정하려는 회원이 같은 회원인지 검증
         memberService.verifyMemberByMemberId(memberId,answer.getMember().getMemberId());
@@ -121,7 +123,7 @@ public class AnswerService {
 
         Question foundQuestion = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
 
-        downAnswerCount(answer.getQuestion());
+        downAnswerCount(foundQuestion);
 
         answerRepository.delete(answer);
     }
