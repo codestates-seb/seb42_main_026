@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
-import seb42_main_026.mainproject.domain.like.entity.Like;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -32,6 +31,9 @@ public class Answer extends Auditable {
     @Column(nullable = false)
     private int likeCount;
 
+    @Column(nullable = false)
+    private boolean likeCheck;
+
     // todo voice file 이름만 DB에 저장해서 물리적 리소스는 S3에서 업로드 및 다운로드
 //    @Column
 //    private String profileImgUrl;
@@ -52,8 +54,8 @@ public class Answer extends Auditable {
     @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Like> likes = new ArrayList<>();
+//    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+//    private List<QuestionLike> likes = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

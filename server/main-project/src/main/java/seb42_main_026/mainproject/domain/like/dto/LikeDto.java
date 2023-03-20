@@ -19,7 +19,6 @@ public class LikeDto {
     public static class AnswerPost {
         @Positive
         private Long memberId;
-        @Positive
         private Long answerId;
     }
 }

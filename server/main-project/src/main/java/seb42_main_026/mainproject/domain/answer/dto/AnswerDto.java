@@ -13,13 +13,11 @@ import java.util.List;
 
 public class AnswerDto {
     @Getter
-    public static class Post{
+    public static class Post {
         private long memberId;
         private long questionId;
         @NotNull
         private String content;
-
-
 
         public void addQuestionId(long questionId){
             this.questionId = questionId;
@@ -28,21 +26,18 @@ public class AnswerDto {
 
     @Getter
     @Setter
-    public static class Patch{
+    public static class Patch {
         private long memberId;
-
         private long answerId;
-
         @NotBlank(message = "내용을 입력해 주세요.")
         private String content;
-
         //채택 시, 스테이스 변경도 Patch 로
         private Answer.AnswerStatus answerStatus;
     }
 
     @Getter
     @Setter
-    public static class Response{
+    public static class Response {
         private long answerId;
         private long memberId;
         private String content;
@@ -52,8 +47,7 @@ public class AnswerDto {
 //        private String profileImgUrl;
         private String voiceFileUrl;
         private int likeCount;
+        private boolean likeCheck;
         private List<CommentDto.Response> comments;
-
-
     }
 }

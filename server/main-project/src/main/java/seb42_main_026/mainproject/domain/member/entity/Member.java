@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
-import seb42_main_026.mainproject.domain.like.entity.Like;
+import seb42_main_026.mainproject.domain.like.entity.QuestionLike;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
 import javax.persistence.*;
@@ -54,7 +54,7 @@ public class Member extends Auditable {
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Like> likes = new ArrayList<>();
+    private List<QuestionLike> questionLikes = new ArrayList<>();
 
     @OneToOne(mappedBy = "member")
     private Score score;
