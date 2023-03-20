@@ -2,17 +2,18 @@ import styled from 'styled-components';
 import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 import ButtonStyled from '../../components/ButtonStyled';
 import ICON_MENUBUTTON from '../../assets/ic_answer_menubutton.svg';
-import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
+// import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
   imgUrl?: string;
-  nickname?: string;
-  time?: string;
+  nickname: string;
+  createdAt: string;
+  content: string;
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const SubAnswer = ({ imgUrl = '', nickname = '닉네임', time = '23시간전' }: AnswerCardProps) => {
+const SubAnswer = ({ imgUrl = '', nickname, createdAt, content }: AnswerCardProps) => {
   return (
     <SubAnswerWrapper>
       <AnswerWrapper>
@@ -23,7 +24,7 @@ const SubAnswer = ({ imgUrl = '', nickname = '닉네임', time = '23시간전' }
           <TopWrapper>
             <InfoWrapper>
               <NameWrapper>{nickname}</NameWrapper>
-              <TimeWrapper>{time}</TimeWrapper>
+              <TimeWrapper>{createdAt}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
               <ButtonStyled color="pink" title="채택중" width="55px" height="22px"></ButtonStyled>
@@ -32,7 +33,7 @@ const SubAnswer = ({ imgUrl = '', nickname = '닉네임', time = '23시간전' }
               </MenuButtonWrapper>
             </TopRightWrapper>
           </TopWrapper>
-          <MiddleWrapper>아이맥스, 2D 모두 마감되었어요! 2D는 포스터 이벤트 또 올라올 것 같은데 급한게 아니면 한번 기다려보시는 것도 좋을 것 같아요b</MiddleWrapper>
+          <MiddleWrapper>{content}</MiddleWrapper>
           <BottomWrapper>
             <BottomLeftWrapper>
               {/* <LikeWrapper>

@@ -3,6 +3,7 @@ import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 import ButtonStyled from '../../components/ButtonStyled';
 import ICON_MENUBUTTON from '../../assets/ic_answer_menubutton.svg';
 import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
+import SubAnswer from './SubAnswer';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -12,10 +13,11 @@ interface AnswerCardProps {
   likeCount: number;
   answerStatus: string;
   content: string;
+  comments?: [];
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content }: AnswerCardProps) => {
+const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments }: AnswerCardProps) => {
   return (
     <>
       <AnswerWrapper>
@@ -42,11 +44,15 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
                 <img src={ICON_LIKE} alt="좋아요"></img>
                 <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
-              <SubAnswer>답글쓰기</SubAnswer>
+              <SubAnswerButton>답글쓰기</SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
         </TextWrapper>
       </AnswerWrapper>
+      {comments?.length !== 0 &&
+        comments?.map((el: any) => {
+          return <SubAnswer {...el} />;
+        })}
     </>
   );
 };
@@ -143,7 +149,7 @@ const LikeNumber = styled.div`
   color: var(--color-gray02);
 `;
 
-const SubAnswer = styled.div`
+const SubAnswerButton = styled.div`
   font-weight: var(--font-weight700);
   font-size: var(--font-size12);
   color: var(--color-gray02);
