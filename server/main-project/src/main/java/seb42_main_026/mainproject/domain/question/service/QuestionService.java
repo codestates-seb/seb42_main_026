@@ -3,7 +3,6 @@ package seb42_main_026.mainproject.domain.question.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -39,11 +38,13 @@ public class QuestionService {
         // 이미지가 있으면 저장
         if (questionImage != null) {
             // 해당 이미지의 S3 버킷 URL을 Question 테이블에 저장
-            String fileName = questionImage.getOriginalFilename();
-            question.setQuestionImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
+//            String fileName = questionImage.getOriginalFilename();
+//            question.setQuestionImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
+            String encodedFileName = s3StorageService.encodeFileName(questionImage);
+            question.setQuestionImageUrl(s3StorageService.getFileUrl(encodedFileName));
 
             // S3 버킷에 해당 이미지 저장
-            s3StorageService.store(questionImage);
+            s3StorageService.store(questionImage, encodedFileName);
         }
 
         // 잔소리 요청글 20점 부여
@@ -70,11 +71,12 @@ public class QuestionService {
         // 이미지가 있으면 저장
         if (questionImage != null) {
             // 수정하고 싶은 이미지의 S3 버킷 URL로 기존 URL을 교체
-            String fileName = questionImage.getOriginalFilename();
-            question.setQuestionImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
-
+//            String fileName = questionImage.getOriginalFilename();
+//            question.setQuestionImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
+            String encodedFileName = s3StorageService.encodeFileName(questionImage);
+            question.setQuestionImageUrl(s3StorageService.getFileUrl(encodedFileName));
             // S3 버킷에 해당 이미지 저장
-            s3StorageService.store(questionImage);
+            s3StorageService.store(questionImage, encodedFileName);
         }
 
         // 질문 수정

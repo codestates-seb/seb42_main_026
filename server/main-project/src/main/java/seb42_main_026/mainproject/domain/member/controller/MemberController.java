@@ -1,11 +1,14 @@
 package seb42_main_026.mainproject.domain.member.controller;
 
 
+import io.jsonwebtoken.io.Decoders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import seb42_main_026.mainproject.domain.member.dto.MemberDto;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.mapper.MemberMapper;
@@ -32,11 +35,13 @@ public class MemberController {
 
     private final ScoreMapper scoreMapper;
 
-    @PostMapping("/signup")
-    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto) {
+    @PostMapping(value = "/signup", consumes =
+            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto,
+                                     @RequestPart(required = false) MultipartFile mediaFile) {
 
         Member member = memberMapper.memberPostToMember(memberPostDto);
-        Member createdMember = memberService.createMember(member);
+        Member createdMember = memberService.createMember(member, mediaFile);
 
        return ResponseEntity.created(URI.create("/members/" + createdMember.getMemberId())).build();
     }
@@ -60,12 +65,31 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto(scoreRanks), HttpStatus.OK);
     }
 
-    @PatchMapping("/members/{member-id}")
+    @PatchMapping(value = "/members/{member-id}", consumes =
+            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
-                                      MemberDto.Patch memberPatchDto){
+                                      @RequestBody MemberDto.Patch memberPatchDto,
+                                      @RequestPart(required = false) MultipartFile mediaFile){
+
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
         member.setMemberId(memberId);
-        Member updateMember = memberService.updateMember(member);
+        Member updateMember = memberService.updateMember(member, mediaFile);
+
+        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
+
+        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
+
+    }
+
+    @PatchMapping("/members/changepassword/{member-id}")
+    public ResponseEntity patchMemberPassword(@PathVariable("member-id") @Positive Long memberId,
+                                      @RequestBody MemberDto.PatchPassword memberPatchDto){
+
+
+        List<Member> members = memberMapper.memberPasswordPatchToMember(memberPatchDto, memberId);
+
+
+        Member updateMember = memberService.changePaaswordMember(members);
 
         MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
 
