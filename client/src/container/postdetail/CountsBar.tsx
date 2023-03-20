@@ -1,19 +1,19 @@
-import styled from "styled-components";
-import ANSWER_ICON from "../assets/ic_boardItem_answer.svg";
-import LIKE_ICON from "../assets/ic_boardItem_like.svg";
+import styled from 'styled-components';
+import ANSWER_ICON from '../../assets/ic_boardItem_answer.svg';
+import LIKE_ICON from '../../assets/ic_boardItem_like.svg';
 
-const CountsBar = () => {
+const CountsBar = ({ answer, likeCount }: { answer: number; likeCount: number }) => {
   return (
     <CountsBarWrapper>
       <AnswerWrapper>
         <img src={ANSWER_ICON} alt="답글아이콘"></img>
         <AnswerKey>댓글</AnswerKey>
-        <AnswerValue>2</AnswerValue>
+        <AnswerValue>{answer}</AnswerValue>
       </AnswerWrapper>
       <LikeWrapper>
         <img src={LIKE_ICON} alt="좋아요아이콘"></img>
         <LikeKey>좋아요</LikeKey>
-        <LikeValue>12</LikeValue>
+        <LikeValue>{likeCount}</LikeValue>
       </LikeWrapper>
     </CountsBarWrapper>
   );

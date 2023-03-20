@@ -7,15 +7,15 @@ import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
   imgUrl?: string;
-  nickname?: string;
-  time?: string;
-  createdAt: Date,
-  likeCount: number,
-  answerStatus: string,
+  nickname: string;
+  createdAt: string;
+  likeCount: number;
+  answerStatus: string;
+  content: string;
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ imgUrl = '', nickname = '닉네임', time = '23시간전' }: AnswerCardProps) => {
+const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content }: AnswerCardProps) => {
   return (
     <>
       <AnswerWrapper>
@@ -26,21 +26,21 @@ const Answer = ({ imgUrl = '', nickname = '닉네임', time = '23시간전' }: A
           <TopWrapper>
             <InfoWrapper>
               <NameWrapper>{nickname}</NameWrapper>
-              <TimeWrapper>{time}</TimeWrapper>
+              <TimeWrapper>{createdAt}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              <ButtonStyled color="pink" title="채택중" width="55px" height="22px"></ButtonStyled>
+              <ButtonStyled color="pink" title={answerStatus} width="55px" height="22px"></ButtonStyled>
               <MenuButtonWrapper>
                 <img src={ICON_MENUBUTTON} alt="메뉴버튼" />
               </MenuButtonWrapper>
             </TopRightWrapper>
           </TopWrapper>
-          <MiddleWrapper>아이맥스, 2D 모두 마감되었어요! 2D는 포스터 이벤트 또 올라올 것 같은데 급한게 아니면 한번 기다려보시는 것도 좋을 것 같아요b</MiddleWrapper>
+          <MiddleWrapper>{content}</MiddleWrapper>
           <BottomWrapper>
             <BottomLeftWrapper>
               <LikeWrapper>
                 <img src={ICON_LIKE} alt="좋아요"></img>
-                <LikeNumber>2</LikeNumber>
+                <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
               <SubAnswer>답글쓰기</SubAnswer>
             </BottomLeftWrapper>

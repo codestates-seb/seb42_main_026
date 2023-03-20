@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import PostDetail from '../container/postdetail/PostDetail';
 import styled from 'styled-components';
-import CountsBar from '../components/CountsBar';
+import CountsBar from '../container/postdetail/CountsBar';
 import Answer from '../container/postdetail/Answer';
 import SubAnswer from '../container/postdetail/SubAnswer';
 import axios from 'axios';
@@ -16,6 +16,7 @@ type Post = {
   tag: string;
   title: string;
   answers: any;
+  likeCount: number;
 };
 
 const PostDetailPage = () => {
@@ -27,6 +28,8 @@ const PostDetailPage = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}`);
       const { data } = response.data;
+      console.log(data);
+      console.log(data.likeCount);
       setPost(data); // 서버에서 발급한 토큰 등의 정보가 담긴 객체
       setPostDetailHandler(data.memberId, data.questionId);
     } catch (error) {
@@ -42,13 +45,12 @@ const PostDetailPage = () => {
   return (
     <PostDetailWrapper>
       {post !== null && <PostDetail {...post} />}
-      <CountsBar></CountsBar>
+      {post !== null && <CountsBar answer={post.answers.length} likeCount={post.likeCount} />}
       <AnswerWrapper>
-        <>
-          {post?.answers.map((el: any) => {
-            <Answer {...el} />;
-          })}
-        </>
+        {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
+        {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comment: [] }, index: number) => {
+          return <Answer key={index} {...el} />;
+        })}
         {/* <SubAnswer></SubAnswer> */}
       </AnswerWrapper>
     </PostDetailWrapper>
