@@ -61,11 +61,9 @@ public class AnswerService {
         //진짜 - > 주석해제
         //mediaFile 이 null 이 아닐시, answer 에 이름 저장, S3 버킷에 업로드
         if (mediaFile != null){
-
-            String fileName = mediaFile.getOriginalFilename();
-
-            answer.setVoiceFileUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
-            s3StorageService.store(mediaFile);
+            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
+            answer.setVoiceFileUrl(s3StorageService.getFileUrl(encodedFileName));
+            s3StorageService.store(mediaFile, encodedFileName);
         }
 
         upAnswerCount(foundQuestion);
