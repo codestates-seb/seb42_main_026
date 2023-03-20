@@ -95,7 +95,6 @@ const UserEditPage = () => {
       </InputPasswordContainer>
 
       <UserEditText>
-        {/* 탈퇴페이지로 수정해야함 */}
         <Link to="/RemoveAccount">탈퇴</Link>
       </UserEditText>
     </UserEditPageWrapper>
