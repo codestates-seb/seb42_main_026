@@ -19,11 +19,7 @@ public class AnswerDto {
         @NotNull
         private String content;
 
-        private String voiceFileUrl;
 
-        /**
-         * voice file - todo
-         */
 
         public void addQuestionId(long questionId){
             this.questionId = questionId;

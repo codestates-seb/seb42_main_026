@@ -31,8 +31,8 @@ public class Question extends Auditable {
     @Column(nullable = false)
     private int likeCount;
 
-//    @Column(nullable = false)
-//    private int answerCount;
+    @Column(nullable = false)
+    private int answerCount;
 
     @Column(nullable = true)
     private String questionImageUrl;
