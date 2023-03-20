@@ -41,19 +41,21 @@ export function useAuth() {
   };
 
   const checkTokenExpiration = () => {
-    const accessToken = getCookie("accessToken");
-    const decoded = decodeJwt(accessToken);
-    const now = Date.now();
+    const accessToken = getCookie('accessToken');
+    if (accessToken !== '') {
+      const decoded = decodeJwt(accessToken);
+      const now = Date.now();
 
-    if (now >= decoded.exp * 1000) {
-      // 만료되었음
-      console.log("토큰이 만료되었습니다.");
-      return false;
-    } else {
-      // 유효함
-      console.log("토큰이 유효합니다.");
-      dispatch(login());
-      return true;
+      if (now >= decoded.exp * 1000) {
+        // 만료되었음
+        console.log('토큰이 만료되었습니다.');
+        return false;
+      } else {
+        // 유효함
+        console.log('토큰이 유효합니다.');
+        dispatch(login());
+        return true;
+      }
     }
   };
 
@@ -62,13 +64,8 @@ export function useAuth() {
   }
 
   const logoutHandler = () => {
-    // document.cookie = `accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${process.env.REACT_APP_COOKIE_DOMAIN}; secure; httpOnly;`;
-    // document.cookie = `refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${process.env.REACT_APP_COOKIE_DOMAIN}; secure; httpOnly;`;
-    deleteCookie("accessToken");
-    deleteCookie("refreshToken");
-    localStorage.removeItem("memberId");
-    localStorage.removeItem("nickname");
-    localStorage.removeItem("undefined");
+    document.cookie = `accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${process.env.REACT_APP_COOKIE_DOMAIN};`;
+    document.cookie = `refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${process.env.REACT_APP_COOKIE_DOMAIN};`;
     dispatch(logout());
     navigate("/");
   };
