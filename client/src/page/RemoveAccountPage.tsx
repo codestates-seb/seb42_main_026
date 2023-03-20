@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 const RemoveAccountPage = () => {
   const navigate = useNavigate();
-
+  const nickname = localStorage.getItem("nickname");
   return (
     <RemoveWrapper>
       <TitleWrapper>회원 탈퇴</TitleWrapper>
       <TextWrapper style={{ whiteSpace: "pre-wrap" }}>
-        {`ㅇㅇㅇ 님과 이별인가요? 너무 아쉬워요 
+        {`${nickname} 님과 이별인가요? 너무 아쉬워요 
         계정을 삭제하면 티어, 랭킹, 게시글등
         모든 활동정보가 삭제됩니다.
         또한, 현재 계정으로는 다시 로그인할 수없습니다.
