@@ -88,12 +88,8 @@ export default function NaggingBoardPage() {
 
   return (
     <NaggingBoardWrapper>
-      <button onClick={() => setIsModalOpen(true)}>serch</button>
-      <NaggingSearchModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onData={handleData}
-      ></NaggingSearchModal>
+      <button onClick={() => setIsModalOpen(true)}>search</button>
+      <NaggingSearchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onData={handleData}></NaggingSearchModal>
       <TagSelector>
         <Tags
           title={"전체"}
