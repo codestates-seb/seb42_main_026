@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, EDITOR_STATE } from './constants';
+import { LOGIN, LOGOUT, EDITOR_STATE, POST_STATE } from './constants';
 
 export const login = () => ({
   type: LOGIN,
@@ -11,8 +11,16 @@ export const logout = () => ({
 export const setEditor = (title: string, content: string, tag: string) => ({
   type: EDITOR_STATE,
   payload: {
-    title: title,
-    content: content,
-    tag: tag,
+    title,
+    content,
+    tag,
+  },
+});
+
+export const setPostDetail = (memberId: number, questionId: number) => ({
+  type: POST_STATE,
+  payload: {
+    memberId,
+    questionId,
   },
 });

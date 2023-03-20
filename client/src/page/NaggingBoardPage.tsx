@@ -1,20 +1,10 @@
-<<<<<<< Updated upstream
-import styled from "styled-components";
-import Tags from "../components/Tags";
-import BoardItem from "../container/naggingboard/BoardItem";
-import axios from "axios";
-import { useEffect, useState, useCallback, useRef } from "react";
-import { Link } from "react-router-dom";
-import NaggingSearchModal from "../components/NaggingSearchModal";
-=======
 import styled from 'styled-components';
 import Tags from '../components/Tags';
 import BoardItem from '../container/naggingboard/BoardItem';
 import axios from 'axios';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import getCookie from '../utils/cookieUtils';
->>>>>>> Stashed changes
+import NaggingSearchModal from '../components/NaggingSearchModal';
 
 interface ItemProps {
   title: string;

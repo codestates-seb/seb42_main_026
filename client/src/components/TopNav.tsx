@@ -3,13 +3,16 @@ import { ReactComponent as ICON_ALARM } from '../assets/ic_topnav_alarm_button.s
 import { ReactComponent as ICON_BADGE } from '../assets/ic_topnav_alarm_badge.svg';
 import { ReactComponent as ICON_LOGO } from '../assets/ic_topnav_logo_button.svg';
 import { ReactComponent as ICON_BACK } from '../assets/ic_topnav_back_button.svg';
+// import { ReactComponent as ICON_MENU } from '../assets/ic_answer_menubutton.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { usePage } from '../hooks/usePage';
+import getCookie from '../utils/cookieUtils';
+import axios from 'axios';
 
 export default function TopNav() {
   const navigate = useNavigate();
   const history = useLocation();
-  const { getEditorHandler,pushPostHandler} = usePage();
+  const { getEditorHandler, pushPostHandler, getPostDetailHandler } = usePage();
 
   const getTitle = () => {
     switch (history.pathname) {
@@ -33,12 +36,27 @@ export default function TopNav() {
         return '글쓰기';
       case '/naggingboard':
         return '잔소리';
+      case '/questions':
+        return '';
       default:
         return '';
     }
   };
 
   const showBackButton = () => history.pathname !== '/';
+
+  const postDelete = async () => {
+    if (getPostDetailHandler.memberId === Number(localStorage.getItem('memberId'))) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}/?memberId=${getPostDetailHandler.memberId}`, { headers: { Authorization: getCookie('accessToken') } });
+        alert('삭제되었습니다.');
+        return navigate('/naggingboard');
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    }
+  };
 
   return (
     <TopNavWrapper>
@@ -61,8 +79,17 @@ export default function TopNav() {
             <ICON_BADGE />
           </>
         )}
-        {history.pathname === '/editor' && <TopNavEditorButton id='editorBtn' disabled={getEditorHandler.title === '' && getEditorHandler.content === ''}
-        onClick={pushPostHandler}>완료</TopNavEditorButton>}
+        {history.pathname === '/editor' && (
+          <TopNavEditorButton id="editorBtn" disabled={getEditorHandler.title === '' && getEditorHandler.content === '' && getEditorHandler.tag === ''} onClick={pushPostHandler}>
+            완료
+          </TopNavEditorButton>
+        )}
+        {history.pathname.slice(0, 10) === '/questions' && (
+          <>
+            <button>수정</button>
+            <button onClick={postDelete}>삭제</button>
+          </>
+        )}
       </RightContainer>
     </TopNavWrapper>
   );

@@ -1,12 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/store';
-import { setEditor } from '../store/actions';
+import { setEditor, setPostDetail } from '../store/actions';
 import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 export function usePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const getEditorHandler = useSelector((state: RootState) => state.page);
+  const getPostDetailHandler = useSelector((state: RootState) => state.post);
+
+  const setPostDetailHandler = (memberId: number, questionId: number) => {
+    dispatch(setPostDetail(memberId, questionId));
+  };
 
   const setEditorHandler = (title: string, content: string, tag: string) => {
     dispatch(setEditor(title, content, tag));
@@ -29,11 +36,13 @@ export function usePage() {
         },
       });
       console.log(response.data);
+      alert('작성완료!');
+      return navigate('/naggingboard');
     } catch (error) {
       console.error(error);
       return null;
     }
   };
 
-  return { getEditorHandler, setEditorHandler, pushPostHandler };
+  return { getEditorHandler, setEditorHandler, pushPostHandler, getPostDetailHandler, setPostDetailHandler };
 }
