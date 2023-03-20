@@ -74,8 +74,9 @@ public interface QuestionMapper {
         return detailResponse;
     };
 
-    @Mapping(source = "member.memberId", target = "memberId")
+//    @Mapping(source = "member.memberId", target = "memberId")
     @Mapping(source = "tag.name", target = "tag")
+    @Mapping(source = "questionStatus.status", target = "questionStatus")
     QuestionDto.Response questionToQuestionResponseDto(Question question);
 
     List<QuestionDto.Response> questionsToQuestionResponseDtos(List<Question> questions);
