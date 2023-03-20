@@ -28,7 +28,6 @@ public class AnswerService {
 
     private final MemberService memberService;
 
-    private final MemberRepository memberRepository;
 
     private final QuestionService questionService;
 
@@ -55,23 +54,7 @@ public class AnswerService {
         //answer 에 회원 추가, 등록된 회원인지 확인
         memberService.findVerifiedMember(answer.getMember().getMemberId());
         //answer 에 질문 추가, 존재하는 질문인지 확인
-        questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
-
-        //답변등록자 == 질문등록자 -> 예외 (안하기로)
-//        if (memberId == answer.getQuestion().getMemberId())throw new ExceptionCode.???;
-
-
-        //실험
-//        answer.setFileName(mediaFile.getOriginalFilename());
-//
-//        //미디어 파일 존재하면, answer 에 이름 저장 - todo
-//        Optional.ofNullable(mediaFile)
-//                        .ifPresent(mediaFile -> );
-//
-//        //미디어 파일 존재하면, S3 버킷에 업로드 - todo
-//        Optional.ofNullable(mediaFile)
-//                .ifPresent(s3StorageService.store(mediaFile););
-
+        Question foundQuestion = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
 
         String fileName = mediaFile.getOriginalFilename();
 
@@ -83,7 +66,7 @@ public class AnswerService {
             s3StorageService.store(mediaFile);
         }
 
-
+        upAnswerCount(foundQuestion);
 
         //점수 증가 메서드(+10점) -> 메서드 갖다 쓰기
 //        answer.getMember().setScore(answer.getMember().getScore() + 10);
@@ -136,6 +119,10 @@ public class AnswerService {
         Answer answer = findAnswer(answerId);
         memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
 
+        Question foundQuestion = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
+
+        downAnswerCount(answer.getQuestion());
+
         answerRepository.delete(answer);
     }
 
@@ -149,5 +136,13 @@ public class AnswerService {
         Answer foundAnswer = optionalAnswer.orElseThrow(() -> new CustomException(ExceptionCode.ANSWER_NOT_FOUND));
 
         return foundAnswer;
+    }
+
+    public void upAnswerCount(Question question){
+        question.setAnswerCount(question.getAnswerCount()+1);
+    }
+
+    public void downAnswerCount(Question question){
+        question.setAnswerCount(question.getAnswerCount()-1);
     }
 }

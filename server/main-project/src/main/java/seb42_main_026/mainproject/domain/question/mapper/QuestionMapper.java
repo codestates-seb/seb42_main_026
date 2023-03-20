@@ -35,6 +35,7 @@ public interface QuestionMapper {
 //        detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
         detailResponse.setQuestionImageUrl(question.getQuestionImageUrl());
 
+
         List<Answer> answers = question.getAnswers();
         List<AnswerDto.Response> answerResponses = answers.stream()
                         .map(answer -> {
