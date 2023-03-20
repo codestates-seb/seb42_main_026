@@ -6,7 +6,6 @@ import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
-import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -29,8 +28,13 @@ public interface QuestionMapper {
         detailResponse.setContent(question.getContent());
         detailResponse.setNickname(question.getMember().getNickname());
         detailResponse.setCreatedAt(question.getCreatedAt());
-        detailResponse.setQuestionStatus(question.getQuestionStatus().getDescription());
+        detailResponse.setQuestionStatus(question.getQuestionStatus().getStatus());
+        detailResponse.setTag(question.getTag().getName());
         detailResponse.setLikeCount(question.getLikeCount());
+        detailResponse.setAnswerCount(question.getAnswerCount());
+//        detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
+        detailResponse.setQuestionImageUrl(question.getQuestionImageUrl());
+
 
         List<Answer> answers = question.getAnswers();
         List<AnswerDto.Response> answerResponses = answers.stream()
@@ -43,8 +47,9 @@ public interface QuestionMapper {
                             answerResponse.setAnswerStatus(answer.getAnswerStatus().getStatus());
                             answerResponse.setCreatedAt(answer.getCreatedAt());
 ////                            answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
-////                            answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
-////                            answerResponseDto.setLikeCount(answer.getLikeCount());
+                            answerResponse.setVoiceFileUrl(answer.getVoiceFileUrl());
+                            answerResponse.setLikeCount(answer.getLikeCount());
+
                             List<Comment> comments = answer.getComments();
                             List<CommentDto.Response> commentResponses = comments.stream()
                                     .map(comment -> {
@@ -55,6 +60,7 @@ public interface QuestionMapper {
                                         commentResponse.setContent(comment.getContent());
                                         commentResponse.setNickname(comment.getMember().getNickname());
                                         commentResponse.setCreatedAt(comment.getCreatedAt());
+//                                        commentResponse.setProfileImageUrl(comment.getMember().getProfileImageUrl());
 
                                         return commentResponse;
                                     }).collect(Collectors.toList());
@@ -68,6 +74,11 @@ public interface QuestionMapper {
 
         return detailResponse;
     };
+
+    @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "questionStatus.status", target = "questionStatus")
+    @Mapping(source = "tag.name", target = "tag")
+    QuestionDto.Response questionToQuestionResponseDto(Question question);
 
     List<QuestionDto.Response> questionsToQuestionResponseDtos(List<Question> questions);
 }

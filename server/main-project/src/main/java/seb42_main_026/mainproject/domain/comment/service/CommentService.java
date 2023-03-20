@@ -42,7 +42,7 @@ public class CommentService {
     public void deleteComment(long commentId, long memberId){
         Comment comment = findComment(commentId);
 
-//        memberService.verifyMemberByMemberId(memberId, comment.getMember().getMemberId());
+        memberService.verifyMemberByMemberId(memberId, comment.getMember().getMemberId());
 
         commentRepository.delete(comment);
     }

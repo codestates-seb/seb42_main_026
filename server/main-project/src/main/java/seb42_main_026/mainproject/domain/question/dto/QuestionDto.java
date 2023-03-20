@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
+import seb42_main_026.mainproject.domain.question.entity.Question;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -19,6 +20,7 @@ public class QuestionDto {
         private String title;
         @NotBlank(message = "내용은 필수로 작성해야 합니다.")
         private String content;
+        private Question.Tag tag;
     }
 
     @Getter
@@ -29,7 +31,7 @@ public class QuestionDto {
         private Long memberId;
         private String title;
         private String content;
-//        private String tagName;
+        private Question.Tag tag;
     }
 
     @Getter
@@ -44,10 +46,10 @@ public class QuestionDto {
         private String questionStatus;
         private int likeCount;
         private List<AnswerDto.Response> answers;
-//        private int answerCount;
-//        private String tagName;
+        private int answerCount;
+        private String tag;
 //        private String profileImageUrl;
-//        private String questionImageUrl;
+        private String questionImageUrl;
     }
 
     @AllArgsConstructor
@@ -55,11 +57,11 @@ public class QuestionDto {
     @Setter
     public static class Response {
         private Long questionId;
-        private Long memberId;
+//        private Long memberId;
         private String title;
         private int likeCount;
-//        private int answerCount;
-//        private String tagName;
+        private int answerCount;
+        private String tag;
         private String questionStatus;
         private LocalDateTime createdAt;
     }

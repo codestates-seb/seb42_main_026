@@ -1,6 +1,7 @@
 package seb42_main_026.mainproject.domain.answer.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.comment.dto.CommentDto;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
-//    Answer answerPostDtoToAnswer(AnswerDto.Post answerPostDto);
+//    Answer answerPostDtoToAnswer(AnswerDto.QuestionPost answerPostDto);
     default Answer answerPostDtoToAnswer(AnswerDto.Post answerPostDto){
         Answer answer = new Answer();
 
@@ -28,10 +29,11 @@ public interface AnswerMapper {
         answer.setMember(member);
         answer.setQuestion(question);
         answer.setContent(answerPostDto.getContent());
-//        answer.setVoiceFileUrl(answerPostDto.getVoiceFileUrl());
 
         return answer;
     }
+
+    @Mapping(source = "memberId", target = "member.memberId")
     Answer answerPatchDtoToAnswer(AnswerDto.Patch answerPatchDto);
 
     //todo 필요한가?
@@ -47,8 +49,9 @@ public interface AnswerMapper {
         answerResponseDto.setContent(answer.getContent());
         answerResponseDto.setAnswerStatus(answer.getAnswerStatus().getStatus());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
+        answerResponseDto.setLikeCount(answer.getLikeCount());
 //        answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
-//        answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
+        answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
 //        answerResponseDto.setLikeCount(answer.getLikeCount());
 
         List<Comment> comments = answer.getComments();
