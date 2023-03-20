@@ -8,7 +8,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.member.entity.Member;
+import seb42_main_026.mainproject.domain.member.entity.Score;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
+import seb42_main_026.mainproject.domain.member.repository.ScoreRepository;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 import seb42_main_026.mainproject.security.userdetails.PrincipalDetails;
@@ -22,11 +24,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final MemberRepository memberRepository;
 
-
+    private final ScoreRepository scoreRepository;
     private final CustomAuthorityUtils authorityUtils;
 
-    public CustomOAuth2UserService(MemberRepository memberRepository, CustomAuthorityUtils authorityUtils) {
+    public CustomOAuth2UserService(MemberRepository memberRepository, ScoreRepository scoreRepository, CustomAuthorityUtils authorityUtils) {
         this.memberRepository = memberRepository;
+        this.scoreRepository = scoreRepository;
         this.authorityUtils = authorityUtils;
     }
 
@@ -63,6 +66,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         }else {
             Member verifiedMember = save(attributes);
+            setScore(verifiedMember);
 
             return new PrincipalDetails(verifiedMember, attributes.getAttributes());
 
@@ -84,10 +88,30 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         System.out.println(member.getNickname());
         member.setPassword(UUID.randomUUID().toString());
 
+        // Score Defaoult 값 추가
+
+
+
         List<String> authorities = authorityUtils.createRoles(member.getEmail());
         member.setRoles(authorities);
 
         return memberRepository.save(member);
+    }
+
+    private void setScore(Member member){
+        Score score = new Score();
+
+        Optional<Member> findmember = memberRepository.findById(member.getMemberId());
+        Member verifiedMember = findmember.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+
+
+        score.setScore(0L);
+        score.setMember(verifiedMember);
+        score.setNickname(verifiedMember.getNickname());
+
+
+
+        scoreRepository.save(score);
     }
 
 

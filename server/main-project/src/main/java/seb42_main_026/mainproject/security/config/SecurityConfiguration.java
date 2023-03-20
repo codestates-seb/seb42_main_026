@@ -25,7 +25,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
-import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.security.Oauth2.CustomOAuth2UserService;
 import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberSuccessHandler;
 import seb42_main_026.mainproject.security.filter.JwtAuthenticationFilter;

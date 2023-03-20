@@ -23,7 +23,7 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, length = 15, unique = true)
+    @Column(nullable = false, length = 30, unique = true)
     private String nickname;
 
     @Column(nullable = false, unique = true)
@@ -55,7 +55,6 @@ public class Member extends Auditable {
 
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-
     private Score score;
 
     public enum MemberStatus {

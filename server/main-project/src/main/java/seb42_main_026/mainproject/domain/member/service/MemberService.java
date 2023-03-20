@@ -3,11 +3,14 @@ package seb42_main_026.mainproject.domain.member.service;
 
 import io.jsonwebtoken.io.Decoders;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import seb42_main_026.mainproject.cloud.service.S3StorageService;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.entity.Score;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
@@ -31,8 +34,16 @@ public class MemberService {
 
     private final ScoreRepository scoreRepository;
 
+    private final S3StorageService s3StorageService;
 
-    public Member createMember(Member member){
+    @Value("${cloud.aws.s3.url}")
+    private String bucketUrl;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
+
+
+    public Member createMember(Member member, MultipartFile mediaFile){
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
@@ -43,6 +54,16 @@ public class MemberService {
         List<String> roles = authorityUtils.createRoles(member.getEmail()); // DB에 User Role 저장
 
         member.setRoles(roles);
+
+
+        // 이미지 url 저장
+        if (mediaFile != null){
+
+            String fileName = mediaFile.getOriginalFilename();
+
+            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
+            s3StorageService.store(mediaFile);
+        }
 
         Member savedMember = memberRepository.save(member);
 
@@ -70,7 +91,7 @@ public class MemberService {
         return member;
     }
 
-    public Member updateMember(Member member){
+    public Member updateMember(Member member, MultipartFile mediaFile){
 
         // 로그인 멤버 권한 검사
         verifyLoginMember(member.getMemberId());
@@ -83,6 +104,16 @@ public class MemberService {
 
         // 닉네임 변경
         verifiedMember.setNickname(member.getNickname());
+
+        // 프로필 사진 변경
+
+        if (mediaFile != null){
+
+            String fileName = mediaFile.getOriginalFilename();
+
+            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + fileName);
+            s3StorageService.store(mediaFile);
+        }
 
 
         return verifiedMember;

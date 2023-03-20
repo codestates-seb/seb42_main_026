@@ -62,7 +62,7 @@ public class MemberDto {
 
 //        private int rank;
 //
-//        private String profileImageUrl;
+        private String profileImageUrl;
 
 
     }
