@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import ButtonStyled from "../components/ButtonStyled";
+import { useAuth } from "../hooks/useAuth";
 
 interface ModalProps {
   isOpen: boolean;
@@ -8,9 +10,16 @@ interface ModalProps {
 }
 
 const LogoutModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  const { logoutHandler } = useAuth();
+
   if (!isOpen) {
     return null;
   }
+
+  const handleLogout = () => {
+    logoutHandler();
+  };
+
   return (
     <>
       {isOpen && (
@@ -18,20 +27,8 @@ const LogoutModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <ModalWrapper>
             <AskWrapper>로그아웃하시겠습니까?</AskWrapper>
             <ButtonWrapper>
-              <ButtonStyled
-                buttonClickHandler={onClose}
-                color="normal"
-                title="로그아웃"
-                width="161px"
-                height="55px"
-              ></ButtonStyled>
-              <ButtonStyled
-                buttonClickHandler={onClose}
-                color="pink"
-                title="돌아가기"
-                width="161px"
-                height="55px"
-              ></ButtonStyled>
+              <ButtonStyled buttonClickHandler={handleLogout} color="normal" title="로그아웃" width="161px" height="55px"></ButtonStyled>
+              <ButtonStyled buttonClickHandler={onClose} color="pink" title="돌아가기" width="161px" height="55px"></ButtonStyled>
             </ButtonWrapper>
           </ModalWrapper>
           <ModalBackground onClick={onClose}></ModalBackground>
