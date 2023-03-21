@@ -50,7 +50,7 @@ public interface AnswerMapper {
         answerResponseDto.setAnswerStatus(answer.getAnswerStatus().getStatus());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
 //        answerResponseDto.setLikeCount(answer.getLikeCount());
-//        answerResponseDto.setProfileImgUrl(answer.getProfileImgUrl());
+//        answerResponseDto.setProfileImageUrl(answer.getProfileImageUrl());
         answerResponseDto.setVoiceFileUrl(answer.getVoiceFileUrl());
 //        answerResponseDto.setLikeCount(answer.getLikeCount());
 
@@ -64,7 +64,7 @@ public interface AnswerMapper {
             commentResponse.setContent(comment.getContent());
             commentResponse.setNickname(comment.getMember().getNickname());
             commentResponse.setCreatedAt(comment.getCreatedAt());
-//            commentResponse.setProfileImgUrl(comment.getProfileImgUrl());
+//            commentResponse.setProfileImageUrl(comment.getProfileImageUrl());
             return commentResponse;
         }).collect(Collectors.toList());
 

@@ -44,7 +44,7 @@ public class AnswerDto {
         private String nickname;
         private String answerStatus;
         private LocalDateTime createdAt;
-//        private String profileImgUrl;
+        private String profileImageUrl;
         private String voiceFileUrl;
         private int likeCount;
         private boolean likeCheck;
