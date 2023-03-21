@@ -1,17 +1,22 @@
-import styled from "styled-components";
-import { ReactComponent as ICON_POPULAR } from "../../assets/ic_home_sub_popular.svg";
-import { ReactComponent as ICON_CHECKLIST } from "../../assets/ic_home_sub_checklist.svg";
-import { ReactComponent as ICON_PRE } from "../../assets/ic_home_sub_pre.svg";
+import styled from 'styled-components';
+import { ReactComponent as ICON_POPULAR } from '../../assets/ic_home_sub_popular.svg';
+import { ReactComponent as ICON_CHECKLIST } from '../../assets/ic_home_sub_checklist.svg';
+import { ReactComponent as ICON_PRE } from '../../assets/ic_home_sub_pre.svg';
+import { Link } from 'react-router-dom';
 
 const SubApp = () => {
   return (
     <SubAppWrapper>
       <SubAppContainer>
-        <ICON_POPULAR width={28} height={28} />
+        <Link to="/">
+          <ICON_POPULAR width={28} height={28} />
+        </Link>
         <SubAppText>인기게시글</SubAppText>
       </SubAppContainer>
       <SubAppContainer>
-        <ICON_CHECKLIST width={28} height={28} />
+        <Link to="/checklist">
+          <ICON_CHECKLIST width={28} height={28} />
+        </Link>
         <SubAppText>자취필수체크</SubAppText>
       </SubAppContainer>
       <SubAppContainer>
@@ -52,5 +57,5 @@ const SubAppText = styled.span`
   vertical-align: middle;
   text-align: center;
   font-size: var(--font-size12);
-  color: ${(props) => (props.color === "gray" ? `var(--color-gray01)` : `var(--color-black01)`)};
+  color: ${(props) => (props.color === 'gray' ? `var(--color-gray01)` : `var(--color-black01)`)};
 `;
