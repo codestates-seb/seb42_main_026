@@ -57,8 +57,8 @@ export function useAuth() {
     }
   };
 
-  function deleteCookie(name: string) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  function deleteCookie(name: string, path: string = '/') {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:01 GMT; path=' + path;
   }
 
   const logoutHandler = () => {
