@@ -227,7 +227,7 @@ public class SecurityConfiguration {
                 .clientSecret(kakaoClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("https://kauth.kakao.com/oauth/authorize?client_id=df13e0d4790457fd5cd2189c010328a6&redirect_uri=http://3.36.228.134:8080/login/oauth2/code/kakao&response_type=code")
+                .redirectUri("http://3.36.228.134:8080/oauth2/authorization/kakao")
                 //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/kakao")
                 .scope("profile_nickname", "account_email")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
