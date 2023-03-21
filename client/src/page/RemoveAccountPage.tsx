@@ -1,25 +1,22 @@
-import styled from "styled-components";
-import ButtonStyled from "../components/ButtonStyled";
-import { useNavigate } from "react-router-dom";
-
-import axios from "axios";
-import { useAuth } from "../hooks/useAuth";
+import styled from 'styled-components';
+import ButtonStyled from '../components/ButtonStyled';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../hooks/useAuth';
+import { getUser } from '../utils/getUser';
+import getCookie from '../utils/getCookie';
 
 const RemoveAccountPage = () => {
   const navigate = useNavigate();
-  const nickname = localStorage.getItem("nickname");
   const { logoutHandler } = useAuth();
-  const memberId = localStorage.getItem("memberId");
-
+  const memberId = getUser().memberId;
+  const nickname = getUser().nickname;
   function handleMemberDelete() {
-    function getCookie(key: string | RegExp | undefined) {
-      key = new RegExp(key + "=([^;]*)"); // 쿠키들을 세미콘론으로 구분하는 정규표현식 정의
-      return key.test(document.cookie) ? unescape(RegExp.$1) : ""; // 인자로 받은 키에 해당하는 키가 있으면 값을 반환
-    }
     const headers = {
-      Authorization: getCookie("accessToken"),
+      Authorization: getCookie('accessToken'),
     };
-    if (window.confirm("정말 탈퇴 하시겠습니까?")) {
+
+    if (window.confirm('정말 탈퇴 하시겠습니까?')) {
       axios
         .delete(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { headers })
         .then((response) => {
@@ -28,9 +25,9 @@ const RemoveAccountPage = () => {
         .catch((err) => {
           console.log(err);
         });
-      alert("탈퇴가 완료되었습니다");
+      alert('탈퇴가 완료되었습니다');
     } else {
-      alert("취소");
+      alert('취소');
     }
   }
 
@@ -38,9 +35,9 @@ const RemoveAccountPage = () => {
     <RemoveWrapper>
       <TitleWrapper>탈퇴 안내</TitleWrapper>
       <TextTitleWrapper>
-        <div>{nickname} 님과 이별인가요?</div> <div>너무 아쉬워요..😭</div>
+        <div>{nickname()} 님과 이별인가요?</div> <div>너무 아쉬워요..😭</div>
       </TextTitleWrapper>
-      <TextWrapper style={{ whiteSpace: "pre-wrap" }}>
+      <TextWrapper style={{ whiteSpace: 'pre-wrap' }}>
         <div className="check">
           <span>☑</span>
           <div>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요!</div>
