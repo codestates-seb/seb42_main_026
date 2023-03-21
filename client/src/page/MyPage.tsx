@@ -16,9 +16,9 @@ interface dataProps {
 }
 
 const MyPage: React.FC = () => {
-  const memberId = getUser().memberId();
+  // const { memberId } = getUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const data: dataProps = useGetMembers(`/members/${memberId}`);
+  const data: dataProps = useGetMembers(`/members/${2}`);
 
   return (
     <MyPageWrapper>
