@@ -20,6 +20,7 @@ export function usePage() {
     const formData = new FormData();
     formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
 
+    console.log(localStorage.getItem('memberId'))
     try {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${localStorage.getItem('memberId')}`, formData, {
         headers: { Authorization: getCookie('accessToken') },
