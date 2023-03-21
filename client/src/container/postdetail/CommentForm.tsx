@@ -35,7 +35,7 @@ const CommentButton = styled.button`
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 `;
 
@@ -43,7 +43,7 @@ const AudioButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
 `;
 
 const CommentForm: React.FC<Props> = ({ questionId }) => {

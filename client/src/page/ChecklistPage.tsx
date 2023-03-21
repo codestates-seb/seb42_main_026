@@ -9,17 +9,7 @@ export default function ChecklistPage() {
   const handleToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  return (
-    <ChecklistWapper>
-      자취필수체크리스트
-      <MenuButtonWapper>
-        <ButtonStyle onClick={handleToggle}>
-          <img src={ICON_MENU_BUTTON} alt="search icon" />
-        </ButtonStyle>
-        {isMenuOpen === true ? <MenuButton /> : null}
-      </MenuButtonWapper>
-    </ChecklistWapper>
-  );
+  return <ChecklistWapper>자취필수체크리스트</ChecklistWapper>;
 }
 
 const ChecklistWapper = styled.div`

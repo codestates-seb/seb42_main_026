@@ -3,16 +3,20 @@ import { ReactComponent as ICON_ALARM } from '../assets/ic_topnav_alarm_button.s
 import { ReactComponent as ICON_BADGE } from '../assets/ic_topnav_alarm_badge.svg';
 import { ReactComponent as ICON_LOGO } from '../assets/ic_topnav_logo_button.svg';
 import { ReactComponent as ICON_BACK } from '../assets/ic_topnav_back_button.svg';
-// import { ReactComponent as ICON_MENU } from '../assets/ic_answer_menubutton.svg';
+import { ReactComponent as ICON_MENU } from '../assets/ic_answer_menubutton.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { usePage } from '../hooks/usePage';
 import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
+import MenuButton from './MenuButton';
+import { useState } from 'react';
+import { getUser } from '../utils/getUser';
 
 export default function TopNav() {
   const navigate = useNavigate();
   const history = useLocation();
   const { getEditorHandler, pushPostHandler, getPostDetailHandler } = usePage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const getTitle = () => {
     switch (history.pathname) {
@@ -46,7 +50,7 @@ export default function TopNav() {
   const showBackButton = () => history.pathname !== '/';
 
   const postDelete = async () => {
-    if (getPostDetailHandler.memberId === Number(localStorage.getItem('memberId'))) {
+    if (getPostDetailHandler.memberId === Number(getUser()?.memberId())) {
       try {
         await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}/?memberId=${getPostDetailHandler.memberId}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
@@ -84,10 +88,32 @@ export default function TopNav() {
             완료
           </TopNavEditorButton>
         )}
-        {history.pathname.slice(0, 10) === '/questions' && (
+        {history.pathname.slice(0, 10) === '/questions' && getPostDetailHandler.memberId === getUser()?.memberId() && (
           <>
-            <button>수정</button>
-            <button onClick={postDelete}>삭제</button>
+            <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
+            {isMenuOpen === true ? (
+              <MenuButton
+                menu={[
+                  {
+                    title: '수정',
+                    button: function () {
+                      console.log('수정');
+                    },
+                  },
+                  {
+                    title: '삭제',
+                    button: function () {
+                      if (window.confirm('정말 삭제 하시겠습니까?')) {
+                        setIsMenuOpen(false);
+                        return postDelete();
+                      }
+                    },
+                  },
+                ]}
+              />
+            ) : null}
+            {/* <button>수정</button>
+            <button onClick={postDelete}>삭제</button> */}
           </>
         )}
       </RightContainer>

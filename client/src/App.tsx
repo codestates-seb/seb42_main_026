@@ -23,7 +23,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <TopNav />
           <main>
             <Routes>

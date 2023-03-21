@@ -48,8 +48,8 @@ const PostDetailPage = () => {
       {post !== null && <PostDetail {...post} />}
       {post !== null && <CountsBar answer={post.answers.length} likeCount={post.likeCount} />}
       <AnswerWrapper>
-        {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
         {post !== null && <CommentForm questionId={post.questionId} />}
+        {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
         {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: [] }, index: number) => {
           return <Answer key={index} {...el} />;
         })}
