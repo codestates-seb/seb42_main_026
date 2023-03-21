@@ -131,7 +131,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
 //        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 파라미터로 지정한 HTTP Method에 대한 HTTP 통신을 허용한다.
-        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.addAllowedOriginPattern("https://codestates-seb.github.io/seb42_main_026");
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
@@ -191,7 +191,7 @@ public class SecurityConfiguration {
         return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
                 .GOOGLE
                 .getBuilder("google")
-                .redirectUri("http://localhost:3000/login/oauth2/code/google")
+                .redirectUri("https://codestates-seb.github.io/seb42_main_026/login/oauth2/code/google")
                 //.redirectUri("http://3.36.228.134:8080/login/oauth2/code/google") 수정전
                 //.redirectUri("http://localhost:8080/login/oauth2/code/google")
                 //.redirectUri("http://localhost:3000/")
