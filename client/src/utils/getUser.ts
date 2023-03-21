@@ -1,4 +1,4 @@
-import getCookie from './cookieUtils';
+import getCookie from './getCookie';
 import decodeJwt from './jwtUtils';
 
 export function getUser() {
@@ -10,7 +10,7 @@ export function getUser() {
   };
 
   const nickname = () => {
-    return decoded.nickname;
+    return decoded.name;
   };
   return { memberId, nickname };
 }

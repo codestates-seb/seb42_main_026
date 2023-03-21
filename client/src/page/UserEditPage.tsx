@@ -1,11 +1,13 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { useState } from "react";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useState } from 'react';
+import getCookie from '../utils/getCookie';
+import { getUser } from '../utils/getUser';
 
 const UserEditPage = () => {
-  const nickname = localStorage.getItem("nickname");
-  const memberId = localStorage.getItem("memberId");
+  const memberId = getUser().memberId;
+  const nickname = getUser().nickname;
   const [newNickname, setNewNickname] = useState(nickname);
   const [isNameError, setIsNameError] = useState(true);
   const [isNowPasswordError, setIsNowPasswordError] = useState(true);
@@ -17,48 +19,40 @@ const UserEditPage = () => {
 
   const handleNicknameChange = (e: any) => {
     e.preventDefault();
-    function getCookie(key: string | RegExp | undefined) {
-      key = new RegExp(key + "=([^;]*)"); // 쿠키들을 세미콘론으로 구분하는 정규표현식 정의
-      return key.test(document.cookie) ? unescape(RegExp.$1) : ""; // 인자로 받은 키에 해당하는 키가 있으면 값을 반환
-    }
     if (nickname === newNickname) {
       setIsNameError(false);
     } else {
       setIsNameError(true);
       const headers = {
-        Authorization: getCookie("accessToken"),
+        Authorization: getCookie('accessToken'),
       };
       axios
         .patch(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { nickname: e.target[0].value }, { headers })
         .then((response) => {
           setNewNickname(e.target[0].value);
-          alert("닉네임이 변경되었습니다.");
+          alert('닉네임이 변경되었습니다.');
         })
         .catch((err) => {
           console.log(err);
-          alert("닉네임에 실패했습니다. 다시 시도해주세요.");
+          alert('닉네임에 실패했습니다. 다시 시도해주세요.');
         });
     }
   };
 
   const handlePassworeChange = (e: any) => {
     e.preventDefault();
-    function getCookie(key: string | RegExp | undefined) {
-      key = new RegExp(key + "=([^;]*)"); // 쿠키들을 세미콘론으로 구분하는 정규표현식 정의
-      return key.test(document.cookie) ? unescape(RegExp.$1) : ""; // 인자로 받은 키에 해당하는 키가 있으면 값을 반환
-    }
     if (e.target[1].value !== e.target[2].value) {
       setIsNewPasswordError(false);
     } else {
       setIsNewPasswordError(true);
       const headers = {
-        Authorization: getCookie("accessToken"),
+        Authorization: getCookie('accessToken'),
       };
       axios
         .patch(`${process.env.REACT_APP_BASE_URL}/members/changepassword/${memberId}`, { password: e.target[0].value, changepassword: e.target[1].value }, { headers })
         .then((response) => {
           setIsNowPasswordError(true);
-          alert("비밀번호가 변경되었습니다.");
+          alert('비밀번호가 변경되었습니다.');
         })
         .catch((err) => {
           console.log(err);
@@ -72,7 +66,7 @@ const UserEditPage = () => {
       <NicknameContainer>
         <InputText>닉네임</InputText>
         <NicknameForm onSubmit={handleNicknameChange}>
-          <NameInput name="nickname" type="text" value={newNickname || ""} onChange={handleNameChange}></NameInput>
+          <NameInput name="nickname" type="text" value={newNickname || ''} onChange={handleNameChange}></NameInput>
           <NameEditButton type="submit">
             닉네임
             <br />
@@ -112,7 +106,7 @@ const UserEditPageWrapper = styled.div`
   padding: 0px 16px;
 
   input::placeholder {
-    font-family: "Noto Sans";
+    font-family: 'Noto Sans';
     font-size: 12px;
     letter-spacing: -0.05em;
     color: #abaeb4;
@@ -120,7 +114,7 @@ const UserEditPageWrapper = styled.div`
   .err {
     text-align: center;
     letter-spacing: -0.05em;
-    font-family: "Noto Sans KR";
+    font-family: 'Noto Sans KR';
     font-weight: 500;
     font-size: 12px;
     color: red;
@@ -146,7 +140,7 @@ const NicknameForm = styled.form`
   width: 100%;
   padding-bottom: 10px;
   input::placeholder {
-    font-family: "Noto Sans";
+    font-family: 'Noto Sans';
     font-size: 12px;
     letter-spacing: -0.05em;
     color: #abaeb4;
@@ -154,7 +148,7 @@ const NicknameForm = styled.form`
   .err {
     text-align: center;
     letter-spacing: -0.05em;
-    font-family: "Noto Sans KR";
+    font-family: 'Noto Sans KR';
     font-weight: 500;
     font-size: 12px;
     color: red;
@@ -173,7 +167,7 @@ const NameInput = styled.input`
   color: var(--color-gray01);
 `;
 const InputText = styled.div`
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-weight: 400;
   font-size: 14px;
   padding-bottom: 6px;
@@ -191,7 +185,7 @@ const NameEditButton = styled.button`
   border: none;
   background-color: #ff607c;
   color: var(--color-white01);
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-size: 14px;
   padding: 4px 10px;
 `;
@@ -228,11 +222,11 @@ const PasswordEditButton = styled.button`
   border: none;
   background-color: #ff607c;
   color: var(--color-white01);
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-size: 14px;
 `;
 const UserEditText = styled.span`
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-size: 14px;
   color: #878b93;
   text-align: center;

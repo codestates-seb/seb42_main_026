@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import BoardItem from "../container/naggingboard/BoardItem";
-import { Link } from "react-router-dom";
-import useGetMyQuestions from "../hooks/useGetMyQuestions";
-
-const memberId = localStorage.getItem("memberId");
+import styled from 'styled-components';
+import BoardItem from '../container/naggingboard/BoardItem';
+import { Link } from 'react-router-dom';
+import useGetMyQuestions from '../hooks/useGetMyQuestions';
+import { getUser } from '../utils/getUser';
 
 const MyPostsPage = () => {
+  const memberId = getUser().memberId;
   const data = useGetMyQuestions(`/members/${memberId}/questions/?page=1&size=20`);
   const parseDate = (props: Date) => {
     const now = new Date(props);
