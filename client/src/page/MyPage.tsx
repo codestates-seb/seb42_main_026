@@ -5,6 +5,7 @@ import MyPost from '../container/mypage/MyPost';
 import LogoutModal from '../components/LogoutModal';
 import React, { useState } from 'react';
 import useGetMembers from '../hooks/useGetMembers';
+import { getUser } from '../utils/getUser';
 
 interface dataProps {
   email?: string;
@@ -15,8 +16,8 @@ interface dataProps {
 }
 
 const MyPage: React.FC = () => {
+  const memberId = getUser().memberId;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const memberId = localStorage.getItem('memberId');
   const data: dataProps = useGetMembers(`/members/${memberId}`);
 
   return (

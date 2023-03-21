@@ -11,6 +11,7 @@ const RemoveAccountPage = () => {
   const { logoutHandler } = useAuth();
   const memberId = getUser().memberId;
   const nickname = getUser().nickname;
+
   function handleMemberDelete() {
     const headers = {
       Authorization: getCookie('accessToken'),
