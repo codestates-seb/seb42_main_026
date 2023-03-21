@@ -26,8 +26,6 @@ export function useAuth() {
       if (accessTokenCookie) {
         const accessToken = accessTokenCookie.split('=')[1];
         const decoded = decodeJwt(accessToken);
-        localStorage.setItem('memberId', decoded.memberId);
-        localStorage.setItem('nickname', decoded.name);
         dispatch(login());
         navigate('/');
         alert('로그인 성공!');
@@ -66,9 +64,6 @@ export function useAuth() {
   const logoutHandler = () => {
     deleteCookie('accessToken');
     deleteCookie('refreshToken');
-    localStorage.removeItem('memberId');
-    localStorage.removeItem('nickname');
-    localStorage.removeItem('undefined');
     localStorage.removeItem('searchHistory');
     dispatch(logout());
     navigate('/');

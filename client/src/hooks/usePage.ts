@@ -4,6 +4,7 @@ import { setEditor, setPostDetail } from '../store/actions';
 import getCookie from '../utils/getCookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { getUser } from '../utils/getUser';
 
 export function usePage() {
   const dispatch = useDispatch();
@@ -19,10 +20,10 @@ export function usePage() {
     const data = { title, content, tag };
     const formData = new FormData();
     formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    const memberId = getUser().memberId();
 
-    console.log(localStorage.getItem('memberId'));
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${localStorage.getItem('memberId')}`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${memberId}`, formData, {
         headers: { Authorization: getCookie('accessToken') },
       });
       alert('작성완료!');

@@ -5,7 +5,7 @@ import useGetMyQuestions from '../hooks/useGetMyQuestions';
 import { getUser } from '../utils/getUser';
 
 const MyPostsPage = () => {
-  const memberId = getUser().memberId;
+  const memberId = getUser().memberId();
   const data = useGetMyQuestions(`/members/${memberId}/questions/?page=1&size=20`);
   const parseDate = (props: Date) => {
     const now = new Date(props);
