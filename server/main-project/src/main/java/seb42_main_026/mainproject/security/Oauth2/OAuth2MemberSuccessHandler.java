@@ -112,10 +112,10 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         return UriComponentsBuilder //  Port 설정을 하지 않으면 기본값은 80 포트
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                //.path("/my-page.html")
+                .scheme("https")
+                .host("codestates-seb.github.io/seb42_main_026/")
+                //.port(3000)
+                .path("/login/oauth2/code/google")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
