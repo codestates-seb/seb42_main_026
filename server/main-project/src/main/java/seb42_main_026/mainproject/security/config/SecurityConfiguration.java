@@ -194,7 +194,7 @@ public class SecurityConfiguration {
                 //.redirectUri("http://localhost:3000/login/oauth2/code/google")
                 //.redirectUri("http://3.36.228.134:8080/login/oauth2/code/google") 수정전
                 //.redirectUri("http://localhost:8080/login/oauth2/code/google")
-                .redirectUri("http://localhost:3000")
+                .redirectUri("http://localhost:3000/login")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
                 .scope("profile", "email")

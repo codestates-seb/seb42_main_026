@@ -57,6 +57,7 @@ public class QuestionDto {
     public static class Response {
         private Long questionId;
         private String title;
+        private String nickname;
         private int likeCount;
         private int answerCount;
         private String tag;

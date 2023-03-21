@@ -84,6 +84,7 @@ public interface QuestionMapper {
 
     @Mapping(source = "questionStatus.status", target = "questionStatus")
     @Mapping(source = "tag.name", target = "tag")
+    @Mapping(source = "member.nickname", target = "nickname")
     QuestionDto.Response questionToQuestionResponseDto(Question question);
 
     List<QuestionDto.Response> questionsToQuestionResponseDtos(List<Question> questions);
