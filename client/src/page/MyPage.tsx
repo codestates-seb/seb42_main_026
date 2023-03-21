@@ -3,9 +3,11 @@ import ProfileCard from '../container/mypage/ProfileCard';
 import RankCard from '../container/mypage/RankCard';
 import MyPost from '../container/mypage/MyPost';
 import LogoutModal from '../components/LogoutModal';
-import React, { useState } from 'react';
-import useGetMembers from '../hooks/useGetMembers';
+import React, { useState, useEffect } from 'react';
+// import useGetMembers from '../hooks/useGetMembers';
 import { getUser } from '../utils/getUser';
+import getCookie from '../utils/cookieUtils';
+import axios from 'axios';
 
 interface dataProps {
   email?: string;
@@ -18,7 +20,22 @@ interface dataProps {
 const MyPage: React.FC = () => {
   const memberId = getUser()?.memberId();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const data: dataProps = useGetMembers(`/members/${memberId}`);
+  // const data: dataProps = useGetMembers(`/members/${memberId}`);
+  const [data, setData] = useState<dataProps>({});
+
+  useEffect(() => {
+    const headers = {
+      Authorization: getCookie('accessToken'),
+    };
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { headers })
+      .then((response) => {
+        setData(response.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <MyPageWrapper>
