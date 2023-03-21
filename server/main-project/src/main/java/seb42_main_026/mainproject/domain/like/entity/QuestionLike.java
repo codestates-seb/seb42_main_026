@@ -1,9 +1,6 @@
 package seb42_main_026.mainproject.domain.like.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import seb42_main_026.mainproject.domain.answer.entity.Answer;
+import lombok.*;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -12,21 +9,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "LIKES")
-public class Like {
+@Entity
+public class QuestionLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
-
-    @ManyToOne
-    @JoinColumn(name = "ANSWER_ID")
-    private Answer answer;
 }
