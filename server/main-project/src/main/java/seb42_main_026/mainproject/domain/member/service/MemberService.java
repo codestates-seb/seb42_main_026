@@ -133,7 +133,9 @@ public class MemberService {
         if(passwordEncoder.matches(members.get(0).getPassword(),member.getPassword())){
             System.out.println(members.get(1).getPassword());
             // 새로운 비밀번호변경
-            member.setPassword(members.get(1).getPassword());
+            String encryptedPassword = passwordEncoder.encode(members.get(1).getPassword());
+            //member.setPassword(members.get(1).getPassword());
+            member.setPassword(encryptedPassword);
             return member;
         // 불일치 했을때
         }else {
