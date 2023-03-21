@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { answer } from '../../api/answer';
 
 type Props = {
-  onSubmit: (comment: string, audio: Blob | null) => void;
+  questionId: number;
 };
 
 const CommentInputWrapper = styled.div`
@@ -45,7 +46,7 @@ const AudioButtonContainer = styled.div`
   justify-content: flex-start;
 `;
 
-const CommentForm: React.FC<Props> = ({ onSubmit }) => {
+const CommentForm: React.FC<Props> = ({ questionId }) => {
   const [comment, setComment] = useState<string>('');
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
@@ -55,7 +56,7 @@ const CommentForm: React.FC<Props> = ({ onSubmit }) => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
 
-      mediaRecorder.addEventListener('dataavailable', (event: any) => {
+      mediaRecorder.addEventListener('dataavailable', (event: BlobEvent) => {
         if (event.data.size > 0) {
           setAudioChunks((chunks) => [...chunks, event.data]);
         }
@@ -75,35 +76,51 @@ const CommentForm: React.FC<Props> = ({ onSubmit }) => {
     }
   };
 
+  const clearRecording = () => {
+    setAudioChunks([]);
+  };
+
   const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-    onSubmit(comment, audioBlob);
+    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+    answer(questionId, comment);
+    // onSubmit(comment, audioBlob);
     setComment('');
     setAudioChunks([]);
   };
 
+  useEffect(() => {
+    const audioElement = document.querySelector('audio');
+    if (audioElement) {
+      audioElement.srcObject = null;
+      audioElement.src = URL.createObjectURL(new Blob(audioChunks, { type: 'audio/webm' }));
+    }
+  }, [audioChunks]);
+
   return (
-    <form onSubmit={handleSubmit}>
-      <CommentInputWrapper>
-        <CommentInput placeholder="댓글을 입력해주세요" value={comment} onChange={handleCommentChange} />
-        <ButtonWrapper>
-          <AudioButtonContainer>
-            {!recorder ? <CommentButton onClick={startRecording}>녹음시작</CommentButton> : <CommentButton onClick={stopRecording}>녹음정지</CommentButton>}
-            <audio controls>
-              {audioChunks.map((chunk, i) => (
-                <source key={i} src={URL.createObjectURL(chunk)} />
-              ))}
-            </audio>
-          </AudioButtonContainer>
-          <CommentButton type="submit">댓글 작성</CommentButton>
-        </ButtonWrapper>
-      </CommentInputWrapper>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <CommentInputWrapper>
+          <CommentInput placeholder="댓글을 입력해주세요" value={comment} onChange={handleCommentChange} />
+          <ButtonWrapper>
+            <CommentButton type="submit">댓글 작성</CommentButton>
+          </ButtonWrapper>
+        </CommentInputWrapper>
+      </form>
+      {/* <AudioButtonContainer>
+        {!recorder ? <button onClick={startRecording}>녹음시작</button> : <button onClick={stopRecording}>녹음정지</button>}
+        <button onClick={clearRecording}>초기화</button>
+        <audio controls>
+          {audioChunks.map((chunk, i) => (
+            <source key={i} src={URL.createObjectURL(chunk)} />
+          ))}
+        </audio>
+      </AudioButtonContainer> */}
+    </>
   );
 };
 

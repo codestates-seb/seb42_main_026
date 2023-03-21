@@ -6,7 +6,7 @@ import Answer from '../container/postdetail/Answer';
 import SubAnswer from '../container/postdetail/SubAnswer';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 import { usePage } from '../hooks/usePage';
 import CommentForm from '../container/postdetail/CommentForm';
 
@@ -18,6 +18,7 @@ type Post = {
   title: string;
   answers: any;
   likeCount: number;
+  questionId: number;
 };
 
 const PostDetailPage = () => {
@@ -29,6 +30,7 @@ const PostDetailPage = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}`);
       const { data } = response.data;
+      console.log(data);
       setPost(data); // 서버에서 발급한 토큰 등의 정보가 담긴 객체
       setPostDetailHandler(data.memberId, data.questionId);
     } catch (error) {
@@ -47,11 +49,7 @@ const PostDetailPage = () => {
       {post !== null && <CountsBar answer={post.answers.length} likeCount={post.likeCount} />}
       <AnswerWrapper>
         {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
-        <CommentForm
-          onSubmit={function (comment: string): void {
-            throw new Error('Function not implemented.');
-          }}
-        ></CommentForm>
+        {post !== null && <CommentForm questionId={post.questionId} />}
         {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: [] }, index: number) => {
           return <Answer key={index} {...el} />;
         })}

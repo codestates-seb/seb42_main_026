@@ -29,18 +29,67 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/*" element={<HomePage />} />
-              <Route path="/rank" element={<RankPage />}/>
-              <Route path="/mypage" element={<PrivateRoute><MyPage /></PrivateRoute>} />
-              <Route path="/alarms" element={<PrivateRoute><AlarmsPage /></PrivateRoute>} />
-              <Route path="/checklist" element={<PrivateRoute><ChecklistPage /></PrivateRoute>} />
-              <Route path="/editor" element={<PrivateRoute><EditorPage /></PrivateRoute>} />
+              <Route path="/rank" element={<RankPage />} />
+              <Route
+                path="/mypage"
+                element={
+                  <PrivateRoute>
+                    <MyPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/alarms"
+                element={
+                  <PrivateRoute>
+                    <AlarmsPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/checklist"
+                element={
+                  <PrivateRoute>
+                    <ChecklistPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/editor"
+                element={
+                  <PrivateRoute>
+                    <EditorPage />
+                  </PrivateRoute>
+                }
+              />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/myposts" element={<PrivateRoute><MyPostsPage /></PrivateRoute>} />
+              <Route
+                path="/myposts"
+                element={
+                  <PrivateRoute>
+                    <MyPostsPage />
+                  </PrivateRoute>
+                }
+              />
               <Route path="/naggingboard" element={<NaggingBoardPage />} />
               <Route path="/questions/:questionId" element={<PostDetailPage />} />
-              <Route path="/removeaccount" element={<PrivateRoute><RemoveAccountPage /></PrivateRoute>} />
+              <Route
+                path="/removeaccount"
+                element={
+                  <PrivateRoute>
+                    <RemoveAccountPage />
+                  </PrivateRoute>
+                }
+              />
               <Route path="/signup" element={<SignupPage />} />
-              <Route path="/useredit" element={<PrivateRoute><UserEditPage /></PrivateRoute>} />
+              <Route
+                path="/useredit"
+                element={
+                  <PrivateRoute>
+                    <UserEditPage />
+                  </PrivateRoute>
+                }
+              />
             </Routes>
           </main>
           <BottomNav />

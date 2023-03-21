@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
 import { getUser } from '../utils/getUser';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 
 const RemoveAccountPage = () => {
   const navigate = useNavigate();
   const { logoutHandler } = useAuth();
-  const memberId = getUser().memberId();
-  const nickname = getUser().nickname();
+  const memberId = getUser()?.memberId();
+  const nickname = getUser()?.nickname();
 
   function handleMemberDelete() {
     const headers = {

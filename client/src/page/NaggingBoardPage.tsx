@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import Tags from "../components/Tags";
-import BoardItem from "../container/naggingboard/BoardItem";
-import axios from "axios";
-import { useEffect, useState, useCallback, useRef } from "react";
-import { Link } from "react-router-dom";
-import NaggingSearchModal from "../components/NaggingSearchModal";
-import ICON_SEARCH from "../assets/ic_search.svg";
+import styled from 'styled-components';
+import Tags from '../components/Tags';
+import BoardItem from '../container/naggingboard/BoardItem';
+import axios from 'axios';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import NaggingSearchModal from '../components/NaggingSearchModal';
+import ICON_SEARCH from '../assets/ic_search.svg';
 
 interface ItemProps {
   title: string;
@@ -19,7 +19,7 @@ interface ItemProps {
 
 export default function NaggingBoardPage() {
   const [list, setList] = useState<ItemProps[]>([]);
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState('');
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const page = useRef<number>(1);
@@ -35,7 +35,7 @@ export default function NaggingBoardPage() {
 
   const naggingBoard = useCallback(async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=${page.current}&size=20${tag === "" || tag === "전체" ? "" : "&tag=" + tag}`);
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=${page.current}&size=20${tag === '' || tag === '전체' ? '' : '&tag=' + tag}`);
       if (response.data.pageInfo.page === 1) {
         setList(response.data.data);
       } else {
@@ -83,11 +83,11 @@ export default function NaggingBoardPage() {
       <NaggingSearchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onData={handleData}></NaggingSearchModal>
       <TagSelector>
         <div className="tagContainer">
-          <Tags title={"전체"} size="big" tagClickHandler={() => setTag("전체")} disabled={tag === "전체" || tag === ""} />
-          <Tags title={"운동"} size="big" tagClickHandler={() => setTag("EXERCISE")} disabled={tag === "EXERCISE"} />
-          <Tags title={"공부"} size="big" tagClickHandler={() => setTag("STUDY")} disabled={tag === "STUDY"} />
-          <Tags title={"기상"} size="big" tagClickHandler={() => setTag("WAKE_UP")} disabled={tag === "WAKE_UP"} />
-          <Tags title={"기타"} size="big" tagClickHandler={() => setTag("ETC")} disabled={tag === "ETC"} />
+          <Tags title={'전체'} size="big" tagClickHandler={() => setTag('전체')} disabled={tag === '전체' || tag === ''} />
+          <Tags title={'운동'} size="big" tagClickHandler={() => setTag('EXERCISE')} disabled={tag === 'EXERCISE'} />
+          <Tags title={'공부'} size="big" tagClickHandler={() => setTag('STUDY')} disabled={tag === 'STUDY'} />
+          <Tags title={'기상'} size="big" tagClickHandler={() => setTag('WAKE_UP')} disabled={tag === 'WAKE_UP'} />
+          <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} disabled={tag === 'ETC'} />
         </div>
         <div className="search" onClick={() => setIsModalOpen(true)}>
           <img src={ICON_SEARCH} alt="search icon" />

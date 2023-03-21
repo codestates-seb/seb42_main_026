@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { RootState } from '../store/store';
 import { login, logout } from '../store/actions';
 import decodeJwt from '../utils/jwtUtils';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 
 export function useAuth() {
   const navigate = useNavigate();

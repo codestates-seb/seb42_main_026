@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 import { getUser } from '../utils/getUser';
 
 const UserEditPage = () => {
-  const memberId = getUser().memberId();
-  const nickname = getUser().nickname();
+  const memberId = getUser()?.memberId();
+  const nickname = getUser()?.nickname();
   const [newNickname, setNewNickname] = useState(nickname);
   const [isNameError, setIsNameError] = useState(true);
   const [isNowPasswordError, setIsNowPasswordError] = useState(true);

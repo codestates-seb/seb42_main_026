@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store/store';
 import { setEditor, setPostDetail } from '../store/actions';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { getUser } from '../utils/getUser';
@@ -20,7 +20,7 @@ export function usePage() {
     const data = { title, content, tag };
     const formData = new FormData();
     formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-    const memberId = getUser().memberId();
+    const memberId = getUser()?.memberId();
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${memberId}`, formData, {

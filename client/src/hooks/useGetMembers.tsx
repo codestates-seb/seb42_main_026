@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 
 export default function useGetMembers(url: string) {
   const [data, setData] = useState({});

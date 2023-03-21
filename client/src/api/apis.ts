@@ -1,5 +1,5 @@
 import axios from 'axios';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 
 const customAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,

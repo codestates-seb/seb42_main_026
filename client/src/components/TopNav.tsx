@@ -6,7 +6,7 @@ import { ReactComponent as ICON_BACK } from '../assets/ic_topnav_back_button.svg
 // import { ReactComponent as ICON_MENU } from '../assets/ic_answer_menubutton.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { usePage } from '../hooks/usePage';
-import getCookie from '../utils/getCookie';
+import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
 
 export default function TopNav() {
