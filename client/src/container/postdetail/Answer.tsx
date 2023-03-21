@@ -19,11 +19,11 @@ interface AnswerCardProps {
   answerStatus: string;
   content: string;
   comments?: [];
-  answerId: number;
+  memberId: number;
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, answerId }: AnswerCardProps) => {
+const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, memberId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <>
@@ -39,32 +39,32 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
             </InfoWrapper>
             <TopRightWrapper>
               <ButtonStyled color="pink" title={answerStatus} width="55px" height="22px"></ButtonStyled>
-                {answerId === getUser()?.memberId() && (
-                  <>
-                    <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
-                    {isMenuOpen === true ? (
-                      <MenuButton
-                        menu={[
-                          {
-                            title: '수정',
-                            button: function () {
-                              console.log('수정');
-                            },
+              {memberId === getUser()?.memberId() && (
+                <>
+                  <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
+                  {isMenuOpen === true ? (
+                    <MenuButton
+                      menu={[
+                        {
+                          title: '수정',
+                          button: function () {
+                            console.log('수정');
                           },
-                          {
-                            title: '삭제',
-                            button: function () {
-                              if (window.confirm('정말 삭제 하시겠습니까?')) {
-                                setIsMenuOpen(false);
-                                return console.log('삭제');
-                              }
-                            },
+                        },
+                        {
+                          title: '삭제',
+                          button: function () {
+                            if (window.confirm('정말 삭제 하시겠습니까?')) {
+                              setIsMenuOpen(false);
+                              return console.log('삭제');
+                            }
                           },
-                        ]}
-                      />
-                    ) : null}
-                  </>
-                )}
+                        },
+                      ]}
+                    />
+                  ) : null}
+                </>
+              )}
             </TopRightWrapper>
           </TopWrapper>
           <MiddleWrapper>{content}</MiddleWrapper>
