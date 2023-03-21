@@ -118,7 +118,6 @@ public class SecurityConfiguration {
                /* .oauth2Login(oauth2 -> oauth2
                         .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository)));*/ // OAuth 2 로그인 인증을 활성화한다.
                 .oauth2Login()
-                .loginPage("/loginForm")
                     .userInfoEndpoint()
                         .userService(customOAuth2UserService)
                 .and()
@@ -229,7 +228,8 @@ public class SecurityConfiguration {
                 .clientSecret(kakaoClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:3000/login/oauth2/code/kakao")
+                //.redirectUri("http://localhost:3000/login/oauth2/code/kakao")
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/kakao")
                 .scope("profile_nickname", "account_email")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")
