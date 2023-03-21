@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface TagesProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title?: string;
-  size?: "big" | "small";
+  size?: 'big' | 'small';
   tagClickHandler?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
 }
@@ -25,12 +25,12 @@ const TagsStyle = styled.button<TagesProps>`
   align-items: center;
   width: fit-content;
   height: 22px;
-  color: #285f94;
-  background-color: ${(props) => (props.disabled ? "" : "#edf7f9")};
+  color: ${(props) => (props.disabled ? 'white' : '#285f94')};
+  background-color: ${(props) => (props.disabled ? '#5391CD' : '#edf7f9')};
   padding: ${(props) =>
-    props.size === "big" ? `4px 10px ` : ` 1.5px 8px 2px; `};
+    props.size === 'big' ? `4px 10px ` : ` 1.5px 8px 2px; `};
   border-radius: 5px;
   font-size: ${(props) =>
-    props.size === "big" ? `var(--font-size14)` : `var(--font-size12)`};
+    props.size === 'big' ? `var(--font-size14)` : `var(--font-size12)`};
   border: none;
 `;
