@@ -26,5 +26,7 @@ public class ScoreDto {
 
         private LocalDateTime createdAt;
 
+        private String profileImageUrl;
+
     }
 }

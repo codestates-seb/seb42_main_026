@@ -23,6 +23,9 @@ public class Score extends Auditable {
     private Member member;
 
     @Column
+    private String profileImageUrl;
+
+    @Column
     private String nickname;
 
     @Column(nullable = false)
