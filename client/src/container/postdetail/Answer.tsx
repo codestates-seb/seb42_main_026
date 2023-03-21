@@ -3,8 +3,12 @@ import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 import ButtonStyled from '../../components/ButtonStyled';
 import ICON_MENUBUTTON from '../../assets/ic_answer_menubutton.svg';
 import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
+import { ReactComponent as ICON_MENU } from '../../assets/ic_answer_menubutton.svg';
 import SubAnswer from './SubAnswer';
 import CommentForm from './CommentForm';
+import { getUser } from '../../utils/getUser';
+import MenuButton from '../../components/MenuButton';
+import { useState } from 'react';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -15,10 +19,12 @@ interface AnswerCardProps {
   answerStatus: string;
   content: string;
   comments?: [];
+  answerId: number;
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments }: AnswerCardProps) => {
+const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, answerId }: AnswerCardProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <>
       <AnswerWrapper>
@@ -33,9 +39,32 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
             </InfoWrapper>
             <TopRightWrapper>
               <ButtonStyled color="pink" title={answerStatus} width="55px" height="22px"></ButtonStyled>
-              <MenuButtonWrapper>
-                <img src={ICON_MENUBUTTON} alt="메뉴버튼" />
-              </MenuButtonWrapper>
+                {answerId === getUser()?.memberId() && (
+                  <>
+                    <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
+                    {isMenuOpen === true ? (
+                      <MenuButton
+                        menu={[
+                          {
+                            title: '수정',
+                            button: function () {
+                              console.log('수정');
+                            },
+                          },
+                          {
+                            title: '삭제',
+                            button: function () {
+                              if (window.confirm('정말 삭제 하시겠습니까?')) {
+                                setIsMenuOpen(false);
+                                return console.log('삭제');
+                              }
+                            },
+                          },
+                        ]}
+                      />
+                    ) : null}
+                  </>
+                )}
             </TopRightWrapper>
           </TopWrapper>
           <MiddleWrapper>{content}</MiddleWrapper>
