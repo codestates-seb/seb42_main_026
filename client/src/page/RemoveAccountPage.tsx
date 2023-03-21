@@ -9,8 +9,8 @@ import getCookie from '../utils/getCookie';
 const RemoveAccountPage = () => {
   const navigate = useNavigate();
   const { logoutHandler } = useAuth();
-  const memberId = getUser().memberId;
-  const nickname = getUser().nickname;
+  const memberId = getUser().memberId();
+  const nickname = getUser().nickname();
 
   function handleMemberDelete() {
     const headers = {

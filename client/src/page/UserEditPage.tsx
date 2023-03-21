@@ -6,8 +6,8 @@ import getCookie from '../utils/getCookie';
 import { getUser } from '../utils/getUser';
 
 const UserEditPage = () => {
-  const memberId = getUser().memberId;
-  const nickname = getUser().nickname;
+  const memberId = getUser().memberId();
+  const nickname = getUser().nickname();
   const [newNickname, setNewNickname] = useState(nickname);
   const [isNameError, setIsNameError] = useState(true);
   const [isNowPasswordError, setIsNowPasswordError] = useState(true);
