@@ -67,11 +67,7 @@ const UserEditPage = () => {
         <InputText>닉네임</InputText>
         <NicknameForm onSubmit={handleNicknameChange}>
           <NameInput name="nickname" type="text" value={newNickname || ''} onChange={handleNameChange}></NameInput>
-          <NameEditButton type="submit">
-            닉네임
-            <br />
-            저장
-          </NameEditButton>
+          <NameEditButton type="submit">닉네임 변경</NameEditButton>
         </NicknameForm>
         {isNameError === false ? <div className="err">변경사항이 없습니다.</div> : null}
       </NicknameContainer>
@@ -85,7 +81,7 @@ const UserEditPage = () => {
         <InputText>새 비밀번호 확인</InputText>
         <PasswordEditInput name="passwordCheck" placeholder="변경할 비밀번호를 한 번 더 입력해주세요."></PasswordEditInput>
         {isNewPasswordError === false ? <div className="err">변경할 비밀번호를 제대로 입력해 주세요</div> : null}
-        <PasswordEditButton type="submit">새 비밀번호 저장</PasswordEditButton>
+        <PasswordEditButton type="submit">비밀번호 변경</PasswordEditButton>
       </InputPasswordContainer>
 
       <UserEditText>
@@ -137,6 +133,7 @@ const NicknameContainer = styled.div`
 `;
 const NicknameForm = styled.form`
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding-bottom: 10px;
   input::placeholder {
@@ -157,26 +154,26 @@ const NicknameForm = styled.form`
 `;
 
 const NameInput = styled.input`
-  width: 80%;
+  width: calc(100% - 10px);
   height: 48px;
-  background-color: var(--color-gray04);
+  background: #eeeeef;
   border: none;
   border-radius: 5px;
   padding-left: 10px;
-  margin-right: 10px;
   color: var(--color-gray01);
 `;
 const InputText = styled.div`
   font-family: 'Noto Sans KR';
   font-weight: 400;
   font-size: 14px;
-  padding-bottom: 6px;
-  color: #abaeb4;
-  margin-top: 14px;
+  color: var(--color-black01);
+  margin-top: 16px;
+  padding-bottom: 10px;
 `;
 
 const NameEditButton = styled.button`
-  width: 20%;
+  margin-top: 15px;
+  width: 100%;
   height: 48px;
   display: flex;
   justify-content: center;
@@ -187,7 +184,6 @@ const NameEditButton = styled.button`
   color: var(--color-white01);
   font-family: 'Noto Sans KR';
   font-size: 14px;
-  padding: 4px 10px;
 `;
 
 const InputPasswordContainer = styled.form`
@@ -208,13 +204,12 @@ const PasswordEditInput = styled.input`
   border: none;
   border-radius: 5px;
   padding-left: 10px;
-  margin-bottom: 10px;
 `;
 
 const PasswordEditButton = styled.button`
   margin-top: 15px;
   width: 100%;
-  height: 55px;
+  height: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
