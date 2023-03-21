@@ -43,7 +43,7 @@ public class MemberService {
     private String bucketName;
 
 
-    public Member createMember(Member member, MultipartFile mediaFile){
+    public Member createMember(Member member, MultipartFile profileImage){
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
@@ -57,11 +57,11 @@ public class MemberService {
 
 
         // 이미지 url 저장
-        if (mediaFile != null){
+        if (profileImage != null){
 
-            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
-            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + encodedFileName);
-            s3StorageService.store(mediaFile, encodedFileName);
+            String encodedFileName = s3StorageService.encodeFileName(profileImage);
+            member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
+            s3StorageService.store(profileImage, encodedFileName);
         }
 
         Member savedMember = memberRepository.save(member);
@@ -90,7 +90,7 @@ public class MemberService {
         return member;
     }
 
-    public Member updateMember(Member member, MultipartFile mediaFile){
+    public Member updateMember(Member member, MultipartFile profileImage){
 
         // 로그인 멤버 권한 검사
         verifyLoginMember(member.getMemberId());
@@ -104,13 +104,16 @@ public class MemberService {
         // 닉네임 변경
         verifiedMember.setNickname(member.getNickname());
 
+        // score 닉네임 변경
+        Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
+        score.setNickname(verifiedMember.getNickname());
+
         // 프로필 사진 변경
+        if (profileImage != null){
 
-        if (mediaFile != null){
-
-            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
-            member.setProfileImageUrl("https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com/" + encodedFileName);
-            s3StorageService.store(mediaFile, encodedFileName);
+            String encodedFileName = s3StorageService.encodeFileName(profileImage);
+            member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
+            s3StorageService.store(profileImage, encodedFileName);
         }
 
 

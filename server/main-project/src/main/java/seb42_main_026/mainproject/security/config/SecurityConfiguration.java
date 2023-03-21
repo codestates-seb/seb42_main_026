@@ -191,9 +191,10 @@ public class SecurityConfiguration {
         return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
                 .GOOGLE
                 .getBuilder("google")
-                .redirectUri("http://localhost:3000/login/oauth2/code/google")
+                //.redirectUri("http://localhost:3000/login/oauth2/code/google")
                 //.redirectUri("http://3.36.228.134:8080/login/oauth2/code/google") 수정전
                 //.redirectUri("http://localhost:8080/login/oauth2/code/google")
+                .redirectUri("http://localhost:3000")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
                 .scope("profile", "email")

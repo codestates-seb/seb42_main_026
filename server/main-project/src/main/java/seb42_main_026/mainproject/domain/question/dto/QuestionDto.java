@@ -1,6 +1,5 @@
 package seb42_main_026.mainproject.domain.question.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import seb42_main_026.mainproject.domain.answer.dto.AnswerDto;
@@ -45,19 +44,18 @@ public class QuestionDto {
         private LocalDateTime createdAt;
         private String questionStatus;
         private int likeCount;
+        private boolean likeCheck;
         private List<AnswerDto.Response> answers;
         private int answerCount;
         private String tag;
-//        private String profileImageUrl;
+        private String profileImageUrl;
         private String questionImageUrl;
     }
 
-    @AllArgsConstructor
     @Getter
     @Setter
     public static class Response {
         private Long questionId;
-        private Long memberId;
         private String title;
         private int likeCount;
         private int answerCount;

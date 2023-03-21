@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
-import seb42_main_026.mainproject.domain.like.entity.Like;
+import seb42_main_026.mainproject.domain.like.entity.QuestionLike;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 
 import javax.persistence.*;
@@ -30,6 +30,9 @@ public class Question extends Auditable {
 
     @Column(nullable = false)
     private int likeCount;
+
+    @Column(nullable = false)
+    private boolean likeCheck;
 
     @Column(nullable = false)
     private int answerCount;
@@ -65,16 +68,13 @@ public class Question extends Auditable {
         private final String name;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
 
-//    @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private Tag tag;
-
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Like> likes = new ArrayList<>();
+    private List<QuestionLike> questionLikes = new ArrayList<>();
 }
