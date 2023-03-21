@@ -4,6 +4,7 @@ import ButtonStyled from '../../components/ButtonStyled';
 import ICON_MENUBUTTON from '../../assets/ic_answer_menubutton.svg';
 import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
 import SubAnswer from './SubAnswer';
+import CommentForm from './CommentForm';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -49,6 +50,9 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
           </BottomWrapper>
         </TextWrapper>
       </AnswerWrapper>
+      {/* <CommentForm onSubmit={function (comment: string): void {
+          throw new Error('Function not implemented.');
+        } }></CommentForm> */}
       {comments?.length !== 0 &&
         comments?.map((el: any) => {
           return <SubAnswer {...el} />;

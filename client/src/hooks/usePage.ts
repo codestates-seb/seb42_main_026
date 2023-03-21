@@ -11,31 +11,19 @@ export function usePage() {
   const getEditorHandler = useSelector((state: RootState) => state.page);
   const getPostDetailHandler = useSelector((state: RootState) => state.post);
 
-  const setPostDetailHandler = (memberId: number, questionId: number) => {
-    dispatch(setPostDetail(memberId, questionId));
-  };
-
-  const setEditorHandler = (title: string, content: string, tag: string) => {
-    dispatch(setEditor(title, content, tag));
-  };
+  const setPostDetailHandler = (memberId: number, questionId: number) => dispatch(setPostDetail(memberId, questionId));
+  const setEditorHandler = (title: string, content: string, tag: string) => dispatch(setEditor(title, content, tag));
 
   const pushPostHandler = async () => {
-    const data = {
-      title: getEditorHandler.title,
-      content: getEditorHandler.content,
-      tag: getEditorHandler.tag,
-    };
-
-    let formData = new FormData();
+    const { title, content, tag } = getEditorHandler;
+    const data = { title, content, tag };
+    const formData = new FormData();
     formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${localStorage.getItem('memberId')}`, formData, {
-        headers: {
-          Authorization: getCookie('accessToken'),
-        },
+        headers: { Authorization: getCookie('accessToken') },
       });
-      console.log(response.data);
       alert('작성완료!');
       return navigate('/naggingboard');
     } catch (error) {

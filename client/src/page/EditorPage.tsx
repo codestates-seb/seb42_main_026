@@ -9,28 +9,20 @@ const EditorPage = () => {
   const [tag, setTag] = useState('기타');
   const { getEditorHandler, setEditorHandler } = usePage();
 
-  useEffect(() => {
-    setEditorHandler(title, content, tag);
-  }, [title, content, tag]);
+  useEffect(() => {setEditorHandler(title, content, tag)}, [title, content, tag]);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
-  };
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value);
 
   return (
     <EditorPageWrapper>
       <TagSelector>
-        <Tags title={'운동'} size="small" tagClickHandler={() => setTag('EXERCISE')} disabled={tag === 'EXERCISE'} type="button" />
-        <Tags title={'공부'} size="small" tagClickHandler={() => setTag('STUDY')} disabled={tag === 'STUDY'} type="button" />
-        <Tags title={'기상'} size="small" tagClickHandler={() => setTag('WAKE_UP')} disabled={tag === 'WAKE_UP'} type="button" />
-        <Tags title={'기타'} size="small" tagClickHandler={() => setTag('ETC')} disabled={tag === 'ETC'} type="button" />
+        {['운동', '공부', '기상', '기타'].map((t) => (
+          <Tags key={t} title={t} size="small" tagClickHandler={() => setTag(t.toUpperCase())} disabled={tag === t.toUpperCase()} type="button" />
+        ))}
       </TagSelector>
-      <TitleInput value={title} onChange={handleTitleChange} placeholder="제목"></TitleInput>
-      <ContentInput value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!"></ContentInput>
+      <TitleInput value={title} onChange={handleTitleChange} placeholder="제목" />
+      <ContentInput value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!" />
     </EditorPageWrapper>
   );
 };
@@ -42,19 +34,16 @@ const EditorPageWrapper = styled.div`
   flex-direction: column;
   gap: 18px;
   padding: 0 16px;
-  input::placeholder {
-    color: var(--color-gray02);
-  }
+  input::placeholder,
   textarea::placeholder {
     color: var(--color-gray02);
   }
-  input:focus {
-    outline: none;
-  }
+  input:focus,
   textarea:focus {
     outline: none;
   }
 `;
+
 const TagSelector = styled.div`
   display: flex;
   gap: 6px;
