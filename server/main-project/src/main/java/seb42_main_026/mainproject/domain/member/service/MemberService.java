@@ -62,11 +62,15 @@ public class MemberService {
             String encodedFileName = s3StorageService.encodeFileName(profileImage);
             member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
             s3StorageService.store(profileImage, encodedFileName);
+        }else{
+            member.setProfileImageUrl(null);
+
         }
 
         Member savedMember = memberRepository.save(member);
 
         setScore(member.getMemberId());
+
 
 
 
@@ -108,11 +112,16 @@ public class MemberService {
         Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
         score.setNickname(verifiedMember.getNickname());
 
+
         // 프로필 사진 변경
         if (profileImage != null){
 
             String encodedFileName = s3StorageService.encodeFileName(profileImage);
-            member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
+            System.out.println(encodedFileName);
+            verifiedMember.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
+            // score 이미지 변경
+            score.setProfileImageUrl(encodedFileName);
+
             s3StorageService.store(profileImage, encodedFileName);
         }
 
@@ -209,6 +218,13 @@ public class MemberService {
         score.setScore(0L);
         score.setMember(getMember(memberId));
         score.setNickname(getMember(memberId).getNickname());
+
+        if(getMember(memberId).getProfileImageUrl() != null){
+            score.setProfileImageUrl(getMember(memberId).getProfileImageUrl() );
+        }else {
+            score.setProfileImageUrl(null);
+        }
+
 
         scoreRepository.save(score);
 
