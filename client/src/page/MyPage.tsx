@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import ProfileCard from "../container/mypage/ProfileCard";
-import RankCard from "../container/mypage/RankCard";
-import MyPost from "../container/mypage/MyPost";
-import LogoutModal from "../components/LogoutModal";
-import React, { useState } from "react";
-import useGetMembers from "../hooks/useGetMembers";
+import styled from 'styled-components';
+import ProfileCard from '../container/mypage/ProfileCard';
+import RankCard from '../container/mypage/RankCard';
+import MyPost from '../container/mypage/MyPost';
+import LogoutModal from '../components/LogoutModal';
+import React, { useState } from 'react';
+import useGetMembers from '../hooks/useGetMembers';
 
 interface dataProps {
   email?: string;
@@ -16,12 +16,12 @@ interface dataProps {
 
 const MyPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const memberId = localStorage.getItem("memberId");
+  const memberId = localStorage.getItem('memberId');
   const data: dataProps = useGetMembers(`/members/${memberId}`);
 
   return (
     <MyPageWrapper>
-      <ProfileCard imgUrl={data.profileImageUrl} mainText={data.nickname} subText={data.email} lang="EN" />
+      <ProfileCard imgUrl={data.profileImageUrl === null ? '' : data.profileImageUrl} mainText={data.nickname} subText={data.email} lang="EN" />
       <RankCard score={data.score} hammerTier={data.hammerTier} mainText="티어" subText={`${data.hammerTier}망치`} lang="KR" />
       <MyPost />
       <LogoutButton onClick={() => setIsModalOpen(true)}>로그아웃</LogoutButton>
