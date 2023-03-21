@@ -37,11 +37,11 @@ public class MemberController {
 
     @PostMapping(value = "/signup", consumes =
             {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPostDto,
-                                     @RequestPart(required = false) MultipartFile mediaFile) {
+    public ResponseEntity postMember(@Valid @RequestPart MemberDto.Post memberPostDto,
+                                     @RequestPart(required = false) MultipartFile profileImage) {
 
         Member member = memberMapper.memberPostToMember(memberPostDto);
-        Member createdMember = memberService.createMember(member, mediaFile);
+        Member createdMember = memberService.createMember(member, profileImage);
 
        return ResponseEntity.created(URI.create("/members/" + createdMember.getMemberId())).build();
     }
@@ -68,12 +68,12 @@ public class MemberController {
     @PatchMapping(value = "/members/{member-id}", consumes =
             {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
-                                      @RequestBody MemberDto.Patch memberPatchDto,
-                                      @RequestPart(required = false) MultipartFile mediaFile){
+                                      @RequestPart MemberDto.Patch memberPatchDto,
+                                      @RequestPart(required = false) MultipartFile profileImage){
 
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
         member.setMemberId(memberId);
-        Member updateMember = memberService.updateMember(member, mediaFile);
+        Member updateMember = memberService.updateMember(member, profileImage);
 
         MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
 
