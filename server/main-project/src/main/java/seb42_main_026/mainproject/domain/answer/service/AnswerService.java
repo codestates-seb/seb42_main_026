@@ -61,9 +61,7 @@ public class AnswerService {
         //진짜 - > 주석해제
         //mediaFile 이 null 이 아닐시, answer 에 이름 저장, S3 버킷에 업로드
         if (mediaFile != null){
-            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
-            answer.setVoiceFileUrl(s3StorageService.getFileUrl(encodedFileName));
-            s3StorageService.store(mediaFile, encodedFileName);
+            storeVoiceFile(answer, mediaFile);
         }
 
         upAnswerCount(foundQuestion);
@@ -75,7 +73,7 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
-    public Answer updateAnswer(Answer answer, long memberId){
+    public Answer updateAnswer(Answer answer, long memberId, MultipartFile mediaFile){
         Answer foundAnswer = findAnswer(answer.getAnswerId());
 
         //로그인된 회원인지 확인
@@ -84,9 +82,10 @@ public class AnswerService {
         //수정하려는 회원이 같은 회원인지 검증
         memberService.verifyMemberByMemberId(memberId,answer.getMember().getMemberId());
 
-        //람다식 문제 있을지??
-//        Optional.ofNullable(answer.getContent())
-//                .ifPresent(foundAnswer::setContent);
+        if (mediaFile != null){
+            storeVoiceFile(answer, mediaFile);
+        }
+
         customBeanUtils.copyNonNullProperties(answer, foundAnswer);
 
         return answerRepository.save(foundAnswer);
@@ -147,5 +146,11 @@ public class AnswerService {
 
     public void downAnswerCount(Question question){
         question.setAnswerCount(question.getAnswerCount()-1);
+    }
+
+    private void storeVoiceFile(Answer answer, MultipartFile mediaFile){
+        String encodedFileName = s3StorageService.encodeFileName(mediaFile);
+        answer.setVoiceFileUrl(s3StorageService.getFileUrl(encodedFileName));
+        s3StorageService.store(mediaFile, encodedFileName);
     }
 }
