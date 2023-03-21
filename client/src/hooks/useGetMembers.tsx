@@ -5,10 +5,10 @@ import getCookie from '../utils/getCookie';
 export default function useGetMembers(url: string) {
   const [data, setData] = useState({});
 
-  const headers = {
-    Authorization: getCookie('accessToken'),
-  };
   useEffect(() => {
+    const headers = {
+      Authorization: getCookie('accessToken'),
+    };
     axios
       .get(`${process.env.REACT_APP_BASE_URL}${url}`, { headers })
       .then((response) => {

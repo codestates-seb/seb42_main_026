@@ -4,10 +4,11 @@ import getCookie from '../utils/getCookie';
 
 export default function useGetMyQuestions(url: string) {
   const [data, setData] = useState([]);
-  const headers = {
-    Authorization: getCookie('accessToken'),
-  };
+
   useEffect(() => {
+    const headers = {
+      Authorization: getCookie('accessToken'),
+    };
     axios
       .get(`${process.env.REACT_APP_BASE_URL}${url}`, { headers })
       .then((response) => {
@@ -16,6 +17,6 @@ export default function useGetMyQuestions(url: string) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [url]);
   return data;
 }
