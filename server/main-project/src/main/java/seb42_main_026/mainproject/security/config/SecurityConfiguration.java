@@ -44,10 +44,15 @@ import static org.springframework.security.config.Customizer.withDefaults;
 //@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    /*@Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
+*/
+
+    private String googleClientId= "643952365035-kagaao62of75uvvq3dml1468mpg5hr9v.apps.googleusercontent.com";
+
+    private String googleClientSecret= "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";
 
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
