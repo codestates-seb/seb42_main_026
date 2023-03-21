@@ -53,7 +53,7 @@ public class AnswerService {
     //memberId Request 에 포함되는지?
     public Answer createAnswer(Answer answer, MultipartFile mediaFile){
         //answer 에 회원 추가, 등록된 회원인지 확인
-        memberService.findVerifiedMember(answer.getMember().getMemberId());
+        memberService.verifyLoginMember(answer.getMember().getMemberId());
         //answer 에 질문 추가, 존재하는 질문인지 확인
         Question foundQuestion = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
 
@@ -94,12 +94,15 @@ public class AnswerService {
 
     //todo answer.getMember().getMemberId() == question.getMember().getMemberId() throw Exception
     public void selectAnswer(long memberId, long questionId, long answerId){
-//        //questionId 와 작성자 Id 같은지 검증
+        //questionId 와 작성자 Id 같은지 검증
         Question question = questionService.findQuestion(questionId);
         memberService.verifyMemberByMemberId(memberId, question.getMember().getMemberId());
-//
-//        //answer 상태 채택으로 변경 -> 저장
+        //answer 작성자에 대한 검증 - todo
         Answer answer = findAnswer(answerId);
+        if (memberId == answer.getMember().getMemberId())
+            throw new CustomException(ExceptionCode.CANNOT_SELECT_OWN_ANSWER);
+
+        //answer 상태 채택으로 변경 -> 저장
         answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_SELECTED);
 
         //질문 상태 변경
