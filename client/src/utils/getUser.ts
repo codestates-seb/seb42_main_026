@@ -15,6 +15,6 @@ export function getUser() {
   }
 
   const memberId = () => decoded.memberId;
-  const nickname = () => decoded.nickname;
+  const nickname = () => decoded.name;
   return { memberId, nickname };
 }
