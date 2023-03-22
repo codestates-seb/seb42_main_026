@@ -48,11 +48,10 @@ public class MemberController {
 
     @GetMapping("/members/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") @Positive Long memberId){
-        Member member = memberService.getMember(memberId);
+        Member member = memberService.findMember(memberId);
         MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
         return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
-
     }
 
     @GetMapping("/home/rank")
