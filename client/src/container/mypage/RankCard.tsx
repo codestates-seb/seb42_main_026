@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import ImageBox from "../../components/ImageBox";
-import ICON_RANK from "../../assets/ic_Rank.svg";
-import ICON_TIER_STONE from "../../assets/ic_tier_stone.svg";
-import ICON_TIER_BRONZE from "../../assets/ic_tier_bronze.svg";
-import ICON_TIER_SILVER from "../../assets/ic_tier_silver.svg";
-import ICON_TIER_GOLD from "../../assets/ic_tier_gold.svg";
-import ICON_TIER_PPONG from "../../assets/ic_tier_ppong.svg";
+import styled from 'styled-components';
+import ImageBox from '../../components/ImageBox';
+import ICON_RANK from '../../assets/ic_Rank.svg';
+import ICON_TIER_STONE from '../../assets/ic_tier_stone.svg';
+import ICON_TIER_BRONZE from '../../assets/ic_tier_bronze.svg';
+import ICON_TIER_SILVER from '../../assets/ic_tier_silver.svg';
+import ICON_TIER_GOLD from '../../assets/ic_tier_gold.svg';
+import ICON_TIER_PPONG from '../../assets/ic_tier_ppong.svg';
 
 interface myProps {
   score: number;
@@ -14,32 +14,21 @@ interface myProps {
   subText: string;
   lang: string;
 }
-
 const RankCard = ({ score, hammerTier, mainText, subText, lang }: myProps) => {
   function setIcon(icon: String) {
     switch (icon) {
-      case "동":
+      case '동':
         return ICON_TIER_BRONZE; // 돌망치의 img경로를 넣어주세요
-      case "은":
+      case '은':
         return ICON_TIER_SILVER;
-      case "금":
+      case '금':
         return ICON_TIER_GOLD;
-      case "뿅":
+      case '뿅':
         return ICON_TIER_PPONG;
       default:
         return ICON_TIER_STONE;
     }
   }
-
-  // const memberDummyData = {
-  //   email: "email@email.com",
-  //   nickname: "junbo",
-  //   score: 0,
-  //   hammerTier: "뿅",
-  //   rank: 1,
-  //   profileImageUrl: "http://...",
-  // };
-
   return (
     <>
       <RankCardWrapper>

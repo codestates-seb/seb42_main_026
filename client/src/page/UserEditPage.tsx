@@ -23,9 +23,11 @@ const UserEditPage = () => {
       setIsNameError(false);
     } else {
       setIsNameError(true);
+
       const headers = {
         Authorization: getCookie('accessToken'),
       };
+
       axios
         .patch(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { nickname: e.target[0].value }, { headers })
         .then((response) => {
@@ -35,11 +37,12 @@ const UserEditPage = () => {
         .catch((err) => {
           console.log(err);
           alert('닉네임에 실패했습니다. 다시 시도해주세요.');
+          console.log(headers);
         });
     }
   };
 
-  const handlePassworeChange = (e: any) => {
+  const handlePasswordChange = (e: any) => {
     e.preventDefault();
     if (e.target[1].value !== e.target[2].value) {
       setIsNewPasswordError(false);
@@ -49,7 +52,7 @@ const UserEditPage = () => {
         Authorization: getCookie('accessToken'),
       };
       axios
-        .patch(`${process.env.REACT_APP_BASE_URL}/members/changepassword/${memberId}`, { password: e.target[0].value, changepassword: e.target[1].value }, { headers })
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/change-password/${memberId}`, { password: e.target[0].value, changePassword: e.target[1].value }, { headers })
         .then((response) => {
           setIsNowPasswordError(true);
           alert('비밀번호가 변경되었습니다.');
@@ -72,7 +75,7 @@ const UserEditPage = () => {
         {isNameError === false ? <div className="err">변경사항이 없습니다.</div> : null}
       </NicknameContainer>
 
-      <InputPasswordContainer onSubmit={handlePassworeChange}>
+      <InputPasswordContainer onSubmit={handlePasswordChange}>
         <InputText>현재 비밀번호</InputText>
         <PasswordEditInput name="nowPassword" placeholder="현재 비밀번호를 입력해주세요."></PasswordEditInput>
         {isNowPasswordError === false ? <div className="err">현재 비밀번호와 일치하지 않습니다.</div> : null}
@@ -85,7 +88,7 @@ const UserEditPage = () => {
       </InputPasswordContainer>
 
       <UserEditText>
-        <Link to="/RemoveAccount">탈퇴</Link>
+        <Link to="/removeaccount">탈퇴</Link>
       </UserEditText>
     </UserEditPageWrapper>
   );
