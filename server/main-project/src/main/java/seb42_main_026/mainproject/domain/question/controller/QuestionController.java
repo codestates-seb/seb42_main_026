@@ -26,7 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping
 public class QuestionController {
-    private final static String QUESTION_DEFAULT_URL = "/questions";
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
@@ -41,7 +40,7 @@ public class QuestionController {
 
         Question createdQuestion = questionService.createQuestion(question, questionImage);
 
-        URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, createdQuestion.getQuestionId());
+        URI location = UriCreator.createUri("/questions", createdQuestion.getQuestionId());
 
         return ResponseEntity.created(location).build();
     }

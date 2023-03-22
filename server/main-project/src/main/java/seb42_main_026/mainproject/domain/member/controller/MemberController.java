@@ -16,6 +16,7 @@ import seb42_main_026.mainproject.domain.member.dto.ScoreDto;
 import seb42_main_026.mainproject.domain.member.entity.Score;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.dto.SingleResponseDto;
+import seb42_main_026.mainproject.security.utils.UriCreator;
 
 
 import javax.validation.Valid;
@@ -28,34 +29,34 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 public class MemberController {
-
     private final MemberMapper memberMapper;
     private final MemberService memberService;
-
     private final ScoreMapper scoreMapper;
 
-    @PostMapping(value = "/signup", consumes =
-            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/signup",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> postMember(@Valid @RequestPart MemberDto.Post memberPostDto,
                                      @RequestPart(required = false) MultipartFile profileImage) {
-
         Member member = memberMapper.memberPostToMember(memberPostDto);
+
         Member createdMember = memberService.createMember(member, profileImage);
 
-       return ResponseEntity.created(URI.create("/members/" + createdMember.getMemberId())).build();
+        URI location = UriCreator.createUri("/members", createdMember.getMemberId());
+
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/members/{member-id}")
-    public ResponseEntity<?> getMember(@PathVariable("member-id") @Positive Long memberId){
+    public ResponseEntity<?> getMember(@PathVariable("member-id") @Positive Long memberId) {
         Member member = memberService.findMember(memberId);
+
         MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @GetMapping("/home/rank")
-    public ResponseEntity<?> getRank(){
-
+    public ResponseEntity<?> getRank() {
         List<Score> scoreRank = memberService.getRank();
 
         List<ScoreDto.Response> scoreRanks = scoreMapper.scoresToScoreResponseDto(scoreRank);
