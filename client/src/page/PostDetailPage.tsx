@@ -19,6 +19,7 @@ type Post = {
   answers: any;
   likeCount: number;
   questionId: number;
+  questionImageUrl: string;
 };
 
 const PostDetailPage = () => {
@@ -46,6 +47,7 @@ const PostDetailPage = () => {
   return (
     <PostDetailWrapper>
       {post !== null && <PostDetail {...post} />}
+      {post !== null && <PostDetailImg src={post.questionImageUrl} alt="postImage" />}
       {post !== null && <CountsBar answer={post.answers.length} likeCount={post.likeCount} />}
       <AnswerWrapper>
         {post !== null && <CommentForm questionId={post.questionId} />}
@@ -64,6 +66,11 @@ const PostDetailWrapper = styled.div`
   /* padding: 0 16px; */
 `;
 
+const PostDetailImg = styled.img`
+  width: 30%;
+  height: 30%;
+  padding: 16px;
+`;
 const AnswerWrapper = styled.div`
   padding: 0 16px;
   display: flex;

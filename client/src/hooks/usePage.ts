@@ -13,13 +13,14 @@ export function usePage() {
   const getPostDetailHandler = useSelector((state: RootState) => state.post);
 
   const setPostDetailHandler = (memberId: number, questionId: number) => dispatch(setPostDetail(memberId, questionId));
-  const setEditorHandler = (title: string, content: string, tag: string) => dispatch(setEditor(title, content, tag));
+  const setEditorHandler = (title: string, content: string, tag: string, imgFile: File) => dispatch(setEditor(title, content, tag, imgFile));
 
   const pushPostHandler = async () => {
-    const { title, content, tag } = getEditorHandler;
+    const { title, content, tag, imgFile } = getEditorHandler;
     const data = { title, content, tag };
     const formData = new FormData();
     formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+    if (imgFile !== undefined) formData.append('questionImage', imgFile);
     const memberId = getUser()?.memberId();
 
     try {

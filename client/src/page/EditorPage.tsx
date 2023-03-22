@@ -16,8 +16,8 @@ const EditorPage = () => {
   const { getEditorHandler, setEditorHandler } = usePage();
 
   useEffect(() => {
-    setEditorHandler(title, content, tag);
-  }, [title, content, tag]);
+    setEditorHandler(title, content, tag, imgFile[0]);
+  }, [title, content, tag, imgFile[0]]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
