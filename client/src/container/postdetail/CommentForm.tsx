@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { answer } from '../../api/answer';
+import { answer, addComment } from '../../api/answer';
 
 type Props = {
-  questionId: number;
+  questionId?: number;
+  answerId?: number;
 };
 
 const CommentInputWrapper = styled.div`
@@ -20,6 +21,10 @@ const CommentInput = styled.textarea`
   resize: none;
   height: 100px;
   margin-bottom: 10px;
+  :focus {
+    outline: none;
+    font-family: 'Noto Sans KR';
+  }
 `;
 
 const CommentButton = styled.button`
@@ -46,7 +51,7 @@ const AudioButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const CommentForm: React.FC<Props> = ({ questionId }) => {
+const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
   const [comment, setComment] = useState<string>('');
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
@@ -87,7 +92,11 @@ const CommentForm: React.FC<Props> = ({ questionId }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-    answer(questionId, comment);
+    if (questionId !== undefined && answerId === undefined) {
+      answer(comment, questionId);
+    } else if (answerId !== undefined && questionId !== undefined) {
+      addComment(questionId, answerId, comment);
+    }
     // onSubmit(comment, audioBlob);
     setComment('');
     setAudioChunks([]);

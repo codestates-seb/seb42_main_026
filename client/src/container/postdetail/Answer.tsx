@@ -9,6 +9,8 @@ import CommentForm from './CommentForm';
 import { getUser } from '../../utils/getUser';
 import MenuButton from '../../components/MenuButton';
 import { useState } from 'react';
+import axios from 'axios';
+import getCookie from '../../utils/cookieUtils';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -20,11 +22,27 @@ interface AnswerCardProps {
   content: string;
   comments?: [];
   memberId: number;
+  questionId: number;
+  answerId: number;
 }
-
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, memberId }: AnswerCardProps) => {
+const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
+
+  const answerDelete = async () => {
+    if (memberId === Number(getUser()?.memberId())) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}?memberId=${memberId}`, { headers: { Authorization: getCookie('accessToken') } });
+        alert('삭제되었습니다.');
+        return (window.location.href = `/seb42_main_026/questions/${questionId}`);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    }
+  };
+
   return (
     <>
       <AnswerWrapper>
@@ -56,7 +74,7 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
                           button: function () {
                             if (window.confirm('정말 삭제 하시겠습니까?')) {
                               setIsMenuOpen(false);
-                              return console.log('삭제');
+                              return answerDelete();
                             }
                           },
                         },
@@ -74,17 +92,15 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
                 <img src={ICON_LIKE} alt="좋아요"></img>
                 <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
-              <SubAnswerButton>답글쓰기</SubAnswerButton>
+              <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>답글쓰기</SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
+          {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
         </TextWrapper>
       </AnswerWrapper>
-      {/* <CommentForm onSubmit={function (comment: string): void {
-          throw new Error('Function not implemented.');
-        } }></CommentForm> */}
       {comments?.length !== 0 &&
         comments?.map((el: any) => {
-          return <SubAnswer {...el} />;
+          return <SubAnswer questionId={questionId} {...el} />;
         })}
     </>
   );
@@ -183,7 +199,9 @@ const LikeNumber = styled.div`
   color: var(--color-gray02);
 `;
 
-const SubAnswerButton = styled.div`
+const SubAnswerButton = styled.span`
+  cursor: pointer;
+  user-select: none;
   font-weight: var(--font-weight700);
   font-size: var(--font-size12);
   color: var(--color-gray02);

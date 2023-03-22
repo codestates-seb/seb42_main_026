@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 import ButtonStyled from '../../components/ButtonStyled';
-import ICON_MENUBUTTON from '../../assets/ic_answer_menubutton.svg';
-// import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
+import { ReactComponent as ICON_MENU } from '../../assets/ic_answer_menubutton.svg';
+import MenuButton from '../../components/MenuButton';
+import { getUser } from '../../utils/getUser';
+import { useState } from 'react';
+import getCookie from '../../utils/cookieUtils';
+import axios from 'axios';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -10,10 +14,29 @@ interface AnswerCardProps {
   nickname: string;
   createdAt: string;
   content: string;
+  memberId: number;
+  questionId: number;
+  answerId: number;
+  commentId: number;
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const SubAnswer = ({ imgUrl = '', nickname, createdAt, content }: AnswerCardProps) => {
+const SubAnswer = ({ imgUrl = '', nickname, createdAt, content, memberId, questionId, answerId, commentId }: AnswerCardProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const comentDelete = async () => {
+    if (memberId === Number(getUser()?.memberId())) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}/${commentId}?memberId=${getUser()?.memberId()}`, { headers: { Authorization: getCookie('accessToken') } });
+        alert('삭제되었습니다.');
+        return (window.location.href = `/seb42_main_026/questions/${questionId}`);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    }
+  };
+
   return (
     <SubAnswerWrapper>
       <AnswerWrapper>
@@ -29,7 +52,32 @@ const SubAnswer = ({ imgUrl = '', nickname, createdAt, content }: AnswerCardProp
             <TopRightWrapper>
               <ButtonStyled color="pink" title="채택중" width="55px" height="22px"></ButtonStyled>
               <MenuButtonWrapper>
-                <img src={ICON_MENUBUTTON} alt="메뉴버튼" />
+                {memberId === getUser()?.memberId() && (
+                  <>
+                    <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
+                    {isMenuOpen === true ? (
+                      <MenuButton
+                        menu={[
+                          {
+                            title: '수정',
+                            button: function () {
+                              console.log('수정');
+                            },
+                          },
+                          {
+                            title: '삭제',
+                            button: function () {
+                              if (window.confirm('정말 삭제 하시겠습니까?')) {
+                                setIsMenuOpen(false);
+                                return comentDelete();
+                              }
+                            },
+                          },
+                        ]}
+                      />
+                    ) : null}
+                  </>
+                )}
               </MenuButtonWrapper>
             </TopRightWrapper>
           </TopWrapper>

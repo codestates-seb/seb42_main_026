@@ -50,8 +50,8 @@ const PostDetailPage = () => {
       <AnswerWrapper>
         {post !== null && <CommentForm questionId={post.questionId} />}
         {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
-        {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: []; memberId: number }, index: number) => {
-          return <Answer key={index} {...el} />;
+        {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: []; memberId: number; answerId: number }, index: number) => {
+          return <Answer key={index} questionId={post?.questionId} {...el} />;
         })}
       </AnswerWrapper>
     </PostDetailWrapper>
