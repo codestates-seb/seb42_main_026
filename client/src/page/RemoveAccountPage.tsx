@@ -36,7 +36,7 @@ const RemoveAccountPage = () => {
     <RemoveWrapper>
       <TitleWrapper>탈퇴 안내</TitleWrapper>
       <TextTitleWrapper>
-        <div>{nickname()} 님과 이별인가요?</div> <div>너무 아쉬워요..😭</div>
+        <div>{nickname} 님과 이별인가요?</div> <div>너무 아쉬워요..😭</div>
       </TextTitleWrapper>
       <TextWrapper style={{ whiteSpace: 'pre-wrap' }}>
         <div className="check">
