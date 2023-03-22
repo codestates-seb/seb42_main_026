@@ -141,14 +141,15 @@ const TimeWrapper = styled.div`
   font-size: var(--font-size12);
 `;
 
-const MenuButtonWrapper = styled.div``;
-
 const TopRightWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  gap: 0.625rem;
+  svg {
+    padding-left: 10px;
+  }
+  /* gap: 0.625rem; */
 `;
 
 const MiddleWrapper = styled.div`
