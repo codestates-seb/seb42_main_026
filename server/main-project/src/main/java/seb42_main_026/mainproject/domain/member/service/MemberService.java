@@ -1,7 +1,6 @@
 package seb42_main_026.mainproject.domain.member.service;
 
 
-import io.jsonwebtoken.io.Decoders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import seb42_main_026.mainproject.cloud.service.S3StorageService;
+import seb42_main_026.mainproject.domain.member.dto.MemberDto;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.entity.Score;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
@@ -21,7 +21,6 @@ import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -130,30 +129,52 @@ public class MemberService {
 
     }
 
-    public Member changePaaswordMember(List<Member> members){
+//    public Member changePaaswordMember(List<Member> members){
+//        // 로그인 멤버 권한 검사
+//        verifyLoginMember(members.get(0).getMemberId());
+//
+//        // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
+//        Member member = findVerifiedMember(members.get(0).getMemberId());
+//
+//        // 현재 패스워드 매치
+//        // 일치 했을떄
+//        if(passwordEncoder.matches(members.get(0).getPassword(),member.getPassword())){
+//            System.out.println(members.get(1).getPassword());
+//            // 새로운 비밀번호변경
+//            String encryptedPassword = passwordEncoder.encode(members.get(1).getPassword());
+//            //member.setPassword(members.get(1).getPassword());
+//            member.setPassword(encryptedPassword);
+//            return member;
+//        // 불일치 했을때
+//        }else {
+//            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
+//        }
+//
+//
+//
+//
+//    }
+
+    public Member changePaaswordMember(Long memberId, MemberDto.PatchPassword passwordDto){
         // 로그인 멤버 권한 검사
-        verifyLoginMember(members.get(0).getMemberId());
+        verifyLoginMember(memberId);
 
         // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
-        Member member = findVerifiedMember(members.get(0).getMemberId());
+        Member verifiedMember = findVerifiedMember(memberId);
 
         // 현재 패스워드 매치
         // 일치 했을떄
-        if(passwordEncoder.matches(members.get(0).getPassword(),member.getPassword())){
-            System.out.println(members.get(1).getPassword());
-            // 새로운 비밀번호변경
-            String encryptedPassword = passwordEncoder.encode(members.get(1).getPassword());
-            //member.setPassword(members.get(1).getPassword());
-            member.setPassword(encryptedPassword);
-            return member;
-        // 불일치 했을때
-        }else {
+        if (passwordEncoder.matches(passwordDto.getPassword(), verifiedMember.getPassword())){
+            // 변경하고 싶은 비밀번호를 암호화 한 뒤
+            String encryptedPassword = passwordEncoder.encode(passwordDto.getChangePassword());
+            // 새로운 비밀번호로 변경
+            verifiedMember.setPassword(encryptedPassword);
+
+            return verifiedMember;
+            // 불일치 했을때
+        } else {
             throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
         }
-
-
-
-
     }
 
     public void deleteMember(Long memberId){

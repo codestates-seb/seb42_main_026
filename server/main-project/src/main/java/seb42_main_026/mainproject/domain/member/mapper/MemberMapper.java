@@ -28,7 +28,7 @@ public interface MemberMapper {
         member1.setPassword(PatchPasswordDto.getPassword());
         member1.setMemberId(memberId);
         Member member2 = new Member();
-        member2.setPassword(PatchPasswordDto.getChangepassword());
+        member2.setPassword(PatchPasswordDto.getChangePassword());
 
         members.add(member1);
         members.add(member2);

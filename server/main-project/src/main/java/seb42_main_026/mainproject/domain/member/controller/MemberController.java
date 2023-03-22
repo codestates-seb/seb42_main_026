@@ -81,20 +81,30 @@ public class MemberController {
 
     }
 
-    @PatchMapping("/members/changepassword/{member-id}")
+//    @PatchMapping("/members/changepassword/{member-id}")
+//    public ResponseEntity patchMemberPassword(@PathVariable("member-id") @Positive Long memberId,
+//                                      @RequestBody MemberDto.PatchPassword memberPatchDto){
+//
+//
+//        List<Member> members = memberMapper.memberPasswordPatchToMember(memberPatchDto, memberId);
+//
+//
+//        Member updateMember = memberService.changePaaswordMember(members);
+//
+//        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
+//
+//        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
+//
+//    }
+
+    @PatchMapping("/members/change-password/{member-id}")
     public ResponseEntity patchMemberPassword(@PathVariable("member-id") @Positive Long memberId,
-                                      @RequestBody MemberDto.PatchPassword memberPatchDto){
+                                              @RequestBody MemberDto.PatchPassword passwordDto){
+        Member updatedMember = memberService.changePaaswordMember(memberId, passwordDto);
 
-
-        List<Member> members = memberMapper.memberPasswordPatchToMember(memberPatchDto, memberId);
-
-
-        Member updateMember = memberService.changePaaswordMember(members);
-
-        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
+        MemberDto.Response response = memberMapper.memberToMemberResponse(updatedMember);
 
         return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
-
     }
 
     @DeleteMapping("/members/{member-id}")
