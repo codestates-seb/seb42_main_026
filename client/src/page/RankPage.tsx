@@ -5,7 +5,7 @@ import RankItem from '../container/rank/RankItem';
 import useGetRank from '../hooks/useGetRank';
 
 interface dataProps {
-  url: string;
+  profileImageUrl: string;
   nickname: string;
   score: number;
   modifiedAt: string;
@@ -17,8 +17,8 @@ const RankPage = () => {
   const sortedData = data.sort((a: dataProps, b: dataProps) => b.score - a.score); //score 기준으로 내림차순 정렬
   return (
     <RankingWrapper>
-      {sortedData.map(({ url, nickname, score }: dataProps, index: number) => (
-        <RankItem key={index} index={index + 1} url={url === undefined ? '' : url} nickName={nickname} subText={`${score}`} />
+      {sortedData.map(({ profileImageUrl, nickname, score }: dataProps, index: number) => (
+        <RankItem key={index} index={index + 1} imgUrl={profileImageUrl === null ? '' : profileImageUrl} nickName={nickname} subText={`${score}`} />
       ))}
     </RankingWrapper>
   );

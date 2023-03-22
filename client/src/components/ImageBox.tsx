@@ -26,7 +26,7 @@ const ImageBoxWrapper = styled.div`
   position: relative;
   display: flex;
   gap: 30px;
-  left: 20px;
+  left: 10px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -35,6 +35,8 @@ const ImageBoxWrapper = styled.div`
     width: 36px;
     height: 36px;
     object-fit: cover;
+    border-radius: 50%;
+    background-color: var(--color-gray04);
     /* 글로벌로 나중에 바꾸기 */
     user-select: none;
     -webkit-user-drag: none;

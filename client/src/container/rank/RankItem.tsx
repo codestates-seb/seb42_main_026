@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { ReactComponent as ICON_RANK_NO1 } from "../../assets/ic_Rank_no1.svg";
-import { ReactComponent as ICON_RANK_NO2 } from "../../assets/ic_Rank_no2.svg";
-import { ReactComponent as ICON_RANK_NO3 } from "../../assets/ic_Rank_no3.svg";
-import RankImgCard from "./RankImgCard";
+import styled from 'styled-components';
+import { ReactComponent as ICON_RANK_NO1 } from '../../assets/ic_Rank_no1.svg';
+import { ReactComponent as ICON_RANK_NO2 } from '../../assets/ic_Rank_no2.svg';
+import { ReactComponent as ICON_RANK_NO3 } from '../../assets/ic_Rank_no3.svg';
+import RankImgCard from './RankImgCard';
 
 interface RankItemProps {
-  url?: string;
+  imgUrl?: string;
   nickName?: string;
   subText?: string;
   index: number;
@@ -24,11 +24,11 @@ function setRankIcon({ index }: RankItemProps) {
   }
 }
 
-export default function RankItem({ subText, nickName, url, index }: RankItemProps) {
+export default function RankItem({ subText, nickName, imgUrl, index }: RankItemProps) {
   return (
     <RankItemStyle>
       <IconForm>{setRankIcon({ index })}</IconForm>
-      <RankImgCard imgUrl={url} mainText={nickName} subText={`${subText} 점`} index={index} />
+      <RankImgCard imgUrl={imgUrl} mainText={nickName} subText={`${subText} 점`} index={index} />
     </RankItemStyle>
   );
 }
