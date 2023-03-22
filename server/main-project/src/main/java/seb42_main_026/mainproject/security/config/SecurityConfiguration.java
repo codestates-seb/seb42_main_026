@@ -44,15 +44,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 //@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    /*@Value("${spring.security.oauth2.client.registration.google.client-id}")
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
-*/
 
-    private String googleClientId= "643952365035-kagaao62of75uvvq3dml1468mpg5hr9v.apps.googleusercontent.com";
+    /*private String googleClientId= "643952365035-kagaao62of75uvvq3dml1468mpg5hr9v.apps.googleusercontent.com";
 
-    private String googleClientSecret= "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";
+    private String googleClientSecret= "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";*/
 
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
@@ -197,7 +196,7 @@ public class SecurityConfiguration {
                 .GOOGLE
                 .getBuilder("google")
                 //.redirectUri("http://localhost:8080/login/oauth2/code/google") // 로컬용
-                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
                 //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google")
                 //.redirectUri("http://localhost:3000/")
                 .clientId(googleClientId)
