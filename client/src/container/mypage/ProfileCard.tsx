@@ -5,7 +5,6 @@ import ImageBox from '../../components/ImageBox';
 import getCookie from '../../utils/cookieUtils';
 import { getUser } from '../../utils/getUser';
 import ICON_PROFILE_IMG from '../../assets/ic_profile.svg';
-import { useState } from 'react';
 
 interface profileProps {
   imgUrl?: string;
