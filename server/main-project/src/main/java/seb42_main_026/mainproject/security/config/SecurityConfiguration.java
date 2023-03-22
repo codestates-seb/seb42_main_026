@@ -197,7 +197,7 @@ public class SecurityConfiguration {
                 .GOOGLE
                 .getBuilder("google")
                 //.redirectUri("http://localhost:8080/login/oauth2/code/google") // 로컬용
-                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google") // 서버용
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
                 //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google")
                 //.redirectUri("http://localhost:3000/")
                 .clientId(googleClientId)
