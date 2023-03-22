@@ -41,7 +41,7 @@ import java.util.Arrays;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+//@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     /*@Value("${spring.security.oauth2.client.registration.google.client-id}")
@@ -196,9 +196,9 @@ public class SecurityConfiguration {
         return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
                 .GOOGLE
                 .getBuilder("google")
-                //.redirectUri("https://localhost:3000/login/oauth2/code/google")
-                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google") //수정전
-                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google")
+                //.redirectUri("http://localhost:8080/login/oauth2/code/google") // 로컬용
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google") // 서버용
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google")
                 //.redirectUri("http://localhost:3000/")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
@@ -211,7 +211,7 @@ public class SecurityConfiguration {
                 .clientId(naverClientId)
                 .clientSecret(naverClientSecret)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/naver")
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/naver") // 서버용
                 .scope("name", "email")
                 .authorizationUri("https://nid.naver.com/oauth2.0/authorize")
                 .tokenUri("https://nid.naver.com/oauth2.0/token")
@@ -227,7 +227,8 @@ public class SecurityConfiguration {
                 .clientSecret(kakaoClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://3.36.228.134:8080/oauth2/authorization/kakao")
+                .redirectUri("http://3.36.228.134:8080/oauth2/authorization/kakao") // 서버용
+                //.redirectUri("http://localhost:8080/login/oauth2/code/kakao")        // 로컬용
                 //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/kakao")
                 .scope("profile_nickname", "account_email")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
