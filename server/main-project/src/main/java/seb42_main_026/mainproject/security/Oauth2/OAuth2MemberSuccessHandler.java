@@ -38,7 +38,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException{
         var oAuth2User = (OAuth2User)authentication.getPrincipal();
-
+        System.out.println("ddddddddddddddddddddddd");
 
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String nickname = String.valueOf(oAuth2User.getName());
@@ -77,6 +77,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String uri = createURI(accessToken, refreshToken).toString();
         System.out.println("================URI 확인=====================");
         System.out.println("URL : "+uri +"============================");
+        System.out.println();
+        System.out.println();
         getRedirectStrategy().sendRedirect(request, response, uri);
 
     }
