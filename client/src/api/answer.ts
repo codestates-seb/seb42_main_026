@@ -13,6 +13,7 @@ export const answer = async (questionId: number, content: string) => {
       headers: { Authorization: getCookie('accessToken') },
     });
     alert('작성완료!');
+    window.location.href = `/seb42_main_026/questions/${questionId}`;
   } catch (error) {
     console.error(error);
     return null;

@@ -20,6 +20,10 @@ const CommentInput = styled.textarea`
   resize: none;
   height: 100px;
   margin-bottom: 10px;
+  :focus {
+    outline: none;
+    font-family: 'Noto Sans KR';
+  }
 `;
 
 const CommentButton = styled.button`

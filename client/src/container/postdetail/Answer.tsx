@@ -9,6 +9,8 @@ import CommentForm from './CommentForm';
 import { getUser } from '../../utils/getUser';
 import MenuButton from '../../components/MenuButton';
 import { useState } from 'react';
+import axios from 'axios';
+import getCookie from '../../utils/cookieUtils';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -20,11 +22,26 @@ interface AnswerCardProps {
   content: string;
   comments?: [];
   memberId: number;
+  questionId: number;
+  answerId: number;
 }
-
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, memberId }: AnswerCardProps) => {
+const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const answerDelete = async () => {
+    if (memberId === Number(getUser()?.memberId())) {
+      try {
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}?memberId=${memberId}`, { headers: { Authorization: getCookie('accessToken') } });
+        alert('삭제되었습니다.');
+        return (window.location.href = `/seb42_main_026/questions/${questionId}`);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    }
+  };
+
   return (
     <>
       <AnswerWrapper>
@@ -56,7 +73,7 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
                           button: function () {
                             if (window.confirm('정말 삭제 하시겠습니까?')) {
                               setIsMenuOpen(false);
-                              return console.log('삭제');
+                              return answerDelete();
                             }
                           },
                         },
