@@ -58,7 +58,11 @@ const ProfileCardWrapper = styled.div`
   border: 1px solid var(--color-gray03);
   border-radius: 5px;
   img {
-    padding-right: 5px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--color-gray04);
   }
 `;
 
@@ -77,7 +81,7 @@ const EditWrapper = styled.div`
 
 const ImgWrapper = styled.button`
   position: absolute;
-  left: 60px;
+  left: 46px;
   top: 35px;
   display: flex;
   border: none;
