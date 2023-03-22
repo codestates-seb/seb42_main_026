@@ -9,9 +9,10 @@ type PostDetailProps = {
   nickname: string;
   tag: string;
   title: string;
+  profileImageUrl: string;
 };
 
-const PostDetail = ({ content, createdAt, nickname, tag, title }: PostDetailProps) => {
+const PostDetail = ({ content, createdAt, nickname, tag, title, profileImageUrl }: PostDetailProps) => {
   const parseDate = (props: Date) => {
     const now = new Date(props);
     const MM = Number(now.getMonth() + 1) < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
@@ -26,7 +27,7 @@ const PostDetail = ({ content, createdAt, nickname, tag, title }: PostDetailProp
         <Tags title={tag} />
       </TagWrapper>
       <UserInfoWrapper>
-        <ImageBox imgUrl="" mainText={nickname} subText={parseDate(createdAt)} lang="KR"></ImageBox>
+        <ImageBox imgUrl={profileImageUrl} mainText={nickname} subText={parseDate(createdAt)} lang="KR"></ImageBox>
       </UserInfoWrapper>
       <ContentsWrapper>
         <TitleWrapper>{title}</TitleWrapper>

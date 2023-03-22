@@ -20,6 +20,7 @@ type Post = {
   likeCount: number;
   questionId: number;
   questionImageUrl: string;
+  profileImageUrl: string;
 };
 
 const PostDetailPage = () => {
