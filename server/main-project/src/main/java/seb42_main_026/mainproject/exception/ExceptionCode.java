@@ -28,7 +28,9 @@ public enum ExceptionCode {
 
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 좋아요입니다."),
 
-    CANNOT_SELECT_OWN_ANSWER(HttpStatus.BAD_REQUEST, "본인 글을 채택 할 수 없습니다.");
+    CANNOT_SELECT_OWN_ANSWER(HttpStatus.BAD_REQUEST, "본인 글을 채택 할 수 없습니다."),
+
+    EXCEED_MAX_FILE_SIZE(HttpStatus.BAD_REQUEST, "첨부 파일의 용량이 초과되었습니다.");
 
 
 
