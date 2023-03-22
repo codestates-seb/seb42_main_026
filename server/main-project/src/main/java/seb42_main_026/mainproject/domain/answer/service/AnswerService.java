@@ -93,6 +93,7 @@ public class AnswerService {
 
     //todo answer.getMember().getMemberId() == question.getMember().getMemberId() throw Exception
     public void selectAnswer(long memberId, long questionId, long answerId){
+        memberService.verifyLoginMember(memberId);
         //questionId 와 작성자 Id 같은지 검증
         Question question = questionService.findQuestion(questionId);
         memberService.verifyMemberByMemberId(memberId, question.getMember().getMemberId());
@@ -118,6 +119,7 @@ public class AnswerService {
 
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
+        memberService.verifyLoginMember(memberId);
         Answer answer = findAnswer(answerId);
         memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
 
