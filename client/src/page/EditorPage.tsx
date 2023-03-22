@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Tags from '../components/Tags';
 import { usePage } from '../hooks/usePage';
@@ -7,6 +7,7 @@ const EditorPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [tag, setTag] = useState('ETC');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { getEditorHandler, setEditorHandler } = usePage();
 
   useEffect(() => {
@@ -19,7 +20,16 @@ const EditorPage = () => {
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
+    handleResizeHeight();
   };
+
+  const handleResizeHeight = () => {
+    if (textareaRef.current instanceof HTMLTextAreaElement) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = textareaRef.current?.scrollHeight + 'px';
+    }
+  };
+
   return (
     <EditorPageWrapper>
       <TagSelector>
@@ -29,7 +39,7 @@ const EditorPage = () => {
         <Tags title={'기타'} size="small" tagClickHandler={() => setTag('ETC')} disabled={tag === 'ETC'} type="button" />
       </TagSelector>
       <TitleInput value={title} onChange={handleTitleChange} placeholder="제목"></TitleInput>
-      <ContentInput value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!"></ContentInput>
+      <ContentInput ref={textareaRef} rows={1} value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!" />
     </EditorPageWrapper>
   );
 };
@@ -65,7 +75,7 @@ const TitleInput = styled.input`
 `;
 
 const ContentInput = styled.textarea`
-  border: none;
+  /* border: none; */
   font-family: 'Noto Sans KR';
   font-size: var(--font-size16);
   font-weight: var(--font-weight400);
