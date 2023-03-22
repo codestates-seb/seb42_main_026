@@ -22,10 +22,10 @@ public class Score extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column
+    @Column(nullable = true)
     private String profileImageUrl;
 
-    @Column
+    @Column(nullable = false)
     private String nickname;
 
     @Column(nullable = false)
