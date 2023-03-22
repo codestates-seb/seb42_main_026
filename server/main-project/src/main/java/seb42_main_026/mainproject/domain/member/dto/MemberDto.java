@@ -2,6 +2,7 @@ package seb42_main_026.mainproject.domain.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -26,8 +27,9 @@ public class MemberDto {
     }
 
     @Getter
+    @Setter
     public static class Patch{
-
+        private Long memberId;
         @Pattern(regexp = "^[a-zA-Z0-9가-힣]{2,10}$", message = "별명은 2자 이상 10자 이하, 영어 또는 한글 또는 숫자로 구성되어야 합니다.")
         private String nickname;
     }
