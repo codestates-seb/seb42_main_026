@@ -100,7 +100,7 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
       </AnswerWrapper>
       {comments?.length !== 0 &&
         comments?.map((el: any) => {
-          return <SubAnswer {...el} />;
+          return <SubAnswer questionId={questionId} {...el} />;
         })}
     </>
   );
