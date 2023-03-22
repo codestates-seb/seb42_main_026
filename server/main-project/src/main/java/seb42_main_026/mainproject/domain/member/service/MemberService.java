@@ -78,7 +78,7 @@ public class MemberService {
         return findVerifiedMember(memberId);
     }
 
-    public Member updateMember(Member member, MultipartFile profileImage) {
+    public void updateNickname(Member member) {
         // 로그인 멤버 권한 검사
         verifyLoginMember(member.getMemberId());
 
@@ -94,18 +94,21 @@ public class MemberService {
         // score 닉네임 변경
         Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
         score.setNickname(verifiedMember.getNickname());
+    }
 
-        // 프로필 사진 변경
-        if (profileImage != null){
-            String encodedFileName = s3StorageService.encodeFileName(profileImage);
-            verifiedMember.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
-            // score 이미지 변경
-            score.setProfileImageUrl(encodedFileName);
+    public void updateProfileImage(long memberId, MultipartFile profileImage) {
+        verifyLoginMember(memberId);
 
-            s3StorageService.store(profileImage, encodedFileName);
-        }
+        Member verifiedMember = findVerifiedMember(memberId);
+        Score score = scoreRepository.findByMember_MemberId(memberId);
 
-        return verifiedMember;
+        String encodedFileName = s3StorageService.encodeFileName(profileImage);
+        String profileImageUrl = s3StorageService.getFileUrl(encodedFileName);
+
+        verifiedMember.setProfileImageUrl(profileImageUrl);
+        score.setProfileImageUrl(profileImageUrl);
+
+        s3StorageService.store(profileImage, encodedFileName);
     }
 
 //    public Member changePaaswordMember(List<Member> members){
@@ -130,7 +133,7 @@ public class MemberService {
 //        }
 //    }
 
-    public Member changePaaswordMember(Long memberId, MemberDto.PatchPassword passwordDto) {
+    public void updatePassword(Long memberId, MemberDto.PatchPassword passwordDto) {
         // 로그인 멤버 권한 검사
         verifyLoginMember(memberId);
 
@@ -144,8 +147,6 @@ public class MemberService {
             String encryptedPassword = passwordEncoder.encode(passwordDto.getChangePassword());
             // 새로운 비밀번호로 변경
             verifiedMember.setPassword(encryptedPassword);
-
-            return verifiedMember;
             // 불일치 했을때
         } else {
             throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
