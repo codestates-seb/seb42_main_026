@@ -26,23 +26,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class MemberService {
-
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
-
     private final ScoreRepository scoreRepository;
-
     private final S3StorageService s3StorageService;
 
-    @Value("${cloud.aws.s3.url}")
-    private String bucketUrl;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucketName;
-
-
-    public Member createMember(Member member, MultipartFile profileImage){
+    public Member createMember(Member member, MultipartFile profileImage) {
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
@@ -54,47 +44,44 @@ public class MemberService {
 
         member.setRoles(roles);
 
-
         // 이미지 url 저장
-        if (profileImage != null){
-
+        if (profileImage != null) {
             String encodedFileName = s3StorageService.encodeFileName(profileImage);
             member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
             s3StorageService.store(profileImage, encodedFileName);
-        }else{
+        } else {
             member.setProfileImageUrl(null);
-
         }
 
         Member savedMember = memberRepository.save(member);
 
         setScore(member.getMemberId());
 
-
-
-
-
-
-
         return savedMember;
     }
 
-    public List<Score> getRank(){
-
+    public List<Score> getRank() {
         List<Score> scores = scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
-
 
         return scores;
     }
-    @Transactional(readOnly = true)
-    public Member getMember(Long memberId){
-        Member member = findVerifiedMember(memberId);
 
-        return member;
+//    @Transactional(readOnly = true)
+//    public Member getMember(Long memberId) {
+//        Member member = findVerifiedMember(memberId);
+//
+//        return member;
+//    }
+
+    @Transactional(readOnly = true)
+    public Member findMember(Long memberId) {
+        // 로그인한 회원인지 검증
+        verifyLoginMember(memberId);
+
+        return findVerifiedMember(memberId);
     }
 
-    public Member updateMember(Member member, MultipartFile profileImage){
-
+    public Member updateMember(Member member, MultipartFile profileImage) {
         // 로그인 멤버 권한 검사
         verifyLoginMember(member.getMemberId());
 
@@ -111,12 +98,9 @@ public class MemberService {
         Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
         score.setNickname(verifiedMember.getNickname());
 
-
         // 프로필 사진 변경
         if (profileImage != null){
-
             String encodedFileName = s3StorageService.encodeFileName(profileImage);
-            System.out.println(encodedFileName);
             verifiedMember.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
             // score 이미지 변경
             score.setProfileImageUrl(encodedFileName);
@@ -124,9 +108,7 @@ public class MemberService {
             s3StorageService.store(profileImage, encodedFileName);
         }
 
-
         return verifiedMember;
-
     }
 
 //    public Member changePaaswordMember(List<Member> members){
@@ -149,13 +131,9 @@ public class MemberService {
 //        }else {
 //            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
 //        }
-//
-//
-//
-//
 //    }
 
-    public Member changePaaswordMember(Long memberId, MemberDto.PatchPassword passwordDto){
+    public Member changePaaswordMember(Long memberId, MemberDto.PatchPassword passwordDto) {
         // 로그인 멤버 권한 검사
         verifyLoginMember(memberId);
 
@@ -177,55 +155,50 @@ public class MemberService {
         }
     }
 
-    public void deleteMember(Long memberId){
+    public void deleteMember(Long memberId) {
         // 로그인 멤버 권한 검사
         verifyLoginMember(memberId);
 
         memberRepository.deleteById(memberId);
         // 멤버 상태 변경 (원래)
         // findVerifiedMember(memberId).setMemberStatus(Member.MemberStatus.MEMBER_DELETE);
-
-
     }
 
-    public void verifyExistsEmail(String email){
+    public void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
 
-        if (member.isPresent()){
+        if (member.isPresent()) {
             throw new CustomException(ExceptionCode.MEMBER_EXISTS);
         }
     }
 
-    public void verifyExistsNickName(String nickname){
+    public void verifyExistsNickName(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);
 
-        if (member.isPresent()){
+        if (member.isPresent()) {
             throw new CustomException(ExceptionCode.NICKNAME_EXISTS);
         }
     }
 
-    public Member findVerifiedMember(Long memberId){
+    public Member findVerifiedMember(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
         Member verifiedMember = member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return verifiedMember;
     }
 
-
-    public void verifyLoginMember(Long memberId){
-        if(! getTokenMemberId().equals(memberId)){
+    public void verifyLoginMember(Long memberId) {
+        if (!getTokenMemberId().equals(memberId)) {
             throw new CustomException(ExceptionCode.UNAUTHORIZED_USER);
         }
     }
 
-    private Long getTokenMemberId(){
+    private Long getTokenMemberId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Member member = memberRepository.findByEmail(authentication.getName()).get(); //  If a value is present, returns the value, otherwise throws NoSuchElementException.
 
         return member.getMemberId();
     }
-
-
 
     public void verifyMemberByMemberId(long questionMemberId, long updateMemberId) {
         if (questionMemberId != updateMemberId) {
@@ -233,53 +206,41 @@ public class MemberService {
         }
     }
 
-    public void setScore(Long memberId){
+    public void setScore(Long memberId) {
         Score score = new Score();
 
-        score.setScore(0L);
-        score.setMember(getMember(memberId));
-        score.setNickname(getMember(memberId).getNickname());
+        Member verifiedMember = findVerifiedMember(memberId);
 
-        if(getMember(memberId).getProfileImageUrl() != null){
-            score.setProfileImageUrl(getMember(memberId).getProfileImageUrl() );
-        }else {
+        score.setScore(0L);
+        score.setMember(verifiedMember);
+        score.setNickname(verifiedMember.getNickname());
+
+        if (verifiedMember.getProfileImageUrl() != null) {
+            score.setProfileImageUrl(verifiedMember.getProfileImageUrl() );
+        } else {
             score.setProfileImageUrl(null);
         }
 
-
         scoreRepository.save(score);
-
     }
 
-    public Score updateScore(Long memberId, Long score){
+    public Score updateScore(Long memberId, Long score) {
         Member member = findVerifiedMember(memberId);
         Score updateScore = scoreRepository.findByMember_MemberId(memberId);
         Long changedScore = updateScore.getScore() + score;
 
-        if(changedScore>= 50 && 100 > changedScore){
-
+        if (changedScore>= 50 && 100 > changedScore){
             member.setHammerTier(Member.HammerTier.BRONZE_HAMMER);
-
-        }else if(changedScore >= 100 && 150 > changedScore ){
-
+        } else if (changedScore >= 100 && 150 > changedScore ) {
             member.setHammerTier(Member.HammerTier.SILVER_HAMMER);
-
-        }else if(changedScore >= 150 && 200 > changedScore){
-
+        } else if (changedScore >= 150 && 200 > changedScore) {
             member.setHammerTier(Member.HammerTier.GOLD_HAMMER);
-
-        }else if(changedScore >= 200){
-
+        } else if (changedScore >= 200) {
             member.setHammerTier(Member.HammerTier.PPONG_HAMMER);
-
         }
 
         updateScore.setScore(updateScore.getScore() + score);
 
-
         return updateScore;
-
     }
-
-
 }
