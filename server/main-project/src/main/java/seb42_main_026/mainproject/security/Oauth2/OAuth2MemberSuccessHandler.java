@@ -119,10 +119,9 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .newInstance()
                 .scheme("http")
                 //.host("codestates-seb.github.io/seb42_main_026/")
-                //.host("localhost")
-                .host("codestates-seb.github.io")
-                //.port(3000)
-                //.path("/seb42_main_026")
+                .host("localhost")
+                .port(3000)
+                .path("/seb42_main_026")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
