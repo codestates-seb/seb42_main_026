@@ -74,10 +74,10 @@ public class AnswerService {
 
         Answer savedAnswer = answerRepository.save(answer);
 
-        // 잔소리 알림 전송
+        // 잔소리를 요청한 회원에게 잔소리 등록 알림 전송
         try {
             String message = "당신에게 누군가 잔소리를 했습니다!";
-            alarmHandler.sendAlarmToMember(message);
+            alarmHandler.sendAlarmToMember(foundQuestion.getMember().getMemberId(), message);
         } catch (IOException e) {
             e.printStackTrace();
         }
