@@ -36,16 +36,14 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
   return (
     <ProfileCardWrapper>
       <ImageBox imgUrl={imgUrl} mainText={mainText} subText={subText} lang={lang}></ImageBox>
-
-      <EditWrapper>
-        <Link to="/useredit">수정</Link>
-      </EditWrapper>
-
       <form onSubmit={handleProfileImg}>
         <ImgWrapper>
           <img src={ICON_PROFILE_IMG} alt="myProfileImg" />
         </ImgWrapper>
       </form>
+      <EditWrapper>
+        <Link to="/useredit">수정</Link>
+      </EditWrapper>
     </ProfileCardWrapper>
   );
 };
@@ -57,8 +55,8 @@ const ProfileCardWrapper = styled.div`
   padding: 0 0 0 20px;
   height: 75px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  flex-direction: row;
   align-items: center;
   border: 1px solid var(--color-gray03);
   border-radius: 5px;
@@ -69,10 +67,7 @@ const ProfileCardWrapper = styled.div`
 
 const EditWrapper = styled.div`
   position: relative;
-  right: 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  padding: 0 30px 0 0;
   a {
     color: #ff607c;
     font-weight: 500;
