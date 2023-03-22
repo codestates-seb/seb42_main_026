@@ -12,29 +12,31 @@ interface MenuButtonProps {
 const MenuButton = ({ menu }: MenuButtonProps) => {
   return (
     <MenuButtonWrapper>
-      {menu.map(({ title, button }, index) => (
-        <button key={index} onClick={button}>
-          {title}
-        </button>
-      ))}
+      <EditDeleteContainer>
+        {menu.map(({ title, button }, index) => (
+          <button key={index} onClick={button}>
+            {title}
+          </button>
+        ))}
+      </EditDeleteContainer>
     </MenuButtonWrapper>
   );
 };
 export default MenuButton;
 
 const MenuButtonWrapper = styled.div`
+  position: relative;
+`;
+
+const EditDeleteContainer = styled.div`
   position: absolute;
-  right: 0;
-  top: 34px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  box-sizing: content-box;
-  background-color: var(--color-white01);
-  border-radius: 5px;
-  padding: 4px 10px;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1);
+  width: 80px;
+  right: 0;
+  top: 32px;
+  border: 1px solid var(--color-black01);
   button {
     display: flex;
     justify-content: center;
