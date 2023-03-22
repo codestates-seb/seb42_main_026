@@ -27,6 +27,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.security.Oauth2.CustomOAuth2UserService;
+import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberFailureHandler;
 import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberSuccessHandler;
 import seb42_main_026.mainproject.security.filter.JwtAuthenticationFilter;
 import seb42_main_026.mainproject.security.filter.JwtVerificationFilter;
@@ -120,8 +121,8 @@ public class SecurityConfiguration {
                     .userInfoEndpoint()
                         .userService(customOAuth2UserService)
                 .and()
-                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository));
-
+                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository))
+                .failureHandler(new OAuth2MemberFailureHandler());
 
         return http.build();
     }
