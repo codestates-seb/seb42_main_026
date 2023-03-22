@@ -28,6 +28,7 @@ interface AnswerCardProps {
 //임의로 넣어놓은 데이터값도 제거하기
 const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
 
   const answerDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
@@ -91,14 +92,12 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
                 <img src={ICON_LIKE} alt="좋아요"></img>
                 <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
-              <SubAnswerButton>답글쓰기</SubAnswerButton>
+              <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>답글쓰기</SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
+          {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
         </TextWrapper>
       </AnswerWrapper>
-      {/* <CommentForm onSubmit={function (comment: string): void {
-          throw new Error('Function not implemented.');
-        } }></CommentForm> */}
       {comments?.length !== 0 &&
         comments?.map((el: any) => {
           return <SubAnswer {...el} />;
@@ -200,7 +199,9 @@ const LikeNumber = styled.div`
   color: var(--color-gray02);
 `;
 
-const SubAnswerButton = styled.div`
+const SubAnswerButton = styled.span`
+  cursor: pointer;
+  user-select: none;
   font-weight: var(--font-weight700);
   font-size: var(--font-size12);
   color: var(--color-gray02);
