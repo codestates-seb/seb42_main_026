@@ -197,20 +197,26 @@ public class SecurityConfiguration {
     private ClientRegistration clientRegistration(){
 
         System.out.println("Client Registration++++++++++++++++++++++++++");
-        return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
-                .GOOGLE
-                /*.getBuilder("google")
-                //.redirectUri("http://localhost:8080/login/oauth2/code/google") // 로컬용
-                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
-                .redirectUri("http://www.ppongmangchi.net:8080/login/oauth2/code/google")
-                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google")
-                //.redirectUri("http://localhost:3000/oauth2/authorization/google")
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+
+        return ClientRegistration.withRegistrationId("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google")
                 .scope("profile", "email")
+                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+                .tokenUri("https://www.googleapis.com/oauth2/v4/token")
+                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+                .userNameAttributeName(IdTokenClaimNames.SUB)
+                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+                .clientName("Google")
                 .build();
-*/
+
+
+        /**
+        return CommonbOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
+                .GOOGLE
                 .getBuilder("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
@@ -225,6 +231,7 @@ public class SecurityConfiguration {
                 .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
                 .clientName("Google")
                 .build();
+         */
     }
 
     private ClientRegistration naverClientRegistration(){
