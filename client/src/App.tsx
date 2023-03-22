@@ -19,6 +19,7 @@ import BottomNav from './components/BottomNav';
 import TopNav from './components/TopNav';
 import RankPage from './page/RankPage';
 import PrivateRoute from './hooks/PrivateRoute';
+import KakaoPage from './page/KakaoPage';
 export default function App() {
   return (
     <Provider store={store}>
@@ -72,7 +73,10 @@ export default function App() {
                 }
               />
               <Route path="/naggingboard" element={<NaggingBoardPage />} />
-              <Route path="/questions/:questionId" element={<PostDetailPage />} />
+              <Route
+                path="/questions/:questionId"
+                element={<PostDetailPage />}
+              />
               <Route
                 path="/removeaccount"
                 element={
@@ -82,6 +86,7 @@ export default function App() {
                 }
               />
               <Route path="/signup" element={<SignupPage />} />
+              <Route path="/login/kakao/callback" element={<KakaoPage />} />
               <Route
                 path="/useredit"
                 element={
