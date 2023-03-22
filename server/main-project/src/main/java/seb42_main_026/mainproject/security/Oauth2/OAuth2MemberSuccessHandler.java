@@ -75,6 +75,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         response.setHeader("Refresh", refreshToken);
 
         String uri = createURI(accessToken, refreshToken).toString();
+        System.out.println("================URI 확인=====================");
+        System.out.println("URL : "+uri +"============================");
         getRedirectStrategy().sendRedirect(request, response, uri);
 
     }
@@ -109,13 +111,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
+        System.out.println("================URI 확인=====================");
 
         return UriComponentsBuilder //  Port 설정을 하지 않으면 기본값은 80 포트
                 .newInstance()
                 .scheme("http")
+                //.host("codestates-seb.github.io/seb42_main_026/")
                 .host("localhost")
                 .port(3000)
-                //.path("/my-page.html")
+                .path("/")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

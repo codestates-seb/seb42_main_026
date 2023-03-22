@@ -41,13 +41,18 @@ import java.util.Arrays;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-//@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    /*@Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
+*/
+
+    private String googleClientId= "643952365035-kagaao62of75uvvq3dml1468mpg5hr9v.apps.googleusercontent.com";
+
+    private String googleClientSecret= "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";
 
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
@@ -58,8 +63,6 @@ public class SecurityConfiguration {
     private String kakaoClientId;
     @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
     private String kakaoClientSecret;
-
-
 
 
     private final JwtTokenizer jwtTokenizer;
@@ -129,9 +132,11 @@ public class SecurityConfiguration {
     @Bean // CorsConfigurationSource Bean 생성을 통해 구체적인 CORS 정책을 설정한다.
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
+//       configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
 //        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 파라미터로 지정한 HTTP Method에 대한 HTTP 통신을 허용한다.
-        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.addAllowedOriginPattern("http://localhost:3000/");
+        configuration.addAllowedOriginPattern("https://codestates-seb.github.io/");
+        //configuration.addAllowedOriginPattern("http://ppongmangchi.net");
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
@@ -191,10 +196,10 @@ public class SecurityConfiguration {
         return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
                 .GOOGLE
                 .getBuilder("google")
-                //.redirectUri("http://localhost:3000/login/oauth2/code/google")
-                //.redirectUri("http://3.36.228.134:8080/login/oauth2/code/google") 수정전
-                //.redirectUri("http://localhost:8080/login/oauth2/code/google")
-                .redirectUri("http://localhost:3000/")
+                //.redirectUri("https://localhost:3000/login/oauth2/code/google")
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google") //수정전
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/google")
+                //.redirectUri("http://localhost:3000/")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
                 .scope("profile", "email")
@@ -222,7 +227,8 @@ public class SecurityConfiguration {
                 .clientSecret(kakaoClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/kakao")
+                .redirectUri("http://3.36.228.134:8080/oauth2/authorization/kakao")
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/authorization/kakao")
                 .scope("profile_nickname", "account_email")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")
