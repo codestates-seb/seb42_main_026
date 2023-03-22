@@ -41,6 +41,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'   // HTML 화면을 구성하기 위한 템플릿이당..
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 //dependencyManagement {

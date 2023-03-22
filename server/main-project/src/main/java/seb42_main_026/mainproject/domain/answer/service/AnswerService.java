@@ -8,16 +8,16 @@ import seb42_main_026.mainproject.cloud.service.S3StorageService;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.repository.AnswerRepository;
 import seb42_main_026.mainproject.domain.member.entity.Member;
-import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.service.QuestionService;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
 import seb42_main_026.mainproject.utils.CustomBeanUtils;
+import seb42_main_026.mainproject.websocket.handler.AlarmHandler;
 
+import java.io.IOException;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +41,8 @@ public class AnswerService {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
+
+    private final AlarmHandler alarmHandler;
 
 
     /**
@@ -70,7 +72,17 @@ public class AnswerService {
 //        answer.getMember().setScore(answer.getMember().getScore() + 10);
         memberService.updateScore(answer.getMember().getMemberId(), 10L);
 
-        return answerRepository.save(answer);
+        Answer savedAnswer = answerRepository.save(answer);
+
+        // 잔소리 알림 전송
+        try {
+            String message = "당신에게 누군가 잔소리를 했습니다!";
+            alarmHandler.sendAlarmToMember(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return savedAnswer;
     }
 
     public Answer updateAnswer(Answer answer, long memberId, MultipartFile mediaFile){
