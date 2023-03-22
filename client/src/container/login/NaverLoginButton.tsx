@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import ICON_NAVER from '../../assets/ic_login_naver.png'
+import styled from 'styled-components';
+import ICON_NAVER from '../../assets/ic_login_naver.png';
 
 const NaverLoginWrapper = styled.button`
   position: relative;
@@ -8,7 +8,7 @@ const NaverLoginWrapper = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #22C75A;
+  background-color: #22c75a;
   border: none;
   img {
     position: absolute;
@@ -19,26 +19,26 @@ const NaverLoginWrapper = styled.button`
 `;
 
 const Text = styled.span`
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-weight: 400;
   text-align: center;
   vertical-align: top;
   letter-spacing: -0.05em;
   font-size: 14px;
   line-height: auto;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const handleNaverLogin = async () => {
-  window.location.href = `http://3.36.228.134:8080/login/oauth2/code/google`;
+  window.location.href = `${process.env.REACT_APP_BASE_URL}/oauth2/authorization/naver`;
 };
 
 const NaverLoginButton = () => {
   return (
-      <NaverLoginWrapper onClick={handleNaverLogin}>
-        <img src={ICON_NAVER} alt="kakao" />
-        <Text>네이버 로그인</Text>
-      </NaverLoginWrapper>
+    <NaverLoginWrapper onClick={handleNaverLogin}>
+      <img src={ICON_NAVER} alt="kakao" />
+      <Text>네이버 로그인</Text>
+    </NaverLoginWrapper>
   );
 };
 

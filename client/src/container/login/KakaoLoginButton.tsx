@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import ICON_KAKAO from '../../assets/ic_login_kakao.svg'
+import styled from 'styled-components';
+import ICON_KAKAO from '../../assets/ic_login_kakao.svg';
 
 const KakaoLoginWrapper = styled.button`
   position: relative;
@@ -8,7 +8,7 @@ const KakaoLoginWrapper = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #FEE500;
+  background-color: #fee500;
   border: none;
   img {
     position: absolute;
@@ -19,7 +19,7 @@ const KakaoLoginWrapper = styled.button`
 `;
 
 const Text = styled.span`
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
   font-weight: 400;
   text-align: center;
   vertical-align: top;
@@ -30,11 +30,14 @@ const Text = styled.span`
 `;
 
 const KakaoLoginButton = () => {
+  const handleKakaoLogin = async () => {
+    window.location.href = `${process.env.REACT_APP_BASE_URL}/oauth2/authorization/kakao`;
+  };
   return (
-      <KakaoLoginWrapper>
-        <img src={ICON_KAKAO} alt="kakao" />
-        <Text>카카오 로그인</Text>
-      </KakaoLoginWrapper>
+    <KakaoLoginWrapper onClick={handleKakaoLogin}>
+      <img src={ICON_KAKAO} alt="kakao" />
+      <Text>카카오 로그인</Text>
+    </KakaoLoginWrapper>
   );
 };
 
