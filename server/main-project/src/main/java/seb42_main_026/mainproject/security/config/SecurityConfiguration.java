@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,6 +37,7 @@ import seb42_main_026.mainproject.security.handler.MemberAuthenticationSuccessHa
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -120,6 +122,7 @@ public class SecurityConfiguration {
                 .and()
                 .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository));
 
+
         return http.build();
     }
 
@@ -194,7 +197,7 @@ public class SecurityConfiguration {
     private ClientRegistration clientRegistration(){
         return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
                 .GOOGLE
-                .getBuilder("google")
+                /*.getBuilder("google")
                 //.redirectUri("http://localhost:8080/login/oauth2/code/google") // 로컬용
                 //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
                 .redirectUri("http://www.ppongmangchi.net:8080/login/oauth2/code/google")
@@ -204,6 +207,21 @@ public class SecurityConfiguration {
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
                 .scope("profile", "email")
+                .build();
+*/
+                .getBuilder("google")
+                .clientId(googleClientId)
+                .clientSecret(googleClientSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUri("http://www.ppongmangchi.net:8080/login/oauth2/code/google")
+                .scope("profile", "email")
+                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+                .tokenUri("https://www.googleapis.com/oauth2/v4/token")
+                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+                .userNameAttributeName(IdTokenClaimNames.SUB)
+                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+                .clientName("Google")
                 .build();
     }
 
