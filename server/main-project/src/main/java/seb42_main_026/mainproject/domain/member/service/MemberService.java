@@ -2,7 +2,6 @@ package seb42_main_026.mainproject.domain.member.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,15 +54,13 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
 
-        setScore(member.getMemberId());
+        setScore(savedMember.getMemberId());
 
         return savedMember;
     }
 
     public List<Score> getRank() {
-        List<Score> scores = scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
-
-        return scores;
+        return scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
     }
 
 //    @Transactional(readOnly = true)
@@ -164,7 +161,7 @@ public class MemberService {
         // findVerifiedMember(memberId).setMemberStatus(Member.MemberStatus.MEMBER_DELETE);
     }
 
-    public void verifyExistsEmail(String email) {
+    private void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if (member.isPresent()) {
@@ -172,7 +169,7 @@ public class MemberService {
         }
     }
 
-    public void verifyExistsNickName(String nickname) {
+    private void verifyExistsNickName(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);
 
         if (member.isPresent()) {
@@ -182,9 +179,8 @@ public class MemberService {
 
     public Member findVerifiedMember(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
-        Member verifiedMember = member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        return verifiedMember;
+        return member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public void verifyLoginMember(Long memberId) {
@@ -216,31 +212,58 @@ public class MemberService {
         score.setNickname(verifiedMember.getNickname());
 
         if (verifiedMember.getProfileImageUrl() != null) {
-            score.setProfileImageUrl(verifiedMember.getProfileImageUrl() );
-        } else {
-            score.setProfileImageUrl(null);
+            score.setProfileImageUrl(verifiedMember.getProfileImageUrl());
         }
 
         scoreRepository.save(score);
     }
 
-    public Score updateScore(Long memberId, Long score) {
-        Member member = findVerifiedMember(memberId);
+//    public Score updateScore(Long memberId, Long score) {
+//        Member member = findVerifiedMember(memberId);
+//        Score updateScore = scoreRepository.findByMember_MemberId(memberId);
+//        Long changedScore = updateScore.getScore() + score;
+//
+//        if (changedScore>= 50 && 100 > changedScore){
+//            member.setHammerTier(Member.HammerTier.BRONZE_HAMMER);
+//        } else if (changedScore >= 100 && 150 > changedScore ) {
+//            member.setHammerTier(Member.HammerTier.SILVER_HAMMER);
+//        } else if (changedScore >= 150 && 200 > changedScore) {
+//            member.setHammerTier(Member.HammerTier.GOLD_HAMMER);
+//        } else if (changedScore >= 200) {
+//            member.setHammerTier(Member.HammerTier.PPONG_HAMMER);
+//        }
+//
+//        updateScore.setScore(updateScore.getScore() + score);
+//
+//        return updateScore;
+//    }
+
+    public void updateScore(Long memberId, Long score) {
+        Member verifiedMember = findVerifiedMember(memberId);
         Score updateScore = scoreRepository.findByMember_MemberId(memberId);
         Long changedScore = updateScore.getScore() + score;
 
-        if (changedScore>= 50 && 100 > changedScore){
-            member.setHammerTier(Member.HammerTier.BRONZE_HAMMER);
-        } else if (changedScore >= 100 && 150 > changedScore ) {
-            member.setHammerTier(Member.HammerTier.SILVER_HAMMER);
-        } else if (changedScore >= 150 && 200 > changedScore) {
-            member.setHammerTier(Member.HammerTier.GOLD_HAMMER);
-        } else if (changedScore >= 200) {
-            member.setHammerTier(Member.HammerTier.PPONG_HAMMER);
+        // 회원 망치티어 갱신
+        verifiedMember.setHammerTier(updateHammerTier(changedScore));
+
+        // 점수 갱신
+        updateScore.setScore(changedScore);
+    }
+
+    private Member.HammerTier updateHammerTier(Long score) {
+        int level = score >= 200 ? 4 : (int) (score / 50);
+
+        switch (level) {
+            case 1:
+                return Member.HammerTier.BRONZE_HAMMER;
+            case 2:
+                return Member.HammerTier.SILVER_HAMMER;
+            case 3:
+                return Member.HammerTier.GOLD_HAMMER;
+            case 4:
+                return Member.HammerTier.PPONG_HAMMER;
+            default:
+                return Member.HammerTier.STONE_HAMMER;
         }
-
-        updateScore.setScore(updateScore.getScore() + score);
-
-        return updateScore;
     }
 }
