@@ -1,0 +1,97 @@
+import axios from 'axios';
+import styled from 'styled-components';
+import getCookie from '../utils/cookieUtils';
+import { getUser } from '../utils/getUser';
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  imgFile: File | undefined;
+}
+
+const ProfilePreviewModal: React.FC<ModalProps> = ({ isOpen, onClose, imgFile }) => {
+  const memberId = getUser()?.memberId();
+
+  if (!isOpen) {
+    return null;
+  }
+  const handlePatch = () => {
+    const headers = {
+      Authorization: getCookie('accessToken'),
+    };
+    const formData = new FormData();
+    if (imgFile !== undefined) formData.append('profileImage', imgFile);
+    axios
+      .patch(`${process.env.REACT_APP_BASE_URL}/members/change-profile/${memberId}`, formData, { headers })
+      .then((response) => {
+        alert('프로필이미지 변경 완료!');
+        onClose();
+        window.location.href = `/seb42_main_026/mypage`;
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('프로필이미지 변경에 실패하였습니다.');
+        onClose();
+      });
+  };
+
+  return (
+    <>
+      {isOpen && (
+        <>
+          <ModalWrapper>
+            {imgFile && <img src={URL.createObjectURL(imgFile)} alt="preview" />}
+            <SendButton onClick={handlePatch}>수정하기</SendButton>
+          </ModalWrapper>
+          <ModalBackground onClick={onClose}></ModalBackground>
+        </>
+      )}
+    </>
+  );
+};
+
+export default ProfilePreviewModal;
+
+const ModalBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 500;
+`;
+
+const ModalWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  transform: translate(-50%);
+  top: 70%;
+  left: 50%;
+  z-index: 9999;
+  width: 390px;
+  height: auto;
+  gap: 20px;
+  padding: 30px 0;
+  img {
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+  }
+`;
+
+const SendButton = styled.button`
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: var(--color-white01);
+  background-color: var(--color-mobMain);
+`;

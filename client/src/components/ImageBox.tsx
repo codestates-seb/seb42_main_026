@@ -25,12 +25,16 @@ export default ImageBox;
 const ImageBoxWrapper = styled.div`
   position: relative;
   display: flex;
-  gap: 15px;
-  /* left: 20px; */
+  gap: 30px;
+  left: 20px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+
   img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
     /* 글로벌로 나중에 바꾸기 */
     user-select: none;
     -webkit-user-drag: none;
