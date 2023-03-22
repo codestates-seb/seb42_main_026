@@ -26,7 +26,9 @@ public enum ExceptionCode {
 
     ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요를 했습니다"),
 
-    LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 좋아요입니다.");
+    LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 좋아요입니다."),
+
+    CANNOT_SELECT_OWN_ANSWER(HttpStatus.BAD_REQUEST, "본인 글을 채택 할 수 없습니다.");
 
 
 

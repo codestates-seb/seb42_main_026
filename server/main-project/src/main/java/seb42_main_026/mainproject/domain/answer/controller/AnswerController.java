@@ -57,15 +57,16 @@ public class AnswerController {
      *  ㄴ Service 단에서 questionId와 answerId 모두 사용해야함?
      * Patch 매서드로 채택기능 - done
      */
-    @PatchMapping("/{question-id}/answers/{answer-id}") //todo 프론트와 협의 후 엔드포인트 결정
-    public ResponseEntity patchAnswer(@PathVariable("question-id") @Positive long questionId,
-                                      @PathVariable("answer-id") @Positive long answerId,
-                                      @Valid @RequestBody AnswerDto.Patch answerPatchDto){
+    @PatchMapping(value = "/{question-id}/answers/{answer-id}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
+                                      @Valid @RequestPart AnswerDto.Patch answerPatchDto,
+                                      @RequestPart(required = false) MultipartFile mediaFile){
         answerPatchDto.setAnswerId(answerId);
-//        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId());
+
         Answer answer = mapper.answerPatchDtoToAnswer(answerPatchDto);
 
-        answerService.updateAnswer(answer, answerPatchDto.getMemberId());
+        answerService.updateAnswer(answer, answerPatchDto.getMemberId(), mediaFile);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
