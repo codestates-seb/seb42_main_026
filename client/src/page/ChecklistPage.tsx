@@ -78,7 +78,6 @@ const ChecklistWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     align-items: flex-start;
     gap: 4px;
   }
