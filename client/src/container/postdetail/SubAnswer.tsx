@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
-import ButtonStyled from '../../components/ButtonStyled';
 import { ReactComponent as ICON_MENU } from '../../assets/ic_answer_menubutton.svg';
 import MenuButton from '../../components/MenuButton';
 import { getUser } from '../../utils/getUser';

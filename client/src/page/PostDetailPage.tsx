@@ -78,4 +78,5 @@ const AnswerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  margin-top: 25px;
 `;
