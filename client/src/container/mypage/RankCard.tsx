@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ImageBox from '../../components/ImageBox';
 import ICON_RANK from '../../assets/ic_Rank.svg';
 import ICON_TIER_STONE from '../../assets/ic_tier_stone.svg';
 import ICON_TIER_BRONZE from '../../assets/ic_tier_bronze.svg';
@@ -38,7 +37,7 @@ const RankCard = ({ score, hammerTier, lang }: myProps) => {
     <>
       <RankCardWrapper>
         <ImageBoxWrapper>
-          <img className="profile" src={setIcon(hammerTier)} alt="profile_image" lang="KR" />
+          <img src={setIcon(hammerTier)} alt="profile_image" lang="KR" />
           <InfoBoxWrapper>
             <MainText>
               {`티어`}
@@ -50,7 +49,7 @@ const RankCard = ({ score, hammerTier, lang }: myProps) => {
         </ImageBoxWrapper>
 
         <ImageBoxWrapper>
-          <img className="profile" src={ICON_RANK} alt="profile_image" lang="KR" />
+          <img src={ICON_RANK} alt="profile_image" lang="KR" />
           <InfoBoxWrapper>
             <MainText>
               {`나의 활동점수`}
@@ -87,14 +86,8 @@ const ImageBoxWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  .profile {
+  img {
     object-fit: cover;
-    /* 글로벌로 나중에 바꾸기 */
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
   }
 `;
 const InfoBoxWrapper = styled.div`

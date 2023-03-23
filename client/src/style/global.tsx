@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import "styled-components";
+import { createGlobalStyle } from 'styled-components';
+import 'styled-components';
 
 export function style() {
   const GlobalStyle = createGlobalStyle`
@@ -86,6 +86,11 @@ img {
   vertical-align: top; /*이미지에 원치 않는 여백이 생성되는 브라우저 오류가 발생하는 경우가 있음*/
   font-size: 0; /*폰트 크기 초기화*/
   border: 0; /* 이미지 링크시 기본적으로 나타나는 테두리 제거 */
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
 }
 table {
   border-collapse: collapse;

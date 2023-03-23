@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ImageBox from '../../components/ImageBox';
 import { ReactComponent as ICON_PROFILE_IMG } from '../../assets/ic_profile.svg';
 import { useRef, useState } from 'react';
 import ProfilePreviewModal from '../../components/ProfilePreviewModal';

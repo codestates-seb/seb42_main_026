@@ -7,7 +7,6 @@ import React, { useState, useEffect } from 'react';
 import { getUser } from '../utils/getUser';
 import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
-import ICON_PROFILE from '../assets/ic_mypage_profile.svg';
 
 interface dataProps {
   email?: string;
