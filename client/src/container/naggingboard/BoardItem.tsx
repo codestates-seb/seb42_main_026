@@ -80,7 +80,8 @@ const ItemTitleform = styled.div`
 const ItemTitle = styled.div`
   font-size: var(--font-size16);
   letter-spacing: var(--font-spacing-title);
-  width: 247px;
+  max-width: 210px;
+  padding: 0px;
   height: 23px;
   overflow: hidden;
 `;
