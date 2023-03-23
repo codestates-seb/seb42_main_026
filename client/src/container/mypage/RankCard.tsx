@@ -8,6 +8,7 @@ import ICON_TIER_GOLD from '../../assets/ic_tier_gold.svg';
 import ICON_TIER_PPONG from '../../assets/ic_tier_ppong.svg';
 import { useState } from 'react';
 import RankInfo from '../../components/RankInfo';
+import TierInfo from '../../components/TierInfo';
 
 interface myProps {
   score: number;
@@ -18,6 +19,7 @@ interface myProps {
 }
 const RankCard = ({ score, hammerTier, lang }: myProps) => {
   const [showRankModal, setShowRankModal] = useState<React.SetStateAction<boolean>>(false);
+  const [showTierModal, setShowTierModal] = useState<React.SetStateAction<boolean>>(false);
   function setIcon(icon: String) {
     switch (icon) {
       case '동':
@@ -38,7 +40,11 @@ const RankCard = ({ score, hammerTier, lang }: myProps) => {
         <ImageBoxWrapper>
           <img className="profile" src={setIcon(hammerTier)} alt="profile_image" lang="KR" />
           <InfoBoxWrapper>
-            <MainText lang={lang}>티어</MainText>
+            <MainText>
+              {`티어`}
+              <button onClick={() => setShowTierModal(!showTierModal)}>?</button>
+              {showTierModal === true ? <TierInfo /> : null}
+            </MainText>
             <SubText>{hammerTier}망치</SubText>
           </InfoBoxWrapper>
         </ImageBoxWrapper>
@@ -75,7 +81,7 @@ const RankCardWrapper = styled.div`
 const ImageBoxWrapper = styled.div`
   position: relative;
   display: flex;
-  gap: 30px;
+  gap: 28px;
   left: 10px;
   flex-direction: row;
   justify-content: flex-start;
