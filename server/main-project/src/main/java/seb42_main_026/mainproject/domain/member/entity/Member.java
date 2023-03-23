@@ -38,7 +38,7 @@ public class Member extends Auditable {
     @Enumerated(EnumType.STRING)
     private HammerTier hammerTier = HammerTier.STONE_HAMMER;
 
-    @Column
+    @Column(nullable = true)
     private String profileImageUrl;
 
     @ElementCollection(fetch = FetchType.EAGER)
