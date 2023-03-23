@@ -14,7 +14,16 @@ interface ItemProps {
   children?: React.ReactNode;
   questionStatus: string;
 }
-export default function BoardItem({ title, createdAt, likeCount, answerCount, nickname, tag, children, questionStatus }: ItemProps) {
+export default function BoardItem({
+  title,
+  createdAt,
+  likeCount,
+  answerCount,
+  nickname,
+  tag,
+  children,
+  questionStatus,
+}: ItemProps) {
   return (
     <BoardItemStyle>
       <ItemTop>
@@ -71,6 +80,9 @@ const ItemTitleform = styled.div`
 const ItemTitle = styled.div`
   font-size: var(--font-size16);
   letter-spacing: var(--font-spacing-title);
+  width: 247px;
+  height: 23px;
+  overflow: hidden;
 `;
 
 const ItemDate = styled.div`
