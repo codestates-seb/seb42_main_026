@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import StatusChips from "../../components/StatusChips ";
-import Tags from "../../components/Tags";
-import { ReactComponent as ICON_LIKE } from "../../assets/ic_boardItem_like.svg";
-import { ReactComponent as ICON_ANSWER } from "../../assets/ic_boardItem_answer.svg";
+import styled from 'styled-components';
+import StatusChips from '../../components/StatusChips';
+import Tags from '../../components/Tags';
+import { ReactComponent as ICON_LIKE } from '../../assets/ic_boardItem_like.svg';
+import { ReactComponent as ICON_ANSWER } from '../../assets/ic_boardItem_answer.svg';
 
 interface ItemProps {
   title: string;
@@ -13,15 +13,7 @@ interface ItemProps {
   tag?: string;
   children?: any;
 }
-export default function BoardItem({
-  title,
-  createdAt,
-  likeCount,
-  answerCount,
-  nickname,
-  tag,
-  children,
-}: ItemProps) {
+export default function BoardItem({ title, createdAt, likeCount, answerCount, nickname, tag, children }: ItemProps) {
   return (
     <BoardItemStyle>
       <ItemTop>
@@ -84,7 +76,7 @@ const ItemDate = styled.div`
   font-size: var(--font-size12);
   letter-spacing: var(--font-spacing-title);
   color: var(--color-gray02);
-  font-family: "Roboto";
+  font-family: 'Roboto';
 `;
 
 const ItemCountForm = styled.div`
@@ -101,7 +93,7 @@ const ItemLikeForm = styled.div`
   gap: 2px;
   color: var(--color-gray02);
   font-size: var(--font-size12);
-  font-family: "Roboto";
+  font-family: 'Roboto';
 `;
 
 // const ItemLikeicon = styled.div<ItemProps>``;
@@ -120,7 +112,7 @@ const ItemAnswerForm = styled.div`
   gap: 2px;
   color: var(--color-gray02);
   font-size: var(--font-size12);
-  font-family: "Roboto";
+  font-family: 'Roboto';
   margin-bottom: -2px;
 `;
 

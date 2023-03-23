@@ -19,6 +19,7 @@ type Post = {
   questionId: number;
   questionImageUrl: string;
   profileImageUrl: string;
+  questionStatus: string;
 };
 
 const PostDetailPage = () => {

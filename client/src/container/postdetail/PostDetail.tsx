@@ -1,4 +1,4 @@
-import StatusChips from '../../components/StatusChips ';
+import StatusChips from '../../components/StatusChips';
 import Tags from '../../components/Tags';
 import styled from 'styled-components';
 import ImageBox from '../../components/ImageBox';
@@ -10,9 +10,10 @@ type PostDetailProps = {
   tag: string;
   title: string;
   profileImageUrl: string;
+  questionStatus: string;
 };
 
-const PostDetail = ({ content, createdAt, nickname, tag, title, profileImageUrl }: PostDetailProps) => {
+const PostDetail = ({ content, createdAt, nickname, tag, title, profileImageUrl, questionStatus }: PostDetailProps) => {
   const parseDate = (props: Date) => {
     const now = new Date(props);
     const MM = Number(now.getMonth() + 1) < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
@@ -23,7 +24,7 @@ const PostDetail = ({ content, createdAt, nickname, tag, title, profileImageUrl 
   return (
     <PostDetailWrapper>
       <TagWrapper>
-        <StatusChips />
+        <StatusChips color={questionStatus === '갱생 중' ? 'pink' : 'gray'} />
         <Tags title={tag} />
       </TagWrapper>
       <UserInfoWrapper>
