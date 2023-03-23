@@ -13,6 +13,7 @@ export interface IQuestion {
   answerCount: number;
   tag: string;
   questionId: number;
+  questionStatus: string;
 }
 
 export default function HomePage() {
@@ -45,9 +46,9 @@ export default function HomePage() {
       <SubApp />
       <PopulerBoardTitle>인기 잔소리</PopulerBoardTitle>
       <PopulerBoard>
-        {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }: IQuestion, index: number) => (
+        {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId, questionStatus }: IQuestion, index: number) => (
           <Link to={`/questions/${questionId}`} key={index}>
-            <BoardItem title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+            <BoardItem questionStatus={questionStatus} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
           </Link>
         ))}
       </PopulerBoard>
