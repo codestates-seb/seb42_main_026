@@ -1,7 +1,12 @@
 {
-  "name": "client",
+  "homepage": "http://seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com",
+  "name": "react-ppong-component",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "dist/index.js",
+  "browser": "./browser/specific/main.js",
+  "types": "dist/index.d.ts",
+  "description": "Nagging Community for Single Households",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -31,7 +36,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "prepare": "rm -rf dist && mkdir dist && tsc"
   },
   "eslintConfig": {
     "extends": [
