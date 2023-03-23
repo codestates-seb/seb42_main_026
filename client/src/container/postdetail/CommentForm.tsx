@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { answer, addComment } from '../../api/answer';
-import ICON_SUBIT from '../../assets/ic_commentform_submit_button.svg'
+import ICON_SUBIT from '../../assets/ic_commentform_submit_button.svg';
 
 type Props = {
   questionId?: number;
@@ -12,7 +12,7 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
   const [comment, setComment] = useState<string>('');
   const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
-
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -69,11 +69,15 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <CommentInputWrapper>
+      <CommentInputWrapper>
+        <form onSubmit={handleSubmit}>
           <CommentInput placeholder="댓글을 입력해주세요" value={comment} onChange={handleCommentChange} />
-          <ButtonWrapper>
-            <AudioButtonContainer>
+          <NoneButton ref={buttonRef} type="submit">
+            댓글 작성
+          </NoneButton>
+        </form>
+        <ButtonWrapper>
+          <AudioButtonContainer>
               {!recorder ? <button onClick={startRecording}>녹음시작</button> : <button onClick={stopRecording}>녹음정지</button>}
               <button onClick={clearRecording}>초기화</button>
               <audio controls>
@@ -82,15 +86,18 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
                 ))}
               </audio>
             </AudioButtonContainer>
-            <CommentButton type="submit">댓글 작성</CommentButton>
-          </ButtonWrapper>
-        </CommentInputWrapper>
-      </form>
+          <CommentButton onClick={() => buttonRef.current?.click()}>댓글 작성</CommentButton>
+        </ButtonWrapper>
+      </CommentInputWrapper>
     </>
   );
 };
 
 export default CommentForm;
+
+const NoneButton = styled.button`
+  display: none;
+`;
 
 const CommentInputWrapper = styled.div`
   display: flex;
@@ -104,6 +111,7 @@ const CommentInput = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
+  overflow-y: hidden;
   font-size: 16px;
   resize: none;
   height: 100px;
