@@ -1,55 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { answer, addComment } from '../../api/answer';
+import ICON_SUBIT from '../../assets/ic_commentform_submit_button.svg'
 
 type Props = {
   questionId?: number;
   answerId?: number;
 };
-
-const CommentInputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-`;
-
-const CommentInput = styled.textarea`
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  resize: none;
-  height: 100px;
-  margin-bottom: 10px;
-  :focus {
-    outline: none;
-    font-family: 'Noto Sans KR';
-  }
-`;
-
-const CommentButton = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const AudioButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-`;
 
 const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
   const [comment, setComment] = useState<string>('');
@@ -116,21 +73,69 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
         <CommentInputWrapper>
           <CommentInput placeholder="댓글을 입력해주세요" value={comment} onChange={handleCommentChange} />
           <ButtonWrapper>
+            <AudioButtonContainer>
+              {!recorder ? <button onClick={startRecording}>녹음시작</button> : <button onClick={stopRecording}>녹음정지</button>}
+              <button onClick={clearRecording}>초기화</button>
+              <audio controls>
+                {audioChunks.map((chunk, i) => (
+                  <source key={i} src={URL.createObjectURL(chunk)} />
+                ))}
+              </audio>
+            </AudioButtonContainer>
             <CommentButton type="submit">댓글 작성</CommentButton>
           </ButtonWrapper>
         </CommentInputWrapper>
       </form>
-      {/* <AudioButtonContainer>
-        {!recorder ? <button onClick={startRecording}>녹음시작</button> : <button onClick={stopRecording}>녹음정지</button>}
-        <button onClick={clearRecording}>초기화</button>
-        <audio controls>
-          {audioChunks.map((chunk, i) => (
-            <source key={i} src={URL.createObjectURL(chunk)} />
-          ))}
-        </audio>
-      </AudioButtonContainer> */}
     </>
   );
 };
 
 export default CommentForm;
+
+const CommentInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  border: solid 0.5px var(--color-gray01);
+  border-radius: 5px;
+`;
+
+const CommentInput = styled.textarea`
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  resize: none;
+  height: 100px;
+  margin-bottom: 10px;
+  font-family: 'Noto Sans KR';
+  border: none;
+  :focus {
+    outline: none;
+    font-family: 'Noto Sans KR';
+  }
+`;
+
+const CommentButton = styled.button`
+  background-color: var(--color-mobMain);
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  padding: 19px;
+  cursor: pointer;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top: solid 0.5px var(--color-gray01);
+`;
+
+const AudioButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+`;
