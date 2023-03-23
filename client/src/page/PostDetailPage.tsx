@@ -3,10 +3,8 @@ import PostDetail from '../container/postdetail/PostDetail';
 import styled from 'styled-components';
 import CountsBar from '../container/postdetail/CountsBar';
 import Answer from '../container/postdetail/Answer';
-import SubAnswer from '../container/postdetail/SubAnswer';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import getCookie from '../utils/cookieUtils';
 import { usePage } from '../hooks/usePage';
 import CommentForm from '../container/postdetail/CommentForm';
 
@@ -53,7 +51,7 @@ const PostDetailPage = () => {
       <AnswerWrapper>
         {post !== null && <CommentForm questionId={post.questionId} />}
         {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
-        {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: []; memberId: number; answerId: number }, index: number) => {
+        {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: []; memberId: number; answerId: number; profileImageUrl: string }, index: number) => {
           return <Answer key={index} questionId={post?.questionId} {...el} />;
         })}
       </AnswerWrapper>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { answer, addComment } from '../../api/answer';
-import ICON_SUBIT from '../../assets/ic_commentform_submit_button.svg';
+// import ICON_SUBIT from '../../assets/ic_commentform_submit_button.svg';
 
 type Props = {
   questionId?: number;
@@ -77,15 +77,15 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
           </NoneButton>
         </form>
         <ButtonWrapper>
-          <AudioButtonContainer>
+          {/* <AudioButtonContainer>
               {!recorder ? <button onClick={startRecording}>녹음시작</button> : <button onClick={stopRecording}>녹음정지</button>}
               <button onClick={clearRecording}>초기화</button>
-              <audio controls>
+              <CustomAudio controls>
                 {audioChunks.map((chunk, i) => (
                   <source key={i} src={URL.createObjectURL(chunk)} />
                 ))}
-              </audio>
-            </AudioButtonContainer>
+              </CustomAudio>
+            </AudioButtonContainer> */}
           <CommentButton onClick={() => buttonRef.current?.click()}>댓글 작성</CommentButton>
         </ButtonWrapper>
       </CommentInputWrapper>
@@ -99,15 +99,23 @@ const NoneButton = styled.button`
   display: none;
 `;
 
+const CustomAudio = styled.audio`
+  width: 96px;
+  height: 48px;
+`;
+
 const CommentInputWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   margin-bottom: 20px;
   border: solid 0.5px var(--color-gray01);
   border-radius: 5px;
 `;
 
 const CommentInput = styled.textarea`
+  width: 90%;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
@@ -136,7 +144,7 @@ const CommentButton = styled.button`
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   border-top: solid 0.5px var(--color-gray01);
 `;

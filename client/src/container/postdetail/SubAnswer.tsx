@@ -10,7 +10,7 @@ import axios from 'axios';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
-  imgUrl?: string;
+  profileImageUrl: string;
   nickname: string;
   createdAt: string;
   content: string;
@@ -21,7 +21,7 @@ interface AnswerCardProps {
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const SubAnswer = ({ imgUrl = '', nickname, createdAt, content, memberId, questionId, answerId, commentId }: AnswerCardProps) => {
+const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, questionId, answerId, commentId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const comentDelete = async () => {
@@ -29,7 +29,7 @@ const SubAnswer = ({ imgUrl = '', nickname, createdAt, content, memberId, questi
       try {
         await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}/${commentId}?memberId=${getUser()?.memberId()}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
-        return (window.location.href = `/seb42_main_026/questions/${questionId}`);
+        return window.location.replace(`/questions/${questionId}`);
       } catch (error) {
         console.error(error);
         return null;
@@ -41,7 +41,7 @@ const SubAnswer = ({ imgUrl = '', nickname, createdAt, content, memberId, questi
     <SubAnswerWrapper>
       <AnswerWrapper>
         <ImageWrapper>
-          <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" />
+          <img className="profile" src={profileImageUrl === '' ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -114,9 +114,21 @@ const AnswerWrapper = styled.div`
 
 const ImageWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  flex-direction: row;
+
+  .profile {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: var(--color-gray04);
+    /* 글로벌로 나중에 바꾸기 */
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
 `;
 
 const TextWrapper = styled.div`
