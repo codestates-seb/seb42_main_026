@@ -8,6 +8,7 @@ import seb42_main_026.mainproject.domain.comment.repository.CommentRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ExceptionCode;
+import seb42_main_026.mainproject.utils.CustomBeanUtils;
 
 import java.util.Optional;
 
@@ -18,11 +19,12 @@ public class CommentService {
     private final MemberService memberService;
     private final AnswerService answerService;
     private final CommentRepository commentRepository;
+    private final CustomBeanUtils customBeanUtils;
 
     public Comment createComment(Comment comment){
-        //comment 에 회원 연결
-        memberService.findVerifiedMember(comment.getMember().getMemberId());
-        //comment 에 답변 연결
+        //로그인된 회원인지 확인
+        memberService.verifyLoginMember(comment.getMember().getMemberId());
+        //답변 확인
         answerService.findAnswer(comment.getAnswer().getAnswerId());
 
         return commentRepository.save(comment);
@@ -30,18 +32,18 @@ public class CommentService {
 
     public Comment updateComment(Comment comment, long memberId){
         Comment foundComment = findComment(comment.getCommentId());
-        // todo MemberService verifyMemberByMemberId 메서드 추가
-//        memberService.verifyMemberByMemberId(memberId, foundComment.getMember().getMemberId());
+        // 로그인된 회원인지 확인, 권한 확인
+        memberService.verifyLoginMember(foundComment.getMember().getMemberId());
+        memberService.verifyMemberByMemberId(memberId, foundComment.getMember().getMemberId());
 
-        Optional.ofNullable(comment.getContent())
-                .ifPresent(foundComment::setContent);
+        customBeanUtils.copyNonNullProperties(comment, foundComment);
 
         return commentRepository.save(foundComment);
     }
 
     public void deleteComment(long commentId, long memberId){
         Comment comment = findComment(commentId);
-
+        memberService.verifyLoginMember(comment.getMember().getMemberId());
         memberService.verifyMemberByMemberId(memberId, comment.getMember().getMemberId());
 
         commentRepository.delete(comment);

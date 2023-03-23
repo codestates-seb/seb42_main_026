@@ -53,7 +53,7 @@ public class AnswerService {
     //memberId Request 에 포함되는지?
     public Answer createAnswer(Answer answer, MultipartFile mediaFile){
         //answer 에 회원 추가, 등록된 회원인지 확인
-        memberService.findVerifiedMember(answer.getMember().getMemberId());
+        memberService.verifyLoginMember(answer.getMember().getMemberId());
         //answer 에 질문 추가, 존재하는 질문인지 확인
         Question foundQuestion = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
 
@@ -61,9 +61,7 @@ public class AnswerService {
         //진짜 - > 주석해제
         //mediaFile 이 null 이 아닐시, answer 에 이름 저장, S3 버킷에 업로드
         if (mediaFile != null){
-            String encodedFileName = s3StorageService.encodeFileName(mediaFile);
-            answer.setVoiceFileUrl(s3StorageService.getFileUrl(encodedFileName));
-            s3StorageService.store(mediaFile, encodedFileName);
+            storeVoiceFile(answer, mediaFile);
         }
 
         upAnswerCount(foundQuestion);
@@ -75,7 +73,7 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
-    public Answer updateAnswer(Answer answer, long memberId){
+    public Answer updateAnswer(Answer answer, long memberId, MultipartFile mediaFile){
         Answer foundAnswer = findAnswer(answer.getAnswerId());
 
         //로그인된 회원인지 확인
@@ -84,9 +82,10 @@ public class AnswerService {
         //수정하려는 회원이 같은 회원인지 검증
         memberService.verifyMemberByMemberId(memberId,answer.getMember().getMemberId());
 
-        //람다식 문제 있을지??
-//        Optional.ofNullable(answer.getContent())
-//                .ifPresent(foundAnswer::setContent);
+        if (mediaFile != null){
+            storeVoiceFile(answer, mediaFile);
+        }
+
         customBeanUtils.copyNonNullProperties(answer, foundAnswer);
 
         return answerRepository.save(foundAnswer);
@@ -94,12 +93,16 @@ public class AnswerService {
 
     //todo answer.getMember().getMemberId() == question.getMember().getMemberId() throw Exception
     public void selectAnswer(long memberId, long questionId, long answerId){
-//        //questionId 와 작성자 Id 같은지 검증
+        memberService.verifyLoginMember(memberId);
+        //questionId 와 작성자 Id 같은지 검증
         Question question = questionService.findQuestion(questionId);
         memberService.verifyMemberByMemberId(memberId, question.getMember().getMemberId());
-//
-//        //answer 상태 채택으로 변경 -> 저장
+        //answer 작성자에 대한 검증 - todo
         Answer answer = findAnswer(answerId);
+        if (memberId == answer.getMember().getMemberId())
+            throw new CustomException(ExceptionCode.CANNOT_SELECT_OWN_ANSWER);
+
+        //answer 상태 채택으로 변경 -> 저장
         answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_SELECTED);
 
         //질문 상태 변경
@@ -116,6 +119,7 @@ public class AnswerService {
 
     // memberService.verifyMemberByMemberId() 메서드 필요 - todo
     public void deleteAnswer(long answerId, long memberId){
+        memberService.verifyLoginMember(memberId);
         Answer answer = findAnswer(answerId);
         memberService.verifyMemberByMemberId(answer.getMember().getMemberId(), memberId);
 
@@ -144,5 +148,11 @@ public class AnswerService {
 
     public void downAnswerCount(Question question){
         question.setAnswerCount(question.getAnswerCount()-1);
+    }
+
+    private void storeVoiceFile(Answer answer, MultipartFile mediaFile){
+        String encodedFileName = s3StorageService.encodeFileName(mediaFile);
+        answer.setVoiceFileUrl(s3StorageService.getFileUrl(encodedFileName));
+        s3StorageService.store(mediaFile, encodedFileName);
     }
 }

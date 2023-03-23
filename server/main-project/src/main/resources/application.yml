@@ -23,6 +23,7 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_SECRET_KEY}
+            redirectUri: "http://ppongmangchi.net:8080/login/oauth2/code/google"
             scope:
               - profile
               - email
@@ -30,7 +31,7 @@ spring:
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_SECRET_KEY}
             client-name: Naver
-            redirect-uri: "http://3.36.228.134:8080/login/oauth2/code/naver"
+            redirect-uri: "http://ppongmangchi.net:8080/login/oauth2/code/naver"
             authorization-grant-type: authorization_code
             scope:
               - name
@@ -40,7 +41,8 @@ spring:
             client-secret: ${KAKAO_SECRET_KEY}
             client-name: bbong
             client-authentication-method: POST
-            redirect-uri: "http://3.36.228.134:8080/login/oauth2/code/kakao"
+            redirect-uri: "http://ppongmangchi.net:8080/login/oauth2/code/naver"
+            #redirect-uri: "http://localhost:8080/oauth2/authorization/kakao"
             authorization-grant-type: authorization_code
             scope:
               - name

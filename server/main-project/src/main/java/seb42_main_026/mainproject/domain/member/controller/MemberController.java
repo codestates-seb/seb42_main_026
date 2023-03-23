@@ -1,7 +1,6 @@
 package seb42_main_026.mainproject.domain.member.controller;
 
 
-import io.jsonwebtoken.io.Decoders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +16,7 @@ import seb42_main_026.mainproject.domain.member.dto.ScoreDto;
 import seb42_main_026.mainproject.domain.member.entity.Score;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.dto.SingleResponseDto;
+import seb42_main_026.mainproject.security.utils.UriCreator;
 
 
 import javax.validation.Valid;
@@ -29,81 +29,98 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 public class MemberController {
-
     private final MemberMapper memberMapper;
     private final MemberService memberService;
-
     private final ScoreMapper scoreMapper;
 
-    @PostMapping(value = "/signup", consumes =
-            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity postMember(@Valid @RequestPart MemberDto.Post memberPostDto,
+    @PostMapping(value = "/signup",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> postMember(@Valid @RequestPart MemberDto.Post memberPostDto,
                                      @RequestPart(required = false) MultipartFile profileImage) {
-
         Member member = memberMapper.memberPostToMember(memberPostDto);
+
         Member createdMember = memberService.createMember(member, profileImage);
 
-       return ResponseEntity.created(URI.create("/members/" + createdMember.getMemberId())).build();
+        URI location = UriCreator.createUri("/members", createdMember.getMemberId());
+
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/members/{member-id}")
-    public ResponseEntity getMember(@PathVariable("member-id") @Positive Long memberId){
-        Member member = memberService.getMember(memberId);
+    public ResponseEntity<?> getMember(@PathVariable("member-id") @Positive Long memberId) {
+        Member member = memberService.findMember(memberId);
+
         MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
-        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
-
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @GetMapping("/home/rank")
-    public ResponseEntity getRank(){
-
+    public ResponseEntity<?> getRank() {
         List<Score> scoreRank = memberService.getRank();
 
         List<ScoreDto.Response> scoreRanks = scoreMapper.scoresToScoreResponseDto(scoreRank);
 
-        return new ResponseEntity<>(new SingleResponseDto(scoreRanks), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(scoreRanks), HttpStatus.OK);
     }
 
+/*<<<<<<< HEAD
     @PatchMapping(value = "/members/{member-id}", consumes =
             {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
                                       @RequestPart @Valid MemberDto.Patch memberPatchDto,
                                       @RequestPart(required = false) MultipartFile profileImage){
+=======*/
+    @PatchMapping("/members/{member-id}")
+    public ResponseEntity<?> patchNickname(@PathVariable("member-id") @Positive Long memberId,
+                                        @RequestBody @Valid MemberDto.Patch memberPatchDto) {
+        memberPatchDto.setMemberId(memberId);
 
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
-        member.setMemberId(memberId);
-        Member updateMember = memberService.updateMember(member, profileImage);
 
-        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
+        memberService.updateNickname(member);
 
-        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
-
+        return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/members/changepassword/{member-id}")
-    public ResponseEntity patchMemberPassword(@PathVariable("member-id") @Positive Long memberId,
-                                      @RequestBody @Valid MemberDto.PatchPassword memberPatchDto){
 
+    @PatchMapping(value = "/members/change-profile/{member-id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> patchProfileImage(@PathVariable("member-id") @Positive Long memberId,
+                                               @RequestPart MultipartFile profileImage) {
+        memberService.updateProfileImage(memberId, profileImage);
 
-        List<Member> members = memberMapper.memberPasswordPatchToMember(memberPatchDto, memberId);
+        return ResponseEntity.ok().build();
+    }
 
+//    @PatchMapping("/members/changepassword/{member-id}")
+//    public ResponseEntity patchMemberPassword(@PathVariable("member-id") @Positive Long memberId,
+//                                      @RequestBody MemberDto.PatchPassword memberPatchDto){
+//
+//
+//        List<Member> members = memberMapper.memberPasswordPatchToMember(memberPatchDto, memberId);
+//
+//
+//        Member updateMember = memberService.changePaaswordMember(members);
+//
+//        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
+//
+//        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
+//
+//    }
 
-        Member updateMember = memberService.changePaaswordMember(members);
+    @PatchMapping("/members/change-password/{member-id}")
+    public ResponseEntity<?> patchPassword(@PathVariable("member-id") @Positive Long memberId,
+                                        @RequestBody @Valid MemberDto.PatchPassword passwordDto) {
+        memberService.updatePassword(memberId, passwordDto);
 
-        MemberDto.Response response = memberMapper.memberToMemberResponse(updateMember);
-
-        return new ResponseEntity(new SingleResponseDto(response), HttpStatus.OK);
-
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/members/{member-id}")
-    public ResponseEntity deleteMember(@PathVariable("member-id") @Positive Long memberId){
+    public ResponseEntity<?> deleteMember(@PathVariable("member-id") @Positive Long memberId){
 
         memberService.deleteMember(memberId);
 
         return ResponseEntity.noContent().build();
-
     }
-
 }
