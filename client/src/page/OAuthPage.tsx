@@ -1,10 +1,19 @@
-import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const OAuthPage = () => {
-  const history = useLocation();
-  console.log(history);
-  //split써보세요
-  // window.location.replace('/');
+  useEffect(() => {
+    let accessToken = new URL(window.location.href).searchParams.get(
+      'access_token'
+    );
+    let refreshToken = new URL(window.location.href).searchParams.get(
+      'refresh_token'
+    );
+    document.cookie = `accessToken=${accessToken};`;
+    document.cookie = `refreshToken=${refreshToken};`;
+
+    window.location.replace('/');
+  }, []);
+
   return <></>;
 };
 
