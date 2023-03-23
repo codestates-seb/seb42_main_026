@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -31,7 +31,7 @@ public class MemberService {
     private final ScoreRepository scoreRepository;
     private final S3StorageService s3StorageService;
 
-    public Member createMember(Member member, MultipartFile profileImage) {
+    public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
@@ -43,13 +43,6 @@ public class MemberService {
 
         member.setRoles(roles);
 
-        // 이미지 url 저장
-        if (profileImage != null) {
-            String encodedFileName = s3StorageService.encodeFileName(profileImage);
-            member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
-            s3StorageService.imageStore(profileImage, encodedFileName);
-        }
-
         Member savedMember = memberRepository.save(member);
 
         setScore(savedMember.getMemberId());
@@ -57,29 +50,7 @@ public class MemberService {
         return savedMember;
     }
 
-    public List<Score> getRank() {
-        return scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
-    }
-
-//    @Transactional(readOnly = true)
-//    public Member getMember(Long memberId) {
-//        Member member = findVerifiedMember(memberId);
-//
-//        return member;
-//    }
-
-    @Transactional(readOnly = true)
-    public Member findMember(Long memberId) {
-        // 로그인한 회원인지 검증
-        verifyLoginMember(memberId);
-
-        return findVerifiedMember(memberId);
-    }
-
     public void updateNickname(Member member) {
-        // 로그인 멤버 권한 검사
-        verifyLoginMember(member.getMemberId());
-
         // 멤버 확인
         Member verifiedMember = findVerifiedMember(member.getMemberId());
 
@@ -91,12 +62,10 @@ public class MemberService {
 
         // score 닉네임 변경
         Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
-        score.setNickname(verifiedMember.getNickname());
+        score.setNickname(member.getNickname());
     }
 
     public void updateProfileImage(long memberId, MultipartFile profileImage) {
-        verifyLoginMember(memberId);
-
         Member verifiedMember = findVerifiedMember(memberId);
         Score score = scoreRepository.findByMember_MemberId(memberId);
 
@@ -109,53 +78,35 @@ public class MemberService {
         s3StorageService.imageStore(profileImage, encodedFileName);
     }
 
-//    public Member changePaaswordMember(List<Member> members){
-//        // 로그인 멤버 권한 검사
-//        verifyLoginMember(members.get(0).getMemberId());
-//
-//        // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
-//        Member member = findVerifiedMember(members.get(0).getMemberId());
-//
-//        // 현재 패스워드 매치
-//        // 일치 했을떄
-//        if(passwordEncoder.matches(members.get(0).getPassword(),member.getPassword())){
-//            System.out.println(members.get(1).getPassword());
-//            // 새로운 비밀번호변경
-//            String encryptedPassword = passwordEncoder.encode(members.get(1).getPassword());
-//            //member.setPassword(members.get(1).getPassword());
-//            member.setPassword(encryptedPassword);
-//            return member;
-//        // 불일치 했을때
-//        }else {
-//            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
-//        }
-//    }
-
     public void updatePassword(Long memberId, MemberDto.PatchPassword passwordDto) {
-        // 로그인 멤버 권한 검사
-        verifyLoginMember(memberId);
-
         // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
-        Member verifiedMember = findVerifiedMember(memberId);
+        Member foundMember = findVerifiedMember(memberId);
 
         // 현재 패스워드 매치
         // 일치 했을떄
-        if (passwordEncoder.matches(passwordDto.getPassword(), verifiedMember.getPassword())){
+        if (passwordEncoder.matches(passwordDto.getPassword(), foundMember.getPassword())){
             // 변경하고 싶은 비밀번호를 암호화 한 뒤
             String encryptedPassword = passwordEncoder.encode(passwordDto.getChangePassword());
             // 새로운 비밀번호로 변경
-            verifiedMember.setPassword(encryptedPassword);
+            foundMember.setPassword(encryptedPassword);
             // 불일치 했을때
         } else {
             throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
         }
     }
 
-    public void deleteMember(Long memberId) {
-        // 로그인 멤버 권한 검사
-        verifyLoginMember(memberId);
+    @Transactional(readOnly = true)
+    public Member findMember(Long memberId) {
+        return findVerifiedMember(memberId);
+    }
 
+    public List<Score> findRank() {
+        return scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
+    }
+
+    public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
+
         // 멤버 상태 변경 (원래)
         // findVerifiedMember(memberId).setMemberStatus(Member.MemberStatus.MEMBER_DELETE);
     }
@@ -217,26 +168,6 @@ public class MemberService {
         scoreRepository.save(score);
     }
 
-//    public Score updateScore(Long memberId, Long score) {
-//        Member member = findVerifiedMember(memberId);
-//        Score updateScore = scoreRepository.findByMember_MemberId(memberId);
-//        Long changedScore = updateScore.getScore() + score;
-//
-//        if (changedScore>= 50 && 100 > changedScore){
-//            member.setHammerTier(Member.HammerTier.BRONZE_HAMMER);
-//        } else if (changedScore >= 100 && 150 > changedScore ) {
-//            member.setHammerTier(Member.HammerTier.SILVER_HAMMER);
-//        } else if (changedScore >= 150 && 200 > changedScore) {
-//            member.setHammerTier(Member.HammerTier.GOLD_HAMMER);
-//        } else if (changedScore >= 200) {
-//            member.setHammerTier(Member.HammerTier.PPONG_HAMMER);
-//        }
-//
-//        updateScore.setScore(updateScore.getScore() + score);
-//
-//        return updateScore;
-//    }
-
     public void updateScore(Long memberId, Long score) {
         Member verifiedMember = findVerifiedMember(memberId);
         Score updateScore = scoreRepository.findByMember_MemberId(memberId);
@@ -265,4 +196,53 @@ public class MemberService {
                 return Member.HammerTier.STONE_HAMMER;
         }
     }
+
+    //    @Transactional(readOnly = true)
+//    public Member getMember(Long memberId) {
+//        Member member = findVerifiedMember(memberId);
+//
+//        return member;
+//    }
+
+    //    public Member changePaaswordMember(List<Member> members){
+//        // 로그인 멤버 권한 검사
+//        verifyLoginMember(members.get(0).getMemberId());
+//
+//        // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
+//        Member member = findVerifiedMember(members.get(0).getMemberId());
+//
+//        // 현재 패스워드 매치
+//        // 일치 했을떄
+//        if(passwordEncoder.matches(members.get(0).getPassword(),member.getPassword())){
+//            System.out.println(members.get(1).getPassword());
+//            // 새로운 비밀번호변경
+//            String encryptedPassword = passwordEncoder.encode(members.get(1).getPassword());
+//            //member.setPassword(members.get(1).getPassword());
+//            member.setPassword(encryptedPassword);
+//            return member;
+//        // 불일치 했을때
+//        }else {
+//            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
+//        }
+//    }
+
+    //    public Score updateScore(Long memberId, Long score) {
+//        Member member = findVerifiedMember(memberId);
+//        Score updateScore = scoreRepository.findByMember_MemberId(memberId);
+//        Long changedScore = updateScore.getScore() + score;
+//
+//        if (changedScore>= 50 && 100 > changedScore){
+//            member.setHammerTier(Member.HammerTier.BRONZE_HAMMER);
+//        } else if (changedScore >= 100 && 150 > changedScore ) {
+//            member.setHammerTier(Member.HammerTier.SILVER_HAMMER);
+//        } else if (changedScore >= 150 && 200 > changedScore) {
+//            member.setHammerTier(Member.HammerTier.GOLD_HAMMER);
+//        } else if (changedScore >= 200) {
+//            member.setHammerTier(Member.HammerTier.PPONG_HAMMER);
+//        }
+//
+//        updateScore.setScore(updateScore.getScore() + score);
+//
+//        return updateScore;
+//    }
 }

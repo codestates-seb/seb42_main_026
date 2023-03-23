@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
@@ -56,10 +57,15 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // OncePerRequ
 
     private void setAuthenticationToContext(Map<String, Object> claims){
         String username = (String) claims.get("username"); // 파싱한 Claims에서 username을 얻는다.
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles")); // Claims에서 얻은 권한 정보를 기반으로 List<GrantedAuthority 를 생성한다.
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities); // username과 List<GrantedAuthority 를 포함한 Authentication 객체를 생성한다.
-        SecurityContextHolder.getContext().setAuthentication(authentication); // SecurityContext에 Authentication 객체를 저장한다.
+        Integer memberId = (Integer) claims.get("memberId");
 
+        Member member = new Member();
+        member.setEmail(username);
+        member.setMemberId(Long.valueOf(memberId));
+
+        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("roles")); // Claims에서 얻은 권한 정보를 기반으로 List<GrantedAuthority 를 생성한다.
+        Authentication authentication = new UsernamePasswordAuthenticationToken(member, null, authorities); // username과 List<GrantedAuthority 를 포함한 Authentication 객체를 생성한다.
+        SecurityContextHolder.getContext().setAuthentication(authentication); // SecurityContext에 Authentication 객체를 저장한다.
     }
 
 
