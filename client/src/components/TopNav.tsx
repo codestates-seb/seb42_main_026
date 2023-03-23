@@ -95,12 +95,6 @@ export default function TopNav() {
               <MenuButton
                 menu={[
                   {
-                    title: '갱생 변경',
-                    button: function () {
-                      console.log('수정');
-                    },
-                  },
-                  {
                     title: '수정',
                     button: function () {
                       console.log('수정');

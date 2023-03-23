@@ -8,7 +8,6 @@ const PrivateRoute = ({ children }: PropsWithChildren<any>) => {
 
   useEffect(() => {
     if (!isLoggedIn && !checkTokenExpiration()) {
-      console.log('발동');
       navigate('/login', { replace: true });
     }
   }, [isLoggedIn, navigate, checkTokenExpiration]);

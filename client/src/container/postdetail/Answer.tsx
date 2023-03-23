@@ -23,9 +23,10 @@ interface AnswerCardProps {
   questionId: number;
   answerId: number;
   profileImageUrl: string;
+  postMemberId: number;
 }
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
+const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
 
@@ -44,7 +45,7 @@ const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus,
 
   const changeAnswerState = async () => {
     if (memberId !== Number(getUser()?.memberId())) {
-      if (window.confirm('채택하시겠습니까?')) {
+      if (window.confirm(answerStatus === '일반 상태' ? '채택하시겠습니까?' : '채택을 취소하시겠습니까?')) {
         const data = {
           memberId: getUser()?.memberId(),
           questionId,
@@ -52,7 +53,7 @@ const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus,
         };
         try {
           await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select?memberId=${getUser()?.memberId()}`, data, { headers: { Authorization: getCookie('accessToken') } });
-          alert('채택되었습니다.');
+          alert(answerStatus === '일반 상태' ? '채택되었습니다.' : '취소되었습니다.');
           return window.location.replace(`/questions/${questionId}`);
         } catch (error) {
           console.error(error);
@@ -75,7 +76,7 @@ const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus,
               <TimeWrapper>{createdAt}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              {memberId !== getUser()?.memberId() && (
+              {postMemberId === getUser()?.memberId() && memberId !== getUser()?.memberId() && (
                 <ButtonStyled color={answerStatus === '일반 상태' ? 'pink' : 'normal'} title={answerStatus === '일반 상태' ? '채택중' : '채택완료'} width="55px" height="22px" buttonClickHandler={changeAnswerState} />
               )}
               {memberId === getUser()?.memberId() && (

@@ -13,7 +13,6 @@ interface dataProps {
 
 const RankPage = () => {
   const data: dataProps[] = useGetRank('/home/rank');
-  console.log(data);
   const sortedData = data.sort((a: dataProps, b: dataProps) => b.score - a.score); //score 기준으로 내림차순 정렬
   return (
     <RankingWrapper>

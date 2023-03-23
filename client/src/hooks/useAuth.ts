@@ -46,11 +46,11 @@ export function useAuth() {
 
       if (now >= decoded.exp * 1000) {
         // 만료되었음
-        console.log('토큰이 만료되었습니다.');
+        // console.log('토큰이 만료되었습니다.');
         return false;
       } else {
         // 유효함
-        console.log('토큰이 유효합니다.');
+        // console.log('토큰이 유효합니다.');
         dispatch(login());
         return true;
       }
