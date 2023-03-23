@@ -72,7 +72,7 @@ public class QuestionService {
         return findVerifiedQuestion(questionId);
     }
 
-    // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 답변 개수 , 10개만 조회)
+    // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 답변 개수 순, 10개만 조회)
     @Transactional(readOnly = true)
     public List<Question> findQuestionsAtHome() {
         return questionRepository.findTop10ByOrderByLikeCountDescAnswerCountDesc();
