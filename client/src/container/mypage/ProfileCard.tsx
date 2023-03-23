@@ -4,6 +4,7 @@ import ImageBox from '../../components/ImageBox';
 import { ReactComponent as ICON_PROFILE_IMG } from '../../assets/ic_profile.svg';
 import { useRef, useState } from 'react';
 import ProfilePreviewModal from '../../components/ProfilePreviewModal';
+import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 
 interface profileProps {
   imgUrl?: string;
@@ -27,7 +28,7 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
 
   return (
     <ProfileCardWrapper>
-      <ImageBox imgUrl={imgUrl} mainText={mainText} subText={subText} lang={lang}></ImageBox>
+      <ImageBox imgUrl={imgUrl === '' ? ICON_PROFILE : imgUrl} mainText={mainText} subText={subText} lang={lang}></ImageBox>
 
       <ImgWrapper onClick={() => inputRef.current?.click()}>
         <ICON_PROFILE_IMG />

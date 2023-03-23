@@ -23,6 +23,7 @@ const MyPage: React.FC = () => {
   // const data: dataProps = useGetMembers(`/members/${memberId}`);
   const [data, setData] = useState<dataProps>({});
 
+  console.log(data)
   useEffect(() => {
     const headers = {
       Authorization: getCookie('accessToken'),
