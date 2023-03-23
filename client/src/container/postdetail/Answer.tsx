@@ -43,6 +43,13 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
     }
   };
 
+  const parseDate = (props: Date) => {
+    const now = new Date(props);
+    const MM = Number(now.getMonth() + 1) < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
+    const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
+    return `${MM}/${dd}`;
+  };
+
   const changeAnswerState = async () => {
     if (memberId !== Number(getUser()?.memberId())) {
       if (window.confirm(answerStatus === '일반 상태' ? '채택하시겠습니까?' : '채택을 취소하시겠습니까?')) {
@@ -73,7 +80,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
           <TopWrapper>
             <InfoWrapper>
               <NameWrapper>{nickname}</NameWrapper>
-              <TimeWrapper>{createdAt}</TimeWrapper>
+              <TimeWrapper>{parseDate(new Date(createdAt))}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
               {postMemberId === getUser()?.memberId() && memberId !== getUser()?.memberId() && (

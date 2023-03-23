@@ -16,9 +16,9 @@ const MyPostsPage = () => {
 
   return (
     <MyPostsBoard>
-      {data.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }, index) => (
+      {data.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId, questionStatus }, index) => (
         <Link to={`/questions/${questionId}`} key={index}>
-          <BoardItem title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
+          <BoardItem questionStatus={questionStatus} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag} />
         </Link>
       ))}
     </MyPostsBoard>

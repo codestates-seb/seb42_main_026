@@ -11,9 +11,10 @@ interface ItemProps {
   answerCount: number;
   nickname?: string;
   tag?: string;
-  children?: any;
+  children?: React.ReactNode;
+  questionStatus: string;
 }
-export default function BoardItem({ title, createdAt, likeCount, answerCount, nickname, tag, children }: ItemProps) {
+export default function BoardItem({ title, createdAt, likeCount, answerCount, nickname, tag, children, questionStatus }: ItemProps) {
   return (
     <BoardItemStyle>
       <ItemTop>
@@ -34,7 +35,7 @@ export default function BoardItem({ title, createdAt, likeCount, answerCount, ni
       </ItemTop>
       <ItemBottom>
         <ItemChipForm>
-          <StatusChips color="pink" />
+          <StatusChips color={questionStatus === '갱생 중' ? 'pink' : 'gray'} />
           <Tags title={tag} size="small"></Tags>
         </ItemChipForm>
         <ItemNickname>{nickname}</ItemNickname>

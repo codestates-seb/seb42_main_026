@@ -15,6 +15,7 @@ interface ItemProps {
   nickname: string;
   tag?: string;
   questionId?: number;
+  questionStatus: string;
 }
 
 export default function NaggingBoardPage() {
@@ -40,7 +41,7 @@ export default function NaggingBoardPage() {
         setList(response.data.data);
       } else {
         setList((prevList) => [...prevList, ...response.data.data]);
-        console.log(response.data.data);
+        // console.log(response.data.data);
       }
       setHasNextPage(response.data.pageInfo.page < response.data.pageInfo.totalPages);
       if (response.data.data.length) {
@@ -93,9 +94,9 @@ export default function NaggingBoardPage() {
           <img src={ICON_SEARCH} alt="search icon" />
         </div>
       </TagSelector>
-      {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId }, index) => (
+      {list.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId, questionStatus }, index) => (
         <Link to={`/questions/${questionId}`} key={index}>
-          <BoardItem title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag}></BoardItem>
+          <BoardItem questionStatus={questionStatus} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDate(createdAt)} answerCount={answerCount} tag={tag}></BoardItem>
         </Link>
       ))}
 
