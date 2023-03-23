@@ -75,7 +75,7 @@ public class QuestionService {
     // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 오래된 순, 10개만 조회)
     @Transactional(readOnly = true)
     public List<Question> findQuestionsAtHome() {
-        return questionRepository.findTop10ByOrderByLikeCountDescQuestionIdAsc();
+        return questionRepository.findTop10ByOrderByLikeCountDescAnswerCountDesc();
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
