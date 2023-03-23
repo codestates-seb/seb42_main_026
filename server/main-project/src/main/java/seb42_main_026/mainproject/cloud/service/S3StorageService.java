@@ -48,6 +48,10 @@ public class S3StorageService implements StorageService {
     @Override
     public void imageStore(MultipartFile imageFile, String encodedFileName){
         try {
+            if (imageFile.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
+            }
+
             if (!Objects.equals(imageFile.getContentType(), "image/jpeg") &&
             !Objects.equals(imageFile.getContentType(), "image/png") &&
             !Objects.equals(imageFile.getContentType(), "image/gif")) {
@@ -70,6 +74,10 @@ public class S3StorageService implements StorageService {
     @Override
     public void voiceStore(MultipartFile voiceFile, String encodedFileName){
         try {
+            if (voiceFile.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
+            }
+
             if (!Objects.equals(voiceFile.getContentType(), "audio/mp4") &&
             !Objects.equals(voiceFile.getContentType(), "audio/mpeg") &&
             !Objects.equals(voiceFile.getContentType(), "audio/ogg")){
