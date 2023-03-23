@@ -28,7 +28,9 @@ export default function BoardItem({
     <BoardItemStyle>
       <ItemTop>
         <ItemTitleform>
-          <ItemTitle>{title}</ItemTitle>
+          <ItemTitle>
+            {title.length >= 15 ? `${title.slice(0, 13)}...` : title}
+          </ItemTitle>
           <ItemDate>{createdAt}</ItemDate>
         </ItemTitleform>
         <ItemCountForm>
