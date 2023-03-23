@@ -29,7 +29,7 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
   return (
     <ProfileCardWrapper>
       <ImageBoxWrapper>
-        <img className="profile" src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" lang="EN" />
+        <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" lang="EN" />
         <InfoBoxWrapper>
           <MainText>{mainText}</MainText>
           <SubText>{subText}</SubText>
@@ -68,12 +68,12 @@ const ProfileCardWrapper = styled.div`
 
 const EditWrapper = styled.div`
   position: relative;
-  padding: 0 30px 0 0;
+  padding: 0 40px 0 0;
   a {
     color: #ff607c;
     font-weight: 500;
     text-align: center;
-    font-size: var(--font-size14);
+    font-size: var(--font-size16);
     letter-spacing: var(--font-spacing-title);
     color: var(--color-mobMain);
   }
@@ -82,7 +82,7 @@ const EditWrapper = styled.div`
 const ImgWrapper = styled.button`
   position: absolute;
   left: 54px;
-  top: 35px;
+  top: 48px;
   display: flex;
   border: none;
   background-color: transparent;
@@ -90,23 +90,17 @@ const ImgWrapper = styled.button`
 const ImageBoxWrapper = styled.div`
   position: relative;
   display: flex;
-  gap: 38px;
+  gap: 36px;
   left: 13px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 
-  .profile {
+  img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    /* 글로벌로 나중에 바꾸기 */
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
   }
 `;
 const InfoBoxWrapper = styled.div`

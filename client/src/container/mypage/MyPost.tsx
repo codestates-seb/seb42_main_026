@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router";
+import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
 const MyPost = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const MyPostWrapper = styled.div`
 
 const MyPostButton = styled.span`
   position: relative;
-  left: 20px;
+  left: 30px;
   font-size: var(--font-size16);
   color: var(--color-black01);
 `;
