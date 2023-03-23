@@ -19,11 +19,11 @@ interface dataProps {
 
 const MyPage: React.FC = () => {
   const memberId = getUser()?.memberId();
+  if (memberId === undefined) window.location.replace('/login');
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const data: dataProps = useGetMembers(`/members/${memberId}`);
   const [data, setData] = useState<dataProps>({});
 
-  console.log(data)
   useEffect(() => {
     const headers = {
       Authorization: getCookie('accessToken'),
