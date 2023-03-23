@@ -45,8 +45,13 @@ const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus,
   const changeAnswerState = async () => {
     if (memberId !== Number(getUser()?.memberId())) {
       if (window.confirm('채택하시겠습니까?')) {
+        const data = {
+          memberId: getUser()?.memberId(),
+          questionId,
+          answerId,
+        };
         try {
-          await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select?memberId=${getUser()?.memberId()}`, { headers: { Authorization: getCookie('accessToken') } });
+          await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select?memberId=${getUser()?.memberId()}`, data, { headers: { Authorization: getCookie('accessToken') } });
           alert('채택되었습니다.');
           return window.location.replace(`/questions/${questionId}`);
         } catch (error) {
