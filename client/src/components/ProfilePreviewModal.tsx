@@ -26,7 +26,7 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({ isOpen, onClose, imgFile })
       .then((response) => {
         alert('프로필이미지 변경 완료!');
         onClose();
-        window.location.href = `/seb42_main_026/mypage`;
+        window.location.replace(`/mypage`);
       })
       .catch((err) => {
         console.log(err);
