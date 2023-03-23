@@ -57,8 +57,6 @@ public class AnswerService {
         //answer 에 질문 추가, 존재하는 질문인지 확인
         Question foundQuestion = questionService.findVerifiedQuestion(answer.getQuestion().getQuestionId());
 
-
-        //진짜 - > 주석해제
         //mediaFile 이 null 이 아닐시, answer 에 이름 저장, S3 버킷에 업로드
         if (mediaFile != null){
             storeVoiceFile(answer, mediaFile);
@@ -153,6 +151,6 @@ public class AnswerService {
     private void storeVoiceFile(Answer answer, MultipartFile mediaFile){
         String encodedFileName = s3StorageService.encodeFileName(mediaFile);
         answer.setVoiceFileUrl(s3StorageService.getFileUrl(encodedFileName));
-        s3StorageService.store(mediaFile, encodedFileName);
+        s3StorageService.voiceStore(mediaFile, encodedFileName);
     }
 }
