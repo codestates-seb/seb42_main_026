@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ImageBox from '../../components/ImageBox';
 import { ReactComponent as ICON_PROFILE_IMG } from '../../assets/ic_profile.svg';
 import { useRef, useState } from 'react';
 import ProfilePreviewModal from '../../components/ProfilePreviewModal';
@@ -28,7 +27,13 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
 
   return (
     <ProfileCardWrapper>
-      <ImageBox imgUrl={imgUrl === '' ? ICON_PROFILE : imgUrl} mainText={mainText} subText={subText} lang={lang}></ImageBox>
+      <ImageBoxWrapper>
+        <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" lang="EN" />
+        <InfoBoxWrapper>
+          <MainText>{mainText}</MainText>
+          <SubText>{subText}</SubText>
+        </InfoBoxWrapper>
+      </ImageBoxWrapper>
 
       <ImgWrapper onClick={() => inputRef.current?.click()}>
         <ICON_PROFILE_IMG />
@@ -50,8 +55,8 @@ const CustomInput = styled.input`
 `;
 const ProfileCardWrapper = styled.div`
   position: relative;
-  padding: 0 0 0 10px;
-  height: 75px;
+  padding: 0 0 0 13px;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -62,12 +67,12 @@ const ProfileCardWrapper = styled.div`
 
 const EditWrapper = styled.div`
   position: relative;
-  padding: 0 30px 0 0;
+  padding: 0 40px 0 0;
   a {
     color: #ff607c;
     font-weight: 500;
     text-align: center;
-    font-size: var(--font-size14);
+    font-size: var(--font-size16);
     letter-spacing: var(--font-spacing-title);
     color: var(--color-mobMain);
   }
@@ -75,9 +80,44 @@ const EditWrapper = styled.div`
 
 const ImgWrapper = styled.button`
   position: absolute;
-  left: 46px;
-  top: 35px;
+  left: 54px;
+  top: 48px;
   display: flex;
   border: none;
   background-color: transparent;
+`;
+const ImageBoxWrapper = styled.div`
+  position: relative;
+  display: flex;
+  gap: 36px;
+  left: 13px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+`;
+const InfoBoxWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+const MainText = styled.div`
+  text-align: left;
+  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
+  color: var(--color-black01);
+  font-size: var(--font-size18);
+`;
+const SubText = styled.div`
+  text-align: left;
+  font-size: var(--font-size12);
+  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
+  letter-spacing: -0.05em;
+  color: var(--color-gray02);
 `;

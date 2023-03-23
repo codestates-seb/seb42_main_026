@@ -11,7 +11,7 @@ interface ImgCardProps {
 const ImageBox = ({ imgUrl, mainText, subText, lang }: ImgCardProps) => {
   return (
     <ImageBoxWrapper>
-      <img className="profile" src={imgUrl === null ? ICON_PROFILE : imgUrl} alt="profile_image" />
+      <img src={imgUrl === null ? ICON_PROFILE : imgUrl} alt="profile_image" />
       <InfoBoxWrapper>
         <MainText lang={lang}>{mainText}</MainText>
         <SubText>{subText}</SubText>
@@ -25,24 +25,18 @@ export default ImageBox;
 const ImageBoxWrapper = styled.div`
   position: relative;
   display: flex;
-  gap: 30px;
+  gap: 20px;
   left: 10px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 
-  .profile {
+  img {
     width: 36px;
     height: 36px;
     object-fit: cover;
     border-radius: 50%;
     background-color: var(--color-gray04);
-    /* 글로벌로 나중에 바꾸기 */
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
   }
 `;
 const InfoBoxWrapper = styled.div`

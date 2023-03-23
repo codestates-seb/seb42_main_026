@@ -74,7 +74,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
     <>
       <AnswerWrapper>
         <ImageWrapper>
-          <img className="profile" src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
+          <img src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -148,18 +148,12 @@ const ImageWrapper = styled.div`
   display: flex;
   flex-direction: row;
 
-  .profile {
+  img {
     width: 36px;
     height: 36px;
     object-fit: cover;
     border-radius: 50%;
     background-color: var(--color-gray04);
-    /* 글로벌로 나중에 바꾸기 */
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
   }
 `;
 
@@ -184,6 +178,7 @@ const InfoWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  margin-left: 5px;
 `;
 
 const NameWrapper = styled.div`
@@ -217,6 +212,7 @@ const MiddleWrapper = styled.div`
   width: 100%;
   line-height: 22.4px;
   font-weight: var(--font-weight300);
+  margin-left: 5px;
 `;
 const BottomWrapper = styled.div`
   display: flex;
@@ -224,6 +220,7 @@ const BottomWrapper = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
+  margin-left: 5px;
 `;
 
 const LikeWrapper = styled.div`

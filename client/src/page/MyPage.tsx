@@ -4,7 +4,6 @@ import RankCard from '../container/mypage/RankCard';
 import MyPost from '../container/mypage/MyPost';
 import LogoutModal from '../components/LogoutModal';
 import React, { useState, useEffect } from 'react';
-// import useGetMembers from '../hooks/useGetMembers';
 import { getUser } from '../utils/getUser';
 import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
@@ -54,6 +53,7 @@ export default MyPage;
 const MyPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 14px;
   padding: 16px;
 `;
@@ -61,10 +61,12 @@ const MyPageWrapper = styled.div`
 const LogoutButton = styled.button`
   position: relative;
   left: calc(50% - 48px);
-  width: 96px;
+  width: 100px;
+  height: 50px;
   border: none;
   background: none;
   color: var(--color-gray02);
   letter-spacing: var(--font-spacing-title);
   font-weight: 100;
+  margin-top: 20px;
 `;
