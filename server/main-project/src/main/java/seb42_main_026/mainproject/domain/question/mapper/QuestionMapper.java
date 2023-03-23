@@ -50,7 +50,7 @@ public interface QuestionMapper {
                             answerResponse.setAnswerStatus(answer.getAnswerStatus().getStatus());
                             answerResponse.setCreatedAt(answer.getCreatedAt());
 
-                            answerResponse.setProfileImageUrl(answer.getProfileImageUrl());
+                            answerResponse.setProfileImageUrl(answer.getMember().getProfileImageUrl());
                             answerResponse.setVoiceFileUrl(answer.getVoiceFileUrl());
 
                             answerResponse.setLikeCount(answer.getLikeCount());
