@@ -68,7 +68,7 @@ public class MemberController {
     @PatchMapping(value = "/members/{member-id}", consumes =
             {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
-                                      @RequestPart MemberDto.Patch memberPatchDto,
+                                      @RequestPart @Valid MemberDto.Patch memberPatchDto,
                                       @RequestPart(required = false) MultipartFile profileImage){
 
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
@@ -83,7 +83,7 @@ public class MemberController {
 
     @PatchMapping("/members/changepassword/{member-id}")
     public ResponseEntity patchMemberPassword(@PathVariable("member-id") @Positive Long memberId,
-                                      @RequestBody MemberDto.PatchPassword memberPatchDto){
+                                      @RequestBody @Valid MemberDto.PatchPassword memberPatchDto){
 
 
         List<Member> members = memberMapper.memberPasswordPatchToMember(memberPatchDto, memberId);
