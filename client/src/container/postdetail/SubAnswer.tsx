@@ -41,7 +41,7 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
     <SubAnswerWrapper>
       <AnswerWrapper>
         <ImageWrapper>
-          <img className="profile" src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
+          <img src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -114,19 +114,12 @@ const AnswerWrapper = styled.div`
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: row;
-
-  .profile {
+  img {
     width: 36px;
     height: 36px;
     object-fit: cover;
     border-radius: 50%;
     background-color: var(--color-gray04);
-    /* 글로벌로 나중에 바꾸기 */
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
   }
 `;
 
@@ -136,6 +129,7 @@ const TextWrapper = styled.div`
   justify-content: center;
   width: 100%;
   gap: 8px;
+  margin-left: 5px;
 `;
 
 const TopWrapper = styled.div`

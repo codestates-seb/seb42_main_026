@@ -38,12 +38,6 @@ const ImageBoxWrapper = styled.div`
     border-radius: 50%;
     object-fit: cover;
     background-color: var(--color-gray04);
-    /* 글로벌로 나중에 바꾸기 */
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
   }
 `;
 const InfoBoxWrapper = styled.div`

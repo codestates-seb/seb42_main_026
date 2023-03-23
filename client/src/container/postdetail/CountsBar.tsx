@@ -33,13 +33,6 @@ const CountsBarWrapper = styled.div`
   /* flex-direction: row; */
   gap: 160px;
   margin-bottom: 12px;
-  img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
-  }
 `;
 const AnswerWrapper = styled.div`
   border: none;
