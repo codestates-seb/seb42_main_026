@@ -4,13 +4,13 @@ import decodeJwt from './jwtUtils';
 export function getUser() {
   const accessToken = getCookie('accessToken');
   if (!accessToken) {
-    window.location.href = '/seb42_main_026/login';
+    window.location.replace('/login');
     return null;
   }
 
   const decoded = decodeJwt(accessToken);
   if (!decoded) {
-    window.location.href = '/seb42_main_026/login';
+    window.location.replace('/login');
     return null;
   }
 
