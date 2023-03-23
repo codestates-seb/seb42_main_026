@@ -28,7 +28,13 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
 
   return (
     <ProfileCardWrapper>
-      <ImageBox imgUrl={imgUrl === '' ? ICON_PROFILE : imgUrl} mainText={mainText} subText={subText} lang={lang}></ImageBox>
+      <ImageBoxWrapper>
+        <img className="profile" src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" lang="EN" />
+        <InfoBoxWrapper>
+          <MainText>{mainText}</MainText>
+          <SubText>{subText}</SubText>
+        </InfoBoxWrapper>
+      </ImageBoxWrapper>
 
       <ImgWrapper onClick={() => inputRef.current?.click()}>
         <ICON_PROFILE_IMG />
@@ -50,8 +56,8 @@ const CustomInput = styled.input`
 `;
 const ProfileCardWrapper = styled.div`
   position: relative;
-  padding: 0 0 0 10px;
-  height: 75px;
+  padding: 0 0 0 13px;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -75,9 +81,50 @@ const EditWrapper = styled.div`
 
 const ImgWrapper = styled.button`
   position: absolute;
-  left: 46px;
+  left: 54px;
   top: 35px;
   display: flex;
   border: none;
   background-color: transparent;
+`;
+const ImageBoxWrapper = styled.div`
+  position: relative;
+  display: flex;
+  gap: 38px;
+  left: 13px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  .profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    /* 글로벌로 나중에 바꾸기 */
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
+`;
+const InfoBoxWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+const MainText = styled.div`
+  text-align: left;
+  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
+  color: var(--color-black01);
+  font-size: var(--font-size18);
+`;
+const SubText = styled.div`
+  text-align: left;
+  font-size: var(--font-size12);
+  font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
+  letter-spacing: -0.05em;
+  color: var(--color-gray02);
 `;
