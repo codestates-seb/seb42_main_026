@@ -37,7 +37,7 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
       <EditWrapper>
         <Link to="/useredit">수정</Link>
       </EditWrapper>
-      <CustomInput ref={inputRef} type="file" accept="image/jpeg, image/png" onChange={previewImage} />
+      <CustomInput ref={inputRef} type="file" accept="image/gif ,image/jpeg, image/png" onChange={previewImage} />
       {isModalOpen === true ? <ProfilePreviewModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} imgFile={imgFile} /> : null}
     </ProfileCardWrapper>
   );

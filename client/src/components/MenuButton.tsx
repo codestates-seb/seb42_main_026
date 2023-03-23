@@ -33,10 +33,11 @@ const EditDeleteContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80px;
+  white-space: nowrap;
+  width: 96px;
   right: 0;
   top: 32px;
-  border: 1px solid var(--color-black01);
+  border: 1px solid var(--color-gray02);
   button {
     display: flex;
     justify-content: center;
