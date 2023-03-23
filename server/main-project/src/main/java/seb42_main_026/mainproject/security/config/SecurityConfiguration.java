@@ -240,8 +240,8 @@ public class SecurityConfiguration {
                 .clientId(naverClientId)
                 .clientSecret(naverClientSecret)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                //.redirectUri("http://3.36.228.134:8080/login/oauth2/code/naver") // 서버용
-                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/naver")
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/naver") // 서버용
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/naver")
                 .scope("name", "email")
                 .authorizationUri("https://nid.naver.com/oauth2.0/authorize")
                 .tokenUri("https://nid.naver.com/oauth2.0/token")
@@ -259,8 +259,8 @@ public class SecurityConfiguration {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 //.redirectUri("http://3.36.228.134:8080/oauth2/authorization/kakao") // 서버용
                 //.redirectUri("http://localhost:8080/login/oauth2/code/kakao")        // 로컬용
-                //.redirectUri("http://3.36.228.134:8080/login/oauth2/code/kakao")
-                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/naver") // 도메인
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/kakao")
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/naver") // 도메인
                 .scope("profile_nickname", "account_email")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")
