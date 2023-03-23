@@ -58,13 +58,6 @@ const ProfileCardWrapper = styled.div`
   align-items: center;
   border: 1px solid var(--color-gray03);
   border-radius: 5px;
-  img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: var(--color-gray04);
-  }
 `;
 
 const EditWrapper = styled.div`

@@ -11,7 +11,7 @@ interface ImgCardProps {
 const ImageBox = ({ imgUrl, mainText, subText, lang }: ImgCardProps) => {
   return (
     <ImageBoxWrapper>
-      <img src={imgUrl === null ? ICON_PROFILE : imgUrl} alt="profile_image" />
+      <img className="profile" src={imgUrl === null ? ICON_PROFILE : imgUrl} alt="profile_image" />
       <InfoBoxWrapper>
         <MainText lang={lang}>{mainText}</MainText>
         <SubText>{subText}</SubText>
@@ -31,7 +31,7 @@ const ImageBoxWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  img {
+  .profile {
     width: 36px;
     height: 36px;
     object-fit: cover;
