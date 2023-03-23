@@ -11,7 +11,7 @@ interface ImgCardProps {
 const ImageBox = ({ imgUrl, mainText, subText, lang }: ImgCardProps) => {
   return (
     <ImageBoxWrapper>
-      <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" />
+      <img src={imgUrl === null ? ICON_PROFILE : imgUrl} alt="profile_image" />
       <InfoBoxWrapper>
         <MainText lang={lang}>{mainText}</MainText>
         <SubText>{subText}</SubText>
