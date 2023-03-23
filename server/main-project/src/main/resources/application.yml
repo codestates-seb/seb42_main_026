@@ -1,4 +1,7 @@
 spring:
+#  servlet:
+#    multipart:
+#      max-file-size: 2MB
   h2:
     console:
       enabled: true
