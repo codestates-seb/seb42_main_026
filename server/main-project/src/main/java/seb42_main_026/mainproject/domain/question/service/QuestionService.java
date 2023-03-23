@@ -138,6 +138,6 @@ public class QuestionService {
         // 파일 URL을 저장
         question.setQuestionImageUrl(s3StorageService.getFileUrl(encodedFileName));
         // S3 버킷에 해당 이미지 저장
-        s3StorageService.store(questionImage, encodedFileName);
+        s3StorageService.imageStore(questionImage, encodedFileName);
     }
 }
