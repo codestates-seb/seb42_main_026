@@ -19,7 +19,7 @@ import BottomNav from './components/BottomNav';
 import TopNav from './components/TopNav';
 import RankPage from './page/RankPage';
 import PrivateRoute from './hooks/PrivateRoute';
-import KakaoPage from './page/KakaoPage';
+import OAuthPage from './page/OAuthPage';
 export default function App() {
   return (
     <Provider store={store}>
@@ -86,7 +86,7 @@ export default function App() {
                 }
               />
               <Route path="/signup" element={<SignupPage />} />
-              <Route path="/login/kakao/callback" element={<KakaoPage />} />
+              <Route path="/login/callback" element={<OAuthPage />} />
               <Route
                 path="/useredit"
                 element={

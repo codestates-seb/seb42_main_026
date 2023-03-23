@@ -1,10 +1,11 @@
 import { useLocation } from 'react-router-dom';
 
-const KakaoPage = () => {
+const OAuthPage = () => {
   const history = useLocation();
-  console.log(history.pathname);
+  console.log(history);
+  //split써보세요
   // window.location.replace('/');
   return <></>;
 };
 
-export default KakaoPage;
+export default OAuthPage;

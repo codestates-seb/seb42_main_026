@@ -31,7 +31,7 @@ const Text = styled.span`
 `;
 
 const handleGoogleLogin = async () => {
-  window.location.href = `${process.env.REACT_APP_BASE_URL}/oauth2/authorization/google `;
+  window.location.href = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/google `;
 };
 
 const GoogleLoginButton = () => {
