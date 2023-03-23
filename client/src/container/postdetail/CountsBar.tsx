@@ -1,11 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import ANSWER_ICON from '../../assets/ic_boardItem_answer.svg';
 import LIKE_ICON from '../../assets/ic_boardItem_like.svg';
 
-const CountsBar = ({ answer, likeCount }: { answer: number; likeCount: number }) => {
+const CountsBar = ({ answer, likeCount, answerHandler, isTextarea }: { answer: number; likeCount: number; answerHandler: Dispatch<SetStateAction<boolean>>; isTextarea: boolean }) => {
   return (
     <CountsBarWrapper>
-      <AnswerWrapper>
+      <AnswerWrapper onClick={() => answerHandler(!isTextarea)}>
         <img src={ANSWER_ICON} alt="답글아이콘"></img>
         <AnswerKey>댓글</AnswerKey>
         <AnswerValue>{answer}</AnswerValue>
@@ -22,6 +23,7 @@ const CountsBar = ({ answer, likeCount }: { answer: number; likeCount: number })
 export default CountsBar;
 
 const CountsBarWrapper = styled.div`
+  user-select: none;
   border-top: solid 0.5px var(--color-gray03);
   border-bottom: solid 0.5px var(--color-gray03);
   display: flex;
@@ -31,8 +33,18 @@ const CountsBarWrapper = styled.div`
   /* flex-direction: row; */
   gap: 160px;
   margin-bottom: 12px;
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
 `;
 const AnswerWrapper = styled.div`
+  border: none;
+  background-color: var(--color-white01);
+  cursor: pointer;
   display: flex;
   padding: 0 0 0 24px;
   gap: 5.5px;
@@ -47,7 +59,10 @@ const AnswerValue = styled.div`
   font-size: var(--font-size12);
 `;
 
-const LikeWrapper = styled.div`
+const LikeWrapper = styled.button`
+  border: none;
+  background-color: var(--color-white01);
+  cursor: pointer;
   display: flex;
   gap: 5.5px;
 `;
