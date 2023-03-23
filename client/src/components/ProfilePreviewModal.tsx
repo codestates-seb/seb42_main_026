@@ -82,8 +82,8 @@ const ModalWrapper = styled.div`
   gap: 20px;
   padding: 30px 0;
   img {
-    width: 50%;
-    height: 50%;
+    width: 70%;
+    height: 70%;
     object-fit: cover;
   }
 `;
