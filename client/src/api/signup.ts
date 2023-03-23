@@ -14,7 +14,7 @@ const signup = async (email: string, password: string, nickname: string, setErro
   try {
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/signup`, formData);
     alert('회원가입이 완료되었습니다.');
-    return 
+    return window.location.replace('/login');
   } catch (error: unknown) {
     const customErr = error as CustomError;
     return setErrorMessage({
