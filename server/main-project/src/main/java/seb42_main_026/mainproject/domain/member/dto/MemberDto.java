@@ -14,7 +14,7 @@ public class MemberDto {
     public static class Post{
 
         @NotBlank
-        @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "옳바른 이메일 형식이 아닙니다.")
+        @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "올바른 이메일 형식이 아닙니다.")
         private String email;
 
         @NotBlank
