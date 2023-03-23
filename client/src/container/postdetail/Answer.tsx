@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 import ButtonStyled from '../../components/ButtonStyled';
-import ICON_MENUBUTTON from '../../assets/ic_answer_menubutton.svg';
 import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
 import { ReactComponent as ICON_MENU } from '../../assets/ic_answer_menubutton.svg';
 import SubAnswer from './SubAnswer';
@@ -14,7 +13,6 @@ import getCookie from '../../utils/cookieUtils';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
-  imgUrl?: string;
   nickname: string;
   createdAt: string;
   likeCount: number;
@@ -24,9 +22,10 @@ interface AnswerCardProps {
   memberId: number;
   questionId: number;
   answerId: number;
+  profileImageUrl: string;
 }
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
+const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
 
@@ -35,10 +34,25 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
       try {
         await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}?memberId=${memberId}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
-        return (window.location.href = `/seb42_main_026/questions/${questionId}`);
+        return window.location.replace(`/questions/${questionId}`);
       } catch (error) {
         console.error(error);
         return null;
+      }
+    }
+  };
+
+  const changeAnswerState = async () => {
+    if (memberId !== Number(getUser()?.memberId())) {
+      if (window.confirm('채택하시겠습니까?')) {
+        try {
+          await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select?memberId=${getUser()?.memberId()}`, { headers: { Authorization: getCookie('accessToken') } });
+          alert('채택되었습니다.');
+          return window.location.replace(`/questions/${questionId}`);
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
       }
     }
   };
@@ -47,7 +61,7 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
     <>
       <AnswerWrapper>
         <ImageWrapper>
-          <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" />
+          <img className="profile" src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -56,7 +70,9 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
               <TimeWrapper>{createdAt}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              <ButtonStyled color="pink" title={answerStatus} width="55px" height="22px"></ButtonStyled>
+              {memberId !== getUser()?.memberId() && (
+                <ButtonStyled color={answerStatus === '일반 상태' ? 'pink' : 'normal'} title={answerStatus === '일반 상태' ? '채택중' : '채택완료'} width="55px" height="22px" buttonClickHandler={changeAnswerState} />
+              )}
               {memberId === getUser()?.memberId() && (
                 <>
                   <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
@@ -99,8 +115,8 @@ const Answer = ({ likeCount, imgUrl = '', nickname, createdAt, answerStatus, con
         </TextWrapper>
       </AnswerWrapper>
       {comments?.length !== 0 &&
-        comments?.map((el: any) => {
-          return <SubAnswer questionId={questionId} {...el} />;
+        comments?.map((el: any, index) => {
+          return <SubAnswer key={index} questionId={questionId} {...el} />;
         })}
     </>
   );
@@ -117,9 +133,21 @@ const AnswerWrapper = styled.div`
 
 const ImageWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  flex-direction: row;
+
+  .profile {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: var(--color-gray04);
+    /* 글로벌로 나중에 바꾸기 */
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+  }
 `;
 
 const TextWrapper = styled.div`

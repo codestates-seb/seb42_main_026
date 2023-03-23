@@ -74,7 +74,7 @@ const EditorPage = () => {
           <ICON_IMAGE />
         </ImgAddButton>
       </ContentContainer>
-      <CustomInput ref={inputRef} type="file" accept="image/*" onChange={previewImage} />
+      <CustomInput ref={inputRef} type="file" accept="image/gif ,image/jpeg, image/png" onChange={previewImage} />
     </EditorPageWrapper>
   );
 };

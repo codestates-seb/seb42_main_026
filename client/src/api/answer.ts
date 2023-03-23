@@ -13,7 +13,7 @@ export const answer = async (content: string, questionId: number) => {
       headers: { Authorization: getCookie('accessToken') },
     });
     alert('작성완료!');
-    window.location.href = `/seb42_main_026/questions/${questionId}`;
+    window.location.replace(`/questions/${questionId}`);
   } catch (error) {
     console.error(error);
     return null;
@@ -30,7 +30,7 @@ export const addComment = async (questionId: number, answerId: number, content: 
       headers: { Authorization: getCookie('accessToken') },
     });
     alert('작성완료!');
-    window.location.href = `/seb42_main_026/questions/${questionId}`;
+    window.location.replace(`/questions/${questionId}`);
   } catch (error) {
     console.error(error);
     return null;
