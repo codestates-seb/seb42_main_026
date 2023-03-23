@@ -47,9 +47,7 @@ public class MemberService {
         if (profileImage != null) {
             String encodedFileName = s3StorageService.encodeFileName(profileImage);
             member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
-            s3StorageService.store(profileImage, encodedFileName);
-        } else {
-            member.setProfileImageUrl(null);
+            s3StorageService.imageStore(profileImage, encodedFileName);
         }
 
         Member savedMember = memberRepository.save(member);
@@ -108,7 +106,7 @@ public class MemberService {
         verifiedMember.setProfileImageUrl(profileImageUrl);
         score.setProfileImageUrl(profileImageUrl);
 
-        s3StorageService.store(profileImage, encodedFileName);
+        s3StorageService.imageStore(profileImage, encodedFileName);
     }
 
 //    public Member changePaaswordMember(List<Member> members){
