@@ -41,7 +41,7 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
     <SubAnswerWrapper>
       <AnswerWrapper>
         <ImageWrapper>
-          <img className="profile" src={profileImageUrl === '' ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
+          <img className="profile" src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -50,7 +50,6 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
               <TimeWrapper>{createdAt}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              <ButtonStyled color="pink" title="채택중" width="55px" height="22px"></ButtonStyled>
               <MenuButtonWrapper>
                 {memberId === getUser()?.memberId() && (
                   <>

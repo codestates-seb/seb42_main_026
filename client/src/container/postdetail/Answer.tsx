@@ -42,11 +42,26 @@ const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus,
     }
   };
 
+  const changeAnswerState = async () => {
+    if (memberId !== Number(getUser()?.memberId())) {
+      if (window.confirm('채택하시겠습니까?')) {
+        try {
+          await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select?memberId=${getUser()?.memberId()}`, { headers: { Authorization: getCookie('accessToken') } });
+          alert('채택되었습니다.');
+          return window.location.replace(`/questions/${questionId}`);
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
+      }
+    }
+  };
+
   return (
     <>
       <AnswerWrapper>
         <ImageWrapper>
-          <img className="profile" src={profileImageUrl === '' ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
+          <img className="profile" src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -55,7 +70,9 @@ const Answer = ({ likeCount, profileImageUrl, nickname, createdAt, answerStatus,
               <TimeWrapper>{createdAt}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              <ButtonStyled color="pink" title={answerStatus} width="55px" height="22px"></ButtonStyled>
+              {memberId !== getUser()?.memberId() && (
+                <ButtonStyled color={answerStatus === '일반 상태' ? 'pink' : 'normal'} title={answerStatus === '일반 상태' ? '채택중' : '채택완료'} width="55px" height="22px" buttonClickHandler={changeAnswerState} />
+              )}
               {memberId === getUser()?.memberId() && (
                 <>
                   <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
