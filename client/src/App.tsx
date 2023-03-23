@@ -47,14 +47,7 @@ export default function App() {
                   </PrivateRoute>
                 }
               />
-              <Route
-                path="/checklist"
-                element={
-                  <PrivateRoute>
-                    <ChecklistPage />
-                  </PrivateRoute>
-                }
-              />
+              <Route path="/checklist" element={<ChecklistPage />} />
               <Route
                 path="/editor"
                 element={
@@ -73,10 +66,7 @@ export default function App() {
                 }
               />
               <Route path="/naggingboard" element={<NaggingBoardPage />} />
-              <Route
-                path="/questions/:questionId"
-                element={<PostDetailPage />}
-              />
+              <Route path="/questions/:questionId" element={<PostDetailPage />} />
               <Route
                 path="/removeaccount"
                 element={

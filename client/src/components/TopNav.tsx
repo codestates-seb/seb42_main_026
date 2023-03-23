@@ -42,6 +42,8 @@ export default function TopNav() {
         return '잔소리';
       case '/questions':
         return '';
+      case '/checklist':
+        return '체크리스트';
       default:
         return '';
     }
