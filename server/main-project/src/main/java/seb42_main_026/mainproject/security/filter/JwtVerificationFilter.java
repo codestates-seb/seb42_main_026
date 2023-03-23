@@ -47,7 +47,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // OncePerRequ
 
     // JWT를 검증하는데 사용되는 private 메서드이다.
     private Map<String, Object> verifyJws(HttpServletRequest request){
-        String jws = request.getHeader("Authorization").replace("Bearer", ""); //  request의 header에서 JWT를 얻고 있다. ( jws로 지정한 이유는 서명된 JWT를 JWS(JSON Web Token Signed)라고 부르기 때문이다.)
+        String jws = request.getHeader("Authorization").replace("Bearer ", ""); //  request의 header에서 JWT를 얻고 있다. ( jws로 지정한 이유는 서명된 JWT를 JWS(JSON Web Token Signed)라고 부르기 때문이다.)
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey()); //  JWT 서명(Signature)을 검증하기 위한 Secret Key를 얻는다.
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody(); // JWT에서 Claims를 파싱한다.  JWT에서 Claims를 파싱할 수 있다는 의미는 내부적으로 서명(Signature) 검증에 성공했다는 의미이다.
                                                                                                     // verify() 같은 검증 메서드가 따로 존재하는 것이 아니라 Claims가 정상적으로 파싱이 되면 서명 검증 역시 자연스럽게 성공했다는 의미이다.

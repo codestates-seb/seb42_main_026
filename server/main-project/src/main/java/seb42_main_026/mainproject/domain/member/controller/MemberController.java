@@ -64,9 +64,16 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(scoreRanks), HttpStatus.OK);
     }
 
+/*<<<<<<< HEAD
+    @PatchMapping(value = "/members/{member-id}", consumes =
+            {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity patchMember(@PathVariable("member-id") @Positive Long memberId,
+                                      @RequestPart @Valid MemberDto.Patch memberPatchDto,
+                                      @RequestPart(required = false) MultipartFile profileImage){
+=======*/
     @PatchMapping("/members/{member-id}")
     public ResponseEntity<?> patchNickname(@PathVariable("member-id") @Positive Long memberId,
-                                        @RequestBody MemberDto.Patch memberPatchDto) {
+                                        @RequestBody @Valid MemberDto.Patch memberPatchDto) {
         memberPatchDto.setMemberId(memberId);
 
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
@@ -75,6 +82,7 @@ public class MemberController {
 
         return ResponseEntity.ok().build();
     }
+
 
     @PatchMapping(value = "/members/change-profile/{member-id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> patchProfileImage(@PathVariable("member-id") @Positive Long memberId,
@@ -102,7 +110,7 @@ public class MemberController {
 
     @PatchMapping("/members/change-password/{member-id}")
     public ResponseEntity<?> patchPassword(@PathVariable("member-id") @Positive Long memberId,
-                                        @RequestBody MemberDto.PatchPassword passwordDto) {
+                                        @RequestBody @Valid MemberDto.PatchPassword passwordDto) {
         memberService.updatePassword(memberId, passwordDto);
 
         return ResponseEntity.ok().build();
