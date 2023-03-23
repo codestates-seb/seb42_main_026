@@ -31,7 +31,7 @@ public class MemberService {
     private final ScoreRepository scoreRepository;
     private final S3StorageService s3StorageService;
 
-    public Member createMember(Member member, MultipartFile profileImage) {
+    public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
@@ -43,13 +43,6 @@ public class MemberService {
 
         member.setRoles(roles);
 
-        // 이미지 url 저장
-        if (profileImage != null) {
-            String encodedFileName = s3StorageService.encodeFileName(profileImage);
-            member.setProfileImageUrl(s3StorageService.getFileUrl(encodedFileName));
-            s3StorageService.imageStore(profileImage, encodedFileName);
-        }
-
         Member savedMember = memberRepository.save(member);
 
         setScore(savedMember.getMemberId());
@@ -57,6 +50,7 @@ public class MemberService {
         return savedMember;
     }
 
+    @Transactional(readOnly = true)
     public List<Score> getRank() {
         return scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
     }
