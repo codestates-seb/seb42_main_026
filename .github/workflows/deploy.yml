@@ -41,4 +41,5 @@ jobs:
           aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            dist s3://seb42-main-026-fe
+            build s3://seb42-main-026-fe
+        working-directory: ./client
