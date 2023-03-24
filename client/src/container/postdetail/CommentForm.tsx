@@ -71,7 +71,7 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
     <>
       <CommentInputWrapper>
         <form onSubmit={handleSubmit}>
-          <CommentInput placeholder="댓글을 입력해주세요" value={comment} onChange={handleCommentChange} />
+          <CommentInput placeholder="당신의 잔소리가 필요해요!" value={comment} onChange={handleCommentChange} />
           <NoneButton ref={buttonRef} type="submit">
             댓글 작성
           </NoneButton>
@@ -86,7 +86,7 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
                 ))}
               </CustomAudio>
             </AudioButtonContainer> */}
-          <CommentButton onClick={() => buttonRef.current?.click()}>댓글 작성</CommentButton>
+          <CommentButton onClick={() => buttonRef.current?.click()}>➜</CommentButton>
         </ButtonWrapper>
       </CommentInputWrapper>
     </>
@@ -122,7 +122,7 @@ const CommentInput = styled.textarea`
   overflow-y: hidden;
   font-size: 16px;
   resize: none;
-  height: 100px;
+  height: 60px;
   margin-bottom: 10px;
   font-family: 'Noto Sans KR';
   border: none;
@@ -136,8 +136,11 @@ const CommentButton = styled.button`
   background-color: var(--color-mobMain);
   color: #fff;
   border: none;
-  font-size: 14px;
-  padding: 19px;
+  font-size: 16px;
+  padding: 13px 15px;
+  margin: 5px 10px;
+  border-radius: 50%;
+  transform: rotate(-90deg);
   cursor: pointer;
 `;
 
