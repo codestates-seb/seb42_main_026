@@ -1,9 +1,27 @@
-import { Dispatch, SetStateAction } from 'react';
+import axios from 'axios';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ANSWER_ICON from '../../assets/ic_boardItem_answer.svg';
 import LIKE_ICON from '../../assets/ic_boardItem_like.svg';
+import { ReactComponent as ICON_LIKE } from '../../assets/ic_boardItem_like.svg';
+import getCookie from '../../utils/cookieUtils';
+import { getUser } from '../../utils/getUser';
 
-const CountsBar = ({ answer, likeCount, answerHandler, isTextarea }: { answer: number; likeCount: number; answerHandler: Dispatch<SetStateAction<boolean>>; isTextarea: boolean }) => {
+const CountsBar = ({ answer, likeCount, answerHandler, isTextarea, questionId, likeCheck }: { answer: number; likeCount: number; answerHandler: Dispatch<SetStateAction<boolean>>; isTextarea: boolean; questionId: number; likeCheck: boolean }) => {
+  const likeButton = async () => {
+    const data = {
+      memberId: getUser()?.memberId(),
+      questionId,
+    };
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/likes`, data, { headers: { Authorization: getCookie('accessToken') } });
+      window.location.replace(`/questions/${questionId}`);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
   return (
     <CountsBarWrapper>
       <AnswerWrapper onClick={() => answerHandler(!isTextarea)}>
@@ -11,8 +29,8 @@ const CountsBar = ({ answer, likeCount, answerHandler, isTextarea }: { answer: n
         <AnswerKey>댓글</AnswerKey>
         <AnswerValue>{answer}</AnswerValue>
       </AnswerWrapper>
-      <LikeWrapper>
-        <img src={LIKE_ICON} alt="좋아요아이콘"></img>
+      <LikeWrapper onClick={() => likeButton()}>
+        {likeCheck ? <ICON_LIKE stroke="#FF607C" fill="#FF607C" /> : <ICON_LIKE stroke="#ABAEB4" fill="none" />}
         <LikeKey>좋아요</LikeKey>
         <LikeValue>{likeCount}</LikeValue>
       </LikeWrapper>
