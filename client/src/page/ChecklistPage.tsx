@@ -1,64 +1,76 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { checklistdata } from '../container/checklist/checklistdata';
 
-interface Task {
-  id: number;
-  description: string;
-  completed: boolean;
+interface disProps {
+  disabled?: boolean;
 }
-
-const tasks: Task[] = [
-  { id: 1, description: '이사하는 집 대장의 사본 확인', completed: false },
-  {
-    id: 2,
-    description: '이사 전 집의 모든 구석을 사진으로 찍어 (이사가 끝날 때 책임 이전을 방지하기 위해)',
-    completed: false,
-  },
-  { id: 3, description: '이사 신고', completed: false },
-  {
-    id: 4,
-    description: '전기, 가스, 수도 청구서 등의 주소 변경',
-    completed: false,
-  },
-  {
-    id: 5,
-    description: '배달 쇼핑몰 (ex. 배달의 민족, 네이버 페이, 요기요, 쿠팡, 티머니 택시)의 주소 변경',
-    completed: false,
-  },
-  {
-    id: 6,
-    description: '계약 전 하자 점검: 수압, 일조량, 낮에 방문, 곤충 여부 확인, 기본 옵션 확인',
-    completed: false,
-  },
-  { id: 7, description: '월세 자동 이체 설정 (해당하는 경우)', completed: false },
-  {
-    id: 8,
-    description: '성범죄자 알림 확인 및 문의',
-    completed: false,
-  },
-  { id: 9, description: '비상약 및 비축 용품 구매', completed: false },
-];
-
 const Checklist = () => {
-  const [taskList, setTaskList] = useState<Task[]>(tasks);
-
+  const { tasks, livingcosts } = checklistdata();
+  const [taskList, setTaskList] = useState(tasks);
+  const [homeTipBtn, setHomeTipBtn] = useState<boolean>(true);
+  const [livingTipBtn, setLivingTipBtn] = useState<boolean>(false);
   const handleToggleComplete = (id: number) => {
     setTaskList((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)));
   };
 
   return (
     <ChecklistWrapper>
-      <h2>이사 전 체크리스트</h2>
+      <TitleWrapper>
+        {homeTipBtn ? (
+          <>
+            <button
+              disabled
+              className="titleClicked"
+              onClick={() => {
+                setTaskList(tasks);
+              }}
+            >
+              집 구하기 전 꿀팁!
+            </button>
+            <button
+              className="titleClicked title"
+              onClick={() => {
+                setTaskList(livingcosts);
+                setHomeTipBtn(!homeTipBtn);
+              }}
+            >
+              생활비 관리 꿀팁!
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              className="titleClicked title"
+              onClick={() => {
+                setTaskList(tasks);
+                setHomeTipBtn(!homeTipBtn);
+              }}
+            >
+              집 구하기 전 꿀팁!
+            </button>
+            <button
+              disabled
+              className="titleClicked"
+              onClick={() => {
+                setTaskList(livingcosts);
+              }}
+            >
+              생활비 관리 꿀팁!
+            </button>
+          </>
+        )}
+      </TitleWrapper>
       <ul>
         {taskList.map((task, index) => (
           <li key={task.id}>
-            <label>
+            <div className="listWrapper">
               <input type="checkbox" id={`c${index}`} checked={task.completed} onChange={() => handleToggleComplete(task.id)} />
               <label htmlFor={`c${index}`}>
                 <span></span>
-                {task.description}
               </label>
-            </label>
+              <div>{task.description}</div>
+            </div>
           </li>
         ))}
       </ul>
@@ -69,46 +81,81 @@ const Checklist = () => {
 export default Checklist;
 
 const ChecklistWrapper = styled.div`
-  h2 {
-    font-size: var(--font-size18);
-    color: var(--color-mobMain);
-    margin-bottom: 20px;
+  padding: 12px 16px;
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  ul {
+    display: block;
+    border: solid 0.5px #ffb9c4;
+    padding: 20px 10px;
+    gap: 20px;
   }
   li {
-    padding: 8px;
-  }
-  label {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 4px;
-  }
-  input {
-    position: relative;
-    top: 3px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-  }
+    display: block;
+    box-sizing: border-box;
+    padding: 14px 10px 12px 10px;
+    border: none;
+    height: min-content;
+    width: 100%;
+    border-bottom: solid 0.5px var(--color-gray03);
+    font-size: var(--font-size14);
+    .listWrapper {
+      display: flex;
+      flex-direction: row;
 
-  padding: 20px 16px;
-
+      div {
+        position: relative;
+        top: -3px;
+        left: 10px;
+        width: 292px;
+      }
+    }
+  }
+  li:last-child {
+    border: none;
+  }
   input[type='checkbox'] {
     display: none;
+    margin: 0;
   }
-
   input[type='checkbox'] + label span {
     display: inline-block;
     width: 19px;
     height: 19px;
-    margin: -2px 10px 0 0;
     vertical-align: middle;
-    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) left top no-repeat;
+    background: url(https://main26-resource-bucket.s3.ap-northeast-2.amazonaws.com/check_radio_sheet.png) left top no-repeat;
     cursor: pointer;
   }
-
+  label {
+    display: flex;
+    position: relative;
+    width: min-content;
+    height: 100%;
+  }
   input[type='checkbox']:checked + label span {
-    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -19px top no-repeat;
+    background: url(https://main26-resource-bucket.s3.ap-northeast-2.amazonaws.com/check_radio_sheet.png) -19px top no-repeat;
+  }
+`;
+const TitleWrapper = styled.div<disProps>`
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  .titleClicked {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    padding: 16px 14px;
+    height: 22px;
+    font-size: var(--font-size14);
+    color: var(--color-white01);
+    background-color: #ff607c;
+    border: none;
+    border-radius: 5px 5px 0 0;
+  }
+  .title {
+    background-color: #ffb9c4;
   }
 `;
