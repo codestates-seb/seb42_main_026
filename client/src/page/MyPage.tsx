@@ -20,7 +20,6 @@ const MyPage: React.FC = () => {
   const memberId = getUser()?.memberId();
   if (memberId === undefined) window.location.replace('/login');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const data: dataProps = useGetMembers(`/members/${memberId}`);
   const [data, setData] = useState<dataProps>({});
 
   useEffect(() => {
@@ -31,7 +30,6 @@ const MyPage: React.FC = () => {
       .get(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { headers })
       .then((response) => {
         setData(response.data.data);
-        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);

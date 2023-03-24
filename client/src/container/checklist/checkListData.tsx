@@ -4,7 +4,7 @@ interface Task {
   completed: boolean;
 }
 
-export function checklistdata() {
+export function checkListData() {
   const tasks: Task[] = [
     { id: 1, description: '이사할 집 등기부등본 확인', completed: false },
     { id: 2, description: '이사 전 집의 상태를 사진으로 기록하기. (계약 만료 시 책임 전가를 방지하기 위해)', completed: false },
@@ -35,7 +35,7 @@ export function checklistdata() {
     { id: 11, description: '소음 확인', completed: false },
   ];
 
-  const livingcosts: Task[] = [
+  const livingCosts: Task[] = [
     { id: 1, description: '생활비 계산해보고 소비하기 ( 소모품: 샴푸, 휴지, 쓰레기봉투, 식비 등 )  ', completed: false },
     { id: 2, description: '고정 지출 정리하기 ( 식비, 공과금, 휴대폰비, 월세, 대출 이자, 적금, 관리비 등 ) ', completed: false },
     { id: 3, description: '비상금통장 만들기( 생활비의 3~6배 )', completed: false },
@@ -62,5 +62,5 @@ export function checklistdata() {
     },
     { id: 9, description: '모바일 고지서 신청하기 ( 전기, 가스 요금 할인 제도 )', completed: false },
   ];
-  return { tasks, livingcosts };
+  return { tasks, livingCosts };
 }
