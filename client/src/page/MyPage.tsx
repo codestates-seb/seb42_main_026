@@ -31,6 +31,7 @@ const MyPage: React.FC = () => {
       .get(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { headers })
       .then((response) => {
         setData(response.data.data);
+        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
