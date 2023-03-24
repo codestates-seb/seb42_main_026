@@ -18,7 +18,8 @@ export function usePage() {
   const setPostDetailHandler = (memberId: number, questionId: number) => dispatch(setPostDetail(memberId, questionId));
   const setEditorHandler = (title: string, content: string, tag: string, imgFile: File) => dispatch(setEditor(title, content, tag, imgFile));
 
-  const actionImgCompress = async (imgFile: any) => {
+  const actionImgCompress = async (imgFile: File) => {
+    console.log("압축되고잇슴")
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
