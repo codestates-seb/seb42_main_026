@@ -25,8 +25,7 @@ export default ImageBox;
 const ImageBoxWrapper = styled.div`
   position: relative;
   display: flex;
-  gap: 20px;
-  left: 10px;
+  gap: 10px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -49,7 +48,8 @@ const MainText = styled.div`
   text-align: left;
   font-family: ${(props) => (props.lang === 'EN' ? 'Roboto' : 'Noto Sans KR')};
   color: var(--color-black01);
-  font-size: var(--font-size18);
+  font-size: var(--font-size14);
+  font-weight: var(--font-weight600);
 `;
 const SubText = styled.div`
   text-align: left;
