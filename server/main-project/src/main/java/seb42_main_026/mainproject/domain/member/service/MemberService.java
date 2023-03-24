@@ -100,6 +100,7 @@ public class MemberService {
         return findVerifiedMember(memberId);
     }
 
+    @Transactional(readOnly = true)
     public List<Score> findRank() {
         return scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
     }
