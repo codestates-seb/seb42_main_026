@@ -50,11 +50,14 @@ const Checklist = () => {
     <ChecklistWrapper>
       <h2>이사 전 체크리스트</h2>
       <ul>
-        {taskList.map((task) => (
+        {taskList.map((task, index) => (
           <li key={task.id}>
             <label>
-              <input type="checkbox" checked={task.completed} onChange={() => handleToggleComplete(task.id)} />
-              {task.description}
+              <input type="checkbox" id={`c${index}`} checked={task.completed} onChange={() => handleToggleComplete(task.id)} />
+              <label htmlFor={`c${index}`}>
+                <span></span>
+                {task.description}
+              </label>
             </label>
           </li>
         ))}
@@ -88,8 +91,24 @@ const ChecklistWrapper = styled.div`
     flex-direction: row;
     align-items: flex-start;
   }
-  input:checked {
-    background-color: pink;
-  }
+
   padding: 20px 16px;
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  input[type='checkbox'] + label span {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin: -2px 10px 0 0;
+    vertical-align: middle;
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) left top no-repeat;
+    cursor: pointer;
+  }
+
+  input[type='checkbox']:checked + label span {
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/check_radio_sheet.png) -19px top no-repeat;
+  }
 `;
