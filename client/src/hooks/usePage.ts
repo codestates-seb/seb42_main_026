@@ -37,10 +37,10 @@ export function usePage() {
     const data = { title, content, tag };
     const formData = new FormData();
     formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-    if (imgFile !== undefined){
+    if(imgFile.type === "image/gif") {formData.append('questionImage', imgFile)} else{
       const compressedImage = await actionImgCompress(imgFile) as string | Blob
       formData.append('questionImage', compressedImage);
-    } 
+    }
     const memberId = getUser()?.memberId();
     
     try {
