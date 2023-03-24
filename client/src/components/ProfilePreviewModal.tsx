@@ -17,11 +17,11 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({
 }) => {
   const memberId = getUser()?.memberId();
 
-  const actionImgCompress = async (imgFile: any) => {
-    if (!isOpen) {
-      return null;
-    }
+  if (!isOpen) {
+    return null;
+  }
 
+  const actionImgCompress = async (imgFile: any) => {
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
