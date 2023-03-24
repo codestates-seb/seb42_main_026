@@ -95,10 +95,14 @@ public class AnswerService {
         //questionId 와 작성자 Id 같은지 검증
         Question question = questionService.findQuestion(questionId);
         memberService.verifyMemberByMemberId(memberId, question.getMember().getMemberId());
-        //answer 작성자에 대한 검증 - todo
+        //answer 작성자에 대한 검증
         Answer answer = findAnswer(answerId);
         if (memberId == answer.getMember().getMemberId())
             throw new CustomException(ExceptionCode.CANNOT_SELECT_OWN_ANSWER);
+        //answerStatus 검증
+        if (answer.getAnswerStatus().getStatus().equals("채택 질문")){
+            throw new CustomException(ExceptionCode.SELECT_ONLY_ONCE);
+        }
 
         //answer 상태 채택으로 변경 -> 저장
         answer.setAnswerStatus(Answer.AnswerStatus.ANSWER_SELECTED);
