@@ -129,6 +129,8 @@ public class AnswerService {
 
         downAnswerCount(foundQuestion);
 
+        memberService.updateScore(memberId, -10L);
+
         answerRepository.delete(answer);
     }
 
