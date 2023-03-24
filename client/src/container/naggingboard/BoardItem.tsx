@@ -14,16 +14,7 @@ interface ItemProps {
   children?: React.ReactNode;
   questionStatus: string;
 }
-export default function BoardItem({
-  title,
-  createdAt,
-  likeCount,
-  answerCount,
-  nickname,
-  tag,
-  children,
-  questionStatus,
-}: ItemProps) {
+export default function BoardItem({ title, createdAt, likeCount, answerCount, nickname, tag, children, questionStatus }: ItemProps) {
   return (
     <BoardItemStyle>
       <ItemTop>
@@ -35,7 +26,7 @@ export default function BoardItem({
         </ItemTitleform>
         <ItemCountForm>
           <ItemLikeForm>
-            <ICON_LIKE />
+            <ICON_LIKE stroke="#ABAEB4" fill="none" />
             <ItemLikeCount>{likeCount}</ItemLikeCount>
           </ItemLikeForm>
           <ItemAnswerForm>
