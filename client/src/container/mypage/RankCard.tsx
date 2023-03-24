@@ -40,7 +40,7 @@ const RankCard = ({ score, hammerTier, lang }: myProps) => {
           <img src={setIcon(hammerTier)} alt="profile_image" lang="KR" />
           <InfoBoxWrapper>
             <MainText>
-              {`티어`}
+              {`나의 티어`}
               <button onClick={() => setShowTierModal(!showTierModal)}>?</button>
               {showTierModal === true ? <TierInfo /> : null}
             </MainText>
