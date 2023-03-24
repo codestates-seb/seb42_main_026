@@ -110,7 +110,7 @@ const ChecklistWrapper = styled.div`
         position: relative;
         top: -3px;
         left: 10px;
-        width: 292px;
+        width: 100%;
       }
     }
   }
