@@ -29,7 +29,7 @@ export default function BoardItem({
       <ItemTop>
         <ItemTitleform>
           <ItemTitle>
-            {title.length >= 15 ? `${title.slice(0, 13)}...` : title}
+            {title.length >= 15 ? `${title.slice(0, 17)}...` : title}
           </ItemTitle>
           <ItemDate>{createdAt}</ItemDate>
         </ItemTitleform>
