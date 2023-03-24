@@ -114,6 +114,9 @@ public class QuestionService {
         // 자신의 질문만 삭제 가능
         memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(), memberId);
 
+        // 질문 삭제시, 점수 차감
+        memberService.updateScore(memberId, -20L);
+
         // DB에서 삭제
         questionRepository.delete(foundQuestion);
     }
