@@ -8,10 +8,10 @@ const OAuthPage = () => {
     let refreshToken = new URL(window.location.href).searchParams.get(
       'refresh_token'
     );
-    document.cookie = `accessToken=${accessToken};`;
-    document.cookie = `refreshToken=${refreshToken};`;
+    document.cookie = `accessToken=Bearer ${accessToken}; path=/;`;
+    document.cookie = `refreshToken=${refreshToken}; path=/;`;
 
-    window.location.replace('/');
+    // window.location.replace('/');
   }, []);
 
   return <></>;
