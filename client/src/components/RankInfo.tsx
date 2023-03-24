@@ -8,7 +8,7 @@ const RankInfo = () => {
           <li>ㆍ잔소리 요청 : 20점</li>
           <li>ㆍ잔소리 : 10점</li>
           <li>ㆍ채택 : 30점</li>
-          <li>ㆍ게시글 삭제시 활동점수가 차감됩니다</li>
+          <li>ㆍ게시글 삭제 시 활동점수가 차감됩니다</li>
         </ul>
       </EditDeleteContainer>
     </MenuButtonWrapper>
