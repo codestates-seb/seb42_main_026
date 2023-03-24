@@ -15,8 +15,9 @@ const signup = async (email: string, password: string, nickname: string, setErro
       nickname,
     });
     const { data } = response;
-    alert("회원가입이 완료되었습니다.");
-    return data; 
+    alert('회원가입이 완료되었습니다.');
+    window.location.replace('/login');
+    return data;
   } catch (error: unknown) {
     const customErr = error as CustomError;
     return setErrorMessage({
