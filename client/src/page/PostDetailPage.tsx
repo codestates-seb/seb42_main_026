@@ -21,6 +21,7 @@ type Post = {
   profileImageUrl: string;
   questionStatus: string;
   memberId: number;
+  likeCheck: boolean;
 };
 
 const PostDetailPage = () => {
@@ -50,12 +51,12 @@ const PostDetailPage = () => {
     <PostDetailWrapper>
       {post !== null && <PostDetail {...post} />}
       {post?.questionImageUrl !== null && <PostDetailImg src={post?.questionImageUrl} alt="postImage" />}
-      {post !== null && <CountsBar isTextarea={isTextarea} answerHandler={setTextarea} answer={post.answers.length} likeCount={post.likeCount} />}
+      {post !== null && <CountsBar questionId={post.questionId} isTextarea={isTextarea} answerHandler={setTextarea} answer={post.answers.length} likeCount={post.likeCount} likeCheck={post.likeCheck} />}
       <AnswerWrapper>
         {post !== null && isTextarea && <CommentForm questionId={post.questionId} />}
         {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
         {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: []; memberId: number; answerId: number; profileImageUrl: string }, index: number) => {
-          return <Answer key={index} postMemberId={post?.memberId} questionId={post?.questionId} {...el} />;
+          return <Answer key={index} likeCheck={post.answers[index].likeCheck} postMemberId={post?.memberId} questionId={post?.questionId} {...el} />;
         })}
       </AnswerWrapper>
     </PostDetailWrapper>

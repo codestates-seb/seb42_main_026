@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ICON_PROFILE from '../../assets/ic_mypage_profile.svg';
 import ButtonStyled from '../../components/ButtonStyled';
-import ICON_LIKE from '../../assets/ic_boardItem_like.svg';
+import { ReactComponent as ICON_LIKE } from '../../assets/ic_boardItem_like.svg';
 import { ReactComponent as ICON_MENU } from '../../assets/ic_answer_menubutton.svg';
 import SubAnswer from './SubAnswer';
 import CommentForm from './CommentForm';
@@ -24,9 +24,10 @@ interface AnswerCardProps {
   answerId: number;
   profileImageUrl: string;
   postMemberId: number;
+  likeCheck: boolean;
 }
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId }: AnswerCardProps) => {
+const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId, likeCheck }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
 
@@ -50,13 +51,27 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
     return `${MM}/${dd}`;
   };
 
+  const likeButton = async () => {
+    const data = {
+      memberId: getUser()?.memberId(),
+      questionId,
+      answerId,
+    };
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}/likes`, data, { headers: { Authorization: getCookie('accessToken') } });
+      window.location.replace(`/questions/${questionId}`);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
   const changeAnswerState = async () => {
     if (memberId !== Number(getUser()?.memberId())) {
       if (window.confirm(answerStatus === '일반 상태' ? '채택하시겠습니까?' : '채택을 취소하시겠습니까?')) {
         const data = {
           memberId: getUser()?.memberId(),
           questionId,
-          answerId,
         };
         try {
           await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select?memberId=${getUser()?.memberId()}`, data, { headers: { Authorization: getCookie('accessToken') } });
@@ -117,8 +132,8 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
           <MiddleWrapper>{content}</MiddleWrapper>
           <BottomWrapper>
             <BottomLeftWrapper>
-              <LikeWrapper>
-                <img src={ICON_LIKE} alt="좋아요"></img>
+              <LikeWrapper onClick={() => likeButton()}>
+                {likeCheck ? <ICON_LIKE stroke="#FF607C" fill="#FF607C" /> : <ICON_LIKE stroke="#ABAEB4" fill="none" />}
                 <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
               <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>답글쓰기</SubAnswerButton>
@@ -224,6 +239,10 @@ const BottomWrapper = styled.div`
 `;
 
 const LikeWrapper = styled.div`
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  user-select: none;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
