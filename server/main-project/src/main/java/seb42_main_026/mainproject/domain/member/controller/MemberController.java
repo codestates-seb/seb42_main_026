@@ -33,13 +33,11 @@ public class MemberController {
     private final MemberService memberService;
     private final ScoreMapper scoreMapper;
 
-    @PostMapping(value = "/signup",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> postMember(@Valid @RequestPart MemberDto.Post memberPostDto,
-                                     @RequestPart(required = false) MultipartFile profileImage) {
+    @PostMapping("/signup")
+    public ResponseEntity<?> postMember(@Valid @RequestBody MemberDto.Post memberPostDto) {
         Member member = memberMapper.memberPostToMember(memberPostDto);
 
-        Member createdMember = memberService.createMember(member, profileImage);
+        Member createdMember = memberService.createMember(member);
 
         URI location = UriCreator.createUri("/members", createdMember.getMemberId());
 
