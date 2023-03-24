@@ -18,7 +18,8 @@ export function usePage() {
   const setPostDetailHandler = (memberId: number, questionId: number) => dispatch(setPostDetail(memberId, questionId));
   const setEditorHandler = (title: string, content: string, tag: string, imgFile: File) => dispatch(setEditor(title, content, tag, imgFile));
 
-  const actionImgCompress = async (imgFile: any) => {
+  const actionImgCompress = async (imgFile: File) => {
+    console.log("압축되고잇슴")
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
@@ -37,10 +38,10 @@ export function usePage() {
     const data = { title, content, tag };
     const formData = new FormData();
     formData.append('questionPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
-    if (imgFile !== undefined){
+    if(imgFile.type === "image/gif") {formData.append('questionImage', imgFile)} else{
       const compressedImage = await actionImgCompress(imgFile) as string | Blob
       formData.append('questionImage', compressedImage);
-    } 
+    }
     const memberId = getUser()?.memberId();
     
     try {
