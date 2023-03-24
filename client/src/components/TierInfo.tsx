@@ -25,12 +25,13 @@ const EditDeleteContainer = styled.div`
   justify-content: center;
   white-space: nowrap;
   padding: 10px 18px 10px 18px;
-  left: 10px;
-  top: -13px;
-  background: var(--color-white01);
+  left: -130px;
+  top: 15px;
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--color-gray03);
   font-size: var(--font-size14);
   color: var(--color-gray02);
+  z-index: 100;
   li {
     margin-bottom: 5px;
   }
