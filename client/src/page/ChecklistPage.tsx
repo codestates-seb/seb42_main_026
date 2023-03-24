@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { checklistdata } from '../container/checklist/checklistdata';
+import { checkListData } from '../container/checklist/checkListData';
+import TapButton from '../container/checklist/TapButton';
 
-interface disProps {
-  disabled?: boolean;
-}
-const Checklist = () => {
-  const { tasks, livingcosts } = checklistdata();
+export default function Checklist() {
+  const { tasks, livingCosts } = checkListData();
   const [taskList, setTaskList] = useState(tasks);
   const [homeTipBtn, setHomeTipBtn] = useState<boolean>(true);
-  const [livingTipBtn, setLivingTipBtn] = useState<boolean>(false);
   const handleToggleComplete = (id: number) => {
     setTaskList((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)));
   };
@@ -19,45 +16,43 @@ const Checklist = () => {
       <TitleWrapper>
         {homeTipBtn ? (
           <>
-            <button
-              disabled
-              className="titleClicked"
-              onClick={() => {
+            <TapButton
+              disabled={true}
+              isClick="titleClicked"
+              tapHandleClick={() => {
                 setTaskList(tasks);
               }}
-            >
-              집 구하기 전 꿀팁!
-            </button>
-            <button
-              className="titleClicked title"
-              onClick={() => {
-                setTaskList(livingcosts);
+              title={'집 구하기 전 꿀팁!'}
+            />
+            <TapButton
+              disabled={false}
+              isClick="titleClicked title"
+              tapHandleClick={() => {
+                setTaskList(livingCosts);
                 setHomeTipBtn(!homeTipBtn);
               }}
-            >
-              생활비 관리 꿀팁!
-            </button>
+              title={'생활비 관리 꿀팁!'}
+            />
           </>
         ) : (
           <>
-            <button
-              className="titleClicked title"
-              onClick={() => {
+            <TapButton
+              disabled={false}
+              isClick="titleClicked title"
+              tapHandleClick={() => {
                 setTaskList(tasks);
                 setHomeTipBtn(!homeTipBtn);
               }}
-            >
-              집 구하기 전 꿀팁!
-            </button>
-            <button
-              disabled
-              className="titleClicked"
-              onClick={() => {
-                setTaskList(livingcosts);
+              title={'집 구하기 전 꿀팁!'}
+            />
+            <TapButton
+              disabled={true}
+              isClick="titleClicked"
+              tapHandleClick={() => {
+                setTaskList(livingCosts);
               }}
-            >
-              생활비 관리 꿀팁!
-            </button>
+              title={'생활비 관리 꿀팁!'}
+            />
           </>
         )}
       </TitleWrapper>
@@ -76,17 +71,10 @@ const Checklist = () => {
       </ul>
     </ChecklistWrapper>
   );
-};
-
-export default Checklist;
+}
 
 const ChecklistWrapper = styled.div`
   padding: 12px 16px;
-  button {
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
   ul {
     display: block;
     border: solid 0.5px #ffb9c4;
@@ -105,7 +93,6 @@ const ChecklistWrapper = styled.div`
     .listWrapper {
       display: flex;
       flex-direction: row;
-
       div {
         position: relative;
         top: -3px;
@@ -139,23 +126,8 @@ const ChecklistWrapper = styled.div`
     background: url(https://main26-resource-bucket.s3.ap-northeast-2.amazonaws.com/check_radio_sheet.png) -19px top no-repeat;
   }
 `;
-const TitleWrapper = styled.div<disProps>`
+const TitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3px;
-  .titleClicked {
-    display: flex;
-    align-items: center;
-    width: max-content;
-    padding: 16px 14px;
-    height: 22px;
-    font-size: var(--font-size14);
-    color: var(--color-white01);
-    background-color: #ff607c;
-    border: none;
-    border-radius: 5px 5px 0 0;
-  }
-  .title {
-    background-color: #ffb9c4;
-  }
 `;
