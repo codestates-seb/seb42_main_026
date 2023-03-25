@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+//@Table(indexes = @Index(name = "idx_member_nickname", columnList = "nickname"))
 public class Member extends Auditable {
 
     @Id
