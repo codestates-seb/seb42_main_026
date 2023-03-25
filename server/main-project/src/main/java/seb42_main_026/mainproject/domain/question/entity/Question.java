@@ -18,8 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(indexes = {@Index(name = "idx_question_tag", columnList = "tag"),
-        @Index(name = "idx_question_likeCount", columnList = "likeCount"),
-        @Index(name = "idx_question_answerCount", columnList = "answerCount")})
+        @Index(name = "idx_question_likeCount_answerCount", columnList = "likeCount, answerCount")})
 public class Question extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
