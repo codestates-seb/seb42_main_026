@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+//@Table(indexes = {@Index(name = "idx_score_createdAt", columnList = "score, createdAt")})
 public class Score extends Auditable {
 
     @Id
