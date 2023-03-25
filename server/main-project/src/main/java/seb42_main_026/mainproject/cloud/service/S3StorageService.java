@@ -13,6 +13,7 @@ import seb42_main_026.mainproject.exception.StorageException;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -39,6 +40,57 @@ public class S3StorageService implements StorageService {
             amazonS3Client.putObject(new PutObjectRequest(bucket, encodedFileName, file.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (IOException e) {
+            throw new StorageException("Failed to store file.", e);
+        }
+    }
+
+    //파일 확장자 제한조건 추가(이미지)
+    @Override
+    public void imageStore(MultipartFile imageFile, String encodedFileName){
+        try {
+            if (imageFile.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
+            }
+
+            if (!Objects.equals(imageFile.getContentType(), "image/jpeg") &&
+            !Objects.equals(imageFile.getContentType(), "image/png") &&
+            !Objects.equals(imageFile.getContentType(), "image/gif")) {
+                throw new StorageException("Invalid file type. Only JPEG, PNG, GIF are allowed");
+            }
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(imageFile.getContentType());
+            metadata.setContentLength(imageFile.getSize());
+
+            amazonS3Client.putObject(new PutObjectRequest(bucket, encodedFileName, imageFile.getInputStream(), metadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file.", e);
+        }
+    }
+
+    //파일 확장자 제한조건 추가(오디오)
+    @Override
+    public void voiceStore(MultipartFile voiceFile, String encodedFileName){
+        try {
+            if (voiceFile.isEmpty()) {
+                throw new StorageException("Failed to store empty file.");
+            }
+
+            if (!Objects.equals(voiceFile.getContentType(), "audio/mp4") &&
+            !Objects.equals(voiceFile.getContentType(), "audio/mpeg") &&
+            !Objects.equals(voiceFile.getContentType(), "audio/ogg")){
+                throw new StorageException("Invalid file type. Only MP4, MPEG, OGG are allowed");
+            }
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(voiceFile.getContentType());
+            metadata.setContentLength(voiceFile.getSize());
+
+            amazonS3Client.putObject(new PutObjectRequest(bucket, encodedFileName, voiceFile.getInputStream(), metadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+        }catch (IOException e){
             throw new StorageException("Failed to store file.", e);
         }
     }

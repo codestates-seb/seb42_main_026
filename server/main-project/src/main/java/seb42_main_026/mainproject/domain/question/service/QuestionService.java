@@ -29,9 +29,6 @@ public class QuestionService {
     private final S3StorageService s3StorageService;
 
     public Question createQuestion(Question question, MultipartFile questionImage) {
-        // 로그인된 회원인지 체크
-        memberService.verifyLoginMember(question.getMember().getMemberId());
-
         // 이미지가 있으면 저장
         if (questionImage != null) {
             storeQuestionImage(question, questionImage);
@@ -43,10 +40,7 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public void updateQuestion(Question question, MultipartFile questionImage) {
-        // 로그인된 회원인지 체크
-        memberService.verifyLoginMember(question.getMember().getMemberId());
-
+    public void updateQuestion(Question question) {
         // 수정 대상 질문
         Question foundQuestion = findVerifiedQuestion(question.getQuestionId());
 
@@ -57,13 +51,22 @@ public class QuestionService {
         // 갱생 완료 상태일 때는 수정 불가능
         verifyQuestionStatus(foundQuestion);
 
-        // 이미지가 있으면 저장
-        if (questionImage != null) {
-            storeQuestionImage(question, questionImage);
-        }
-
-        // 질문 수정
+        // 수정된 부분만 질문 수정
         customBeanUtils.copyNonNullProperties(question, foundQuestion);
+    }
+
+    public void updateQuestionImage(long questionId, long memberId, MultipartFile questionImage) {
+        // 수정 대상 질문
+        Question foundQuestion = findVerifiedQuestion(questionId);
+
+        // 자신의 질문만 수정 가능
+        memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(), memberId);
+
+        // 갱생 완료 상태일 때는 수정 불가능
+        verifyQuestionStatus(foundQuestion);
+
+        // 이미지 저장
+        storeQuestionImage(foundQuestion, questionImage);
     }
 
     // 특정 질문 조회
@@ -72,10 +75,10 @@ public class QuestionService {
         return findVerifiedQuestion(questionId);
     }
 
-    // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 오래된 순, 10개만 조회)
+    // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 답변 개수 순, 10개만 조회)
     @Transactional(readOnly = true)
     public List<Question> findQuestionsAtHome() {
-        return questionRepository.findTop10ByOrderByLikeCountDescQuestionIdAsc();
+        return questionRepository.findTop10ByOrderByLikeCountDescAnswerCountDesc();
     }
 
     // 게시판에서 질문 목록 조회(최신 순, 페이지네이션)
@@ -98,21 +101,18 @@ public class QuestionService {
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     @Transactional(readOnly = true)
     public Page<Question> findQuestionsAtMyPage(long memberId, int page, int size) {
-        // 로그인된 회원인지 체크
-        memberService.verifyLoginMember(memberId);
-
         return questionRepository.findByMember_MemberId(memberId, PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
     public void deleteQuestion(long questionId, long memberId) {
-        // 로그인된 회원인지 체크
-        memberService.verifyLoginMember(memberId);
-
         // 삭제 대상 질문
         Question foundQuestion = findVerifiedQuestion(questionId);
 
         // 자신의 질문만 삭제 가능
         memberService.verifyMemberByMemberId(foundQuestion.getMember().getMemberId(), memberId);
+
+        // 질문 삭제시, 점수 차감
+        memberService.updateScore(memberId, -20L);
 
         // DB에서 삭제
         questionRepository.delete(foundQuestion);
@@ -138,6 +138,6 @@ public class QuestionService {
         // 파일 URL을 저장
         question.setQuestionImageUrl(s3StorageService.getFileUrl(encodedFileName));
         // S3 버킷에 해당 이미지 저장
-        s3StorageService.store(questionImage, encodedFileName);
+        s3StorageService.imageStore(questionImage, encodedFileName);
     }
 }

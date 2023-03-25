@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-    // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 오래된 순, 10개만 조회)
-    List<Question> findTop10ByOrderByLikeCountDescQuestionIdAsc();
+    // 홈에서 인기 질문 목록 조회(좋아요 순, 동점일 때는 답변 개수 순, 10개만 조회)
+    List<Question> findTop10ByOrderByLikeCountDescAnswerCountDesc();
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
     Page<Question> findByMember_MemberId(long memberId, Pageable pageable);

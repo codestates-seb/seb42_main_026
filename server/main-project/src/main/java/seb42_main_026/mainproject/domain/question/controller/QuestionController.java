@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.dto.QuestionDto;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 import seb42_main_026.mainproject.domain.question.mapper.QuestionMapper;
@@ -26,36 +28,44 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping
 public class QuestionController {
-    private final static String QUESTION_DEFAULT_URL = "/questions";
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
 
-    @PostMapping(value = "/questions/{member-id}",
+    @PostMapping(value = "/questions",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> postQuestion(@PathVariable("member-id") @Positive long memberId,
+    public ResponseEntity<?> postQuestion(@AuthenticationPrincipal Member auth,
                                           @RequestPart @Valid QuestionDto.Post questionPostDto,
                                           @RequestPart(required = false) MultipartFile questionImage) {
-        questionPostDto.setMemberId(memberId);
+        questionPostDto.setMemberId(auth.getMemberId());
 
         Question question = questionMapper.questionPostDtoToQuestion(questionPostDto);
 
         Question createdQuestion = questionService.createQuestion(question, questionImage);
 
-        URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, createdQuestion.getQuestionId());
+        URI location = UriCreator.createUri("/questions", createdQuestion.getQuestionId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping(value = "/questions/{question-id}",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping("/questions/{question-id}")
     public ResponseEntity<?> patchQuestion(@PathVariable("question-id") @Positive long questionId,
-                                           @RequestPart @Valid QuestionDto.Patch questionPatchDto,
-                                           @RequestPart(required = false) MultipartFile questionImage) {
+                                           @AuthenticationPrincipal Member auth,
+                                           @RequestBody @Valid QuestionDto.Patch questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
+        questionPatchDto.setMemberId(auth.getMemberId());
 
         Question question = questionMapper.questionPatchDtoToQuestion(questionPatchDto);
 
-        questionService.updateQuestion(question, questionImage);
+        questionService.updateQuestion(question);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping(value = "/questions/{question-id}/questionImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> patchQuestion(@PathVariable("question-id") @Positive long questionId,
+                                           @AuthenticationPrincipal Member auth,
+                                           @RequestPart MultipartFile questionImage) {
+        questionService.updateQuestionImage(questionId, auth.getMemberId(), questionImage);
 
         return ResponseEntity.ok().build();
     }
@@ -96,11 +106,11 @@ public class QuestionController {
     }
 
     // 마이페이지에서 자신이 작성한 질문 목록 조회(최신 순, 페이지네이션)
-    @GetMapping("/members/{member-id}/questions")
-    public ResponseEntity<?> getQuestionsAtMyPage(@PathVariable("member-id") @Positive long memberId,
+    @GetMapping("/members/questions")
+    public ResponseEntity<?> getQuestionsAtMyPage(@AuthenticationPrincipal Member auth,
                                                   @RequestParam @Positive int page,
                                                   @RequestParam @Positive int size) {
-        Page<Question> pageQuestions = questionService.findQuestionsAtMyPage(memberId, page - 1, size);
+        Page<Question> pageQuestions = questionService.findQuestionsAtMyPage(auth.getMemberId(), page - 1, size);
 
         List<Question> questions = pageQuestions.getContent();
 
@@ -111,8 +121,8 @@ public class QuestionController {
 
     @DeleteMapping("/questions/{question-id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable("question-id") @Positive long questionId,
-                                            @RequestParam @Positive long memberId) {
-        questionService.deleteQuestion(questionId, memberId);
+                                            @AuthenticationPrincipal Member auth) {
+        questionService.deleteQuestion(questionId, auth.getMemberId());
 
         return ResponseEntity.noContent().build();
     }

@@ -9,7 +9,6 @@ public class LikeDto {
     @Getter
     @Setter
     public static class QuestionPost {
-        @Positive
         private Long memberId;
         private Long questionId;
     }
@@ -17,7 +16,6 @@ public class LikeDto {
     @Getter
     @Setter
     public static class AnswerPost {
-        @Positive
         private Long memberId;
         private Long answerId;
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -74,6 +75,17 @@ public class GlobalExceptionAdvice {
         final ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
 
         return errorResponse;
+    }
+
+    //MediaFile upload Exception
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity handleMaxUploadSizeExceededException(
+            MaxUploadSizeExceededException e){
+        log.error("handleMaxUploadSizeExceededException", e);
+
+        final ErrorResponse errorResponse = ErrorResponse.of(ExceptionCode.EXCEED_MAX_FILE_SIZE);
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+//@Table(indexes = @Index(name = "idx_member_nickname", columnList = "nickname"))
 public class Member extends Auditable {
 
     @Id
@@ -38,7 +39,7 @@ public class Member extends Auditable {
     @Enumerated(EnumType.STRING)
     private HammerTier hammerTier = HammerTier.STONE_HAMMER;
 
-    @Column
+    @Column(nullable = true)
     private String profileImageUrl;
 
     @ElementCollection(fetch = FetchType.EAGER)

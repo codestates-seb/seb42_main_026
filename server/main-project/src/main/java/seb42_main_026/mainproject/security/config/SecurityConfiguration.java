@@ -20,12 +20,14 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.security.Oauth2.CustomOAuth2UserService;
+import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberFailureHandler;
 import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberSuccessHandler;
 import seb42_main_026.mainproject.security.filter.JwtAuthenticationFilter;
 import seb42_main_026.mainproject.security.filter.JwtVerificationFilter;
@@ -36,6 +38,7 @@ import seb42_main_026.mainproject.security.handler.MemberAuthenticationSuccessHa
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -49,6 +52,10 @@ public class SecurityConfiguration {
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String googleClientSecret;
 
+    /*private String googleClientId= "643952365035-kagaao62of75uvvq3dml1468mpg5hr9v.apps.googleusercontent.com";
+
+    private String googleClientSecret= "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";*/
+
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String naverClientId;
     @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
@@ -58,8 +65,6 @@ public class SecurityConfiguration {
     private String kakaoClientId;
     @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
     private String kakaoClientSecret;
-
-
 
 
     private final JwtTokenizer jwtTokenizer;
@@ -90,22 +95,21 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer()) //  Custom Configurer는 쉽게 말해서 Spring Security의 Configuration을 개발자 입맛에 맞게 정의할 수 있는 기능이다.
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/signup").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
-                        //.antMatchers(HttpMethod.GET, "/members").hasRole("USER") // 모든 회원 정보의 목록
+                        .antMatchers(HttpMethod.POST, "/signUp").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/members/nickname").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/profileImage").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/password").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/home/rank").permitAll() // rank page
-                        //.antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN") // 특정 회원 정보
-                        .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
-                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
-                        // Question
-                        .antMatchers(HttpMethod.POST, "/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE, "/members").hasRole("USER")
+
+                        .antMatchers(HttpMethod.POST, "/questions").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/questions/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/home/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/board/questions").permitAll()
-                        .antMatchers(HttpMethod.GET, "/members/**/questions").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members/questions").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/questions/**").hasRole("USER")
-
 
                         .anyRequest().permitAll()//authenticated()              // JWT를 적용하기 전이므로 우선은 모든 HTTP request 요청에 대해서 접근을 허용하도록 설정했다.
 
@@ -113,11 +117,11 @@ public class SecurityConfiguration {
                /* .oauth2Login(oauth2 -> oauth2
                         .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository)));*/ // OAuth 2 로그인 인증을 활성화한다.
                 .oauth2Login()
-                .loginPage("/loginForm")
                     .userInfoEndpoint()
                         .userService(customOAuth2UserService)
                 .and()
-                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository));
+                .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberRepository))
+                .failureHandler(new OAuth2MemberFailureHandler());
 
         return http.build();
     }
@@ -130,9 +134,11 @@ public class SecurityConfiguration {
     @Bean // CorsConfigurationSource Bean 생성을 통해 구체적인 CORS 정책을 설정한다.
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
+//       configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
 //        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 파라미터로 지정한 HTTP Method에 대한 HTTP 통신을 허용한다.
-        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000/","http://seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com/"));
+        //configuration.addAllowedOriginPattern("https://codestates-seb.github.io/");
+        //configuration.addAllowedOriginPattern("http://ppongmangchi.net");
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
@@ -189,17 +195,43 @@ public class SecurityConfiguration {
     }
 
     private ClientRegistration clientRegistration(){
-        return CommonOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
-                .GOOGLE
-                .getBuilder("google")
-                .redirectUri("https://localhost:3000/login/oauth2/code/google")
-                //.redirectUri("http://3.36.228.134:8080/login/oauth2/code/google") 수정전
-                //.redirectUri("http://localhost:8080/login/oauth2/code/google")
-                //.redirectUri("http://localhost:3000/")
+
+        System.out.println("Client Registration++++++++++++++++++++++++++");
+
+        return ClientRegistration.withRegistrationId("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google")
                 .scope("profile", "email")
+                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+                .tokenUri("https://www.googleapis.com/oauth2/v4/token")
+                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+                .userNameAttributeName(IdTokenClaimNames.SUB)
+                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+                .clientName("Google")
                 .build();
+
+
+        /**
+        return CommonbOAuth2Provider // 내부적으로 Builder 패턴을 이용해 ClientRegistration 인스턴스를 제공하는 역할이다.
+                .GOOGLE
+                .getBuilder("google")
+                .clientId(googleClientId)
+                .clientSecret(googleClientSecret)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google")
+                .scope("profile", "email")
+                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+                .tokenUri("https://www.googleapis.com/oauth2/v4/token")
+                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+                .userNameAttributeName(IdTokenClaimNames.SUB)
+                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+                .clientName("Google")
+                .build();
+         */
     }
 
     private ClientRegistration naverClientRegistration(){
@@ -207,7 +239,8 @@ public class SecurityConfiguration {
                 .clientId(naverClientId)
                 .clientSecret(naverClientSecret)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/naver")
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/naver") // 서버용
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/naver")
                 .scope("name", "email")
                 .authorizationUri("https://nid.naver.com/oauth2.0/authorize")
                 .tokenUri("https://nid.naver.com/oauth2.0/token")
@@ -223,7 +256,10 @@ public class SecurityConfiguration {
                 .clientSecret(kakaoClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:3000/login/oauth2/code/kakao")
+                //.redirectUri("http://3.36.228.134:8080/oauth2/authorization/kakao") // 서버용
+                //.redirectUri("http://localhost:8080/login/oauth2/code/kakao")        // 로컬용
+                .redirectUri("http://3.36.228.134:8080/login/oauth2/code/kakao")
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/naver") // 도메인
                 .scope("profile_nickname", "account_email")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+//@Table(indexes = {@Index(name = "idx_score_createdAt", columnList = "score, createdAt")})
 public class Score extends Auditable {
 
     @Id
@@ -22,10 +23,10 @@ public class Score extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column
+    @Column(nullable = true)
     private String profileImageUrl;
 
-    @Column
+    @Column(nullable = false)
     private String nickname;
 
     @Column(nullable = false)

@@ -38,7 +38,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException{
         var oAuth2User = (OAuth2User)authentication.getPrincipal();
-
+        System.out.println("ddddddddddddddddddddddd");
 
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String nickname = String.valueOf(oAuth2User.getName());
@@ -75,6 +75,10 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         response.setHeader("Refresh", refreshToken);
 
         String uri = createURI(accessToken, refreshToken).toString();
+        System.out.println("================URI 확인=====================");
+        System.out.println("URL : "+uri +"============================");
+        System.out.println();
+        System.out.println();
         getRedirectStrategy().sendRedirect(request, response, uri);
 
     }
@@ -109,14 +113,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
+        System.out.println("================URI 확인=====================");
 
         return UriComponentsBuilder //  Port 설정을 하지 않으면 기본값은 80 포트
                 .newInstance()
                 .scheme("http")
                 //.host("codestates-seb.github.io/seb42_main_026/")
-                .host("localhost")
-                .port(3000)
-                .path("/login/oauth2/code/kakao")
+                .host("seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com")
+                //.port(3000)
+                .path("/login/callback")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
