@@ -34,7 +34,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
   const answerDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}?memberId=${memberId}`, { headers: { Authorization: getCookie('accessToken') } });
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
         return window.location.replace(`/questions/${questionId}`);
       } catch (error) {
@@ -58,7 +58,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
       answerId,
     };
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}/likes`, data, { headers: { Authorization: getCookie('accessToken') } });
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/likes`, data, { headers: { Authorization: getCookie('accessToken') } });
       window.location.replace(`/questions/${questionId}`);
     } catch (error) {
       console.error(error);
@@ -74,7 +74,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
           questionId,
         };
         try {
-          await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select?memberId=${getUser()?.memberId()}`, data, { headers: { Authorization: getCookie('accessToken') } });
+          await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select`, data, { headers: { Authorization: getCookie('accessToken') } });
           alert(answerStatus === '일반 상태' ? '채택되었습니다.' : '취소되었습니다.');
           return window.location.replace(`/questions/${questionId}`);
         } catch (error) {

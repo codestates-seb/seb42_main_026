@@ -27,7 +27,7 @@ const MyPage: React.FC = () => {
       Authorization: getCookie('accessToken'),
     };
     axios
-      .get(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { headers })
+      .get(`${process.env.REACT_APP_BASE_URL}/members`, { headers })
       .then((response) => {
         setData(response.data.data);
       })

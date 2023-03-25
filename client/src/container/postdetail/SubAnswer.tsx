@@ -26,7 +26,7 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
   const comentDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/${answerId}/${commentId}?memberId=${getUser()?.memberId()}`, { headers: { Authorization: getCookie('accessToken') } });
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/comments/${commentId}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
         return window.location.replace(`/questions/${questionId}`);
       } catch (error) {

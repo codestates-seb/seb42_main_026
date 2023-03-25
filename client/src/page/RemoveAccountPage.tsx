@@ -9,7 +9,6 @@ import getCookie from '../utils/cookieUtils';
 const RemoveAccountPage = () => {
   const navigate = useNavigate();
   const { logoutHandler } = useAuth();
-  const memberId = getUser()?.memberId();
   const nickname = getUser()?.nickname();
 
   function handleMemberDelete() {
@@ -19,7 +18,7 @@ const RemoveAccountPage = () => {
 
     if (window.confirm('정말 탈퇴 하시겠습니까?')) {
       axios
-        .delete(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { headers })
+        .delete(`${process.env.REACT_APP_BASE_URL}/members`, { headers })
         .then((response) => {
           logoutHandler();
         })
