@@ -50,7 +50,7 @@ public class MemberService {
         return savedMember;
     }
 
-    public void updateNickname(Member member) {
+    public Member updateNickname(Member member) {
         // 멤버 확인
         Member verifiedMember = findVerifiedMember(member.getMemberId());
 
@@ -63,6 +63,8 @@ public class MemberService {
         // score 닉네임 변경
         Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
         score.setNickname(member.getNickname());
+
+        return verifiedMember;
     }
 
     public void updateProfileImage(long memberId, MultipartFile profileImage) {
