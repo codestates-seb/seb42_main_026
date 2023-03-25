@@ -13,6 +13,7 @@ import java.util.List;
 
 public class AnswerDto {
     @Getter
+    @Setter
     public static class Post {
         private long memberId;
         private long questionId;
