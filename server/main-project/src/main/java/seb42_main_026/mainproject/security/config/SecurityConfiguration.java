@@ -95,13 +95,13 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer()) //  Custom Configurer는 쉽게 말해서 Spring Security의 Configuration을 개발자 입맛에 맞게 정의할 수 있는 기능이다.
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/members/signUp").permitAll()
+                        .antMatchers(HttpMethod.POST, "/signUp").permitAll()
                         .antMatchers(HttpMethod.PATCH, "/members/nickname").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/members/profileImage").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/members/password").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/members/myPage").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/members/rank").permitAll() // rank page
-                        .antMatchers(HttpMethod.DELETE, "/members/quit").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/home/rank").permitAll() // rank page
+                        .antMatchers(HttpMethod.DELETE, "/members").hasRole("USER")
                         // Question
                         .antMatchers(HttpMethod.POST, "/questions/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/questions/**").hasRole("USER")

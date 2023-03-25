@@ -66,13 +66,13 @@ public class MemberService {
     }
 
     public void updateProfileImage(long memberId, MultipartFile profileImage) {
-        Member verifiedMember = findVerifiedMember(memberId);
+        Member member = findVerifiedMember(memberId);
         Score score = scoreRepository.findByMember_MemberId(memberId);
 
         String encodedFileName = s3StorageService.encodeFileName(profileImage);
         String profileImageUrl = s3StorageService.getFileUrl(encodedFileName);
 
-        verifiedMember.setProfileImageUrl(profileImageUrl);
+        member.setProfileImageUrl(profileImageUrl);
         score.setProfileImageUrl(profileImageUrl);
 
         s3StorageService.imageStore(profileImage, encodedFileName);
@@ -147,8 +147,8 @@ public class MemberService {
         return member.getMemberId();
     }
 
-    public void verifyMemberByMemberId(long questionMemberId, long updateMemberId) {
-        if (questionMemberId != updateMemberId) {
+    public void verifyMemberByMemberId(long sourceMemberId, long updateMemberId) {
+        if (sourceMemberId != updateMemberId) {
             throw new CustomException(ExceptionCode.UNAUTHORIZED_USER);
         }
     }

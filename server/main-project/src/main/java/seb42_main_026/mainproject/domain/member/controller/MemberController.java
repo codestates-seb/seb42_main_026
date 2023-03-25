@@ -27,7 +27,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members")
+//@RequestMapping("/members")
 public class MemberController {
     private final MemberMapper memberMapper;
     private final MemberService memberService;
@@ -44,7 +44,7 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/nickname")
+    @PatchMapping("/members/nickname")
     public ResponseEntity<?> patchNickname(@AuthenticationPrincipal Member auth,
                                            @RequestBody @Valid MemberDto.Patch memberPatchDto) {
         memberPatchDto.setMemberId(auth.getMemberId());
@@ -56,7 +56,7 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping(value = "/profileImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/members/profileImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> patchProfileImage(@AuthenticationPrincipal Member auth,
                                                @RequestPart MultipartFile profileImage) {
         memberService.updateProfileImage(auth.getMemberId(), profileImage);
@@ -64,7 +64,7 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/password")
+    @PatchMapping("/members/password")
     public ResponseEntity<?> patchPassword(@AuthenticationPrincipal Member auth,
                                            @RequestBody @Valid MemberDto.PatchPassword passwordDto) {
         memberService.updatePassword(auth.getMemberId(), passwordDto);
@@ -72,7 +72,7 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/myPage")
+    @GetMapping("/members")
     public ResponseEntity<?> getMember(@AuthenticationPrincipal Member auth) {
         Member member = memberService.findMember(auth.getMemberId());
 
@@ -81,7 +81,7 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/rank")
+    @GetMapping("/home/rank")
     public ResponseEntity<?> getRank() {
         List<Score> scoreRank = memberService.findRank();
 
@@ -90,7 +90,7 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>(scoreRanks), HttpStatus.OK);
     }
 
-    @DeleteMapping("/quit")
+    @DeleteMapping("/members")
     public ResponseEntity<?> deleteMember(@AuthenticationPrincipal Member auth) {
         memberService.deleteMember(auth.getMemberId());
 
