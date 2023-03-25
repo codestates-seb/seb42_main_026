@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.answer.service.AnswerService;
+import seb42_main_026.mainproject.domain.like.dto.LikeDto;
 import seb42_main_026.mainproject.domain.like.entity.AnswerLike;
 import seb42_main_026.mainproject.domain.like.entity.QuestionLike;
 import seb42_main_026.mainproject.domain.like.repository.AnswerLikeRepository;
@@ -31,9 +32,6 @@ public class LikeService {
     private final AnswerService answerService;
 
     public void toggleQuestionLike(QuestionLike questionLike) {
-        // 로그인한 회원인지 체크
-        memberService.verifyLoginMember(questionLike.getMember().getMemberId());
-
         // 좋아요를 하려는 회원
         Member verifiedMember = memberService.findVerifiedMember(questionLike.getMember().getMemberId());
 
@@ -47,22 +45,21 @@ public class LikeService {
         if (foundQuestionLike == null) {
             verifiedQuestion.setLikeCount(verifiedQuestion.getLikeCount() + 1);
             verifiedQuestion.setLikeCheck(true);
+
             questionLikeRepository.save(questionLike);
         } else { // 좋아요가 있으면
             verifiedQuestion.setLikeCount(verifiedQuestion.getLikeCount() - 1);
             verifiedQuestion.setLikeCheck(false);
+
             questionLikeRepository.delete(foundQuestionLike);
         }
     }
 
     public void toggleAnswerLike(AnswerLike answerLike) {
-        // 로그인한 회원인지 체크
-        memberService.verifyLoginMember(answerLike.getMember().getMemberId());
-
         // 좋아요를 하려는 회원
         Member verifiedMember = memberService.findVerifiedMember(answerLike.getMember().getMemberId());
 
-        // 유효한 질문인지 체크
+        // 유효한 답변인지 체크
         Answer foundAnswer = answerService.findAnswer(answerLike.getAnswer().getAnswerId());
 
         // 답변과 회원으로 매칭되는 좋아요 체크
@@ -72,10 +69,12 @@ public class LikeService {
         if (foundAnswerLike == null) {
             foundAnswer.setLikeCount(foundAnswer.getLikeCount() + 1);
             foundAnswer.setLikeCheck(true);
+
             answerLikeRepository.save(answerLike);
         } else { // 좋아요가 있으면
             foundAnswer.setLikeCount(foundAnswer.getLikeCount() - 1);
             foundAnswer.setLikeCheck(false);
+
             answerLikeRepository.delete(foundAnswerLike);
         }
     }
