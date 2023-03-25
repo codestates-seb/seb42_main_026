@@ -4,10 +4,13 @@ import axios from 'axios';
 import { useState } from 'react';
 import getCookie from '../utils/cookieUtils';
 import { getUser } from '../utils/getUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNickname } from '../store/actions';
+import { RootState } from '../store/store';
 
 const UserEditPage = () => {
-  const memberId = getUser()?.memberId();
-  const nickname = getUser()?.nickname();
+  const dispatch = useDispatch();
+  const nickname = useSelector((state: RootState) => state.user.nickname);
   const [newNickname, setNewNickname] = useState(nickname);
   const [isNameError, setIsNameError] = useState(true);
   const [isNowPasswordError, setIsNowPasswordError] = useState(true);
@@ -29,9 +32,10 @@ const UserEditPage = () => {
       };
 
       axios
-        .patch(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { nickname: e.target[0].value }, { headers })
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/nickname`, { nickname: e.target[0].value }, { headers })
         .then((response) => {
-          setNewNickname(e.target[0].value);
+          setNewNickname(response.data);
+          dispatch(setNickname(response.data));
           alert('닉네임이 변경되었습니다.');
         })
         .catch((err) => {
@@ -52,7 +56,7 @@ const UserEditPage = () => {
         Authorization: getCookie('accessToken'),
       };
       axios
-        .patch(`${process.env.REACT_APP_BASE_URL}/members/change-password/${memberId}`, { password: e.target[0].value, changePassword: e.target[1].value }, { headers })
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/password`, { password: e.target[0].value, changePassword: e.target[1].value }, { headers })
         .then((response) => {
           setIsNowPasswordError(true);
           alert('비밀번호가 변경되었습니다.');

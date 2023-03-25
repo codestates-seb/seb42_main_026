@@ -9,7 +9,7 @@ interface CustomError extends Error {
 
 const signup = async (email: string, password: string, nickname: string, setErrorMessage: React.Dispatch<React.SetStateAction<any>>) => {
   try {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/signup`, {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/signUp`, {
       email,
       password,
       nickname,

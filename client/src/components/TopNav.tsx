@@ -54,7 +54,7 @@ export default function TopNav() {
   const postDelete = async () => {
     if (getPostDetailHandler.memberId === Number(getUser()?.memberId())) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}/?memberId=${getPostDetailHandler.memberId}`, { headers: { Authorization: getCookie('accessToken') } });
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
         return navigate('/naggingboard');
       } catch (error) {
