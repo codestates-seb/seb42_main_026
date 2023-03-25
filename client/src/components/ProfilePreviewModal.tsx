@@ -1,7 +1,6 @@
 import axios from 'axios';
 import styled from 'styled-components';
 import getCookie from '../utils/cookieUtils';
-import { getUser } from '../utils/getUser';
 import imageCompression from 'browser-image-compression';
 
 interface ModalProps {
@@ -10,13 +9,7 @@ interface ModalProps {
   imgFile: File | undefined;
 }
 
-const ProfilePreviewModal: React.FC<ModalProps> = ({
-  isOpen,
-  onClose,
-  imgFile,
-}) => {
-  const memberId = getUser()?.memberId();
-
+const ProfilePreviewModal: React.FC<ModalProps> = ({ isOpen, onClose, imgFile }) => {
   if (!isOpen) {
     return null;
   }
@@ -41,18 +34,12 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({
     };
     const formData = new FormData();
     if (imgFile !== undefined) {
-      const compressedImage = (await actionImgCompress(imgFile)) as
-        | string
-        | Blob;
+      const compressedImage = (await actionImgCompress(imgFile)) as string | Blob;
       formData.append('profileImage', compressedImage);
     }
 
     axios
-      .patch(
-        `${process.env.REACT_APP_BASE_URL}/members/change-profile/${memberId}`,
-        formData,
-        { headers }
-      )
+      .patch(`${process.env.REACT_APP_BASE_URL}/members/profileImage`, formData, { headers })
       .then((response) => {
         alert('프로필이미지 변경 완료!');
         onClose();
@@ -70,9 +57,7 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({
       {isOpen && (
         <>
           <ModalWrapper>
-            {imgFile && (
-              <img src={URL.createObjectURL(imgFile)} alt="preview" />
-            )}
+            {imgFile && <img src={URL.createObjectURL(imgFile)} alt="preview" />}
             <SendButton onClick={handlePatch}>수정하기</SendButton>
           </ModalWrapper>
           <ModalBackground onClick={onClose}></ModalBackground>

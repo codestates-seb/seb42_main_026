@@ -6,7 +6,6 @@ import getCookie from '../utils/cookieUtils';
 import { getUser } from '../utils/getUser';
 
 const UserEditPage = () => {
-  const memberId = getUser()?.memberId();
   const nickname = getUser()?.nickname();
   const [newNickname, setNewNickname] = useState(nickname);
   const [isNameError, setIsNameError] = useState(true);
@@ -29,9 +28,10 @@ const UserEditPage = () => {
       };
 
       axios
-        .patch(`${process.env.REACT_APP_BASE_URL}/members/${memberId}`, { nickname: e.target[0].value }, { headers })
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/nickname`, { nickname: e.target[0].value }, { headers })
         .then((response) => {
-          setNewNickname(e.target[0].value);
+          console.log(response.data.data);
+          setNewNickname(response.data.data);
           alert('닉네임이 변경되었습니다.');
         })
         .catch((err) => {
@@ -52,7 +52,7 @@ const UserEditPage = () => {
         Authorization: getCookie('accessToken'),
       };
       axios
-        .patch(`${process.env.REACT_APP_BASE_URL}/members/change-password/${memberId}`, { password: e.target[0].value, changePassword: e.target[1].value }, { headers })
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/password`, { password: e.target[0].value, changePassword: e.target[1].value }, { headers })
         .then((response) => {
           setIsNowPasswordError(true);
           alert('비밀번호가 변경되었습니다.');

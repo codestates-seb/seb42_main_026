@@ -1,16 +1,13 @@
 import axios from 'axios';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import ANSWER_ICON from '../../assets/ic_boardItem_answer.svg';
-import LIKE_ICON from '../../assets/ic_boardItem_like.svg';
 import { ReactComponent as ICON_LIKE } from '../../assets/ic_boardItem_like.svg';
 import getCookie from '../../utils/cookieUtils';
-import { getUser } from '../../utils/getUser';
 
 const CountsBar = ({ answer, likeCount, answerHandler, isTextarea, questionId, likeCheck }: { answer: number; likeCount: number; answerHandler: Dispatch<SetStateAction<boolean>>; isTextarea: boolean; questionId: number; likeCheck: boolean }) => {
   const likeButton = async () => {
     const data = {
-      memberId: getUser()?.memberId(),
       questionId,
     };
     try {
