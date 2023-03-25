@@ -11,7 +11,7 @@ const OAuthPage = () => {
     document.cookie = `accessToken=Bearer ${accessToken}; path=/;`;
     document.cookie = `refreshToken=${refreshToken}; path=/;`;
 
-    // window.location.replace('/');
+    window.location.replace('/');
   }, []);
 
   return <></>;
