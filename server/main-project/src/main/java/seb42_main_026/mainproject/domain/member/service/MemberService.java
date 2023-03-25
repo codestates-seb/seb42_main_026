@@ -134,18 +134,18 @@ public class MemberService {
         return member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-    public void verifyLoginMember(Long memberId) {
-        if (!getTokenMemberId().equals(memberId)) {
-            throw new CustomException(ExceptionCode.UNAUTHORIZED_USER);
-        }
-    }
-
-    private Long getTokenMemberId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = memberRepository.findByEmail(authentication.getName()).get(); //  If a value is present, returns the value, otherwise throws NoSuchElementException.
-
-        return member.getMemberId();
-    }
+//    public void verifyLoginMember(Long memberId) {
+//        if (!getTokenMemberId().equals(memberId)) {
+//            throw new CustomException(ExceptionCode.UNAUTHORIZED_USER);
+//        }
+//    }
+//
+//    private Long getTokenMemberId() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Member member = memberRepository.findByEmail(authentication.getName()).get(); //  If a value is present, returns the value, otherwise throws NoSuchElementException.
+//
+//        return member.getMemberId();
+//    }
 
     public void verifyMemberByMemberId(long sourceMemberId, long updateMemberId) {
         if (sourceMemberId != updateMemberId) {
