@@ -4,9 +4,13 @@ import axios from 'axios';
 import { useState } from 'react';
 import getCookie from '../utils/cookieUtils';
 import { getUser } from '../utils/getUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNickname } from '../store/actions';
+import { RootState } from '../store/store';
 
 const UserEditPage = () => {
-  const nickname = getUser()?.nickname();
+  const dispatch = useDispatch();
+  const nickname = useSelector((state: RootState) => state.user.nickname);
   const [newNickname, setNewNickname] = useState(nickname);
   const [isNameError, setIsNameError] = useState(true);
   const [isNowPasswordError, setIsNowPasswordError] = useState(true);
@@ -30,8 +34,8 @@ const UserEditPage = () => {
       axios
         .patch(`${process.env.REACT_APP_BASE_URL}/members/nickname`, { nickname: e.target[0].value }, { headers })
         .then((response) => {
-          console.log(response.data.data);
-          setNewNickname(response.data.data);
+          setNewNickname(response.data);
+          dispatch(setNickname(response.data));
           alert('닉네임이 변경되었습니다.');
         })
         .catch((err) => {
