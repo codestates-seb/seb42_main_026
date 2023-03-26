@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../store/store';
-import { login, logout,setNickname } from '../store/actions';
+import { login, logout, setNickname } from '../store/actions';
 import decodeJwt from '../utils/jwtUtils';
 import getCookie from '../utils/cookieUtils';
 
@@ -27,7 +27,7 @@ export function useAuth() {
         const accessToken = accessTokenCookie.split('=')[1];
         const decoded = decodeJwt(accessToken);
         dispatch(login());
-        dispatch(setNickname(decoded.name))
+        dispatch(setNickname(decoded.name));
         navigate('/');
         alert('로그인 성공!');
       }
