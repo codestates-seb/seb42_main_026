@@ -2,6 +2,7 @@ package seb42_main_026.mainproject.domain.like.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import seb42_main_026.mainproject.domain.like.dto.LikeDto;
@@ -9,8 +10,8 @@ import seb42_main_026.mainproject.domain.like.entity.AnswerLike;
 import seb42_main_026.mainproject.domain.like.entity.QuestionLike;
 import seb42_main_026.mainproject.domain.like.mapper.LikeMapper;
 import seb42_main_026.mainproject.domain.like.service.LikeService;
+import seb42_main_026.mainproject.domain.member.entity.Member;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
@@ -22,9 +23,12 @@ public class LikeController {
     private final LikeMapper likeMapper;
 
     @PostMapping("/{question-id}/likes")
-    public ResponseEntity<?> postQuestionLike(@RequestBody @Valid LikeDto.QuestionPost likeQuestionPostDto,
-                                              @PathVariable("question-id") @Positive long questionId) {
+    public ResponseEntity<?> postQuestionLike(@PathVariable("question-id") @Positive long questionId,
+                                              @AuthenticationPrincipal Member auth) {
+        LikeDto.QuestionPost likeQuestionPostDto = new LikeDto.QuestionPost();
+        likeQuestionPostDto.setMemberId(auth.getMemberId());
         likeQuestionPostDto.setQuestionId(questionId);
+
         QuestionLike questionLike = likeMapper.likeQuestionPostDtoToLike(likeQuestionPostDto);
 
         likeService.toggleQuestionLike(questionLike);
@@ -32,10 +36,13 @@ public class LikeController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{question-id}/{answer-id}/likes")
-    public ResponseEntity<?> postAnswerLike(@RequestBody @Valid LikeDto.AnswerPost likeAnswerPostDto,
-                                              @PathVariable("answer-id") @Positive long answerId) {
+    @PostMapping("/{question-id}/answers/{answer-id}/likes")
+    public ResponseEntity<?> postAnswerLike(@PathVariable("answer-id") @Positive long answerId,
+                                            @AuthenticationPrincipal Member auth) {
+        LikeDto.AnswerPost likeAnswerPostDto = new LikeDto.AnswerPost();
+        likeAnswerPostDto.setMemberId(auth.getMemberId());
         likeAnswerPostDto.setAnswerId(answerId);
+
         AnswerLike answerLike = likeMapper.likeAnswerPostDtoToLike(likeAnswerPostDto);
 
         likeService.toggleAnswerLike(answerLike);

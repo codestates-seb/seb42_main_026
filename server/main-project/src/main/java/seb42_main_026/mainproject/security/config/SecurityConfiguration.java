@@ -95,22 +95,21 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer()) //  Custom Configurer는 쉽게 말해서 Spring Security의 Configuration을 개발자 입맛에 맞게 정의할 수 있는 기능이다.
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/signup").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
-                        //.antMatchers(HttpMethod.GET, "/members").hasRole("USER") // 모든 회원 정보의 목록
+                        .antMatchers(HttpMethod.POST, "/signUp").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/members/nickname").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/profileImage").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/password").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/home/rank").permitAll() // rank page
-                        //.antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN") // 특정 회원 정보
-                        .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
-                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
-                        // Question
-                        .antMatchers(HttpMethod.POST, "/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE, "/members").hasRole("USER")
+
+                        .antMatchers(HttpMethod.POST, "/questions").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/questions/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/questions/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/home/questions").permitAll()
                         .antMatchers(HttpMethod.GET, "/board/questions").permitAll()
-                        .antMatchers(HttpMethod.GET, "/members/**/questions").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members/questions").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/questions/**").hasRole("USER")
-
 
                         .anyRequest().permitAll()//authenticated()              // JWT를 적용하기 전이므로 우선은 모든 HTTP request 요청에 대해서 접근을 허용하도록 설정했다.
 
