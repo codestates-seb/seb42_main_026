@@ -22,11 +22,21 @@ public class ErrorResponse {
 
     private String message;
 
+    private CustomErrors customErrors;
+
+    public ErrorResponse(HttpStatus httpStatus, CustomErrors CustomErrors){
+        this.httpStatus = httpStatus;
+        this.customErrors = CustomErrors;
+
+    }
+
     public ErrorResponse(HttpStatus httpStatus, String message){
         this.httpStatus = httpStatus;
         this.message = message;
 
     }
+
+
 
     public ErrorResponse(List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors){
         this.fieldErrors = fieldErrors;
@@ -35,7 +45,7 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse of(ExceptionCode exceptionCode){
-        return new ErrorResponse(exceptionCode.getHttpStatus(), exceptionCode.getMessage());
+        return new ErrorResponse(exceptionCode.getHttpStatus(), CustomErrors.of(exceptionCode));
     }
 
     public static ErrorResponse of(BindingResult bindingResult){
@@ -101,6 +111,28 @@ public class ErrorResponse {
 
             }
         }
+
+
+    @Getter
+    public static class CustomErrors{
+        private HttpStatus httpStatus;
+        private String message;
+        private String field;
+
+        public CustomErrors(HttpStatus httpStatus, String message, String field) {
+            this.httpStatus = httpStatus;
+            this.message = message;
+            this.field = field;
+        }
+
+        public static CustomErrors of(ExceptionCode exceptionCode){
+
+            CustomErrors customErrors = new CustomErrors(exceptionCode.getHttpStatus(), exceptionCode.getMessage(), exceptionCode.getField());
+
+            return customErrors;
+
+        }
+    }
 
 
  }
