@@ -51,9 +51,11 @@ public class MemberController {
 
         Member member = memberMapper.memberPatchToMember(memberPatchDto);
 
-        memberService.updateNickname(member);
+        Member updatedMember = memberService.updateNickname(member);
 
-        return ResponseEntity.ok().build();
+        String updatedNickname = updatedMember.getNickname();
+
+        return ResponseEntity.ok(updatedNickname);
     }
 
     @PatchMapping(value = "/members/profileImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
