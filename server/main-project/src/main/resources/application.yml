@@ -1,7 +1,7 @@
 spring:
-  servlet:
-    multipart:
-      max-file-size: 2MB
+  #  servlet:
+  #    multipart:
+  #      max-file-size: 2MB
   h2:
     console:
       enabled: true
@@ -30,6 +30,18 @@ spring:
             scope:
               - profile
               - email
+          naver:
+            client-id: ${NAVER_CLIENT_ID}
+            client-secret: ${NAVER_SECRET_KEY}
+            client-name: Naver
+            authorization-grant-type: authorization_code
+
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_SECRET_KEY}
+            client-name: bbong
+            client-authentication-method: POST
+
 logging:
   level:
     org:
@@ -45,8 +57,8 @@ mail:
     admin: admin@gmail.com
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 10
-  refresh-token-expiration-minutes: 300
+  access-token-expiration-minutes: 40
+  refresh-token-expiration-minutes: 70
 
 cloud:
   aws:
@@ -58,4 +70,3 @@ cloud:
     credentials:
       accessKey: ${S3_ACCESS_KEY}
       secretKey: ${S3_SECRET_ACCESS_KEY}
-
