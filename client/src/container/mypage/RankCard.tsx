@@ -14,9 +14,8 @@ interface myProps {
   hammerTier: string;
   mainText: string;
   subText: string;
-  lang: string;
 }
-const RankCard = ({ score, hammerTier, lang }: myProps) => {
+const RankCard = ({ score, hammerTier }: myProps) => {
   const [showRankModal, setShowRankModal] = useState<React.SetStateAction<boolean>>(false);
   const [showTierModal, setShowTierModal] = useState<React.SetStateAction<boolean>>(false);
   function setIcon(icon: String) {

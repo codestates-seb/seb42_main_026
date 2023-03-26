@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import getCookie from '../utils/cookieUtils';
-import { getUser } from '../utils/getUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNickname } from '../store/actions';
 import { RootState } from '../store/store';

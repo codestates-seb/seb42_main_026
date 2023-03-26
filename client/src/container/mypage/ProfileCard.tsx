@@ -9,10 +9,9 @@ interface profileProps {
   imgUrl?: string;
   mainText?: string;
   subText?: string;
-  lang: string;
 }
 
-const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
+const ProfileCard = ({ imgUrl, mainText, subText }: profileProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imgFile, setImgFile] = useState<File | undefined>();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -28,7 +27,7 @@ const ProfileCard = ({ imgUrl, mainText, subText, lang }: profileProps) => {
   return (
     <ProfileCardWrapper>
       <ImageBoxWrapper>
-        <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" lang="EN" />
+        <img src={imgUrl === '' ? ICON_PROFILE : imgUrl} alt="profile_image" lang="KR" />
         <InfoBoxWrapper>
           <MainText>{mainText}</MainText>
           <SubText>{subText}</SubText>
