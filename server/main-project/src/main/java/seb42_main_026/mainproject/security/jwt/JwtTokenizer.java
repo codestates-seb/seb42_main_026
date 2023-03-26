@@ -91,7 +91,7 @@ public class JwtTokenizer {
     // JWT의 만료 일시를 지정하기 위한 메서드로 JWT 생성 시 사용한다.
     public Date getTokenExpiration(int expirationMinutes){
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, expirationMinutes);  // Minutes로 다시 바꿔야함
+        calendar.add(Calendar.MINUTE, expirationMinutes);  // Minutes로 다시 바꿔야함
         Date expiration = calendar.getTime();
 
         return expiration;

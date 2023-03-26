@@ -57,8 +57,8 @@ mail:
     admin: admin@gmail.com
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 40
-  refresh-token-expiration-minutes: 70
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-minutes: 100
 
 cloud:
   aws:
