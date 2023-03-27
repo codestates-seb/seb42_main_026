@@ -27,7 +27,7 @@ export function useAuth() {
         const accessToken = accessTokenCookie.split('=')[1];
         const decoded = decodeJwt(accessToken);
         dispatch(login());
-        dispatch(setNickname(decoded.name));
+
         navigate('/');
         alert('로그인 성공!');
       }
