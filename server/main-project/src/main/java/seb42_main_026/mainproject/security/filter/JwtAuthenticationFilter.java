@@ -50,7 +50,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    @Transactional
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
@@ -60,10 +59,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
-
         if (refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent()){
-            Refresh updateRefresh = refreshRepository.findByMember_MemberId(member.getMemberId()).orElseThrow();
-            updateRefresh.setRefresh(refreshToken);
+            jwtTokenizer.updateRefresh(member.getMemberId(),refreshRepository, refreshToken);
         } else {
             Refresh refresh = new Refresh();
             refresh.setRefresh(refreshToken);
