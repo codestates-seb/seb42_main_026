@@ -24,8 +24,8 @@ public class ErrorResponse {
 
     private CustomErrors customErrors;
 
-    public ErrorResponse(HttpStatus httpStatus, CustomErrors CustomErrors){
-        this.httpStatus = httpStatus;
+    public ErrorResponse( CustomErrors CustomErrors){
+
         this.customErrors = CustomErrors;
 
     }
@@ -45,7 +45,7 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse of(ExceptionCode exceptionCode){
-        return new ErrorResponse(exceptionCode.getHttpStatus(), CustomErrors.of(exceptionCode));
+        return new ErrorResponse(CustomErrors.of(exceptionCode));
     }
 
     public static ErrorResponse of(BindingResult bindingResult){

@@ -1,18 +1,12 @@
 package seb42_main_026.mainproject.security.filter;
 
-import com.nimbusds.jwt.JWT;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import seb42_main_026.mainproject.exception.CustomException;
-import seb42_main_026.mainproject.exception.ExceptionCode;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
@@ -23,10 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.SignatureException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor

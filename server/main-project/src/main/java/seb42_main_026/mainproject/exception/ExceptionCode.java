@@ -34,7 +34,9 @@ public enum ExceptionCode {
     EXCEED_MAX_FILE_SIZE(HttpStatus.BAD_REQUEST, "첨부 파일의 용량이 초과되었습니다.",null),
 
     ACCESS_TOKEN_EXPRIATION(HttpStatus.UNAUTHORIZED, "액세스 토큰이 만료되었습니다.",null),
-    REFRESH_TOKEN_EXPRIATION(HttpStatus.UNAUTHORIZED, "액세스 토큰이 만료되었습니다.",null),
+    REFRESH_TOKEN_EXPRIATION(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 만료되었습니다. 로그인이 필요합니다.",null),
+
+    REFRESH_TOKEN_MISSMATCHED(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 일치하지않습니다..",null),
 
     SELECT_ONLY_ONCE(HttpStatus.BAD_REQUEST, "질문 당 채택은 한개씩 가능합니다.", null);
 

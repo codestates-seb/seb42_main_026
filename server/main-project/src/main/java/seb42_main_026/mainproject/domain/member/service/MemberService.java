@@ -46,7 +46,6 @@ public class MemberService {
         Member savedMember = memberRepository.save(member);
 
         setScore(savedMember.getMemberId());
-
         return savedMember;
     }
 
@@ -114,7 +113,7 @@ public class MemberService {
         // findVerifiedMember(memberId).setMemberStatus(Member.MemberStatus.MEMBER_DELETE);
     }
 
-    private void verifyExistsEmail(String email) {
+    public void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if (member.isPresent()) {
@@ -132,6 +131,12 @@ public class MemberService {
 
     public Member findVerifiedMember(Long memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
+
+        return member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    public Member findVerifiedMemberByEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
 
         return member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }

@@ -25,7 +25,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import seb42_main_026.mainproject.domain.member.entity.Refresh;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
+import seb42_main_026.mainproject.domain.member.repository.RefreshRepository;
+import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.security.Oauth2.CustomOAuth2UserService;
 import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberFailureHandler;
 import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberSuccessHandler;
@@ -69,6 +72,7 @@ public class SecurityConfiguration {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    private final RefreshRepository refreshRepository;
 
 
 
@@ -130,7 +134,7 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 //       configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
 //        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 파라미터로 지정한 HTTP Method에 대한 HTTP 통신을 허용한다.
-        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000/","http://seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com/"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000/","http://seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com/", "https://andanghae.com/"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
@@ -152,7 +156,7 @@ public class SecurityConfiguration {
 
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class); // getSharedObject() 를 통해서 AuthenticationManager의 객체를 얻을 수 있다. 그리고 Spring Security의 설정을 구성하는 SecurityConfigurer 간에 공유되는 객체를 얻을 수 있다.
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer ); // JwtAuthenticationFilter에서 사용되는 AuthenticationManager와 JwtTokenizer를 DI 해준다.
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository, refreshRepository ); // JwtAuthenticationFilter에서 사용되는 AuthenticationManager와 JwtTokenizer를 DI 해준다.
             //jwtAuthenticationFilter.setFilterProcessesUrl("/login"); // Login url
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
@@ -190,8 +194,8 @@ public class SecurityConfiguration {
                 .clientSecret(googleClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
-                //.redirectUri("http://localhost:8080/login/oauth2/code/google")
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
+                .redirectUri("http://localhost:8080/login/oauth2/code/google")
                 .scope("profile", "email")
                 .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
                 .tokenUri("https://www.googleapis.com/oauth2/v4/token")
