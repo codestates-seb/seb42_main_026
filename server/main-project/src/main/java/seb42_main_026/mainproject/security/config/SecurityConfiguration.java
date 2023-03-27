@@ -136,7 +136,10 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 //       configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다. 이 설정은 운영 서버 환경에서 요구사항에 맞게 변경이 가능하다.
 //        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 파라미터로 지정한 HTTP Method에 대한 HTTP 통신을 허용한다.
-        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000/","http://seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com/"));
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+                "http://localhost:3000/",
+                "http://seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com/",
+                "https://andanghae.com/"));
         //configuration.addAllowedOriginPattern("https://codestates-seb.github.io/");
         //configuration.addAllowedOriginPattern("http://ppongmangchi.net");
         configuration.setAllowedHeaders(Arrays.asList("*"));
