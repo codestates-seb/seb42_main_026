@@ -65,10 +65,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Member member2 = memberRepository.findByEmail(member.getEmail()).orElseThrow();
 
         // Refresh Token 저장
-        Refresh refresh = new Refresh();
+        /*Refresh refresh = new Refresh();
         refresh.setRefresh(refreshToken);
-        refresh.setMember(member);
-        refreshRepository.save(refresh);
+        refresh.setMember(member);*/
+
+        if (refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent()){
+            Refresh updateRefresh = refreshRepository.findByMember_MemberId(member.getMemberId()).orElseThrow();
+            updateRefresh.setRefresh(refreshToken);
+        }else {
+            Refresh refresh = new Refresh();
+            refresh.setRefresh(refreshToken);
+            refresh.setMember(member);
+            refreshRepository.save(refresh);
+        }
+
 
 
         response.setHeader("Authorization", "Bearer " + accessToken); // Access Token은 클라이언트 측에서 백엔드 애플리케이션 측에 요청을 보낼 때마다 request header에 추가해서 클라이언트 측의 자격을 증명하는 데 사용된다.
