@@ -45,7 +45,7 @@ const CustomAudio = ({ Props }: any) => {
           chunksRef.current.push(e.data);
         };
         mediaRecorderRef.current.onstop = () => {
-          const blob = new Blob(chunksRef.current, { type: 'audio/mp4' });
+          const blob = new Blob(chunksRef.current, { type: 'audio/mpeg' });
           setRecordedBlob(blob);
           chunksRef.current = [];
         };
@@ -180,7 +180,7 @@ const ControlButton = styled.button`
 `;
 
 const ProgressBar = styled.div`
-  width: 240px;
+  min-width: 132px;
   background-color: #f3f3f3;
   position: relative;
 `;
