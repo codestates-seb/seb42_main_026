@@ -79,7 +79,7 @@ const ControlButton = styled.button`
 `;
 
 const ProgressBar = styled.div`
-  width: 240px;
+  min-width: 132px;
   background-color: #f3f3f3;
   position: relative;
 `;
