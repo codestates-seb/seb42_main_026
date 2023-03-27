@@ -194,8 +194,8 @@ public class SecurityConfiguration {
                 .clientSecret(googleClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
-                .redirectUri("http://localhost:8080/login/oauth2/code/google")
+                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
+                //.redirectUri("http://localhost:8080/login/oauth2/code/google")
                 .scope("profile", "email")
                 .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
                 .tokenUri("https://www.googleapis.com/oauth2/v4/token")
