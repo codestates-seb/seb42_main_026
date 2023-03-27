@@ -10,6 +10,7 @@ import MenuButton from '../../components/MenuButton';
 import { useState } from 'react';
 import axios from 'axios';
 import getCookie from '../../utils/cookieUtils';
+import parseDateUtils from '../../utils/paeseDateUtils';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -27,14 +28,30 @@ interface AnswerCardProps {
   likeCheck: boolean;
 }
 //임의로 넣어놓은 데이터값도 제거하기
-const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId, likeCheck }: AnswerCardProps) => {
+const Answer = ({
+  postMemberId,
+  likeCount,
+  profileImageUrl,
+  nickname,
+  createdAt,
+  answerStatus,
+  content,
+  comments,
+  memberId,
+  answerId,
+  questionId,
+  likeCheck,
+}: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
 
   const answerDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}`, { headers: { Authorization: getCookie('accessToken') } });
+        await axios.delete(
+          `${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}`,
+          { headers: { Authorization: getCookie('accessToken') } }
+        );
         alert('삭제되었습니다.');
         return window.location.replace(`/questions/${questionId}`);
       } catch (error) {
@@ -44,13 +61,6 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
     }
   };
 
-  const parseDate = (props: Date) => {
-    const now = new Date(props);
-    const MM = Number(now.getMonth() + 1) < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
-    const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
-    return `${MM}/${dd}`;
-  };
-
   const likeButton = async () => {
     const data = {
       memberId: getUser()?.memberId(),
@@ -58,7 +68,11 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
       answerId,
     };
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/likes`, data, { headers: { Authorization: getCookie('accessToken') } });
+      await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/likes`,
+        data,
+        { headers: { Authorization: getCookie('accessToken') } }
+      );
       window.location.replace(`/questions/${questionId}`);
     } catch (error) {
       console.error(error);
@@ -68,14 +82,26 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
 
   const changeAnswerState = async () => {
     if (memberId !== Number(getUser()?.memberId())) {
-      if (window.confirm(answerStatus === '일반 상태' ? '채택하시겠습니까?' : '채택을 취소하시겠습니까?')) {
+      if (
+        window.confirm(
+          answerStatus === '일반 상태'
+            ? '채택하시겠습니까?'
+            : '채택을 취소하시겠습니까?'
+        )
+      ) {
         const data = {
           memberId: getUser()?.memberId(),
           questionId,
         };
         try {
-          await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select`, data, { headers: { Authorization: getCookie('accessToken') } });
-          alert(answerStatus === '일반 상태' ? '채택되었습니다.' : '취소되었습니다.');
+          await axios.patch(
+            `${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/select`,
+            data,
+            { headers: { Authorization: getCookie('accessToken') } }
+          );
+          alert(
+            answerStatus === '일반 상태' ? '채택되었습니다.' : '취소되었습니다.'
+          );
           return window.location.replace(`/questions/${questionId}`);
         } catch (error) {
           console.error(error);
@@ -89,18 +115,28 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
     <>
       <AnswerWrapper>
         <ImageWrapper>
-          <img src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
+          <img
+            src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl}
+            alt="profile_image"
+          />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
             <InfoWrapper>
               <NameWrapper>{nickname}</NameWrapper>
-              <TimeWrapper>{parseDate(new Date(createdAt))}</TimeWrapper>
+              <TimeWrapper>{parseDateUtils(new Date(createdAt))}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              {postMemberId === getUser()?.memberId() && memberId !== getUser()?.memberId() && (
-                <ButtonStyled color={answerStatus === '일반 상태' ? 'pink' : 'normal'} title={answerStatus === '일반 상태' ? '채택중' : '채택완료'} width="55px" height="22px" buttonClickHandler={changeAnswerState} />
-              )}
+              {postMemberId === getUser()?.memberId() &&
+                memberId !== getUser()?.memberId() && (
+                  <ButtonStyled
+                    color={answerStatus === '일반 상태' ? 'pink' : 'normal'}
+                    title={answerStatus === '일반 상태' ? '채택중' : '채택완료'}
+                    width="55px"
+                    height="22px"
+                    buttonClickHandler={changeAnswerState}
+                  />
+                )}
               {memberId === getUser()?.memberId() && (
                 <>
                   <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
@@ -133,13 +169,21 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
           <BottomWrapper>
             <BottomLeftWrapper>
               <LikeWrapper onClick={() => likeButton()}>
-                {likeCheck ? <ICON_LIKE stroke="#FF607C" fill="#FF607C" /> : <ICON_LIKE stroke="#ABAEB4" fill="none" />}
+                {likeCheck ? (
+                  <ICON_LIKE stroke="#FF607C" fill="#FF607C" />
+                ) : (
+                  <ICON_LIKE stroke="#ABAEB4" fill="none" />
+                )}
                 <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
-              <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>답글쓰기</SubAnswerButton>
+              <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>
+                답글쓰기
+              </SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
-          {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
+          {commentOpen && (
+            <CommentForm questionId={questionId} answerId={answerId} />
+          )}
         </TextWrapper>
       </AnswerWrapper>
       {comments?.length !== 0 &&
