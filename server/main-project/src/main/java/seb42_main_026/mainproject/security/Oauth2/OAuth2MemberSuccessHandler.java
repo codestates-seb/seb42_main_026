@@ -103,6 +103,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .scheme("https")
                 .host("andanghae.com") // 서버용
                 .path("/login/callback") // 서버용
+                //.scheme("https")
                 //.host("localhost")
                 //.path("receive-token.html")
                 .queryParams(queryParams)

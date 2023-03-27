@@ -3,6 +3,7 @@ package seb42_main_026.mainproject.security.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import seb42_main_026.mainproject.domain.member.entity.Member;
@@ -17,7 +18,6 @@ import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -30,6 +30,7 @@ public class JwtControlloer {
 
     private final RefreshRepository refreshRepository;
 
+    @Transactional
     @GetMapping("/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request) {
 
