@@ -9,19 +9,22 @@ interface ModalProps {
   imgFile: File | undefined;
 }
 
-const ProfilePreviewModal: React.FC<ModalProps> = ({ isOpen, onClose, imgFile }) => {
+const ProfilePreviewModal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  imgFile,
+}) => {
   if (!isOpen) {
     return null;
   }
 
-  const actionImgCompress = async (imgFile: any) => {
+  const actionImgCompress = async (imgFile: File) => {
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
     };
     try {
-      console.log('dkq');
       return await imageCompression(imgFile, options);
     } catch (error) {
       console.log(error);
@@ -34,12 +37,22 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({ isOpen, onClose, imgFile })
     };
     const formData = new FormData();
     if (imgFile !== undefined) {
-      const compressedImage = (await actionImgCompress(imgFile)) as string | Blob;
-      formData.append('profileImage', compressedImage);
+      if (imgFile.type === 'image/gif') {
+        formData.append('profileImage', imgFile);
+      } else {
+        const compressedImage = (await actionImgCompress(imgFile)) as
+          | string
+          | Blob;
+        formData.append('profileImage', compressedImage);
+      }
     }
 
     axios
-      .patch(`${process.env.REACT_APP_BASE_URL}/members/profileImage`, formData, { headers })
+      .patch(
+        `${process.env.REACT_APP_BASE_URL}/members/profileImage`,
+        formData,
+        { headers }
+      )
       .then((response) => {
         alert('프로필이미지 변경 완료!');
         onClose();
@@ -57,7 +70,9 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({ isOpen, onClose, imgFile })
       {isOpen && (
         <>
           <ModalWrapper>
-            {imgFile && <img src={URL.createObjectURL(imgFile)} alt="preview" />}
+            {imgFile && (
+              <img src={URL.createObjectURL(imgFile)} alt="preview" />
+            )}
             <SendButton onClick={handlePatch}>수정하기</SendButton>
           </ModalWrapper>
           <ModalBackground onClick={onClose}></ModalBackground>
