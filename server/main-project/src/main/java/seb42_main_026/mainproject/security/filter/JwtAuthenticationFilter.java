@@ -61,13 +61,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
-//        Member member2 = memberRepository.findByEmail(member.getEmail()).orElseThrow();
-
-        // Refresh Token 저장
-        /*Refresh refresh = new Refresh();
-        refresh.setRefresh(refreshToken);
-        refresh.setMember(member);*/
-
         if (refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent()){
             Refresh updateRefresh = refreshRepository.findByMember_MemberId(member.getMemberId()).orElseThrow();
             updateRefresh.setRefresh(refreshToken);
