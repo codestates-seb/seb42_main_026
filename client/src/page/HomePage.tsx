@@ -3,8 +3,8 @@ import axios from 'axios';
 import SubApp from '../container/home/SubApp';
 import BoardItem from '../container/naggingboard/BoardItem';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import parseDateUtils from '../utils/paeseDateUtils';
+import { Link } from 'react-router-dom';
 
 export interface IQuestion {
   title: string;
