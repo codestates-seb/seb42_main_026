@@ -189,19 +189,17 @@ public class MemberService {
     }
 
     private Member.HammerTier updateHammerTier(Long score) {
-
-        if( 50 > score && score >= 0 ){
+        if (50 > score && score >= 0) {
             return Member.HammerTier.STONE_HAMMER;
-        } else if( 100 >= score && score > 50 ){
+        } else if (100 > score && score >= 50) {
             return Member.HammerTier.BRONZE_HAMMER;
-        }else if( 200 >= score && score > 100){
+        } else if (200 > score && score >= 100) {
             return Member.HammerTier.SILVER_HAMMER;
-        }else if( 400 >= score && score > 200){
+        } else if (400 > score && score >= 200) {
             return Member.HammerTier.GOLD_HAMMER;
-        }else{
+        } else {
             return Member.HammerTier.PPONG_HAMMER;
         }
-
 
         /*int level = score >= 400 ? 4 : (int) score ;
 
