@@ -23,6 +23,7 @@ public class Refresh extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long refreshId;
 
+    @Column
     private String refresh;
 
 
