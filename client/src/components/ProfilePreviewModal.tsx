@@ -18,14 +18,13 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({
     return null;
   }
 
-  const actionImgCompress = async (imgFile: any) => {
+  const actionImgCompress = async (imgFile: File) => {
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
     };
     try {
-      console.log('dkq');
       return await imageCompression(imgFile, options);
     } catch (error) {
       console.log(error);
@@ -38,7 +37,6 @@ const ProfilePreviewModal: React.FC<ModalProps> = ({
     };
     const formData = new FormData();
     if (imgFile !== undefined) {
-      console.log(imgFile.type);
       if (imgFile.type === 'image/gif') {
         formData.append('profileImage', imgFile);
       } else {
