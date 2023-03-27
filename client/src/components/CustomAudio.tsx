@@ -2,11 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useAudioSrc } from '../hooks/useAudioSrc';
 
+import { ReactComponent as ICON_MIC } from '../assets/ic_audio_mic_button.svg';
+import { ReactComponent as ICON_PAUSE } from '../assets/ic_audio_pause_button.svg';
+import { ReactComponent as ICON_PLAY } from '../assets/ic_audio_play_button.svg';
+import { ReactComponent as ICON_START } from '../assets/ic_audio_start_button.svg';
+import { ReactComponent as ICON_STOP } from '../assets/ic_audio_stop_button.svg';
+
 interface ProgressProps {
   progress?: number;
 }
 
-const CustomAudio = () => {
+const CustomAudio = ({ Props }: any) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -14,7 +20,7 @@ const CustomAudio = () => {
   const [isLoading, setIsLoading] = useState(false);
   const streamRef = useRef<MediaStream | null>(null);
   const { audioSrc, reset: resetAudioSrc } = useAudioSrc(recordedBlob);
-
+  const [isStart, setStart] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -39,7 +45,7 @@ const CustomAudio = () => {
           chunksRef.current.push(e.data);
         };
         mediaRecorderRef.current.onstop = () => {
-          const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
+          const blob = new Blob(chunksRef.current, { type: 'audio/mp4' });
           setRecordedBlob(blob);
           chunksRef.current = [];
         };
@@ -48,6 +54,7 @@ const CustomAudio = () => {
         console.error(err);
       }
     }
+
     setIsRecording(!isRecording);
   };
 
@@ -98,27 +105,50 @@ const CustomAudio = () => {
         updateProgress();
       }
     }
+    Props(recordedBlob);
   }, [audioSrc, isPlaying]);
 
   return (
     <AudioButtonContainer>
-      <ControlButton type="button" onClick={handleRecord}>
-        {isRecording ? '녹음정지' : `${isLoading?'처리중':'녹음시작'}`}
+      <ControlButton type="button" onClick={() => (isStart ? handleRecord() : setStart(true))}>
+        {!isStart && (
+          <StartContainer>
+            <ICON_MIC />
+            <span>보이스리플을 남겨주세요.</span>
+          </StartContainer>
+        )}
+        {isStart ? (
+          isRecording ? (
+            <ICON_STOP />
+          ) : isLoading ? (
+            <SpinnerContainer>
+              <Spinner>
+                <ICON_START />
+              </Spinner>
+            </SpinnerContainer>
+          ) : (
+            <ICON_START />
+          )
+        ) : null}
       </ControlButton>
 
-      {isLoading ? (
+      {/* {isLoading ? (
         <SpinnerContainer>
-          <Spinner />
+          <Spinner>
+            <ICON_START />
+          </Spinner>
         </SpinnerContainer>
-      ) : null}
+      ) : (
+        <ICON_START />
+      )} */}
 
       {audioSrc && !isLoading ? (
         <>
           <ControlButton type="button" onClick={handlePlayPause}>
-            {isPlaying ? '정지' : '재생'}
+            {isPlaying ? <ICON_PAUSE /> : <ICON_PLAY />}
           </ControlButton>
           <ControlButton type="button" onClick={handleReset}>
-            지우기
+            취소
           </ControlButton>
           <ProgressBar>
             <Progress progress={progress}></Progress>
@@ -138,7 +168,9 @@ const AudioButtonContainer = styled.div`
 `;
 
 const ControlButton = styled.button`
+  white-space: nowrap;
   background: none;
+  padding-left: 6px;
   border: none;
   color: #1c1c1c;
   font-size: 14px;
@@ -162,17 +194,29 @@ const Progress = styled.div.attrs<ProgressProps>((props) => ({
   height: 8px;
 `;
 
+const StartContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+  color: var(--color-gray01);
+`;
+
 const SpinnerContainer = styled.div`
   position: relative;
-  margin: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: 8px; */
 `;
 
 const Spinner = styled.div`
   border-radius: 50%;
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 3px solid rgba(0, 0, 0, 0.1);
   border-top-color: var(--color-mobMain);
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   animation: spin 1s ease-in-out infinite;
 
   @keyframes spin {
