@@ -7,6 +7,8 @@ import { getUser } from '../utils/getUser';
 import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { setNickname } from '../store/actions';
 
 interface dataProps {
   email?: string;
@@ -18,6 +20,7 @@ interface dataProps {
 
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const memberId = getUser()?.memberId();
   if (memberId === undefined) window.location.replace('/login');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,6 +34,7 @@ const MyPage: React.FC = () => {
       .get(`${process.env.REACT_APP_BASE_URL}/members`, { headers })
       .then((response) => {
         setData(response.data.data);
+        dispatch(setNickname(response.data.data.nickname));
       })
       .catch((err) => {
         console.log(err);
