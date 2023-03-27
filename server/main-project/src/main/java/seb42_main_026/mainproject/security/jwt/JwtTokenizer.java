@@ -12,6 +12,10 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import seb42_main_026.mainproject.domain.member.entity.Refresh;
+import seb42_main_026.mainproject.domain.member.repository.RefreshRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sound.midi.Soundbank;
@@ -126,6 +130,16 @@ public class JwtTokenizer {
             System.out.println(("유효하지 않은 토큰입니다. {}" + e.getMessage()));
             return false;
         }
+    }
+
+    @Transactional
+    public Refresh updateRefresh(Long memberId , RefreshRepository refreshRepository, String refreshToken) {
+        Refresh updateRefresh = refreshRepository.findByMember_MemberId(memberId).orElseThrow();
+        updateRefresh.setRefresh(refreshToken);
+
+
+        return updateRefresh;
+
     }
 
 
