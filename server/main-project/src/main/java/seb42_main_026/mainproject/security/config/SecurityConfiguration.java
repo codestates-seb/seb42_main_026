@@ -25,7 +25,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import seb42_main_026.mainproject.domain.member.entity.Refresh;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
+import seb42_main_026.mainproject.domain.member.repository.RefreshRepository;
+import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.security.Oauth2.CustomOAuth2UserService;
 import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberFailureHandler;
 import seb42_main_026.mainproject.security.Oauth2.OAuth2MemberSuccessHandler;
@@ -69,6 +72,7 @@ public class SecurityConfiguration {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    private final RefreshRepository refreshRepository;
 
 
 
@@ -136,6 +140,7 @@ public class SecurityConfiguration {
                 "https://andanghae.com/"));
         //configuration.addAllowedOriginPattern("https://codestates-seb.github.io/");
         //configuration.addAllowedOriginPattern("http://ppongmangchi.net");
+
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
@@ -157,7 +162,7 @@ public class SecurityConfiguration {
 
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class); // getSharedObject() 를 통해서 AuthenticationManager의 객체를 얻을 수 있다. 그리고 Spring Security의 설정을 구성하는 SecurityConfigurer 간에 공유되는 객체를 얻을 수 있다.
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer ); // JwtAuthenticationFilter에서 사용되는 AuthenticationManager와 JwtTokenizer를 DI 해준다.
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository, refreshRepository ); // JwtAuthenticationFilter에서 사용되는 AuthenticationManager와 JwtTokenizer를 DI 해준다.
             //jwtAuthenticationFilter.setFilterProcessesUrl("/login"); // Login url
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
@@ -195,8 +200,8 @@ public class SecurityConfiguration {
                 .clientSecret(googleClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
-                //.redirectUri("http://localhost:8080/login/oauth2/code/google")
+                //.redirectUri("http://ppongmangchi.net:8080/login/oauth2/code/google") // 서버용
+                .redirectUri("http://localhost:8080/login/oauth2/code/google")
                 .scope("profile", "email")
                 .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
                 .tokenUri("https://www.googleapis.com/oauth2/v4/token")
