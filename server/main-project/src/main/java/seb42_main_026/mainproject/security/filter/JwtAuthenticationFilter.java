@@ -33,7 +33,7 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager; // DI 받은 AuthenticationManager는 로그인 인증 정보(Username/Password)를 전달받아 UserDetailsService와 인터랙션 한 뒤 인증 여부를 판단합니다
     private final JwtTokenizer jwtTokenizer; // 클라이언트가 인증에 성공할 경우, JWT를 생성 및 발급하는 역할을 한다.
-//    private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     private final RefreshRepository refreshRepository;
 
     @SneakyThrows
