@@ -2,6 +2,7 @@ import StatusChips from '../../components/StatusChips';
 import Tags from '../../components/Tags';
 import styled from 'styled-components';
 import ImageBox from '../../components/ImageBox';
+import parseDateUtils from '../../utils/paeseDateUtils';
 
 type PostDetailProps = {
   content: string;
@@ -13,14 +14,15 @@ type PostDetailProps = {
   questionStatus: string;
 };
 
-const PostDetail = ({ content, createdAt, nickname, tag, title, profileImageUrl, questionStatus }: PostDetailProps) => {
-  const parseDate = (props: Date) => {
-    const now = new Date(props);
-    const MM = Number(now.getMonth() + 1) < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1;
-    const dd = Number(now.getDate()) < 10 ? `0${now.getDate()}` : now.getDate();
-    return `${MM}/${dd}`;
-  };
-
+const PostDetail = ({
+  content,
+  createdAt,
+  nickname,
+  tag,
+  title,
+  profileImageUrl,
+  questionStatus,
+}: PostDetailProps) => {
   return (
     <PostDetailWrapper>
       <TagWrapper>
@@ -28,7 +30,12 @@ const PostDetail = ({ content, createdAt, nickname, tag, title, profileImageUrl,
         <Tags title={tag} />
       </TagWrapper>
       <UserInfoWrapper>
-        <ImageBox imgUrl={profileImageUrl} mainText={nickname} subText={parseDate(createdAt)} lang="KR"></ImageBox>
+        <ImageBox
+          imgUrl={profileImageUrl}
+          mainText={nickname}
+          subText={parseDateUtils(createdAt)}
+          lang="KR"
+        ></ImageBox>
       </UserInfoWrapper>
       <ContentsWrapper>
         <TitleWrapper>{title}</TitleWrapper>
