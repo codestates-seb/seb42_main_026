@@ -9,8 +9,13 @@ type Props = {
   answerId?: number;
 };
 
+type ButtonProps = {
+  state: boolean;
+};
+
 const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
   const [comment, setComment] = useState<string>('');
+  const [isAudio, setAudio] = useState<Blob | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,13 +26,12 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
     event.preventDefault();
     // const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
     if (questionId !== undefined && answerId === undefined) {
-      answer(comment, questionId);
+      isAudio !== null ? answer(comment, questionId, isAudio) : answer(comment, questionId);
     } else if (answerId !== undefined && questionId !== undefined) {
       addComment(questionId, answerId, comment);
     }
-    // onSubmit(comment, audioBlob);
     setComment('');
-    // chunksRef.current = [];
+    setAudio(null);
   };
 
   return (
@@ -35,8 +39,8 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
       <CommentInputWrapper>
         <form onSubmit={handleSubmit}>
           <CommentInput placeholder="당신의 잔소리가 필요해요!" value={comment} onChange={handleCommentChange} />
-          <ButtonWrapper>
-            <CustomAudio />
+          <ButtonWrapper state={questionId !== undefined && answerId === undefined}>
+            {questionId !== undefined && answerId === undefined ? <CustomAudio Props={setAudio} /> : null}
             <CommentButton type="submit" onClick={() => buttonRef.current?.click()}>
               댓글 작성
             </CommentButton>
@@ -48,7 +52,6 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
 };
 
 export default CommentForm;
-
 
 const CommentInputWrapper = styled.div`
   width: 100%;
@@ -87,10 +90,10 @@ const CommentButton = styled.button`
   cursor: pointer;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div<ButtonProps>`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.state ? 'space-between' : 'flex-end')};
   align-items: center;
   border-top: solid 0.5px var(--color-gray01);
 `;
