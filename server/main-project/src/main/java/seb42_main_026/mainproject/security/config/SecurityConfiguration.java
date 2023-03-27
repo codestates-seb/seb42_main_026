@@ -193,7 +193,6 @@ public class SecurityConfiguration {
 
     private ClientRegistration clientRegistration(){
 
-        System.out.println("Client Registration++++++++++++++++++++++++++");
 
         return ClientRegistration.withRegistrationId("google")
                 .clientId(googleClientId)
