@@ -1,10 +1,13 @@
 import axios from 'axios';
 import getCookie from '../utils/cookieUtils';
 
-export const answer = async (content: string, questionId: number) => {
+export const answer = async (content: string, questionId: number, audio?: Blob) => {
   const data = { questionId, content };
   const formData = new FormData();
   formData.append('answerPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  if (audio !== undefined) {
+    formData.append('voiceFile', audio);
+  }
   if (content.length === 0) return alert('댓글을 입력해주세요');
   try {
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers`, formData, {
