@@ -31,7 +31,7 @@ const Text = styled.span`
 
 const KakaoLoginButton = () => {
   const handleKakaoLogin = async () => {
-    window.location.href = `${process.env.REACT_APP_OAUTH_URL}/oauth2/authorization/kakao`;
+    window.location.href = `${process.env.REACT_APP_BASE_URL}/oauth2/authorization/kakao`;
   };
   return (
     <KakaoLoginWrapper onClick={handleKakaoLogin}>
