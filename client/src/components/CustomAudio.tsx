@@ -12,7 +12,7 @@ interface ProgressProps {
   progress?: number;
 }
 
-const CustomAudio = ({ Props }: any) => {
+const CustomAudio = ({ onRecordedBlob }: any) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -47,7 +47,7 @@ const CustomAudio = ({ Props }: any) => {
           chunksRef.current.push(e.data);
         };
         mediaRecorderRef.current.onstop = () => {
-          const blob = new Blob(chunksRef.current, { type: 'audio/mp3' });
+          const blob = new Blob(chunksRef.current);
           setRecordedBlob(blob);
           chunksRef.current = [];
         };
@@ -107,7 +107,7 @@ const CustomAudio = ({ Props }: any) => {
         updateProgress();
       }
     }
-    Props(recordedBlob);
+    onRecordedBlob(recordedBlob);
   }, [audioSrc, isPlaying]);
 
   return (
