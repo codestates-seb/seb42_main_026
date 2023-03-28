@@ -61,7 +61,7 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
           <ButtonWrapper state={questionId !== undefined && answerId === undefined}>
             {questionId !== undefined && answerId === undefined ? <CustomAudio type="button" onRecordedBlob={setAudio} /> : null}
             <CommentButton type="submit" onClick={() => buttonRef.current?.click()}>
-              댓글 작성
+              댓글쓰기
             </CommentButton>
           </ButtonWrapper>
         </form>
@@ -104,7 +104,7 @@ const CommentButton = styled.button`
   white-space: nowrap;
   color: #fff;
   border: none;
-  font-size: var(--font-size14);
+  font-size: var(--font-size12);
   padding: 16px;
   cursor: pointer;
 `;
