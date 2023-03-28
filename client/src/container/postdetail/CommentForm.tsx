@@ -57,28 +57,10 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
     <>
       <CommentInputWrapper>
         <form onSubmit={handleSubmit}>
-<<<<<<< HEAD
-          <CommentInput
-            placeholder="당신의 잔소리가 필요해요!"
-            value={comment}
-            onChange={handleCommentChange}
-          />
-          <ButtonWrapper
-            state={questionId !== undefined && answerId === undefined}
-          >
-            {questionId !== undefined && answerId === undefined ? (
-              <CustomAudio Props={setAudio} />
-            ) : null}
-            <CommentButton
-              type="submit"
-              onClick={() => buttonRef.current?.click()}
-            >
-=======
           <CommentInput placeholder="당신의 잔소리가 필요해요!" value={comment} onChange={handleCommentChange} />
           <ButtonWrapper state={questionId !== undefined && answerId === undefined}>
             {questionId !== undefined && answerId === undefined ? <CustomAudio type="button" onRecordedBlob={setAudio} /> : null}
             <CommentButton type="submit" onClick={() => buttonRef.current?.click()}>
->>>>>>> fc89394 (fix : audio 크로스브라우징 해결)
               댓글 작성
             </CommentButton>
           </ButtonWrapper>
