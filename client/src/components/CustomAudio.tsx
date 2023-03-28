@@ -45,7 +45,7 @@ const CustomAudio = ({ Props }: any) => {
           chunksRef.current.push(e.data);
         };
         mediaRecorderRef.current.onstop = () => {
-          const blob = new Blob(chunksRef.current, { type: 'audio/mpeg' });
+          const blob = new Blob(chunksRef.current, { type: 'audio/mp3' });
           setRecordedBlob(blob);
           chunksRef.current = [];
         };
