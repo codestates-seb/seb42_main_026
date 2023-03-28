@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://seb42-main-026-db.cui2lmu06yvs.ap-northeast-2.rds.amazonaws.com:13306/test
+    username: ${RDS_MASTER_NAME}
+    password: ${RDS_MASTER_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver

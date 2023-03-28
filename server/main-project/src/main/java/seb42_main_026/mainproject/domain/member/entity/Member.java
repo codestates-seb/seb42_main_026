@@ -11,12 +11,14 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+//@Table(indexes = @Index(name = "idx_member_nickname", columnList = "nickname"))
 public class Member extends Auditable {
 
     @Id
@@ -41,6 +43,8 @@ public class Member extends Auditable {
     @Column(nullable = true)
     private String profileImageUrl;
 
+
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>(); // List, Set 같은 컬렉션 타입의 필드는 @ElementCollection 애너테이션을 추가하면 User 권한 정보와 관련된 별도의 엔티티 클래스를 생성하지 않아도 간단하게 매핑 처리가 됩니다.
 
@@ -56,6 +60,9 @@ public class Member extends Auditable {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Score score;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private Refresh refreshToken;
 
     public enum MemberStatus {
 

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
@@ -50,16 +51,21 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // OncePerRequ
         String jws = request.getHeader("Authorization").replace("Bearer ", ""); //  request의 header에서 JWT를 얻고 있다. ( jws로 지정한 이유는 서명된 JWT를 JWS(JSON Web Token Signed)라고 부르기 때문이다.)
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey()); //  JWT 서명(Signature)을 검증하기 위한 Secret Key를 얻는다.
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody(); // JWT에서 Claims를 파싱한다.  JWT에서 Claims를 파싱할 수 있다는 의미는 내부적으로 서명(Signature) 검증에 성공했다는 의미이다.
-                                                                                                    // verify() 같은 검증 메서드가 따로 존재하는 것이 아니라 Claims가 정상적으로 파싱이 되면 서명 검증 역시 자연스럽게 성공했다는 의미이다.
+        // verify() 같은 검증 메서드가 따로 존재하는 것이 아니라 Claims가 정상적으로 파싱이 되면 서명 검증 역시 자연스럽게 성공했다는 의미이다.
         return claims;
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims){
         String username = (String) claims.get("username"); // 파싱한 Claims에서 username을 얻는다.
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles")); // Claims에서 얻은 권한 정보를 기반으로 List<GrantedAuthority 를 생성한다.
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities); // username과 List<GrantedAuthority 를 포함한 Authentication 객체를 생성한다.
-        SecurityContextHolder.getContext().setAuthentication(authentication); // SecurityContext에 Authentication 객체를 저장한다.
+        Integer memberId = (Integer) claims.get("memberId");
 
+        Member member = new Member();
+        member.setEmail(username);
+        member.setMemberId(Long.valueOf(memberId));
+
+        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List) claims.get("roles")); // Claims에서 얻은 권한 정보를 기반으로 List<GrantedAuthority 를 생성한다.
+        Authentication authentication = new UsernamePasswordAuthenticationToken(member, null, authorities); // username과 List<GrantedAuthority 를 포함한 Authentication 객체를 생성한다.
+        SecurityContextHolder.getContext().setAuthentication(authentication); // SecurityContext에 Authentication 객체를 저장한다.
     }
 
 

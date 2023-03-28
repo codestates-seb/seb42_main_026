@@ -12,13 +12,17 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import seb42_main_026.mainproject.domain.member.entity.Refresh;
+import seb42_main_026.mainproject.domain.member.repository.RefreshRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.sound.midi.Soundbank;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.sql.SQLOutput;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -91,7 +95,7 @@ public class JwtTokenizer {
     // JWT의 만료 일시를 지정하기 위한 메서드로 JWT 생성 시 사용한다.
     public Date getTokenExpiration(int expirationMinutes){
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, expirationMinutes);
+        calendar.add(Calendar.MINUTE, expirationMinutes);  // Minutes로 다시 바꿔야함
         Date expiration = calendar.getTime();
 
         return expiration;
@@ -104,4 +108,39 @@ public class JwtTokenizer {
 
         return key;
     }
+
+    public Optional<String> extractAccessToken(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader("Authorization"))
+                .filter(accessToken -> accessToken.startsWith("Bearer"))
+                .map(accessToken -> accessToken.replace("Bearer", ""));
+    }
+
+    public Optional<String> extractRefreshToken(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader("Refresh"));
+        //.map(refreshToken -> refreshToken.replace("Bearer", ""));
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
+            Map<String, Object> claims = getClaims(token, base64EncodedSecretKey).getBody();
+            System.out.println("True +++++++++++++++++++++");
+            return true;
+        } catch (Exception e) {
+            System.out.println(("유효하지 않은 토큰입니다. {}" + e.getMessage()));
+            return false;
+        }
+    }
+
+    @Transactional
+    public Refresh updateRefresh(Long memberId , RefreshRepository refreshRepository, String refreshToken) {
+        Refresh updateRefresh = refreshRepository.findByMember_MemberId(memberId).orElseThrow();
+        updateRefresh.setRefresh(refreshToken);
+
+
+        return updateRefresh;
+
+    }
+
+
 }

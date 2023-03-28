@@ -20,10 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RequiredArgsConstructor
@@ -38,12 +35,12 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException{
         var oAuth2User = (OAuth2User)authentication.getPrincipal();
-        System.out.println("ddddddddddddddddddddddd");
 
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String nickname = String.valueOf(oAuth2User.getName());
-        System.out.println("유저의 닉네임입니다:  "+nickname);
+
         List<String> authorities = authorityUtils.createRoles(email);
+
 
 
         redirect(request, response, email, nickname, authorities);
@@ -56,15 +53,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         member.setPassword("!As134679");  // 추후 삭제할거 일단 테스트를 위해
         memberRepository.save(member);
 
-        /*memberService.verifyExistsEmail(member.getEmail());                // 미래 대비
-        memberService.verifyExistsNickName(member.getNickname());
-
-
-        member.setRoles(roles); // DB에 User Role 저장
-
-        memberRepository.save(member);
-
-        memberService.setScore(member.getMemberId());*/
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response, String username, String nickname, List<String> authorities) throws IOException{
@@ -75,10 +63,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         response.setHeader("Refresh", refreshToken);
 
         String uri = createURI(accessToken, refreshToken).toString();
-        System.out.println("================URI 확인=====================");
-        System.out.println("URL : "+uri +"============================");
-        System.out.println();
-        System.out.println();
+
         getRedirectStrategy().sendRedirect(request, response, uri);
 
     }
@@ -88,7 +73,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         //claims.put("username", username);
         claims.put("name", nickname);
         claims.put("roles", authorities);
-
         String subject = username;
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
@@ -113,15 +97,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
-        System.out.println("================URI 확인=====================");
 
         return UriComponentsBuilder //  Port 설정을 하지 않으면 기본값은 80 포트
                 .newInstance()
-                .scheme("http")
-                //.host("codestates-seb.github.io/seb42_main_026/")
-                .host("seb42-main-026-fe.s3-website.ap-northeast-2.amazonaws.com")
-                //.port(3000)
-                .path("/login/callback")
+                .scheme("https")
+                .host("andanghae.com") // 서버용
+                .path("/login/callback") // 서버용
+                //.scheme("https")
+                //.host("localhost")
+                //.path("receive-token.html")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
