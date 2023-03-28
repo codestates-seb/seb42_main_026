@@ -78,7 +78,8 @@ public class S3StorageService implements StorageService {
                 throw new StorageException("Failed to store empty file.");
             }
 
-            if (!Objects.equals(voiceFile.getContentType(), "audio/mp4") &&
+            //if (!Objects.equals(voiceFile.getContentType(), "audio/mp4") &&
+            if (!Objects.equals(voiceFile.getContentType(), "audio/webm") &&
             !Objects.equals(voiceFile.getContentType(), "audio/mpeg") &&
             !Objects.equals(voiceFile.getContentType(), "audio/ogg") &&
             !Objects.equals(voiceFile.getContentType(), "audio/mp3")) {
