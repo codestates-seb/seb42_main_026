@@ -45,13 +45,7 @@ const RemoveAccountPage = () => {
         <div className="check">
           <span>☑</span>
           <div>
-            탈퇴 후 회원정보 및 티어, 랭킹 등 이용기록은 모두 삭제됩니다.
-          </div>
-        </div>
-        <div className="check">
-          <span>☑</span>
-          <div>
-            탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.
+            탈퇴 후 회원정보 및 티어, 랭킹, 게시글등 모든 이용기록은 삭제됩니다.
           </div>
         </div>
         <div className="check">
