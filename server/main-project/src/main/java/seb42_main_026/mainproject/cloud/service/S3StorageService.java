@@ -80,7 +80,8 @@ public class S3StorageService implements StorageService {
 
             if (!Objects.equals(voiceFile.getContentType(), "audio/mp4") &&
             !Objects.equals(voiceFile.getContentType(), "audio/mpeg") &&
-            !Objects.equals(voiceFile.getContentType(), "audio/ogg")){
+            !Objects.equals(voiceFile.getContentType(), "audio/ogg") &&
+            !Objects.equals(voiceFile.getContentType(), "audio/mp3")) {
                 throw new StorageException("Invalid file type. Only MP4, MPEG, OGG are allowed");
             }
 
