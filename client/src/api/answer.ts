@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useFFmpeg from '../hooks/useFFmeng';
 import getCookie from '../utils/cookieUtils';
 
 export const answer = async (content: string, questionId: number, audio?: Blob) => {
@@ -6,6 +7,7 @@ export const answer = async (content: string, questionId: number, audio?: Blob) 
   const formData = new FormData();
   formData.append('answerPostDto', new Blob([JSON.stringify(data)], { type: 'application/json' }));
   if (audio !== undefined) {
+    // formData.append('voiceFile', new File([audio], 'recording.webm', { type: 'audio/webm' }));
     formData.append('voiceFile', audio);
   }
   if (content.length === 0) return alert('댓글을 입력해주세요');

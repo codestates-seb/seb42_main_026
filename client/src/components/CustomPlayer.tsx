@@ -24,6 +24,7 @@ const CustomPlayer = ({ audioSrc }: Props) => {
     }
   };
 
+  
   const updateProgress = () => {
     const audio = audioRef.current;
     if (audio) {
@@ -34,7 +35,7 @@ const CustomPlayer = ({ audioSrc }: Props) => {
   };
 
   useEffect(() => {
-    if (audioSrc && audioRef.current) {
+    if (audioSrc) {
       const audio = audioRef.current!;
       audio.onended = () => {
         setIsPlaying(false);
