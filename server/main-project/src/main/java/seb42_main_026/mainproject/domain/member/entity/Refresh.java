@@ -26,12 +26,8 @@ public class Refresh extends Auditable {
     @Column
     private String refresh;
 
-
     @OneToOne
-    @JoinColumn(name = "member_id", unique = true)
+    @JoinColumn(name = "MEMBER_ID", unique = true)
     private Member member;
-
-
-
 
 }

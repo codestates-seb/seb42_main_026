@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
+import seb42_main_026.mainproject.domain.like.entity.AnswerLike;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -41,8 +42,6 @@ public class Answer extends Auditable {
     @Column
     private String voiceFileUrl;
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -54,14 +53,12 @@ public class Answer extends Auditable {
     @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<QuestionLike> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<AnswerLike> likes = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private AnswerStatus answerStatus = AnswerStatus.ANSWER_NORMAL;
-
-
 
     public enum AnswerStatus{
         ANSWER_NORMAL("일반 상태"),
@@ -74,4 +71,5 @@ public class Answer extends Auditable {
             this.status = status;
         }
     }
+
 }
