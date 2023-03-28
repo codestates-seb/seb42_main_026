@@ -14,8 +14,18 @@ const SignupPage = () => {
       password: e.target[2].value,
       passwordcheck: e.target[3].value,
     };
-    if (member.password === member.passwordcheck) return signup(member.email, member.password, member.nickname, setErrorMessage);
-    else setErrorMessage({ field: 'passwordcheck', message: '비밀번호를 다시 확인해주세요.' });
+    if (member.password === member.passwordcheck)
+      return signup(
+        member.email,
+        member.password,
+        member.nickname,
+        setErrorMessage
+      );
+    else
+      setErrorMessage({
+        field: 'passwordcheck',
+        message: '비밀번호를 다시 확인해주세요.',
+      });
   }
 
   useEffect(() => {}, [errorMessage]);
@@ -26,17 +36,40 @@ const SignupPage = () => {
       <InputContainer onSubmit={handleSignup}>
         <InputText>이메일</InputText>
         <SignupInput name="email" type="id" placeholder="이메일"></SignupInput>
-        {errorMessage.field === 'email' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
+        {errorMessage.field === 'email' ? (
+          <ValidCheckText>{errorMessage.message}</ValidCheckText>
+        ) : null}
         <InputText>닉네임</InputText>
-        <SignupInput name="nickname" type="text" placeholder="닉네임"></SignupInput>
-        {errorMessage.field === 'nickname' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
+        <SignupInput
+          name="nickname"
+          type="text"
+          placeholder="닉네임"
+        ></SignupInput>
+        {errorMessage.field === 'nickname' ? (
+          <ValidCheckText>{errorMessage.message}</ValidCheckText>
+        ) : null}
         <InputText>비밀번호</InputText>
-        <SignupInput name="password" type="password" placeholder="비밀번호"></SignupInput>
-        {errorMessage.field === 'password' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
+        <SignupInput
+          name="password"
+          type="password"
+          placeholder="비밀번호"
+        ></SignupInput>
+        {errorMessage.field === 'password' ? (
+          <ValidCheckText>{errorMessage.message}</ValidCheckText>
+        ) : null}
         <InputText>비밀번호 확인</InputText>
-        <SignupInput name="passwordcheck" type="password" placeholder="비밀번호 확인"></SignupInput>
-        {errorMessage.field === 'passwordcheck' ? <ValidCheckText>{errorMessage.message}</ValidCheckText> : null}
-        <SignupButton type="submit" onClick={() => setErrorMessage({ field: '', message: '' })}>
+        <SignupInput
+          name="passwordcheck"
+          type="password"
+          placeholder="비밀번호 확인"
+        ></SignupInput>
+        {errorMessage.field === 'passwordcheck' ? (
+          <ValidCheckText>{errorMessage.message}</ValidCheckText>
+        ) : null}
+        <SignupButton
+          type="submit"
+          onClick={() => setErrorMessage({ field: '', message: '' })}
+        >
           <SignupButtonText>회원가입</SignupButtonText>
         </SignupButton>
       </InputContainer>
@@ -54,7 +87,7 @@ const SignupPage = () => {
 const SignupText = styled.span`
   padding-top: 20px;
   font-family: 'Noto Sans KR';
-  font-size: 14px;
+  font-size: var(--font-size14);
   color: #878b93;
   text-align: center;
   letter-spacing: -0.05em;
@@ -68,7 +101,7 @@ const ValidCheckText = styled.span`
   letter-spacing: -0.05em;
   font-family: 'Noto Sans KR';
   font-weight: 500;
-  font-size: 12px;
+  font-size: var(--font-size12);
   color: red;
   opacity: 0.8;
 `;
@@ -96,7 +129,7 @@ const ContourText = styled.span`
   background-color: #ffffff;
   font-family: 'Noto Sans KR';
   font-weight: 400;
-  font-size: 14px;
+  font-size: var(--font-size14);
   color: #abaeb4;
 `;
 
@@ -125,7 +158,7 @@ const SignupButton = styled.button`
 `;
 const SignupButtonText = styled.span`
   font-family: 'Noto Sans KR';
-  font-size: 14px;
+  font-size: var(--font-size14);
   color: #ffffff;
   letter-spacing: -0.05em;
 `;
@@ -135,7 +168,7 @@ const Title = styled.span`
   color: #ff607c;
   text-align: center;
   font-weight: 900;
-  font-size: 40px;
+  font-size: 2.5rem;
   letter-spacing: -0.05em;
 `;
 
@@ -153,7 +186,7 @@ const SignupInput = styled.input`
 const InputText = styled.span`
   font-family: 'Noto Sans KR';
   font-weight: 400;
-  font-size: 14px;
+  font-size: var(--font-size14);
   padding: 4px 0px;
   color: #abaeb4;
 `;
@@ -171,7 +204,7 @@ const InputContainer = styled.form`
   }
   input::placeholder {
     font-family: 'Noto Sans';
-    font-size: 12px;
+    font-size: var(--font-size12);
     letter-spacing: -0.05em;
     color: #abaeb4;
   }

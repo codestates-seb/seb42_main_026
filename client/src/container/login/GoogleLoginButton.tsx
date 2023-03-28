@@ -25,7 +25,7 @@ const Text = styled.span`
   text-align: center;
   vertical-align: top;
   letter-spacing: -0.05em;
-  font-size: 14px;
+  font-size: var(--font-size14);
   line-height: auto;
   color: #3a3f44;
 `;

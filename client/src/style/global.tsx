@@ -109,6 +109,7 @@ select {
   --color-gray02:#ABAEB4;
   --color-gray03: #D1D3D7;
   --color-gray04: #EEEEEF;
+  --font-size20: 1.25rem;
   --font-size18: 1.125rem;
   --font-size16: 1rem;
   --font-size14: 0.875rem;
