@@ -38,7 +38,9 @@ const CustomAudio = ({ Props }: any) => {
       }
     } else {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
         streamRef.current = stream; // Store the stream in streamRef
         mediaRecorderRef.current = new MediaRecorder(stream);
         mediaRecorderRef.current.ondataavailable = (e) => {
@@ -110,7 +112,10 @@ const CustomAudio = ({ Props }: any) => {
 
   return (
     <AudioButtonContainer>
-      <ControlButton type="button" onClick={() => (isStart ? handleRecord() : setStart(true))}>
+      <ControlButton
+        type="button"
+        onClick={() => (isStart ? handleRecord() : setStart(true))}
+      >
         {!isStart && (
           <StartContainer>
             <ICON_MIC />
@@ -173,7 +178,7 @@ const ControlButton = styled.button`
   padding-left: 6px;
   border: none;
   color: #1c1c1c;
-  font-size: 14px;
+  font-size: var(--font-size14);
   margin: 5px;
   outline: none;
   cursor: pointer;
@@ -198,7 +203,7 @@ const StartContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--font-size14);
   gap: 6px;
   color: var(--color-gray01);
 `;

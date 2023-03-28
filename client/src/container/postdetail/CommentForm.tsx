@@ -18,7 +18,9 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
   const [isAudio, setAudio] = useState<Blob | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setComment(event.target.value);
   };
 
@@ -26,7 +28,9 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
     event.preventDefault();
     // const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
     if (questionId !== undefined && answerId === undefined) {
-      isAudio !== null ? answer(comment, questionId, isAudio) : answer(comment, questionId);
+      isAudio !== null
+        ? answer(comment, questionId, isAudio)
+        : answer(comment, questionId);
     } else if (answerId !== undefined && questionId !== undefined) {
       addComment(questionId, answerId, comment);
     }
@@ -38,10 +42,21 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
     <>
       <CommentInputWrapper>
         <form onSubmit={handleSubmit}>
-          <CommentInput placeholder="당신의 잔소리가 필요해요!" value={comment} onChange={handleCommentChange} />
-          <ButtonWrapper state={questionId !== undefined && answerId === undefined}>
-            {questionId !== undefined && answerId === undefined ? <CustomAudio Props={setAudio} /> : null}
-            <CommentButton type="submit" onClick={() => buttonRef.current?.click()}>
+          <CommentInput
+            placeholder="당신의 잔소리가 필요해요!"
+            value={comment}
+            onChange={handleCommentChange}
+          />
+          <ButtonWrapper
+            state={questionId !== undefined && answerId === undefined}
+          >
+            {questionId !== undefined && answerId === undefined ? (
+              <CustomAudio Props={setAudio} />
+            ) : null}
+            <CommentButton
+              type="submit"
+              onClick={() => buttonRef.current?.click()}
+            >
               댓글 작성
             </CommentButton>
           </ButtonWrapper>
@@ -69,7 +84,7 @@ const CommentInput = styled.textarea`
   border-radius: 5px;
   padding: 10px;
   overflow-y: hidden;
-  font-size: 14px;
+  font-size: var(--font-size14);
   resize: none;
   height: 60px;
   margin-bottom: 10px;
@@ -85,7 +100,7 @@ const CommentButton = styled.button`
   white-space: nowrap;
   color: #fff;
   border: none;
-  font-size: 14px;
+  font-size: var(--font-size14);
   padding: 16px;
   cursor: pointer;
 `;

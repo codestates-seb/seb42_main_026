@@ -45,7 +45,9 @@ const BottomNav = () => {
           }}
         >
           <Icon fill={`${clickedMenu === id ? '#FF607C' : '#212123'}`} />
-          <MenuText color={`${clickedMenu === id ? '#FF607C' : '#212123'}`}>{text}</MenuText>
+          <MenuText color={`${clickedMenu === id ? '#FF607C' : '#212123'}`}>
+            {text}
+          </MenuText>
         </MenuContainer>
       ))}
     </GnbWrapper>
@@ -85,7 +87,7 @@ const MenuText = styled.span`
   letter-spacing: -0.05em;
   font-family: 'Noto Sans KR';
   font-weight: 300;
-  font-size: 10px;
+  font-size: var(--font-size10);
   color: ${(props) => props.color};
 `;
 

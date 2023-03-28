@@ -54,7 +54,10 @@ export default function TopNav() {
   const postDelete = async () => {
     if (getPostDetailHandler.memberId === Number(getUser()?.memberId())) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}`, { headers: { Authorization: getCookie('accessToken') } });
+        await axios.delete(
+          `${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}`,
+          { headers: { Authorization: getCookie('accessToken') } }
+        );
         alert('삭제되었습니다.');
         return navigate('/naggingboard');
       } catch (error) {
@@ -77,7 +80,9 @@ export default function TopNav() {
           </LogoTitle>
         )}
       </LeftContainer>
-      <LogoTitle theme={history.pathname !== '/' ? 'normal' : undefined}>{getTitle()}</LogoTitle>
+      <LogoTitle theme={history.pathname !== '/' ? 'normal' : undefined}>
+        {getTitle()}
+      </LogoTitle>
       <RightContainer>
         {history.pathname === '/' && (
           <>
@@ -86,38 +91,47 @@ export default function TopNav() {
           </>
         )}
         {history.pathname === '/editor' && (
-          <TopNavEditorButton id="editorBtn" disabled={getEditorHandler.title === '' && getEditorHandler.content === '' && getEditorHandler.tag === ''} onClick={pushPostHandler}>
+          <TopNavEditorButton
+            id="editorBtn"
+            disabled={
+              getEditorHandler.title === '' &&
+              getEditorHandler.content === '' &&
+              getEditorHandler.tag === ''
+            }
+            onClick={pushPostHandler}
+          >
             완료
           </TopNavEditorButton>
         )}
-        {history.pathname.slice(0, 10) === '/questions' && getPostDetailHandler.memberId === getUser()?.memberId() && (
-          <>
-            <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
-            {isMenuOpen === true ? (
-              <MenuButton
-                menu={[
-                  {
-                    title: '수정',
-                    button: function () {
-                      console.log('수정');
+        {history.pathname.slice(0, 10) === '/questions' &&
+          getPostDetailHandler.memberId === getUser()?.memberId() && (
+            <>
+              <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
+              {isMenuOpen === true ? (
+                <MenuButton
+                  menu={[
+                    {
+                      title: '수정',
+                      button: function () {
+                        console.log('수정');
+                      },
                     },
-                  },
-                  {
-                    title: '삭제',
-                    button: function () {
-                      if (window.confirm('정말 삭제 하시겠습니까?')) {
-                        setIsMenuOpen(false);
-                        return postDelete();
-                      }
+                    {
+                      title: '삭제',
+                      button: function () {
+                        if (window.confirm('정말 삭제 하시겠습니까?')) {
+                          setIsMenuOpen(false);
+                          return postDelete();
+                        }
+                      },
                     },
-                  },
-                ]}
-              />
-            ) : null}
-            {/* <button>수정</button>
+                  ]}
+                />
+              ) : null}
+              {/* <button>수정</button>
             <button onClick={postDelete}>삭제</button> */}
-          </>
-        )}
+            </>
+          )}
       </RightContainer>
     </TopNavWrapper>
   );
@@ -170,8 +184,10 @@ const LogoTitle = styled.span`
   font-weight: ${(props) => (props.theme === 'normal' ? `700` : `900`)};
   vertical-align: center;
   text-align: center;
-  font-size: 20px;
-  font-family: ${(props) => (props.theme === 'normal' ? `Noto Sans KR` : `Roboto`)};
-  color: ${(props) => (props.theme === 'normal' ? `black01` : `var(--color-mobMain)`)};
+  font-size: var(font-size20);
+  font-family: ${(props) =>
+    props.theme === 'normal' ? `Noto Sans KR` : `Roboto`};
+  color: ${(props) =>
+    props.theme === 'normal' ? `black01` : `var(--color-mobMain)`};
   letter-spacing: var(--font-spacing-title);
 `;
