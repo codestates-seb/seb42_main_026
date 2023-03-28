@@ -29,7 +29,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // OncePerRequ
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
         Map<String, Object> claims = verifyJws(request);
-
+        System.out.println("==========="+ claims);
         setAuthenticationToContext(claims); //  Authentication 객체를 SecurityContext에 저장하기 위한 private 메서드이다.
 
 
@@ -56,7 +56,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // OncePerRequ
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims){
-        String username = (String) claims.get("username"); // 파싱한 Claims에서 username을 얻는다.
+        //String username = (String) claims.get("username"); // 파싱한 Claims에서 username을 얻는다.
+        String username = (String) claims.get("name"); // 파싱한 Claims에서 username을 얻는다.
         Integer memberId = (Integer) claims.get("memberId");
 
         Member member = new Member();
