@@ -140,7 +140,7 @@ const UserEditPageWrapper = styled.div`
 
   input::placeholder {
     font-family: 'Noto Sans';
-    font-size: 12px;
+    font-size: var(--font-size12);
     letter-spacing: -0.05em;
     color: #abaeb4;
   }
@@ -149,7 +149,7 @@ const UserEditPageWrapper = styled.div`
     letter-spacing: -0.05em;
     font-family: 'Noto Sans KR';
     font-weight: 500;
-    font-size: 12px;
+    font-size: var(--font-size12);
     color: red;
     opacity: 0.8;
     margin-left: 5px;
@@ -175,7 +175,7 @@ const NicknameForm = styled.form`
   padding-bottom: 10px;
   input::placeholder {
     font-family: 'Noto Sans';
-    font-size: 12px;
+    font-size: var(--font-size12);
     letter-spacing: -0.05em;
     color: #abaeb4;
   }
@@ -184,7 +184,7 @@ const NicknameForm = styled.form`
     letter-spacing: -0.05em;
     font-family: 'Noto Sans KR';
     font-weight: 500;
-    font-size: 12px;
+    font-size: var(--font-size12);
     color: red;
     opacity: 0.8;
   }
@@ -202,7 +202,7 @@ const NameInput = styled.input`
 const InputText = styled.div`
   font-family: 'Noto Sans KR';
   font-weight: 400;
-  font-size: 14px;
+  font-size: var(--font-size14);
   color: var(--color-black01);
   margin-top: 16px;
   padding-bottom: 10px;
@@ -220,7 +220,7 @@ const NameEditButton = styled.button`
   background-color: #ff607c;
   color: var(--color-white01);
   font-family: 'Noto Sans KR';
-  font-size: 14px;
+  font-size: var(--font-size14);
 `;
 
 const InputPasswordContainer = styled.form`
@@ -255,11 +255,11 @@ const PasswordEditButton = styled.button`
   background-color: #ff607c;
   color: var(--color-white01);
   font-family: 'Noto Sans KR';
-  font-size: 14px;
+  font-size: var(--font-size14);
 `;
 const UserEditText = styled.span`
   font-family: 'Noto Sans KR';
-  font-size: 14px;
+  font-size: var(--font-size14);
   color: #878b93;
   text-align: center;
   letter-spacing: -0.05em;

@@ -117,7 +117,7 @@ const TextTitleWrapper = styled.div`
     :first-child {
       color: var(--color-mobMain);
       font-weight: var(--font-weight700);
-      font-size: 20px;
+      font-size: var(--font-size20);
     }
   }
 `;

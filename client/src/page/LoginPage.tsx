@@ -21,8 +21,12 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
       <InputContainer onSubmit={handleLogin}>
-        <LoginInput name='email' type="text" placeholder="이메일"></LoginInput>
-        <LoginInput name='password' type="password" placeholder="비밀번호"></LoginInput>
+        <LoginInput name="email" type="text" placeholder="이메일"></LoginInput>
+        <LoginInput
+          name="password"
+          type="password"
+          placeholder="비밀번호"
+        ></LoginInput>
         <ButtonStyled type="submit" color="pink" title="로그인"></ButtonStyled>
       </InputContainer>
       <ContourContainer>
@@ -58,7 +62,7 @@ const LoginWrapper = styled.section`
 
 const SignupText = styled.span`
   font-family: 'Noto Sans KR';
-  font-size: 14px;
+  font-size: var(--font-size14);
   color: #878b93;
   text-align: center;
   letter-spacing: -0.05em;
@@ -92,7 +96,7 @@ const ContourText = styled.span`
   background-color: #ffffff;
   font-family: 'Noto Sans KR';
   font-weight: 400;
-  font-size: 14px;
+  font-size: var(--font-size14);
   color: #abaeb4;
 `;
 
@@ -120,7 +124,7 @@ const InputContainer = styled.form`
   }
   input::placeholder {
     font-family: 'Noto Sans';
-    font-size: 12px;
+    font-size: var(--font-size12);
     letter-spacing: -0.05em;
     color: #abaeb4;
   }
