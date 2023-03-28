@@ -20,14 +20,14 @@ const RemoveAccountPage = () => {
       axios
         .delete(`${process.env.REACT_APP_BASE_URL}/members`, { headers })
         .then((response) => {
+          console.log(response);
           logoutHandler();
+          alert('탈퇴가 완료되었습니다');
         })
         .catch((err) => {
           console.log(err);
+          alert('탈퇴이 처리가 되지않았습니다');
         });
-      alert('탈퇴가 완료되었습니다');
-    } else {
-      alert('취소');
     }
   }
 
@@ -44,21 +44,33 @@ const RemoveAccountPage = () => {
         </div>
         <div className="check">
           <span>☑</span>
-          <div>탈퇴 후 회원정보 및 티어, 랭킹 등 이용기록은 모두 삭제됩니다.</div>
+          <div>
+            탈퇴 후 회원정보 및 티어, 랭킹 등 이용기록은 모두 삭제됩니다.
+          </div>
         </div>
         <div className="check">
           <span>☑</span>
-          <div>탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.</div>
+          <div>
+            탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.
+          </div>
         </div>
         <div className="check">
           <span>☑</span>
-          <div>탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니 신중하게 선택하시기 바랍니다.</div>
+          <div>
+            탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가하오니
+            신중하게 선택하시기 바랍니다.
+          </div>
         </div>
       </TextWrapper>
       <div className="delete">정말 탈퇴하시겠습니까?</div>
       <ButtonWrapper>
         <DeleteButton onClick={handleMemberDelete}>네, 탈퇴할래요</DeleteButton>
-        <ButtonStyled color="pink" title="아니요, 더 사용해볼래요" width="161px" buttonClickHandler={() => navigate(`/mypage`)}></ButtonStyled>
+        <ButtonStyled
+          color="pink"
+          title="아니요, 더 사용해볼래요"
+          width="161px"
+          buttonClickHandler={() => navigate(`/mypage`)}
+        ></ButtonStyled>
       </ButtonWrapper>
     </RemoveWrapper>
   );
