@@ -25,7 +25,7 @@ main{
   justify-content: flex-start;
   flex-direction: column;
   max-width: 720px;
-  min-width: 390px;
+  min-width: 360px;
   width: 100%;
   height: 100%;
 }
