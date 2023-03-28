@@ -26,7 +26,7 @@ const RemoveAccountPage = () => {
         })
         .catch((err) => {
           console.log(err);
-          alert('탈퇴이 처리가 되지않았습니다');
+          alert('탈퇴가 처리가 되지않았습니다');
         });
     }
   }
