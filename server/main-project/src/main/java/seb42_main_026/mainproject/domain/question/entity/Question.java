@@ -20,6 +20,7 @@ import java.util.List;
 @Table(indexes = {@Index(name = "idx_question_tag", columnList = "tag"),
         @Index(name = "idx_question_likeCount_answerCount", columnList = "likeCount, answerCount")})
 public class Question extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
@@ -79,4 +80,5 @@ public class Question extends Auditable {
 
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<QuestionLike> questionLikes = new ArrayList<>();
+
 }

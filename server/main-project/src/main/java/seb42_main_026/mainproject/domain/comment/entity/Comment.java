@@ -14,10 +14,10 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class Comment extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentId;
-
 
     @Column(nullable = false)
     private String content;
@@ -32,4 +32,5 @@ public class Comment extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
 }
