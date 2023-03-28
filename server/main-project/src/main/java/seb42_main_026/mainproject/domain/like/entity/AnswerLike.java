@@ -13,13 +13,17 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class AnswerLike {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
+
 }

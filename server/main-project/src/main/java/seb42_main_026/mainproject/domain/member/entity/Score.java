@@ -20,7 +20,7 @@ public class Score extends Auditable {
     private Long scoreId;
 
     @OneToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @Column(nullable = true)
@@ -31,4 +31,5 @@ public class Score extends Auditable {
 
     @Column(nullable = false)
     private Long score;
+
 }
