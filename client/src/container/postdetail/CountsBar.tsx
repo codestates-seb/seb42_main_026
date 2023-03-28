@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import ANSWER_ICON from '../../assets/ic_boardItem_answer.svg';
+import { ReactComponent as ICON_ANSWER } from '../../assets/ic_boardItem_answer.svg';
 import { ReactComponent as ICON_LIKE } from '../../assets/ic_boardItem_like.svg';
 import getCookie from '../../utils/cookieUtils';
 
@@ -22,14 +23,18 @@ const CountsBar = ({ answer, likeCount, answerHandler, isTextarea, questionId, l
   return (
     <CountsBarWrapper>
       <AnswerWrapper onClick={() => answerHandler(!isTextarea)}>
-        <img src={ANSWER_ICON} alt="답글아이콘"></img>
-        <AnswerKey>댓글</AnswerKey>
-        <AnswerValue>{answer}</AnswerValue>
+        <ICON_ANSWER />
+        <AnswerContainer>
+          <AnswerKey>댓글</AnswerKey>
+          <AnswerValue>{answer}</AnswerValue>
+        </AnswerContainer>
       </AnswerWrapper>
       <LikeWrapper onClick={() => likeButton()}>
         {likeCheck ? <ICON_LIKE stroke="#FF607C" fill="#FF607C" /> : <ICON_LIKE stroke="#ABAEB4" fill="none" />}
-        <LikeKey>좋아요</LikeKey>
-        <LikeValue>{likeCount}</LikeValue>
+        <LikeContainer>
+          <LikeKey>좋아요</LikeKey>
+          <LikeValue>{likeCount}</LikeValue>
+        </LikeContainer>
       </LikeWrapper>
     </CountsBarWrapper>
   );
@@ -38,7 +43,6 @@ const CountsBar = ({ answer, likeCount, answerHandler, isTextarea, questionId, l
 export default CountsBar;
 
 const CountsBarWrapper = styled.div`
-  user-select: none;
   border-top: solid 0.5px var(--color-gray03);
   border-bottom: solid 0.5px var(--color-gray03);
   display: flex;
@@ -48,36 +52,53 @@ const CountsBarWrapper = styled.div`
   margin-bottom: 12px;
 `;
 const AnswerWrapper = styled.div`
-  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--color-white01);
   cursor: pointer;
-  display: flex;
   padding: 0 0 0 24px;
-  gap: 5.5px;
+  gap: 4px;
 `;
 
-const AnswerKey = styled.div`
+const AnswerKey = styled.span`
   color: var(--color-gray01);
-  font-size: var(--font-size14);
+  font-size: var(--font-size12);
 `;
-const AnswerValue = styled.div`
+const AnswerValue = styled.span`
+  font-family: 'Roboto';
   color: var(--color-gray01);
   font-size: var(--font-size12);
 `;
 
-const LikeWrapper = styled.button`
-  border: none;
+const LikeWrapper = styled.div`
   background-color: var(--color-white01);
   cursor: pointer;
   display: flex;
-  gap: 5.5px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 `;
 
-const LikeKey = styled.div`
-  color: var(--color-gray01);
-  font-size: var(--font-size14);
-`;
-const LikeValue = styled.div`
+const LikeKey = styled.span`
   color: var(--color-gray01);
   font-size: var(--font-size12);
+`;
+const LikeValue = styled.span`
+  font-family: 'Roboto';
+  color: var(--color-gray01);
+  font-size: var(--font-size12);
+`;
+
+const AnswerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 4px;
+`;
+const LikeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 4px;
 `;

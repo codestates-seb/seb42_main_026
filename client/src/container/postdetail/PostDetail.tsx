@@ -14,15 +14,7 @@ type PostDetailProps = {
   questionStatus: string;
 };
 
-const PostDetail = ({
-  content,
-  createdAt,
-  nickname,
-  tag,
-  title,
-  profileImageUrl,
-  questionStatus,
-}: PostDetailProps) => {
+const PostDetail = ({ content, createdAt, nickname, tag, title, profileImageUrl, questionStatus }: PostDetailProps) => {
   return (
     <PostDetailWrapper>
       <TagWrapper>
@@ -30,12 +22,7 @@ const PostDetail = ({
         <Tags title={tag} />
       </TagWrapper>
       <UserInfoWrapper>
-        <ImageBox
-          imgUrl={profileImageUrl}
-          mainText={nickname}
-          subText={parseDateUtils(createdAt)}
-          lang="KR"
-        ></ImageBox>
+        <ImageBox imgUrl={profileImageUrl} mainText={nickname} subText={parseDateUtils(createdAt)} lang="KR"></ImageBox>
       </UserInfoWrapper>
       <ContentsWrapper>
         <TitleWrapper>{title}</TitleWrapper>
@@ -53,7 +40,7 @@ const PostDetailWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 18px;
-  padding: 0 16px 53px 16px;
+  padding: 0 16px 32px 16px;
 `;
 
 const TagWrapper = styled.div`

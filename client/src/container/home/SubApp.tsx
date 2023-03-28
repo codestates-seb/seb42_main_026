@@ -13,12 +13,12 @@ const SubApp = () => {
         </Link>
         <SubAppText>인기게시글</SubAppText>
       </SubAppContainer>
-      <SubAppContainer>
-        <Link to="/checklist">
+      <Link to="/checklist">
+        <SubAppContainer>
           <ICON_CHECKLIST width={28} height={28} />
-        </Link>
-        <SubAppText>자취필수체크</SubAppText>
-      </SubAppContainer>
+          <SubAppText>자취필수체크</SubAppText>
+        </SubAppContainer>
+      </Link>
       <SubAppContainer>
         <ICON_PRE width={32} height={32} />
         <SubAppText color="gray">준비중</SubAppText>

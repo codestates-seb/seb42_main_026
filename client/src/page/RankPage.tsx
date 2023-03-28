@@ -19,6 +19,7 @@ const RankPage = () => {
       {sortedData.map(({ profileImageUrl, nickname, score }: dataProps, index: number) => (
         <RankItem key={index} index={index + 1} imgUrl={profileImageUrl === null ? '' : profileImageUrl} nickName={nickname} subText={`${score}`} />
       ))}
+      <RankingDescription>시즌1 2023-03-29 ~</RankingDescription>
     </RankingWrapper>
   );
 };
@@ -33,4 +34,14 @@ const RankingWrapper = styled.div`
   gap: 8px;
   user-select: none;
   padding: 0 16px;
+`;
+
+const RankingDescription = styled.span`
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-size14);
+  color: var(--color-gray02);
+  letter-spacing: var(--font-spacing-title);
 `;

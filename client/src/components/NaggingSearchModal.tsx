@@ -1,6 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,18 +9,18 @@ interface ModalProps {
 }
 
 const NaggingSearchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+    const savedHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
     if (savedHistory) {
       setSearchHistory(savedHistory);
     }
   }, []);
 
   const handleInputDelete = () => {
-    setInput("");
+    setInput('');
   };
 
   if (!isOpen) {
@@ -30,7 +30,7 @@ const NaggingSearchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) =
     const newHistory = [...searchHistory];
     newHistory.splice(index, 1);
     setSearchHistory(newHistory);
-    localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+    localStorage.setItem('searchHistory', JSON.stringify(newHistory));
   };
   function handlerKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.keyCode === 13) {
@@ -40,14 +40,14 @@ const NaggingSearchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) =
           const data = response.data.data;
           onData(data);
           onClose();
-          setInput("");
+          setInput('');
         })
         .catch((err) => {
           console.log(err);
         });
       const newHistory = [input, ...searchHistory.slice(0, 7)];
       setSearchHistory([...newHistory] as unknown as never[]);
-      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+      localStorage.setItem('searchHistory', JSON.stringify(newHistory));
     }
   }
   return (
@@ -79,6 +79,15 @@ const NaggingSearchModal: React.FC<ModalProps> = ({ isOpen, onClose, onData }) =
 
 export default NaggingSearchModal;
 
+const move = keyframes`
+ from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
 const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
@@ -106,6 +115,7 @@ const ModalWrapper = styled.div`
   z-index: 9999;
   width: 90%;
   height: auto;
+  
   ul {
     padding: 16px 16px;
   }
@@ -126,7 +136,7 @@ const SearchInput = styled.input`
   padding: 14px 14px 14px 18px;
   font-weight: var(--font-weight400);
   letter-spacing: var(--font-spacing-title);
-  border-radius: 50px;
+  border-radius: 10px;
   border: none;
 `;
 
@@ -149,7 +159,7 @@ const InputWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 50px;
-
+  animation: ${move} 0.5s ease;
   input::placeholder {
     color: var(--color-gray01);
     font-size: var(--font-size14);
@@ -157,10 +167,10 @@ const InputWrapper = styled.div`
     letter-spacing: var(--font-spacing-bottom);
   }
   input:focus {
-    outline: 0.1px solid var(--color-mobMain);
+    outline: none;
     color: var(--color-black01);
     background-color: var(--color-white01);
-    box-shadow: 0px 0px 15px rgba(255, 96, 124, 1);
+    /* box-shadow: 0px 0px 15px rgba(255, 96, 124, 1); */
     font-weight: var(--font-weight400);
     letter-spacing: var(--font-spacing-bottom);
   }

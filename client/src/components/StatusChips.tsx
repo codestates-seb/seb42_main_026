@@ -14,17 +14,17 @@ const StatusChips = ({ color }: ChipsProps) => {
 
 export default StatusChips;
 
-const StatusChipsStyle = styled.div<ChipsProps>`
+const StatusChipsStyle = styled.span<ChipsProps>`
+  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
   width: fit-content;
-  height: 22px;
-  border-radius: 10px;
+  height: 18px;
+  border-radius: 5px;
   color: var(--color-white01);
   background-color: ${(props) =>
     props.color === "pink" ? `var(--color-mobMain)` : `var(--color-gray03)`};
-  font-size: var(--font-size12);
-  font-weight: var(--font-weight300);
-  padding: 1.5px 8px 2px;
+  font-size: var(--font-size10);
+  padding: 1.5px 5px 1.5px;
 `;

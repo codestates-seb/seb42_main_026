@@ -161,7 +161,8 @@ const TopNavWrapper = styled.header`
   /* padding: 44px 16px 0px 16px; */
   padding: 0px 16px 0px 16px;
   /* border-top: 1.5px solid var(--color-mobMain); */
-  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.25);
+  border-bottom: 0.1px solid var(--color-gray03);
+  /* box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.25); */
 `;
 
 const RightContainer = styled.div`
