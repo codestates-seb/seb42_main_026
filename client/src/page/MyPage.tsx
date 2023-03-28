@@ -40,6 +40,7 @@ const MyPage: React.FC = () => {
         console.log(err);
       });
   }, []);
+  
   console.log('마이페이지 랜더링');
   return (
     <MyPageWrapper>

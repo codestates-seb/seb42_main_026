@@ -19,19 +19,17 @@ export default function BoardItem({ title, createdAt, likeCount, answerCount, ni
     <BoardItemStyle>
       <ItemTop>
         <ItemTitleform>
-          <ItemTitle>
-            {title.length >= 15 ? `${title.slice(0, 17)}...` : title}
-          </ItemTitle>
+          <ItemTitle>{title.length >= 15 ? `${title.slice(0, 17)}...` : title}</ItemTitle>
           <ItemDate>{createdAt}</ItemDate>
         </ItemTitleform>
         <ItemCountForm>
           <ItemLikeForm>
             <ICON_LIKE stroke="#ABAEB4" fill="none" />
-            <ItemLikeCount>{likeCount}</ItemLikeCount>
+            {likeCount}
           </ItemLikeForm>
           <ItemAnswerForm>
             <ICON_ANSWER />
-            <div>{answerCount}</div>
+            {answerCount}
           </ItemAnswerForm>
         </ItemCountForm>
       </ItemTop>
@@ -51,9 +49,9 @@ const BoardItemStyle = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   border-bottom: solid 0.5px var(--color-gray03);
-  padding: 6px 6px;
+  padding: 10px 6px;
 `;
 
 const ItemTop = styled.div`
@@ -89,43 +87,28 @@ const ItemDate = styled.div`
 const ItemCountForm = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 `;
 
 const ItemLikeForm = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  padding: 2px 0;
   gap: 2px;
   color: var(--color-gray02);
   font-size: var(--font-size12);
   font-family: 'Roboto';
-`;
-
-// const ItemLikeicon = styled.div<ItemProps>``;
-
-const ItemLikeCount = styled.div`
-  position: relative;
-  bottom: -1px;
 `;
 
 const ItemAnswerForm = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: auto;
-  padding: 2px 0;
-  gap: 2px;
+  gap: 4px;
   color: var(--color-gray02);
   font-size: var(--font-size12);
   font-family: 'Roboto';
-  margin-bottom: -2px;
 `;
-
-// const ItemAnswericon = styled.div<ItemProps>``;
-
-// const ItemAnswerCount = styled.div``;
 
 const ItemBottom = styled.div`
   display: flex;

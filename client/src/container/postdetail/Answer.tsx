@@ -136,7 +136,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
                 {likeCheck ? <ICON_LIKE stroke="#FF607C" fill="#FF607C" /> : <ICON_LIKE stroke="#ABAEB4" fill="none" />}
                 <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
-              <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>답글쓰기</SubAnswerButton>
+              <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>댓글쓰기</SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
           {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
