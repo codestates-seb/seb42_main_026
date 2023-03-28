@@ -29,7 +29,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter { // OncePerRequ
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
         Map<String, Object> claims = verifyJws(request);
-        System.out.println("==========="+ claims);
+
         setAuthenticationToContext(claims); //  Authentication 객체를 SecurityContext에 저장하기 위한 private 메서드이다.
 
 
