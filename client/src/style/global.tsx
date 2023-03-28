@@ -51,6 +51,7 @@ html {
 	    ************************************************************ */
   overflow-y: scroll; /* 문서전체에 세로 스크롤바자국 항상 표시 */
   overflow-x: hidden; /* 문서전체에 가로 스크롤바자국 항상 숨김 */
+  font-size: 16px;
 }
 
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,
@@ -108,11 +109,11 @@ select {
   --color-gray02:#ABAEB4;
   --color-gray03: #D1D3D7;
   --color-gray04: #EEEEEF;
-  --font-size18: 18px;
-  --font-size16: 16px;
-  --font-size14: 14px;
-  --font-size12: 12px;
-  --font-size10: 10px;
+  --font-size18: 1.125rem;
+  --font-size16: 1rem;
+  --font-size14: 0.875rem;
+  --font-size12: 0.75rem;
+  --font-size10: 0.625rem;
   --font-weight700: 700;
   --font-weight600: 600;
   --font-weight400: 400;
