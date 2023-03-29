@@ -13,7 +13,7 @@ export function usePage() {
   const getPostDetailHandler = useSelector((state: RootState) => state.post);
 
   const setPostDetailHandler = (memberId: number, questionId: number) => dispatch(setPostDetail(memberId, questionId));
-  const setEditorHandler = (title: string, content: string, tag: string, imgFile: File) => dispatch(setEditor(title, content, tag, imgFile));
+  const setEditorHandler = (title: string, content: string, tag: string, imgFile: File, imgSrc?: string) => dispatch(setEditor(title, content, tag, imgFile, imgSrc));
 
   const actionImgCompress = async (imgFile: File) => {
     console.log('압축되고잇슴');
@@ -42,9 +42,8 @@ export function usePage() {
         formData.append('questionImage', compressedImage);
       }
     }
-
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/questions`, formData, {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/questions`, formData, {
         headers: { Authorization: getCookie('accessToken') },
       });
       alert('작성완료!');
@@ -55,5 +54,36 @@ export function usePage() {
     }
   };
 
-  return { getEditorHandler, setEditorHandler, pushPostHandler, getPostDetailHandler, setPostDetailHandler };
+  const patchPostHandler = async ({ id }: { id: number }) => {
+    const { title, content, tag, imgFile } = getEditorHandler;
+    const data = { title, content, tag };
+    const formData = new FormData();
+    if (imgFile !== undefined) {
+      if (imgFile.type === 'image/gif') {
+        formData.append('questionImage', imgFile);
+      } else {
+        const compressedImage = (await actionImgCompress(imgFile)) as string | Blob;
+        formData.append('questionImage', compressedImage);
+      }
+    }
+
+    if (imgFile !== undefined) {
+      await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${id}/questionImage`, formData, {
+        headers: { Authorization: getCookie('accessToken') },
+      });
+    }
+
+    try {
+      await axios.patch(`${process.env.REACT_APP_BASE_URL}/questions/${id}`, data, {
+        headers: { Authorization: getCookie('accessToken') },
+      });
+      alert('수정완료!');
+      return navigate(`/questions/${id}`);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  return { getEditorHandler, setEditorHandler, pushPostHandler, getPostDetailHandler, setPostDetailHandler, patchPostHandler };
 }

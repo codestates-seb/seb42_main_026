@@ -8,13 +8,14 @@ export const logout = () => ({
   type: LOGOUT,
 });
 
-export const setEditor = (title: string, content: string, tag: string, imgFile: File) => ({
+export const setEditor = (title: string, content: string, tag: string, imgFile: File, imgSrc?: string) => ({
   type: EDITOR_STATE,
   payload: {
     title,
     content,
     tag,
     imgFile,
+    imgSrc,
   },
 });
 

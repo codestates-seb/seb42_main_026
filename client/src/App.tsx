@@ -6,7 +6,8 @@ import store from './store/store';
 import HomePage from './page/HomePage';
 import AlarmsPage from './page/AlarmsPage';
 import ChecklistPage from './page/ChecklistPage';
-import EditorPage from './page/EditorPage';
+import ContentWritePage from './page/ContentWritePage';
+import ContentEditPage from './page/ContentEditPage';
 import LoginPage from './page/LoginPage';
 import MyPage from './page/MyPage';
 import MyPostsPage from './page/MyPostsPage';
@@ -20,6 +21,7 @@ import TopNav from './components/TopNav';
 import RankPage from './page/RankPage';
 import PrivateRoute from './hooks/PrivateRoute';
 import OAuthPage from './page/OAuthPage';
+
 export default function App() {
   return (
     <Provider store={store}>
@@ -49,10 +51,18 @@ export default function App() {
               />
               <Route path="/checklist" element={<ChecklistPage />} />
               <Route
-                path="/editor"
+                path="/edit/:questionId"
                 element={
                   <PrivateRoute>
-                    <EditorPage />
+                    <ContentEditPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/write"
+                element={
+                  <PrivateRoute>
+                    <ContentWritePage />
                   </PrivateRoute>
                 }
               />

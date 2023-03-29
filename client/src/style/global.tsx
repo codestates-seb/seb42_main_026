@@ -4,11 +4,6 @@ import 'styled-components';
 export function style() {
   const GlobalStyle = createGlobalStyle`
 
-#root {
-  display: flex;
-  justify-content: center;
-}
-
 main{
   position: relative;
   top: 48px;
@@ -29,6 +24,12 @@ main{
   width: 100%;
   height: 100%;
 }
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
 
 
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,
