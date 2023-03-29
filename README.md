@@ -2,13 +2,15 @@
   
 ![readme](https://user-images.githubusercontent.com/116049579/228496469-54e0027d-383d-474a-81db-df84e8dbb7ee.png) 
   
+  </br>
+  
 ![header](https://capsule-render.vercel.app/api?type=Cylinder&&color=FF4F6E&height=100&section=header&text=🔨꾸짖을갈🔨%20&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=50)</br>
 </br>
 </br>
-**`팀 명` :** 꾸짖을 喝 갈 </br>
-**`프로젝트 명` :** 뿅망치 </br>
-**`프로젝트 기간` :** 2023.03.03 - 2023.04.03 </br>
-`배포링크` :  [🌐 꾸짖을 갈 ](https://andanghae.com)
+**`팀 명` :** 꾸짖을 喝 갈 </br></br>
+**`프로젝트 명` :** 뿅망치 </br></br>
+**`프로젝트 기간` :** 2023.03.03 - 2023.04.03 </br></br>
+**`배포링크` :**  [ 꾸짖을 갈 ](https://andanghae.com)
 
 </br>
 </br>
@@ -72,3 +74,5 @@
 |rename	|파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우|
 |design	|CSS 등 사용자 UI 디자인 변경|
 |assets	|assets 파일 추가|
+
+![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=180&width=300&section=footer)
