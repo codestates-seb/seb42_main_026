@@ -5,13 +5,15 @@ export interface editorPage {
   content: string;
   tag: string;
   imgFile: File[];
+  imgSrc?: string;
 }
 
 const initialState: editorPage = {
   title: '',
   content: '',
-  tag: '',
+  tag: 'ETC',
   imgFile: [],
+  imgSrc: '',
 };
 
 const pageReducer = (state = initialState, action: any) => {

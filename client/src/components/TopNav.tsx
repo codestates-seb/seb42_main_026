@@ -15,7 +15,7 @@ import { getUser } from '../utils/getUser';
 export default function TopNav() {
   const navigate = useNavigate();
   const history = useLocation();
-  const { getEditorHandler, pushPostHandler, getPostDetailHandler } = usePage();
+  const { getEditorHandler, patchPostHandler, pushPostHandler, getPostDetailHandler, setEditorHandler } = usePage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const getTitle = () => {
@@ -36,7 +36,9 @@ export default function TopNav() {
         return '회원정보수정';
       case '/alarms':
         return '알림';
-      case '/editor':
+      case '/edit':
+        return '글수정';
+      case '/write':
         return '글쓰기';
       case '/naggingboard':
         return '잔소리';
@@ -54,10 +56,7 @@ export default function TopNav() {
   const postDelete = async () => {
     if (getPostDetailHandler.memberId === Number(getUser()?.memberId())) {
       try {
-        await axios.delete(
-          `${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}`,
-          { headers: { Authorization: getCookie('accessToken') } }
-        );
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${getPostDetailHandler.questionId}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
         return navigate('/naggingboard');
       } catch (error) {
@@ -80,9 +79,7 @@ export default function TopNav() {
           </LogoTitle>
         )}
       </LeftContainer>
-      <LogoTitle theme={history.pathname !== '/' ? 'normal' : undefined}>
-        {getTitle()}
-      </LogoTitle>
+      <LogoTitle theme={history.pathname !== '/' ? 'normal' : undefined}>{getTitle()}</LogoTitle>
       <RightContainer>
         {history.pathname === '/' && (
           <>
@@ -90,48 +87,57 @@ export default function TopNav() {
             <ICON_BADGE />
           </>
         )}
-        {history.pathname === '/editor' && (
-          <TopNavEditorButton
-            id="editorBtn"
-            disabled={
-              getEditorHandler.title === '' &&
-              getEditorHandler.content === '' &&
-              getEditorHandler.tag === ''
-            }
-            onClick={pushPostHandler}
-          >
+        {history.pathname === '/write' && (
+          <TopNavEditorButton id="editorBtn" disabled={getEditorHandler.title === '' && getEditorHandler.content === '' && getEditorHandler.tag === ''} onClick={pushPostHandler}>
             완료
           </TopNavEditorButton>
         )}
-        {history.pathname.slice(0, 10) === '/questions' &&
-          getPostDetailHandler.memberId === getUser()?.memberId() && (
-            <>
-              <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
-              {isMenuOpen === true ? (
-                <MenuButton
-                  menu={[
-                    {
-                      title: '수정',
-                      button: function () {
-                        console.log('수정');
-                      },
+        {history.pathname.slice(0, 5) === '/edit' && (
+          <TopNavEditorButton id="editorBtn" disabled={getEditorHandler.title === '' && getEditorHandler.content === '' && getEditorHandler.tag === ''} onClick={() => patchPostHandler({ id: Number(history.pathname.slice(6,)) })}>
+            수정
+          </TopNavEditorButton>
+        )}
+        {history.pathname.slice(0, 10) === '/questions' && getPostDetailHandler.memberId === getUser()?.memberId() && (
+          <>
+            <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
+            {isMenuOpen === true ? (
+              <MenuButton
+                menu={[
+                  {
+                    title: '수정',
+                    button: async () => {
+                      try {
+                        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}${history.pathname}`);
+                        const { data } = response.data;
+                        if (data.tag === '운동') data.tag = 'EXERCISE';
+                        if (data.tag === '공부') data.tag = 'STUDY';
+                        if (data.tag === '기상') data.tag = 'WAKE_UP';
+                        if (data.tag === '기타') data.tag = 'ETC';
+                        setEditorHandler(data.title, data.content, data.tag, data.imgFile, data.questionImageUrl);
+                        navigate(`/edit/${data.questionId}`);
+                      } catch (error) {
+                        console.error(error);
+                        return null;
+                      }
                     },
-                    {
-                      title: '삭제',
-                      button: function () {
-                        if (window.confirm('정말 삭제 하시겠습니까?')) {
-                          setIsMenuOpen(false);
-                          return postDelete();
-                        }
-                      },
+                  },
+                  {
+                    title: '삭제',
+                    button: function () {
+                      if (window.confirm('정말 삭제 하시겠습니까?')) {
+                        setIsMenuOpen(false);
+                        return postDelete();
+                      }
                     },
-                  ]}
-                />
-              ) : null}
-              {/* <button>수정</button>
+                  },
+                ]}
+                onClose={setIsMenuOpen}
+              />
+            ) : null}
+            {/* <button>수정</button>
             <button onClick={postDelete}>삭제</button> */}
-            </>
-          )}
+          </>
+        )}
       </RightContainer>
     </TopNavWrapper>
   );
@@ -146,7 +152,7 @@ const TopNavEditorButton = styled.button`
 
 const TopNavWrapper = styled.header`
   position: fixed;
-  z-index: 3000;
+  z-index: 100;
   max-width: calc(720px - 32px);
   width: calc(100% - 32px);
   top: 0;
@@ -186,9 +192,7 @@ const LogoTitle = styled.span`
   vertical-align: center;
   text-align: center;
   font-size: var(font-size20);
-  font-family: ${(props) =>
-    props.theme === 'normal' ? `Noto Sans KR` : `Roboto`};
-  color: ${(props) =>
-    props.theme === 'normal' ? `black01` : `var(--color-mobMain)`};
+  font-family: ${(props) => (props.theme === 'normal' ? `Noto Sans KR` : `Roboto`)};
+  color: ${(props) => (props.theme === 'normal' ? `black01` : `var(--color-mobMain)`)};
   letter-spacing: var(--font-spacing-title);
 `;

@@ -84,16 +84,13 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
   return (
     <>
       <AnswerWrapper>
-        
         <ImageWrapper>
           <img src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
             <InfoWrapper>
-              <NameWrapper>
-                {nickname}
-              </NameWrapper>
+              <NameWrapper>{nickname}</NameWrapper>
               <TimeWrapper>{parseDateUtils(new Date(createdAt))}</TimeWrapper>
               {voiceFileUrl !== null && voiceFileUrl !== undefined && <CustomPlayer audioSrc={voiceFileUrl} />}
             </InfoWrapper>
@@ -123,6 +120,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
                           },
                         },
                       ]}
+                      onClose={setIsMenuOpen}
                     />
                   ) : null}
                 </>

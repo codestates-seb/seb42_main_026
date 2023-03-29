@@ -19,7 +19,7 @@ const BottomNav = () => {
       text: '잔소리',
       link: '/naggingboard',
     },
-    { id: 'editor', icon: ICON_WRITE, link: '/editor' },
+    { id: 'write', icon: ICON_WRITE, link: '/write' },
     {
       id: 'rank',
       icon: ICON_RANK,
@@ -45,9 +45,7 @@ const BottomNav = () => {
           }}
         >
           <Icon fill={`${clickedMenu === id ? '#FF607C' : '#212123'}`} />
-          <MenuText color={`${clickedMenu === id ? '#FF607C' : '#212123'}`}>
-            {text}
-          </MenuText>
+          <MenuText color={`${clickedMenu === id ? '#FF607C' : '#212123'}`}>{text}</MenuText>
         </MenuContainer>
       ))}
     </GnbWrapper>
@@ -56,8 +54,8 @@ const BottomNav = () => {
 
 const GnbWrapper = styled.footer`
   position: fixed;
+  z-index: 1;
   max-width: calc(720px - 32px);
-  z-index: 3000;
   bottom: 0;
   width: calc(100% - 32px);
   user-select: none;
