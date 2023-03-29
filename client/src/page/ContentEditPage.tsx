@@ -5,15 +5,19 @@ import { usePage } from '../hooks/usePage';
 import { ReactComponent as ICON_IMAGE } from '../assets/ic_editorpage_image_button.svg';
 import { ReactComponent as ICON_DELETE } from '../assets/ic_editorpage_delete_button.svg';
 
-const EditorPage = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tag, setTag] = useState('ETC');
+interface EditorPageProps {
+  type?: string;
+}
+
+const ContentEditPage = ({ type }: EditorPageProps) => {
+  const { getEditorHandler, setEditorHandler } = usePage();
+  const [title, setTitle] = useState(getEditorHandler.title);
+  const [content, setContent] = useState(getEditorHandler.content);
+  const [tag, setTag] = useState(getEditorHandler.tag);
   const [imgFile, setImgFile] = useState<File[]>([]);
+  const [imgSrc, setImgSrc] = useState(getEditorHandler.imgSrc);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const { getEditorHandler, setEditorHandler } = usePage();
 
   useEffect(() => {
     setEditorHandler(title, content, tag, imgFile[0]);
@@ -44,9 +48,9 @@ const EditorPage = () => {
   const deleteItem = (index: number) => {
     const newImgFile = [...imgFile];
     newImgFile.splice(index, 1);
+    setImgSrc('');
     setImgFile(newImgFile);
   };
-
   return (
     <EditorPageWrapper>
       <TagSelector>
@@ -56,9 +60,8 @@ const EditorPage = () => {
         <Tags title={'기타'} size="small" tagClickHandler={() => setTag('ETC')} disabled={tag === 'ETC'} type="button" />
       </TagSelector>
       <TitleInput value={title} onChange={handleTitleChange} placeholder="제목"></TitleInput>
-
       <ContentContainer>
-        <ContentInput ref={textareaRef} rows={1} value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!" />
+        <ContentInput ref={textareaRef} value={content} onChange={handleContentChange} placeholder="나에게 필요한 잔소리를 요청해보세요!" />
         <ImgContainer>
           {imgFile.length > 0 &&
             imgFile.map((file, index) => (
@@ -69,6 +72,15 @@ const EditorPage = () => {
                 <ImgItem src={URL.createObjectURL(file)} alt="preview" />
               </ItemContainer>
             ))}
+
+          {imgSrc !== null && (
+            <ItemContainer>
+              <DeleteIcon>
+                <ICON_DELETE onClick={() => deleteItem(1)} />
+              </DeleteIcon>
+              <ImgItem src={imgSrc} alt="preview" />
+            </ItemContainer>
+          )}
         </ImgContainer>
         <ImgAddButton onClick={() => inputRef.current?.click()}>
           <ICON_IMAGE />
@@ -78,7 +90,7 @@ const EditorPage = () => {
     </EditorPageWrapper>
   );
 };
-export default EditorPage;
+export default ContentEditPage;
 
 const CustomInput = styled.input`
   display: none;
@@ -145,6 +157,7 @@ const DeleteIcon = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  cursor: pointer;
 `;
 
 const ItemContainer = styled.div`

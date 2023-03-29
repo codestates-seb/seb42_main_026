@@ -21,25 +21,13 @@ interface AnswerCardProps {
 }
 
 //임의로 넣어놓은 데이터값도 제거하기
-const SubAnswer = ({
-  profileImageUrl,
-  nickname,
-  createdAt,
-  content,
-  memberId,
-  questionId,
-  answerId,
-  commentId,
-}: AnswerCardProps) => {
+const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, questionId, answerId, commentId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const comentDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
       try {
-        await axios.delete(
-          `${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/comments/${commentId}`,
-          { headers: { Authorization: getCookie('accessToken') } }
-        );
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}/answers/${answerId}/comments/${commentId}`, { headers: { Authorization: getCookie('accessToken') } });
         alert('삭제되었습니다.');
         return window.location.replace(`/questions/${questionId}`);
       } catch (error) {
@@ -53,10 +41,7 @@ const SubAnswer = ({
     <SubAnswerWrapper>
       <AnswerWrapper>
         <ImageWrapper>
-          <img
-            src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl}
-            alt="profile_image"
-          />
+          <img src={profileImageUrl === null ? ICON_PROFILE : profileImageUrl} alt="profile_image" />
         </ImageWrapper>
         <TextWrapper>
           <TopWrapper>
@@ -88,6 +73,7 @@ const SubAnswer = ({
                             },
                           },
                         ]}
+                        onClose={setIsMenuOpen}
                       />
                     ) : null}
                   </>
