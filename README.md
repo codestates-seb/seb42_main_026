@@ -1,19 +1,41 @@
 <div align="center"> 
-  
+
 ![readme](https://user-images.githubusercontent.com/116049579/228496469-54e0027d-383d-474a-81db-df84e8dbb7ee.png) 
+
+<br/>
+<br/>
   
-  </br>
-  
-![header](https://capsule-render.vercel.app/api?type=Cylinder&&color=FF4F6E&height=100&section=header&text=🔨꾸짖을갈🔨%20&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=50)</br>
+![header](https://capsule-render.vercel.app/api?type=Cylinder&&color=FF4F6E&height=100&section=header&text=🔨꾸짖을갈🔨%20&fontSize=25&fontColor=fff&animation=twinkling&fontAlignY=55)</br>
 </br>
 </br>
+
 **`팀 명` :** 꾸짖을 喝 갈 </br></br>
 **`프로젝트 명` :** 뿅망치 </br></br>
 **`프로젝트 기간` :** 2023.03.03 - 2023.04.03 </br></br>
 **`배포링크` :**  [ 꾸짖을 갈 ](https://andanghae.com)
 
-</br>
-</br>
+<br/>
+<br/>
+
+## 👤 테스트 계정
+
+|타입|이메일|비밀번호|
+|:--:|:--:|:--:|
+|관리자|admin@naver.com|admin!!|
+
+<br/>
+<br/>
+
+## TechStack
+<img alt="arki" src="https://user-images.githubusercontent.com/94615294/228513508-947f64eb-21a4-482f-b2c9-3b7ed4e4bf08.png">
+
+<br/>
+<br/>
+
+
+
+<br/>
+<br/>
 
 ## ❤️ Team ❤️
 
@@ -24,6 +46,7 @@
 
 
 <br/>
+<br/>
 
 ## 🔧 Tools 🔧 
 | <a href="https://github.com/codestates-seb/seb42_main_026" target="_blank">Github</a> | Discord |<a href="https://www.notion.so/codestates/7b565b3aa04c4b58afe3d95a3e8cb611" target="_blank">Notion</a>|ZEP|
@@ -31,34 +54,39 @@
 | <img alt="github logo" src="https://techstack-generator.vercel.app/github-icon.svg" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |<img alt="Notion logo" src="https://www.notion.so/cdn-cgi/image/format=auto,width=640,quality=100/front-static/shared/icons/notion-app-icon-3d.png" height="65" width="65">|<img alt="Zep logo" src="https://user-images.githubusercontent.com/116049579/228499765-baea368b-abb1-4a21-840f-ae3d65f4a07b.png" height="65" width="65">|
 
 <br/>
+<br/>
  
 ## 🖥️ Front-end
 |Html|CSS|TypeScript|React|Styled-<br>Components|axios|Redux|Yarn|Figma|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |<img alt="Html" src ="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/440px-HTML5_logo_and_wordmark.svg.png" width="65" height="65" />|<div style="display: flex; align-items: flex-start;"><img  src="https://user-images.githubusercontent.com/111227745/210204643-4c3d065c-59ec-481d-ac13-cea795730835.png" alt="CSS" width="50" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/116049579/228499138-d92eeb0a-e1ca-45b4-ab81-d1bd305cc648.png" alt="Typescript" width="65" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/react-icon.svg" alt="React" width="65" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/116049579/228498133-ce297d1f-52fa-4adb-92b0-4f25d1a2f6b0.png" alt="styled-components icon" width="65" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://axios-http.com/assets/logo.svg" alt="axios" width="65" height="65"/></div>|<div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/116049579/228498619-e4cce636-7f90-470a-892f-bca7ed692b5c.png" alt="Redux" width="65" height="65"/></div>|<div style="display: flex; align-items: flex-start;"><img alt="Yarn" src="https://user-images.githubusercontent.com/116049579/228499150-1dec8a5d-7e7a-4275-8a97-b516bcffc353.png" width="65" height="65"/></div>|<div style="display: flex; align-items: flex-start;"><img alt="Figma" src="https://user-images.githubusercontent.com/116049579/228499149-3e274657-f07f-4a57-a784-d94cf50298ef.png" width="65" height="65"/></div>|
 
-</br>
+<br/>
+<br/>
 
 ## 🔒 Back-end
 |Java|mySQL|JWT|Spring|Spring<br>Boot|Spring<br>Security|Spring<br> Data JPA|Tomcat|Gradle|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div>|<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" height="65" /></div>|<img alt="spring-boot logo" src="https://user-images.githubusercontent.com/94615294/228506004-6436bdfc-55bc-42df-a85e-19aa7af9d9c7.png" width="65" height="65" >|<img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" >|<img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" >|<img alt="spring-boot logo" src="https://blog.kakaocdn.net/dn/dIQDQP/btqZ09ESd8T/0ibqtotW52OaJS8HznXDQK/img.png" width="65" height="65" >|<img alt="Spring Data JPA" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1609094551/noticon/gkcjchloc7f7khlsyyyy.png" width="65" height="65" >|<img alt="Tomcat" src="https://user-images.githubusercontent.com/116049579/228498079-2f227d2c-f5ce-431e-beab-2db92e763d08.png" width="65" height="65" >|<img alt="Gradle" src="https://user-images.githubusercontent.com/116049579/228498729-7ed3d264-0aa9-446c-866c-33da85fb7785.png" width="65" height="65" >
 
-</br>
+<br/>
+<br/>
 
 ## 🎁 Deployment
 |GitHub|GitActions|S3|CodeDeploy|
 |:---:|:---:|:---:|:---:|
 |<div style="display: flex; align-items: flex-start;"><img src="https://user-images.githubusercontent.com/116049579/228498469-597b8c89-73ec-4b93-809f-ca3d6b2f2a7f.png" alt="Git" width="65" height="65" /></div>| <img alt="GitActions" src="https://user-images.githubusercontent.com/116049579/228498004-4d70902d-1b8f-4308-88d5-a7609551465a.png" width="65" height="65" >|<img alt="S3" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567064876/noticon/sb5llmvfubuceldbkmx8.png" width="65" height="65" >|<img alt="RDS" src="https://user-images.githubusercontent.com/94615294/228508713-e67679f4-19e7-4171-9222-c0b43b1e5553.png" width="65" height="65" > |
 
-</br>
+<br/>
+<br/>
 
 ## 🎁 Server
 |AWS|NginX|LightSail|RDS|
 |:---:|:---:|:---:|:---:|
 |<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="aws" width="65" height="65" /></div>| <img alt="NginX" src="https://creazilla-store.fra1.digitaloceanspaces.com/icons/3256840/file-type-nginx-icon-sm.png" width="65" height="65" >| <img alt="LightSail" src="https://user-images.githubusercontent.com/94615294/228509322-8df514e3-8349-4424-8b68-89700c04a468.png" width="65" height="65" >|<img alt="RDS" src="https://user-images.githubusercontent.com/116181346/222353450-5c052bbc-3fe8-4429-bc1c-65ffbc1404ed.png" width="65" height="65" > |
 
-</br>
+<br/>
+<br/>
 
 ## ✉️ Commit  Message ✉️ 
 
@@ -74,5 +102,8 @@
 |rename	|파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우|
 |design	|CSS 등 사용자 UI 디자인 변경|
 |assets	|assets 파일 추가|
+
+<br/>
+<br/>
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=180&width=300&section=footer)
