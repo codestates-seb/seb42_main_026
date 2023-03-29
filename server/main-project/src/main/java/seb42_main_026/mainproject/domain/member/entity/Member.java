@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
+import seb42_main_026.mainproject.domain.comment.entity.Comment;
+import seb42_main_026.mainproject.domain.like.entity.AnswerLike;
 import seb42_main_026.mainproject.domain.like.entity.QuestionLike;
 import seb42_main_026.mainproject.domain.question.entity.Question;
 
@@ -13,6 +15,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @NoArgsConstructor
@@ -43,20 +46,23 @@ public class Member extends Auditable {
     @Column(nullable = true)
     private String profileImageUrl;
 
-
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>(); // List, Set 같은 컬렉션 타입의 필드는 @ElementCollection 애너테이션을 추가하면 User 권한 정보와 관련된 별도의 엔티티 클래스를 생성하지 않아도 간단하게 매핑 처리가 됩니다.
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Question> questions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<QuestionLike> questionLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<AnswerLike> answerLikes = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Score score;
@@ -92,5 +98,7 @@ public class Member extends Auditable {
         HammerTier(String tier) {this.tier = tier;}
 
     }
+
+
 
 }

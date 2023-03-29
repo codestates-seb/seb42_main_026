@@ -38,7 +38,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String nickname = String.valueOf(oAuth2User.getName());
-
         List<String> authorities = authorityUtils.createRoles(email);
 
 
@@ -70,9 +69,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private String delegateAccessToken(String username, String nickname, List<String> authorities) {
         Map<String, Object> claims = new HashMap<>();
-        //claims.put("username", username);
+
+        // MemberId 찾기
+        Member member = memberRepository.findByEmail(username).orElseThrow();
+        Long memberId = member.getMemberId();
+
+        //
         claims.put("name", nickname);
         claims.put("roles", authorities);
+        claims.put("memberId", memberId);
         String subject = username;
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
@@ -102,8 +107,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .newInstance()
                 .scheme("https")
                 .host("andanghae.com") // 서버용
-                .path("/login/callback") // 서버용
-                //.scheme("https")
+                .path("login/callback") // 서버용
+                //.scheme("http")
                 //.host("localhost")
                 //.path("receive-token.html")
                 .queryParams(queryParams)

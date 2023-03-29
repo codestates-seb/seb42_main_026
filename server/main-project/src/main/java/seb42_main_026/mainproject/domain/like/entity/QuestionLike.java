@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class QuestionLike {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likeId;
@@ -22,4 +23,5 @@ public class QuestionLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
 }
