@@ -52,6 +52,18 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Question> questions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<QuestionLike> questionLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<AnswerLike> answerLikes = new ArrayList<>();
+
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Score score;
 
@@ -87,16 +99,6 @@ public class Member extends Auditable {
 
     }
 
-    //    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<Answer> answers = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<Comment> comments = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<QuestionLike> questionLikes = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<AnswerLike> answerLikes = new ArrayList<>();
+
 
 }
