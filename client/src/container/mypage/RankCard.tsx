@@ -11,14 +11,14 @@ import TierInfo from '../../components/TierInfo';
 
 interface myProps {
   score: number;
-  hammerTier: string;
+  hammerTier?: string;
   mainText: string;
   subText: string;
 }
 const RankCard = ({ score, hammerTier }: myProps) => {
   const [showRankModal, setShowRankModal] = useState<React.SetStateAction<boolean>>(false);
   const [showTierModal, setShowTierModal] = useState<React.SetStateAction<boolean>>(false);
-  function setIcon(icon: String) {
+  function setIcon(icon: string | undefined) {
     switch (icon) {
       case '동':
         return ICON_TIER_BRONZE; // 돌망치의 img경로를 넣어주세요

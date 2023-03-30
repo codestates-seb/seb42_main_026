@@ -7,10 +7,14 @@ const PrivateRoute = ({ children }: PropsWithChildren<any>) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn && !checkTokenExpiration()) {
-      navigate('/login', { replace: true });
-    }
-  }, [isLoggedIn, navigate, checkTokenExpiration]);
+    const checkLoginStatus = async () => {
+      const result = await checkTokenExpiration();
+      if (!isLoggedIn && !result) {
+        navigate('/login', { replace: true });
+      }
+    };
+    checkLoginStatus();
+  }, [isLoggedIn, navigate]);
 
   return children;
 };

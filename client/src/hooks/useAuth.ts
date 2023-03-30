@@ -73,11 +73,14 @@ export function useAuth() {
           return true;
         } catch (error) {
           console.error(error);
+          deleteCookie('accessToken');
+          deleteCookie('refreshToken');
           dispatch(logout());
           return false;
         }
       } else {
         // 리프레시 토큰이 없음
+        dispatch(logout());
         return false;
       }
     }
