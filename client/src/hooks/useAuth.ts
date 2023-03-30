@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../store/store';
-import { login, logout, setNickname } from '../store/actions';
+import { login, logout } from '../store/actions';
 import decodeJwt from '../utils/jwtUtils';
 import getCookie from '../utils/cookieUtils';
 
@@ -46,51 +46,40 @@ export function useAuth() {
 
   const checkTokenExpiration = async () => {
     const accessToken = getCookie('accessToken');
-    if (accessToken !== '') {
-      const decoded = decodeJwt(accessToken);
-      const now = Date.now();
+    if (accessToken === '') {
+      // 만료되었음
+      const refreshToken = getCookie('refreshToken');
+      if (refreshToken !== '') {
+        alert(refreshToken);
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/refresh`, {
+            headers: { Refresh: `${getCookie('refreshToken')}` },
+          });
+          const accessToken = response.headers['authorization'];
+          const decodedAccessToken = decodeJwt(accessToken);
+          const accessTokenExp = new Date(decodedAccessToken.exp * 1000);
+          const refreshToken = response.headers['refresh'];
+          const decodedRefreshToken = decodeJwt(refreshToken);
+          const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
 
-      if (now >= decoded.exp * 1000) {
-        // 만료되었음
-        const refreshToken = getCookie('refreshToken');
-        if (refreshToken !== '') {
-          try {
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/refresh`, { refreshToken });
-            if (response.status === 200) {
-              const accessToken = response.headers['authorization'];
-              const decodedAccessToken = decodeJwt(accessToken);
-              const accessTokenExp = new Date(decodedAccessToken.exp * 1000);
-              const refreshToken = response.headers['refresh'];
-              const decodedRefreshToken = decodeJwt(refreshToken);
-              const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
-
-              document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
-              document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
-              const cookieString = document.cookie;
-              const cookies = cookieString.split('; ');
-              const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
-              if (accessTokenCookie) {
-                const accessToken = accessTokenCookie.split('=')[1];
-                dispatch(login());
-              }
-              return true;
-            } else {
-              // 리프레시 토큰도 만료됨
-              dispatch(logout());
-              return false;
-            }
-          } catch (error) {
-            console.error(error);
-            return false;
+          document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
+          document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
+          const cookieString = document.cookie;
+          const cookies = cookieString.split('; ');
+          const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
+          if (accessTokenCookie) {
+            const accessToken = accessTokenCookie.split('=')[1];
+            dispatch(login());
           }
-        } else {
-          // 리프레시 토큰이 없음
+          return true;
+        } catch (error) {
+          console.error(error);
+          dispatch(logout());
           return false;
         }
       } else {
-        // 유효함
-        dispatch(login());
-        return true;
+        // 리프레시 토큰이 없음
+        return false;
       }
     }
   };
