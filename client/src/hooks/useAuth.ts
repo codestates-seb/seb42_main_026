@@ -50,7 +50,6 @@ export function useAuth() {
       // 만료되었음
       const refreshToken = getCookie('refreshToken');
       if (refreshToken !== '') {
-        alert(refreshToken);
         try {
           const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/refresh`, {
             headers: { Refresh: `${getCookie('refreshToken')}` },
@@ -69,8 +68,8 @@ export function useAuth() {
           const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
           if (accessTokenCookie) {
             const accessToken = accessTokenCookie.split('=')[1];
-            dispatch(login());
           }
+          dispatch(login());
           return true;
         } catch (error) {
           console.error(error);
