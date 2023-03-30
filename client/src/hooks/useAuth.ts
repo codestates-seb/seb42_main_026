@@ -18,16 +18,21 @@ export function useAuth() {
         password,
       });
       const { data } = response;
-      document.cookie = `accessToken=${response.headers['authorization']}; path=/;`;
-      document.cookie = `refreshToken=${response.headers['refresh']}; path=/;`;
+      const accessToken = response.headers['authorization'];
+      const decodedAccessToken = decodeJwt(accessToken);
+      const accessTokenExp = new Date(decodedAccessToken.exp * 1000);
+      const refreshToken = response.headers['refresh'];
+      const decodedRefreshToken = decodeJwt(refreshToken);
+      const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
+
+      document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp}; secure; httponly`;
+      document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp}; secure; httponly`;
       const cookieString = document.cookie;
       const cookies = cookieString.split('; ');
       const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
       if (accessTokenCookie) {
         const accessToken = accessTokenCookie.split('=')[1];
-        const decoded = decodeJwt(accessToken);
         dispatch(login());
-
         navigate('/');
         alert('로그인 성공!');
       }
@@ -39,7 +44,7 @@ export function useAuth() {
     }
   };
 
-  const checkTokenExpiration = () => {
+  const checkTokenExpiration = async () => {
     const accessToken = getCookie('accessToken');
     if (accessToken !== '') {
       const decoded = decodeJwt(accessToken);
@@ -47,11 +52,43 @@ export function useAuth() {
 
       if (now >= decoded.exp * 1000) {
         // 만료되었음
-        // console.log('토큰이 만료되었습니다.');
-        return false;
+        const refreshToken = getCookie('refreshToken');
+        if (refreshToken !== '') {
+          try {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/refresh`, { refreshToken });
+            if (response.status === 200) {
+              const accessToken = response.headers['authorization'];
+              const decodedAccessToken = decodeJwt(accessToken);
+              const accessTokenExp = new Date(decodedAccessToken.exp * 1000);
+              const refreshToken = response.headers['refresh'];
+              const decodedRefreshToken = decodeJwt(refreshToken);
+              const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
+
+              document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp}; secure; httponly`;
+              document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp}; secure; httponly`;
+              const cookieString = document.cookie;
+              const cookies = cookieString.split('; ');
+              const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
+              if (accessTokenCookie) {
+                const accessToken = accessTokenCookie.split('=')[1];
+                dispatch(login());
+              }
+              return true;
+            } else {
+              // 리프레시 토큰도 만료됨
+              dispatch(logout());
+              return false;
+            }
+          } catch (error) {
+            console.error(error);
+            return false;
+          }
+        } else {
+          // 리프레시 토큰이 없음
+          return false;
+        }
       } else {
         // 유효함
-        // console.log('토큰이 유효합니다.');
         dispatch(login());
         return true;
       }
