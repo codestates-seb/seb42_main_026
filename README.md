@@ -57,7 +57,7 @@
 <br/>
 
 ## 🔧 Tools 🔧 
-| <a href="https://github.com/codestates-seb/seb42_main_026" target="_blank">Github</a> | Discord |<a href="https://www.notion.so/codestates/7b565b3aa04c4b58afe3d95a3e8cb611" target="_blank">Notion</a>|ZEP|
+| <a href="https://github.com/codestates-seb/seb42_main_026" target="_blank">Github</a> | Discord |<a href="https://www.notion.so/codestates/c4d5e7dfff4d4eff80c52db4b4377dd2" target="_blank">Notion</a>|ZEP|
 | :---: | :---: | :---: | :---: |
 | <img alt="github logo" src="https://techstack-generator.vercel.app/github-icon.svg" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |<img alt="Notion logo" src="https://www.notion.so/cdn-cgi/image/format=auto,width=640,quality=100/front-static/shared/icons/notion-app-icon-3d.png" height="65" width="65">|<img alt="Zep logo" src="https://user-images.githubusercontent.com/116049579/228499765-baea368b-abb1-4a21-840f-ae3d65f4a07b.png" height="65" width="65">|
 
