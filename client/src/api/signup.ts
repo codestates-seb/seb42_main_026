@@ -20,6 +20,9 @@ const signup = async (email: string, password: string, nickname: string, setErro
     return data;
   } catch (error: unknown) {
     const customErr = error as CustomError;
+    if (customErr.response && customErr.response.status === 409) {
+      alert(customErr.response.data.customErrors.message);
+    }
     return setErrorMessage({
       field: customErr.response?.data.fieldErrors[0].field,
       message: customErr.response?.data.fieldErrors[0].message,
