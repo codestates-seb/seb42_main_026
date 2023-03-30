@@ -1,10 +1,12 @@
 package seb42_main_026.mainproject.security.Oauth2;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.member.entity.Member;
@@ -62,7 +64,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
             // 아니면 기존 회원 E-mail 과 중복이므로 예외 처리.
             }else {
-                throw new CustomException(ExceptionCode.MEMBER_EXISTS);
+                //throw new CustomException(ExceptionCode.MEMBER_EXISTS);
+                //throw new OAuth2AuthenticationException("이미 존재하는 EMAIL입니다.");
+                throw new OAuth2AuthenticationException(new OAuth2Error("MEMBER EXIST EXCEPTION"), "MEMBER_EXIST.");
             }
 
 
