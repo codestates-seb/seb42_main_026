@@ -25,8 +25,8 @@ export function useAuth() {
       const decodedRefreshToken = decodeJwt(refreshToken);
       const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
 
-      document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp}; secure; httponly`;
-      document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp}; secure; httponly`;
+      document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
+      document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
       const cookieString = document.cookie;
       const cookies = cookieString.split('; ');
       const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
@@ -64,8 +64,8 @@ export function useAuth() {
               const decodedRefreshToken = decodeJwt(refreshToken);
               const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
 
-              document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp}; secure; httponly`;
-              document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp}; secure; httponly`;
+              document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
+              document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
               const cookieString = document.cookie;
               const cookies = cookieString.split('; ');
               const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
