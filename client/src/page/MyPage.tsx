@@ -4,52 +4,34 @@ import RankCard from '../container/mypage/RankCard';
 import LogoutModal from '../components/LogoutModal';
 import React, { useState, useEffect } from 'react';
 import getCookie from '../utils/cookieUtils';
-import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { setNickname } from '../store/actions';
+import { useApi } from '../hooks/useApi';
 
 interface dataProps {
-  email: string;
-  nickname: string;
-  score: number;
-  hammerTier?: string;
-  profileImageUrl: string;
+  data: {
+    email: string;
+    nickname: string;
+    score: number;
+    hammerTier?: string;
+    profileImageUrl: string;
+  };
 }
 
 const MyPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<dataProps | null>(null);
-  const [token, setToken] = useState<string>(getCookie('accessToken'));
+  const { data, error, makeApiRequest } = useApi<dataProps>('get', 'members');
 
   useEffect(() => {
-      const fetchData = async () => {
-        const headers = {
-          Authorization: token,
-        };
-        try {
-          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/members`, { headers });
-          setData({ ...response.data.data });
-          dispatch(setNickname(response.data.data.nickname));
-        } catch (error) {
-          setToken('');
-          console.log(error);
-        }
-      };
-    
-    fetchData();
-  }, [dispatch, token]);
-
-  if (token === '') return null;
+    makeApiRequest();
+  }, []);
 
   return (
     <MyPageWrapper>
-      {data && (
+      {data !== null && (
         <>
-          <ProfileCard imgUrl={data.profileImageUrl === null ? '' : data.profileImageUrl} mainText={data.nickname} subText={data.email} />
-          <RankCard score={Number(data.score)} hammerTier={data.hammerTier} mainText="티어" subText={`${data.hammerTier}망치`} />
+          <ProfileCard imgUrl={data.data.profileImageUrl === null ? '' : data.data.profileImageUrl} mainText={data.data.nickname} subText={data.data.email} />
+          <RankCard score={Number(data.data.score)} hammerTier={data.data.hammerTier} mainText="티어" subText={`${data.data.hammerTier}망치`} />
           <MyPostWrapper>
             <MyPostButton onClick={() => navigate(`/myposts`)}>내가 쓴 글 조회 </MyPostButton>
           </MyPostWrapper>

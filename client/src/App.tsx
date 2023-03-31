@@ -2,7 +2,7 @@ import React from 'react';
 // import "./App.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store/store';
+import store, { RootState } from './store/store';
 import HomePage from './page/HomePage';
 import AlarmsPage from './page/AlarmsPage';
 import ChecklistPage from './page/ChecklistPage';
@@ -21,10 +21,14 @@ import TopNav from './components/TopNav';
 import RankPage from './page/RankPage';
 import PrivateRoute from './hooks/PrivateRoute';
 import OAuthPage from './page/OAuthPage';
+import { BarLoader } from './components/BarLoader';
+import { useSelector } from 'react-redux';
+
 
 export default function App() {
   return (
     <Provider store={store}>
+      <BarLoader />
       <div className="App">
         <BrowserRouter basename={process.env.PUBLIC_URL}>
           <TopNav />

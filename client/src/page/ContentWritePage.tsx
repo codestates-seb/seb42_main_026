@@ -13,7 +13,7 @@ const ContentWritePage = ({ type }: EditorPageProps) => {
   const { setEditorHandler } = usePage();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState('ETC');
   const [imgFile, setImgFile] = useState<File[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
