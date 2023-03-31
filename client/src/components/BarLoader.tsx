@@ -1,4 +1,12 @@
+import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
+import { RootState } from '../store/store';
+
+export const BarLoader = () => {
+  const isLoading = useSelector((state: RootState) => state.isLoading);
+  console.log(isLoading.isLoading)
+  return <div>{isLoading.isLoading ? <Loader /> : null}</div>;
+};
 
 const loading = keyframes`
   0% {
@@ -9,12 +17,14 @@ const loading = keyframes`
   }
 `;
 
-export const BarLoader = styled.div`
+const Loader = styled.div`
   width: 100%;
   height: 4px;
   z-index: 99999;
   position: absolute;
   overflow: hidden;
+  left: 0;
+  top: 0;
 
   &::before {
     content: '';

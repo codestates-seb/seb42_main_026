@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, EDITOR_STATE, POST_STATE, NICKNAME } from './constants';
+import { LOGIN, LOGOUT, SET_LOADING, EDITOR_STATE, POST_STATE, NICKNAME } from './constants';
 
 export const login = () => ({
   type: LOGIN,
@@ -6,6 +6,11 @@ export const login = () => ({
 
 export const logout = () => ({
   type: LOGOUT,
+});
+
+export const setLoading = (isLoading: boolean) => ({
+  type: SET_LOADING,
+  payload: isLoading,
 });
 
 export const setEditor = (title: string, content: string, tag: string, imgFile: File, imgSrc?: string) => ({
