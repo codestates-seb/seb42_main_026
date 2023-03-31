@@ -14,7 +14,7 @@ const PrivateRoute = ({ children }: PropsWithChildren<any>) => {
       }
     };
     checkLoginStatus();
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, checkTokenExpiration]);
 
   return children;
 };

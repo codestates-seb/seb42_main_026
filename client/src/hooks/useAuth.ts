@@ -46,29 +46,23 @@ export function useAuth() {
 
   const checkTokenExpiration = async () => {
     const accessToken = getCookie('accessToken');
+    const refreshToken = getCookie('refreshToken');
     if (accessToken === '') {
       // 만료되었음
-      const refreshToken = getCookie('refreshToken');
       if (refreshToken !== '') {
         try {
           const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/refresh`, {
             headers: { Refresh: `${getCookie('refreshToken')}` },
           });
-          const accessToken = response.headers['authorization'];
-          const decodedAccessToken = decodeJwt(accessToken);
+          const newAccessToken = response.headers['authorization'];
+          const decodedAccessToken = decodeJwt(newAccessToken);
           const accessTokenExp = new Date(decodedAccessToken.exp * 1000);
-          const refreshToken = response.headers['refresh'];
-          const decodedRefreshToken = decodeJwt(refreshToken);
+          const newRefreshToken = response.headers['refresh'];
+          const decodedRefreshToken = decodeJwt(newRefreshToken);
           const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
 
-          document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
-          document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
-          const cookieString = document.cookie;
-          const cookies = cookieString.split('; ');
-          const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
-          if (accessTokenCookie) {
-            const accessToken = accessTokenCookie.split('=')[1];
-          }
+          document.cookie = `accessToken=${newAccessToken}; path=/; expires=${accessTokenExp};`;
+          document.cookie = `refreshToken=${newRefreshToken}; path=/; expires=${refreshTokenExp};`;
           dispatch(login());
           return true;
         } catch (error) {
@@ -84,6 +78,7 @@ export function useAuth() {
         return false;
       }
     }
+    return true;
   };
 
   function deleteCookie(name: string, path: string = '/') {
