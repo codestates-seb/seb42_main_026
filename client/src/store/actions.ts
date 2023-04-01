@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, SET_LOADING, EDITOR_STATE, POST_STATE, NICKNAME } from './constants';
+import { LOGIN, LOGOUT, SET_LOADING, EDITOR_STATE, POST_STATE } from './constants';
 
 export const login = () => ({
   type: LOGIN,
@@ -29,12 +29,5 @@ export const setPostDetail = (memberId: number, questionId: number) => ({
   payload: {
     memberId,
     questionId,
-  },
-});
-
-export const setNickname = (nickname: string) => ({
-  type: NICKNAME,
-  payload: {
-    nickname,
   },
 });
