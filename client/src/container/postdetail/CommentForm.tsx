@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { answer, addComment } from '../../api/answer';
 import CustomAudio from '../../components/CustomAudio';
 import useFFmpeg from '../../hooks/useFFmeng';
-// import ICON_SUBIT from '../../assets/ic_commentform_submit_button.svg';
+import { RootState } from '../../store/store';
 
 type Props = {
   questionId?: number;
@@ -19,10 +20,9 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
   const [comment, setComment] = useState<string>('');
   const [isAudio, setAudio] = useState<Blob | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLogin);
 
-  const handleCommentChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
   };
 
@@ -57,10 +57,10 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
     <>
       <CommentInputWrapper>
         <form onSubmit={handleSubmit}>
-          <CommentInput placeholder="당신의 잔소리가 필요해요!" value={comment} onChange={handleCommentChange} />
+          <CommentInput placeholder={isLoggedIn ? '로그인이 필요합니다.' : '당신의 잔소리가 필요해요!'} disabled={isLoggedIn} value={comment} onChange={handleCommentChange} />
           <ButtonWrapper state={questionId !== undefined && answerId === undefined}>
             {questionId !== undefined && answerId === undefined ? <CustomAudio type="button" onRecordedBlob={setAudio} /> : null}
-            <CommentButton type="submit" onClick={() => buttonRef.current?.click()}>
+            <CommentButton disabled={isLoggedIn} type="submit" onClick={() => buttonRef.current?.click()}>
               댓글쓰기
             </CommentButton>
           </ButtonWrapper>
@@ -85,6 +85,7 @@ const CommentInputWrapper = styled.div`
 const CommentInput = styled.textarea`
   width: 90%;
   border: 1px solid #ccc;
+  background-color: var(--color-white01);
   border-radius: 5px;
   padding: 10px;
   overflow-y: hidden;
@@ -94,13 +95,16 @@ const CommentInput = styled.textarea`
   margin-bottom: 10px;
   font-family: 'Noto Sans KR';
   border: none;
+  ::placeholder {
+    color: var(--color-gray01);
+  }
   :focus {
     outline: none;
   }
 `;
 
 const CommentButton = styled.button`
-  background-color: var(--color-mobMain);
+  background-color: ${(porps) => (porps.disabled ? 'var(--color-gray02)' : 'var(--color-mobMain)')};
   white-space: nowrap;
   color: #fff;
   border: none;

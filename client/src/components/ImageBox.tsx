@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import ICON_PROFILE from '../assets/ic_mypage_profile.svg';
 
 interface ImgCardProps {
-  imgUrl?: string;
+  imgUrl?: string | null;
   mainText?: string;
   subText?: string;
   lang: string;
 }
 
 const ImageBox = ({ imgUrl, mainText, subText, lang }: ImgCardProps) => {
+  console.log(imgUrl);
   return (
     <ImageBoxWrapper>
       <img src={imgUrl === null ? ICON_PROFILE : imgUrl} alt="profile_image" />
