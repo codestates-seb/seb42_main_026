@@ -24,7 +24,7 @@ import { BarLoader } from './components/BarLoader';
 
 export default function App() {
   return (
-    <Provider store={store}>
+    <>
       <BarLoader />
       <div className="App">
         <BrowserRouter basename={process.env.PUBLIC_URL}>
@@ -100,6 +100,6 @@ export default function App() {
           <BottomNav />
         </BrowserRouter>
       </div>
-    </Provider>
+    </>
   );
 }

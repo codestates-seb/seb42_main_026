@@ -9,7 +9,6 @@ interface ImgCardProps {
 }
 
 const ImageBox = ({ imgUrl, mainText, subText, lang }: ImgCardProps) => {
-  console.log(imgUrl);
   return (
     <ImageBoxWrapper>
       <img src={imgUrl === null ? ICON_PROFILE : imgUrl} alt="profile_image" />

@@ -1,21 +1,22 @@
+import getCookie from '../../utils/cookieUtils';
 import { LOGIN, LOGOUT } from '../constants';
+const accessToken = getCookie('accessToken');
+const refreshToken = getCookie('refreshToken');
 
 export interface AuthState {
   isLogin: boolean;
-  value: string;
 }
 
 const initialState: AuthState = {
-  isLogin: false,
-  value: '상태',
+  isLogin: accessToken !== '' && refreshToken !== '',
 };
 
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case LOGIN:
-      return { ...state, value: 'LOG IN', isLogin: true };
+      return { ...state, isLogin: true };
     case LOGOUT:
-      return { ...state, value: 'LOG OUT', isLogin: false };
+      return { ...state, isLogin: false };
     default:
       return state;
   }
