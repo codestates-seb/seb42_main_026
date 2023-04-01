@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { answer, addComment } from '../../api/answer';
@@ -57,10 +57,10 @@ const CommentForm: React.FC<Props> = ({ questionId, answerId }) => {
     <>
       <CommentInputWrapper>
         <form onSubmit={handleSubmit}>
-          <CommentInput placeholder={isLoggedIn ? '로그인이 필요합니다.' : '당신의 잔소리가 필요해요!'} disabled={isLoggedIn} value={comment} onChange={handleCommentChange} />
+          <CommentInput placeholder={isLoggedIn ? '당신의 잔소리가 필요해요!' : '로그인이 필요합니다.'} disabled={!isLoggedIn} value={comment} onChange={handleCommentChange} />
           <ButtonWrapper state={questionId !== undefined && answerId === undefined}>
             {questionId !== undefined && answerId === undefined ? <CustomAudio type="button" onRecordedBlob={setAudio} /> : null}
-            <CommentButton disabled={isLoggedIn} type="submit" onClick={() => buttonRef.current?.click()}>
+            <CommentButton disabled={!isLoggedIn} type="submit" onClick={() => buttonRef.current?.click()}>
               댓글쓰기
             </CommentButton>
           </ButtonWrapper>
