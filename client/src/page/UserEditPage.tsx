@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import getCookie from '../utils/cookieUtils';
-import { useDispatch, useSelector } from 'react-redux';
-import { setNickname } from '../store/actions';
-import { RootState } from '../store/store';
+import { getUser } from '../utils/getUser';
+import decodeJwt from '../utils/jwtUtils';
 
 const UserEditPage = () => {
-  const dispatch = useDispatch();
-  const nickname = useSelector((state: RootState) => state.user.nickname);
+  const nickname = getUser()?.nickname;
   const [newNickname, setNewNickname] = useState(nickname);
   const [isNameError, setIsNameError] = useState(true);
   const [isNowPasswordError, setIsNowPasswordError] = useState(true);
@@ -17,6 +15,24 @@ const UserEditPage = () => {
 
   const handleNameChange = (e: any) => {
     setNewNickname(e.target.value);
+  };
+
+  const refresh = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/refresh`, {
+        headers: { Refresh: `${getCookie('refreshToken')}` },
+      });
+      const accessToken = response.headers['authorization'];
+      const decodedAccessToken = decodeJwt(accessToken);
+      const accessTokenExp = new Date(decodedAccessToken.exp * 1000);
+      const refreshToken = response.headers['refresh'];
+      const decodedRefreshToken = decodeJwt(refreshToken);
+      const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
+      document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
+      document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleNicknameChange = (e: any) => {
@@ -31,20 +47,15 @@ const UserEditPage = () => {
       };
 
       axios
-        .patch(
-          `${process.env.REACT_APP_BASE_URL}/members/nickname`,
-          { nickname: e.target[0].value },
-          { headers }
-        )
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/nickname`, { nickname: e.target[0].value }, { headers })
         .then((response) => {
           setNewNickname(response.data);
-          dispatch(setNickname(response.data));
+          refresh();
           alert('닉네임이 변경되었습니다.');
         })
         .catch((err) => {
           console.log(err);
           alert('닉네임에 실패했습니다. 다시 시도해주세요.');
-          console.log(headers);
         });
     }
   };
@@ -59,11 +70,7 @@ const UserEditPage = () => {
         Authorization: getCookie('accessToken'),
       };
       axios
-        .patch(
-          `${process.env.REACT_APP_BASE_URL}/members/password`,
-          { password: e.target[0].value, changePassword: e.target[1].value },
-          { headers }
-        )
+        .patch(`${process.env.REACT_APP_BASE_URL}/members/password`, { password: e.target[0].value, changePassword: e.target[1].value }, { headers })
         .then((response) => {
           setIsNowPasswordError(true);
           alert('비밀번호가 변경되었습니다.');
@@ -80,44 +87,21 @@ const UserEditPage = () => {
       <NicknameContainer>
         <InputText>닉네임</InputText>
         <NicknameForm onSubmit={handleNicknameChange}>
-          <NameInput
-            name="nickname"
-            type="text"
-            value={newNickname || ''}
-            onChange={handleNameChange}
-          ></NameInput>
+          <NameInput name="nickname" type="text" value={newNickname || ''} onChange={handleNameChange}></NameInput>
           <NameEditButton type="submit">닉네임 변경</NameEditButton>
         </NicknameForm>
-        {isNameError === false ? (
-          <div className="err">변경사항이 없습니다.</div>
-        ) : null}
+        {isNameError === false ? <div className="err">변경사항이 없습니다.</div> : null}
       </NicknameContainer>
 
       <InputPasswordContainer onSubmit={handlePasswordChange}>
         <InputText>현재 비밀번호</InputText>
-        <PasswordEditInput
-          name="nowPassword"
-          placeholder="현재 비밀번호를 입력해주세요."
-          type="password"
-        ></PasswordEditInput>
-        {isNowPasswordError === false ? (
-          <div className="err">현재 비밀번호와 일치하지 않습니다.</div>
-        ) : null}
+        <PasswordEditInput name="nowPassword" placeholder="현재 비밀번호를 입력해주세요." type="password"></PasswordEditInput>
+        {isNowPasswordError === false ? <div className="err">현재 비밀번호와 일치하지 않습니다.</div> : null}
         <InputText>새 비밀번호</InputText>
-        <PasswordEditInput
-          name="newPassword"
-          placeholder="변경할 비밀번호를 입력해주세요."
-          type="password"
-        ></PasswordEditInput>
+        <PasswordEditInput name="newPassword" placeholder="변경할 비밀번호를 입력해주세요." type="password"></PasswordEditInput>
         <InputText>새 비밀번호 확인</InputText>
-        <PasswordEditInput
-          name="passwordCheck"
-          placeholder="변경할 비밀번호를 한 번 더 입력해주세요."
-          type="password"
-        ></PasswordEditInput>
-        {isNewPasswordError === false ? (
-          <div className="err">변경할 비밀번호를 제대로 입력해 주세요</div>
-        ) : null}
+        <PasswordEditInput name="passwordCheck" placeholder="변경할 비밀번호를 한 번 더 입력해주세요." type="password"></PasswordEditInput>
+        {isNewPasswordError === false ? <div className="err">변경할 비밀번호를 제대로 입력해 주세요</div> : null}
         <PasswordEditButton type="submit">비밀번호 변경</PasswordEditButton>
       </InputPasswordContainer>
 

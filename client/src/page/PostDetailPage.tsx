@@ -32,24 +32,13 @@ const PostDetailPage = () => {
   const { data, error, makeApiRequest } = useApi<{ data: Post }>('get', `questions/${questionId}`);
   const { setPostDetailHandler } = usePage();
 
-  // const postData = async () => {
-  //   try {
-  //     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}`);
-  //     const { data } = response.data;
-  //     setPost(data); // 서버에서 발급한 토큰 등의 정보가 담긴 객체
-  //     setPostDetailHandler(data.memberId, data.questionId);
-  //   } catch (error) {
-  //     console.error(error);
-  //     return null;
-  //   }
-  // };
-
   useEffect(() => {
     makeApiRequest();
   }, []);
 
   useEffect(() => {
     if (data !== null) {
+      console.log(data.data)
       setPost(data.data);
       setPostDetailHandler(data.data.memberId, data.data.questionId);
     }
