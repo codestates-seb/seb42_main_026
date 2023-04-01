@@ -46,6 +46,8 @@ export default function TopNav() {
         return '';
       case '/checklist':
         return '체크리스트';
+      case '/myposts':
+        return '내가 쓴 글';
       default:
         return '';
     }
@@ -93,7 +95,7 @@ export default function TopNav() {
           </TopNavEditorButton>
         )}
         {history.pathname.slice(0, 5) === '/edit' && (
-          <TopNavEditorButton id="editorBtn" disabled={getEditorHandler.title === '' && getEditorHandler.content === '' && getEditorHandler.tag === ''} onClick={() => patchPostHandler({ id: Number(history.pathname.slice(6,)) })}>
+          <TopNavEditorButton id="editorBtn" disabled={getEditorHandler.title === '' && getEditorHandler.content === '' && getEditorHandler.tag === ''} onClick={() => patchPostHandler({ id: Number(history.pathname.slice(6)) })}>
             수정
           </TopNavEditorButton>
         )}

@@ -1,76 +1,116 @@
 import styled from 'styled-components';
 import Tags from '../components/Tags';
 import BoardItem from '../container/naggingboard/BoardItem';
-import axios from 'axios';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import NaggingSearchModal from '../components/NaggingSearchModal';
 import ICON_SEARCH from '../assets/ic_search.svg';
 import parseDateUtils from '../utils/paeseDateUtils';
+import { useApi } from '../hooks/useApi';
 
-interface ItemProps {
+interface Question {
+  questionId: number;
   title: string;
-  createdAt: Date;
+  nickname: string;
   likeCount: number;
   answerCount: number;
-  nickname: string;
-  tag?: string;
-  questionId?: number;
+  tag: string;
   questionStatus: string;
+  createdAt: string;
+}
+
+interface BoardResponse {
+  data: Question[];
+  pageInfo: {
+    page: number;
+    totalPages: number;
+  };
+}
+
+interface ItemProps {
+  questionId: number;
+  title: string;
+  nickname: string;
+  likeCount: number;
+  answerCount: number;
+  tag: string;
+  questionStatus: string;
+  createdAt: Date;
 }
 
 export default function NaggingBoardPage() {
   const [list, setList] = useState<ItemProps[]>([]);
   const [tag, setTag] = useState('');
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const page = useRef<number>(1);
-
   const lastElementRef = useRef<HTMLDivElement>(null);
+  const ioRef = useRef<IntersectionObserver | null>(null);
 
-  const naggingBoard = useCallback(async () => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/board/questions/?page=${page.current}&size=20${tag === '' || tag === '전체' ? '' : '&tag=' + tag}`);
-      if (response.data.pageInfo.page === 1) {
-        setList(response.data.data);
-      } else {
-        setList((prevList) => [...prevList, ...response.data.data]);
-        // console.log(response.data.data);
-      }
-      setHasNextPage(response.data.pageInfo.page < response.data.pageInfo.totalPages);
-      if (response.data.data.length) {
-        page.current += 1;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [tag]);
+  let { data, error, makeApiRequest } = useApi<BoardResponse>('get', `board/questions/?page=${page}&size=20${tag === '' || tag === '전체' ? '' : '&tag=' + tag}`);
 
   useEffect(() => {
-    if (tag) {
-      page.current = 1;
-      naggingBoard();
+    if (data) {
+      const { data: questions, pageInfo } = data;
+      const convertedQuestions = questions.map(({ questionId, title, nickname, likeCount, answerCount, tag, questionStatus, createdAt }) => ({
+        questionId,
+        title,
+        nickname,
+        likeCount,
+        answerCount,
+        tag,
+        questionStatus,
+        createdAt: new Date(createdAt),
+      })) as ItemProps[];
+      if (pageInfo.page === 1) {
+        setList(convertedQuestions);
+      } else {
+        setList((prevList) => [...prevList, ...convertedQuestions]);
+      }
+      setHasNextPage(pageInfo.page < pageInfo.totalPages);
     }
-  }, [tag]);
+  }, [data]);
 
   useEffect(() => {
     if (!lastElementRef.current || !hasNextPage) return;
 
-    const io = new IntersectionObserver((entries, observer) => {
-      if (entries[0].isIntersecting) {
-        naggingBoard();
+    ioRef.current = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        if (hasNextPage) {
+          setPage((page) => page + 1);
+          makeApiRequest();
+        }
       }
     });
 
-    io.observe(lastElementRef.current);
+    ioRef.current.observe(lastElementRef.current);
 
     return () => {
-      io.disconnect();
+      if (ioRef.current) {
+        ioRef.current.disconnect();
+        ioRef.current = null;
+      }
     };
-  }, [naggingBoard, hasNextPage]);
+  }, [lastElementRef, hasNextPage]);
+
+  useEffect(() => {
+    if (page !== 1) {
+      makeApiRequest();
+    }
+  }, [page]);
 
   const handleData = (data: ItemProps[]) => {
     setList(data);
+  };
+
+  useEffect(() => {
+    setList([]);
+    makeApiRequest();
+  }, [tag]);
+
+  const handleTag = (tag: string) => {
+    setTag(tag);
+    setPage(1);
   };
 
   return (
@@ -78,11 +118,11 @@ export default function NaggingBoardPage() {
       <NaggingSearchModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onData={handleData}></NaggingSearchModal>
       <TagSelector>
         <div className="tagContainer">
-          <Tags title={'전체'} size="big" tagClickHandler={() => setTag('전체')} disabled={tag === '전체' || tag === ''} />
-          <Tags title={'운동'} size="big" tagClickHandler={() => setTag('EXERCISE')} disabled={tag === 'EXERCISE'} />
-          <Tags title={'공부'} size="big" tagClickHandler={() => setTag('STUDY')} disabled={tag === 'STUDY'} />
-          <Tags title={'기상'} size="big" tagClickHandler={() => setTag('WAKE_UP')} disabled={tag === 'WAKE_UP'} />
-          <Tags title={'기타'} size="big" tagClickHandler={() => setTag('ETC')} disabled={tag === 'ETC'} />
+          <Tags title={'전체'} size="big" tagClickHandler={() => handleTag('전체')} disabled={tag === '전체' || tag === ''} />
+          <Tags title={'운동'} size="big" tagClickHandler={() => handleTag('EXERCISE')} disabled={tag === 'EXERCISE'} />
+          <Tags title={'공부'} size="big" tagClickHandler={() => handleTag('STUDY')} disabled={tag === 'STUDY'} />
+          <Tags title={'기상'} size="big" tagClickHandler={() => handleTag('WAKE_UP')} disabled={tag === 'WAKE_UP'} />
+          <Tags title={'기타'} size="big" tagClickHandler={() => handleTag('ETC')} disabled={tag === 'ETC'} />
         </div>
         <div className="search" onClick={() => setIsModalOpen(true)}>
           <img src={ICON_SEARCH} alt="search icon" />
@@ -94,7 +134,8 @@ export default function NaggingBoardPage() {
         </Link>
       ))}
 
-      {<div ref={lastElementRef} />}
+      {hasNextPage && <div ref={lastElementRef} />}
+      {!hasNextPage && <LastPost>마지막 게시글 입니다.</LastPost>}
     </NaggingBoardWrapper>
   );
 }
@@ -102,6 +143,17 @@ export default function NaggingBoardPage() {
 const NaggingBoardWrapper = styled.div`
   padding: 0 16px;
 `;
+
+const LastPost = styled.span`
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-size14);
+  color: var(--color-gray02);
+  letter-spacing: var(--font-spacing-title);
+`;
+
 const TagSelector = styled.div`
   display: flex;
   justify-content: space-between;
