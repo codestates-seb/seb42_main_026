@@ -5,6 +5,7 @@ import BoardItem from '../container/naggingboard/BoardItem';
 import { useEffect, useState } from 'react';
 import parseDateUtils from '../utils/paeseDateUtils';
 import { Link } from 'react-router-dom';
+import { useApi } from '../hooks/useApi';
 
 export interface IQuestion {
   title: string;
@@ -18,23 +19,9 @@ export interface IQuestion {
 }
 
 export default function HomePage() {
-  const [list, setList] = useState([]);
-
-  async function homequestions() {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/home/questions`
-      );
-      if (response?.data.data.length) {
-        setList(response?.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
+  const { data, error, makeApiRequest } = useApi<{ data: IQuestion[] }>('get', 'home/questions');
   useEffect(() => {
-    homequestions();
+    makeApiRequest();
   }, []);
 
   return (
@@ -42,33 +29,11 @@ export default function HomePage() {
       <SubApp />
       <PopulerBoardTitle>인기 잔소리</PopulerBoardTitle>
       <PopulerBoard>
-        {list.map(
-          (
-            {
-              title,
-              nickname,
-              likeCount,
-              createdAt,
-              answerCount,
-              tag,
-              questionId,
-              questionStatus,
-            }: IQuestion,
-            index: number
-          ) => (
-            <Link to={`/questions/${questionId}`} key={index}>
-              <BoardItem
-                questionStatus={questionStatus}
-                title={title}
-                likeCount={likeCount}
-                nickname={nickname}
-                createdAt={parseDateUtils(createdAt)}
-                answerCount={answerCount}
-                tag={tag}
-              />
-            </Link>
-          )
-        )}
+        {data?.data.map(({ title, nickname, likeCount, createdAt, answerCount, tag, questionId, questionStatus }: IQuestion, index: number) => (
+          <Link to={`/questions/${questionId}`} key={index}>
+            <BoardItem questionStatus={questionStatus} title={title} likeCount={likeCount} nickname={nickname} createdAt={parseDateUtils(createdAt)} answerCount={answerCount} tag={tag} />
+          </Link>
+        )) || []}
       </PopulerBoard>
     </HomePageWrapper>
   );

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Tags from '../components/Tags';
 import BoardItem from '../container/naggingboard/BoardItem';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import NaggingSearchModal from '../components/NaggingSearchModal';
 import ICON_SEARCH from '../assets/ic_search.svg';
