@@ -2,11 +2,9 @@ import styled from 'styled-components';
 import ProfileCard from '../container/mypage/ProfileCard';
 import RankCard from '../container/mypage/RankCard';
 import LogoutModal from '../components/LogoutModal';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useApi } from '../hooks/useApi';
-import { RootState } from '../store/store';
-import { useSelector } from 'react-redux';
 
 interface dataProps {
   data: {
@@ -22,11 +20,9 @@ const MyPage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data, makeApiRequest } = useApi<dataProps>('get', 'members');
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLogin);
 
   useEffect(() => {
     makeApiRequest();
-    console.log(isLoggedIn);
   }, []);
 
   return (
