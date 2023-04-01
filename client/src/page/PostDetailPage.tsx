@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { usePage } from '../hooks/usePage';
 import CommentForm from '../container/postdetail/CommentForm';
+import { useApi } from '../hooks/useApi';
 
 type Post = {
   content: string;
@@ -28,32 +29,40 @@ const PostDetailPage = () => {
   const { questionId } = useParams();
   const [isTextarea, setTextarea] = useState(false);
   const [post, setPost] = useState<Post | null>(null);
+  const { data, error, makeApiRequest } = useApi<{ data: Post }>('get', `questions/${questionId}`);
   const { setPostDetailHandler } = usePage();
 
-  const postData = async () => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}`);
-      const { data } = response.data;
-      setPost(data); // 서버에서 발급한 토큰 등의 정보가 담긴 객체
-      setPostDetailHandler(data.memberId, data.questionId);
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
+  // const postData = async () => {
+  //   try {
+  //     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/questions/${questionId}`);
+  //     const { data } = response.data;
+  //     setPost(data); // 서버에서 발급한 토큰 등의 정보가 담긴 객체
+  //     setPostDetailHandler(data.memberId, data.questionId);
+  //   } catch (error) {
+  //     console.error(error);
+  //     return null;
+  //   }
+  // };
 
   useEffect(() => {
-    postData();
+    makeApiRequest();
   }, []);
+
+  useEffect(() => {
+    if (data !== null) {
+      setPost(data.data);
+      setPostDetailHandler(data.data.memberId, data.data.questionId);
+    }
+  }, [data]);
 
   return (
     <PostDetailWrapper>
       {post !== null && <PostDetail {...post} />}
-      {post?.questionImageUrl !== null && <PostDetailImg src={post?.questionImageUrl} alt="postImage" />}
+      {post?.questionImageUrl && <PostDetailImg src={post?.questionImageUrl} alt="postImage" />}
       {post !== null && <CountsBar questionId={post.questionId} isTextarea={isTextarea} answerHandler={setTextarea} answer={post.answers.length} likeCount={post.likeCount} likeCheck={post.likeCheck} />}
       <AnswerWrapper>
         {post !== null && isTextarea && <CommentForm questionId={post.questionId} />}
-        {post?.answers.length === 0 && <span>댓글이 없습니다.</span>}
+        {post?.answers.length === 0 && <NoAnswer>댓글이 없습니다.</NoAnswer>}
         {post?.answers.map((el: { likeCount: number; answerStatus: string; content: string; createdAt: string; nickname: string; comments: []; memberId: number; answerId: number; profileImageUrl: string }, index: number) => {
           return <Answer key={index} likeCheck={post.answers[index].likeCheck} postMemberId={post?.memberId} questionId={post?.questionId} {...el} />;
         })}
@@ -66,6 +75,15 @@ export default PostDetailPage;
 
 const PostDetailWrapper = styled.div`
   /* padding: 0 16px; */
+`;
+const NoAnswer = styled.span`
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-size14);
+  color: var(--color-gray02);
+  letter-spacing: var(--font-spacing-title);
 `;
 
 const PostDetailImg = styled.img`

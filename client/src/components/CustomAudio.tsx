@@ -119,7 +119,7 @@ const CustomAudio = ({ onRecordedBlob }: any) => {
         {!isStart && (
           <StartContainer>
             <ICON_MIC />
-            <span>보이스리플을 남겨주세요.</span>
+            <span>보이스리플을 남겨보세요.</span>
           </StartContainer>
         )}
         {isStart ? (

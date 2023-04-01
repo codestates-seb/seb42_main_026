@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import ANSWER_ICON from '../../assets/ic_boardItem_answer.svg';
 import { ReactComponent as ICON_ANSWER } from '../../assets/ic_boardItem_answer.svg';
 import { ReactComponent as ICON_LIKE } from '../../assets/ic_boardItem_like.svg';
 import getCookie from '../../utils/cookieUtils';
