@@ -9,7 +9,7 @@ import { usePage } from '../hooks/usePage';
 import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
 import MenuButton from './MenuButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getUser } from '../utils/getUser';
 
 export default function TopNav() {
@@ -53,7 +53,9 @@ export default function TopNav() {
     }
   };
 
-  const showBackButton = () => history.pathname !== '/';
+  const isHome = () => history.pathname === '/';
+
+  const showBackButton = () => !isHome();
 
   const postDelete = async () => {
     if (getPostDetailHandler.memberId === Number(getUser()?.memberId())) {
@@ -70,12 +72,11 @@ export default function TopNav() {
 
   return (
     <TopNavWrapper>
-      {/* 뒤로가기 수정해야함 */}
       <LeftContainer>
         {showBackButton() ? (
           <ICON_BACK width={8} height={14} onClick={() => navigate(-1)} />
         ) : (
-          <LogoTitle theme={history.pathname !== '/' ? 'normal' : undefined}>
+          <LogoTitle theme={isHome() ? undefined : 'normal'}>
             <ICON_LOGO width={25} height={25} />
             PPONG
           </LogoTitle>
@@ -136,8 +137,6 @@ export default function TopNav() {
                 onClose={setIsMenuOpen}
               />
             ) : null}
-            {/* <button>수정</button>
-            <button onClick={postDelete}>삭제</button> */}
           </>
         )}
       </RightContainer>
@@ -166,11 +165,8 @@ const TopNavWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: var(--color-white01);
-  /* padding: 44px 16px 0px 16px; */
   padding: 0px 16px 0px 16px;
-  /* border-top: 1.5px solid var(--color-mobMain); */
   border-bottom: 0.1px solid var(--color-gray03);
-  /* box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.25); */
 `;
 
 const RightContainer = styled.div`
