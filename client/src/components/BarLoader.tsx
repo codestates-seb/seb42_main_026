@@ -4,7 +4,6 @@ import { RootState } from '../store/store';
 
 export const BarLoader = () => {
   const isLoading = useSelector((state: RootState) => state.isLoading);
-  console.log(isLoading.isLoading)
   return <div>{isLoading.isLoading ? <Loader /> : null}</div>;
 };
 

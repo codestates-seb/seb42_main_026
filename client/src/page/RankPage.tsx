@@ -1,25 +1,31 @@
-// import axios from "axios";
-// import { useEffect, useState } from "react";
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import RankItem from '../container/rank/RankItem';
-import useGetRank from '../hooks/useGetRank';
+import { useApi } from '../hooks/useApi';
 
 interface dataProps {
-  profileImageUrl: string;
-  nickname: string;
-  score: number;
-  modifiedAt: string;
+  data: {
+    profileImageUrl: string;
+    nickname: string;
+    score: number;
+    modifiedAt: string;
+  }[];
 }
 
 const RankPage = () => {
-  const data: dataProps[] = useGetRank('/home/rank');
-  const sortedData = data.sort((a: dataProps, b: dataProps) => b.score - a.score); //score 기준으로 내림차순 정렬
+  const { data, error, makeApiRequest } = useApi<dataProps>('get', 'home/rank');
+
+  useEffect(() => {
+    makeApiRequest();
+  }, []);
+
+  const sortedData = data?.data.sort((a, b) => b.score - a.score);
   return (
     <RankingWrapper>
-      {sortedData.map(({ profileImageUrl, nickname, score }: dataProps, index: number) => (
+      {sortedData?.map(({ profileImageUrl, nickname, score }: { profileImageUrl: string; nickname: string; score: number }, index: number) => (
         <RankItem key={index} index={index + 1} imgUrl={profileImageUrl === null ? '' : profileImageUrl} nickName={nickname} subText={`${score}`} />
       ))}
-      <RankingDescription>시즌1 2023-03-29 ~</RankingDescription>
+      {data && <RankingDescription>시즌1 2023-03-29 ~</RankingDescription>}
     </RankingWrapper>
   );
 };

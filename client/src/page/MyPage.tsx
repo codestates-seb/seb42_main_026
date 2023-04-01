@@ -3,7 +3,6 @@ import ProfileCard from '../container/mypage/ProfileCard';
 import RankCard from '../container/mypage/RankCard';
 import LogoutModal from '../components/LogoutModal';
 import React, { useState, useEffect } from 'react';
-import getCookie from '../utils/cookieUtils';
 import { useNavigate } from 'react-router';
 import { useApi } from '../hooks/useApi';
 
@@ -20,7 +19,7 @@ interface dataProps {
 const MyPage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data, error, makeApiRequest } = useApi<dataProps>('get', 'members');
+  const { data, makeApiRequest } = useApi<dataProps>('get', 'members');
 
   useEffect(() => {
     makeApiRequest();
