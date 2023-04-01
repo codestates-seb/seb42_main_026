@@ -4,17 +4,18 @@ import { ReactComponent as ICON_JANSORI } from '../assets/ic_bottomnav_jansori_b
 import { ReactComponent as ICON_WRITE } from '../assets/ic_bottomnav_write_button.svg';
 import { ReactComponent as ICON_RANK } from '../assets/ic_bottomnav_rank_button.svg';
 import { ReactComponent as ICON_MYPAGE } from '../assets/ic_bottomnav_mypage_button.svg';
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 
 const BottomNav = () => {
   const navigate = useNavigate();
+  const history = useLocation();
   const [clickedMenu, setClickedMenu] = useState('');
 
   const menuData = [
     { id: 'home', icon: ICON_HOME, text: '홈', link: '/' },
     {
-      id: 'nagging',
+      id: 'naggingboard',
       icon: ICON_JANSORI,
       text: '잔소리',
       link: '/naggingboard',
@@ -33,6 +34,33 @@ const BottomNav = () => {
       link: '/mypage',
     },
   ];
+
+  const getTitle = () => {
+    switch (history.pathname) {
+      case '/':
+        return setClickedMenu('home');
+      case '/rank':
+        return setClickedMenu('rank');
+      case '/mypage':
+        return setClickedMenu('mypage');
+      case '/useredit':
+        return setClickedMenu('mypage');
+      case '/naggingboard':
+        return setClickedMenu('naggingboard');
+      case '/questions':
+        return setClickedMenu('naggingboard');
+      case '/checklist':
+        return setClickedMenu('home');
+      case '/myposts':
+        return setClickedMenu('mypage');
+      default:
+        return '';
+    }
+  };
+
+  useEffect(() => {
+    getTitle();
+  }, [history.pathname]);
 
   return (
     <GnbWrapper>
@@ -71,6 +99,7 @@ const GnbWrapper = styled.footer`
 `;
 
 const MenuContainer = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;

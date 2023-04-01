@@ -1,8 +1,7 @@
 import React from 'react';
-// import "./App.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store, { RootState } from './store/store';
+import store from './store/store';
 import HomePage from './page/HomePage';
 import AlarmsPage from './page/AlarmsPage';
 import ChecklistPage from './page/ChecklistPage';
@@ -22,8 +21,6 @@ import RankPage from './page/RankPage';
 import PrivateRoute from './hooks/PrivateRoute';
 import OAuthPage from './page/OAuthPage';
 import { BarLoader } from './components/BarLoader';
-import { useSelector } from 'react-redux';
-
 
 export default function App() {
   return (
@@ -35,7 +32,6 @@ export default function App() {
           <main>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/*" element={<HomePage />} />
               <Route path="/rank" element={<RankPage />} />
               <Route
                 path="/mypage"
