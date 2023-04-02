@@ -105,14 +105,14 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         return UriComponentsBuilder //  Port 설정을 하지 않으면 기본값은 80 포트
                 .newInstance()
-                //.scheme("https")
-                //.host("andanghae.com") // 서버용
-                //.path("login/callback") // 서버용
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
+                .scheme("https")
+                .host("andanghae.com") // 서버용
+                .path("login/callback") // 서버용
+                //.scheme("http")
+                //.host("localhost")
+                //.port(3000)
                 //.path("receive-token.html")
-                .path("login/callback")
+                //.path("login/callback")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
