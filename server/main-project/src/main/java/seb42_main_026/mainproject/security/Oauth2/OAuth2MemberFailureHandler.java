@@ -10,7 +10,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.util.UriComponentsBuilder;
 import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.exception.ErrorResponse;
 import seb42_main_026.mainproject.exception.ExceptionCode;
@@ -19,10 +22,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLEncoder;
+import java.util.List;
 
 @Slf4j
-public class OAuth2MemberFailureHandler implements AuthenticationFailureHandler {
+public class OAuth2MemberFailureHandler extends SimpleUrlAuthenticationFailureHandler  {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request,
@@ -32,7 +37,9 @@ public class OAuth2MemberFailureHandler implements AuthenticationFailureHandler 
         exception.printStackTrace();
         log.error("# Authentication failed: {}", exception.getMessage());
 
-        sendErrorResponse(response, exception); //  출력 스트림에 Error 정보를 담고 있다.
+        redirect(request, response, exception);
+
+        //sendErrorResponse(response, exception); //  출력 스트림에 Error 정보를 담고 있다.
     }
 
     private void sendErrorResponse(HttpServletResponse response,AuthenticationException e) throws IOException{
@@ -53,6 +60,37 @@ public class OAuth2MemberFailureHandler implements AuthenticationFailureHandler 
 
 
 
+    }
+
+    private void redirect(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException{
+        String uri = createURI(exception.getMessage()).toString();
+
+        response.setHeader("Exception", exception.getMessage());
+
+        getRedirectStrategy().sendRedirect(request, response, uri);
+
+    }
+
+
+
+    private URI createURI(String exception){
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("Exception", exception );
+
+
+        return UriComponentsBuilder //  Port 설정을 하지 않으면 기본값은 80 포트
+                .newInstance()
+                //.scheme("https")
+                //.host("andanghae.com") // 서버용
+                //.path("login/callback") // 서버용
+                .scheme("http")
+                .host("localhost")
+                .port(3000)
+                //.path("receive-token.html")
+                .path("login/callback")
+                .queryParams(queryParams)
+                .build()
+                .toUri();
     }
 }
 
