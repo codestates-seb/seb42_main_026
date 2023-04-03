@@ -8,15 +8,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { usePage } from '../hooks/usePage';
 import getCookie from '../utils/cookieUtils';
 import axios from 'axios';
-import MenuButton from './MenuButton';
-import { useEffect, useState } from 'react';
 import { getUser } from '../utils/getUser';
+import { useDispatch } from 'react-redux';
+import { setModal } from '../store/actions';
 
 export default function TopNav() {
   const navigate = useNavigate();
   const history = useLocation();
+  const dispatch = useDispatch();
   const { getEditorHandler, patchPostHandler, pushPostHandler, getPostDetailHandler, setEditorHandler } = usePage();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const getTitle = () => {
     switch (history.pathname) {
@@ -56,6 +56,36 @@ export default function TopNav() {
   const isHome = () => history.pathname === '/';
 
   const showBackButton = () => !isHome();
+
+  const postMenuItems = [
+    {
+      title: '수정',
+      button: async () => {
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_BASE_URL}${history.pathname}`);
+          const { data } = response.data;
+          if (data.tag === '운동') data.tag = 'EXERCISE';
+          if (data.tag === '공부') data.tag = 'STUDY';
+          if (data.tag === '기상') data.tag = 'WAKE_UP';
+          if (data.tag === '기타') data.tag = 'ETC';
+          setEditorHandler(data.title, data.content, data.tag, data.imgFile, data.questionImageUrl);
+          navigate(`/edit/${data.questionId}`);
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
+      },
+    },
+    {
+      title: '삭제',
+      button: function () {
+        if (window.confirm('정말 삭제 하시겠습니까?')) {
+          postDelete();
+          return dispatch(setModal([], false));
+        }
+      },
+    },
+  ];
 
   const postDelete = async () => {
     if (getPostDetailHandler.memberId === Number(getUser()?.memberId())) {
@@ -100,45 +130,7 @@ export default function TopNav() {
             수정
           </TopNavEditorButton>
         )}
-        {history.pathname.slice(0, 10) === '/questions' && getPostDetailHandler.memberId === getUser()?.memberId() && (
-          <>
-            <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
-            {isMenuOpen === true ? (
-              <MenuButton
-                menu={[
-                  {
-                    title: '수정',
-                    button: async () => {
-                      try {
-                        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}${history.pathname}`);
-                        const { data } = response.data;
-                        if (data.tag === '운동') data.tag = 'EXERCISE';
-                        if (data.tag === '공부') data.tag = 'STUDY';
-                        if (data.tag === '기상') data.tag = 'WAKE_UP';
-                        if (data.tag === '기타') data.tag = 'ETC';
-                        setEditorHandler(data.title, data.content, data.tag, data.imgFile, data.questionImageUrl);
-                        navigate(`/edit/${data.questionId}`);
-                      } catch (error) {
-                        console.error(error);
-                        return null;
-                      }
-                    },
-                  },
-                  {
-                    title: '삭제',
-                    button: function () {
-                      if (window.confirm('정말 삭제 하시겠습니까?')) {
-                        setIsMenuOpen(false);
-                        return postDelete();
-                      }
-                    },
-                  },
-                ]}
-                onClose={setIsMenuOpen}
-              />
-            ) : null}
-          </>
-        )}
+        {history.pathname.slice(0, 10) === '/questions' && getPostDetailHandler.memberId === getUser()?.memberId() && <ICON_MENU onClick={() => dispatch(setModal(postMenuItems, true))} />}
       </RightContainer>
     </TopNavWrapper>
   );

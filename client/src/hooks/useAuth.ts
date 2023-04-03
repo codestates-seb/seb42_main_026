@@ -24,19 +24,11 @@ export function useAuth() {
       const refreshToken = response.headers['refresh'];
       const decodedRefreshToken = decodeJwt(refreshToken);
       const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
-
-      document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
-      document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
-      const cookieString = document.cookie;
-      const cookies = cookieString.split('; ');
-      const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
-      if (accessTokenCookie) {
-        const accessToken = accessTokenCookie.split('=')[1];
-        dispatch(login());
-        navigate('/');
-        console.log(isLoggedIn);
-        alert('로그인 성공!');
-      }
+      document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp.toUTCString()};`;
+      document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp.toUTCString()};`;
+      dispatch(login());
+      navigate('/');
+      alert('로그인 성공!');
       return data;
     } catch (error) {
       console.error(error);
@@ -62,14 +54,8 @@ export function useAuth() {
           const decodedRefreshToken = decodeJwt(refreshToken);
           const refreshTokenExp = new Date(decodedRefreshToken.exp * 1000);
 
-          document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp};`;
-          document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp};`;
-          const cookieString = document.cookie;
-          const cookies = cookieString.split('; ');
-          const accessTokenCookie = cookies.find((cookie) => cookie.startsWith('accessToken='));
-          if (accessTokenCookie) {
-            const accessToken = accessTokenCookie.split('=')[1];
-          }
+          document.cookie = `accessToken=${accessToken}; path=/; expires=${accessTokenExp.toUTCString()};`;
+          document.cookie = `refreshToken=${refreshToken}; path=/; expires=${refreshTokenExp.toUTCString()};`;
           dispatch(login());
           return true;
         } catch (error) {
