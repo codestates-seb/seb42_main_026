@@ -132,6 +132,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
             </BottomLeftWrapper>
           </BottomWrapper>
           {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
+          {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
         </TextWrapper>
       </AnswerWrapper>
       {comments?.length !== 0 &&
