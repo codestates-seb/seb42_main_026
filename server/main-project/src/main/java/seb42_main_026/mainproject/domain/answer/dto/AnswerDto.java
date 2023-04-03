@@ -48,7 +48,6 @@ public class AnswerDto {
         private String profileImageUrl;
         private String voiceFileUrl;
         private int likeCount;
-        private boolean likeCheck;
         private List<CommentDto.Response> comments;
     }
 }

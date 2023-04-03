@@ -44,7 +44,6 @@ public class QuestionDto {
         private LocalDateTime createdAt;
         private String questionStatus;
         private int likeCount;
-        private boolean likeCheck;
         private List<AnswerDto.Response> answers;
         private int answerCount;
         private String tag;

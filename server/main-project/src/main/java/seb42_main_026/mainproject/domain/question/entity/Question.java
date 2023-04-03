@@ -35,9 +35,6 @@ public class Question extends Auditable {
     private int likeCount;
 
     @Column(nullable = false)
-    private boolean likeCheck;
-
-    @Column(nullable = false)
     private int answerCount;
 
     @Column(nullable = true)

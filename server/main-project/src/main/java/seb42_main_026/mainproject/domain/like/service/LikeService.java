@@ -32,50 +32,42 @@ public class LikeService {
     private final AnswerService answerService;
 
     public void toggleQuestionLike(QuestionLike questionLike) {
+        // 좋아요를 하려는 질문
+        Question question = questionService.findVerifiedQuestion(questionLike.getQuestion().getQuestionId());
+
         // 좋아요를 하려는 회원
-        Member verifiedMember = memberService.findVerifiedMember(questionLike.getMember().getMemberId());
+        Member member = memberService.findVerifiedMember(questionLike.getMember().getMemberId());
 
-        // 유효한 질문인지 체크
-        Question verifiedQuestion = questionService.findVerifiedQuestion(questionLike.getQuestion().getQuestionId());
-
-        // 질문과 회원으로 매칭되는 좋아요 체크
-        QuestionLike foundQuestionLike = questionLikeRepository.findByQuestionAndMember(verifiedQuestion, verifiedMember);
+        // 질문과 회원으로 매칭되는 좋아요
+        QuestionLike foundQuestionLike = questionLikeRepository.findByQuestionAndMember(question, member);
 
         // 아직 좋아요가 없으면
         if (foundQuestionLike == null) {
-            verifiedQuestion.setLikeCount(verifiedQuestion.getLikeCount() + 1);
-            verifiedQuestion.setLikeCheck(true);
-
-            questionLikeRepository.save(questionLike);
+            question.setLikeCount(question.getLikeCount() + 1); // 해당 질문의 좋아요 +1
+            questionLikeRepository.save(questionLike); // 좋아요 저장
         } else { // 좋아요가 있으면
-            verifiedQuestion.setLikeCount(verifiedQuestion.getLikeCount() - 1);
-            verifiedQuestion.setLikeCheck(false);
-
-            questionLikeRepository.delete(foundQuestionLike);
+            question.setLikeCount(question.getLikeCount() - 1); // 해당 질문의 좋아요 -1
+            questionLikeRepository.delete(foundQuestionLike); // 좋아요 삭제
         }
     }
 
     public void toggleAnswerLike(AnswerLike answerLike) {
+        // 좋아요를 하려는 답변
+        Answer answer = answerService.findAnswer(answerLike.getAnswer().getAnswerId());
+
         // 좋아요를 하려는 회원
-        Member verifiedMember = memberService.findVerifiedMember(answerLike.getMember().getMemberId());
+        Member member = memberService.findVerifiedMember(answerLike.getMember().getMemberId());
 
-        // 유효한 답변인지 체크
-        Answer foundAnswer = answerService.findAnswer(answerLike.getAnswer().getAnswerId());
-
-        // 답변과 회원으로 매칭되는 좋아요 체크
-        AnswerLike foundAnswerLike = answerLikeRepository.findByAnswerAndMember(foundAnswer, verifiedMember);
+        // 답변과 회원으로 매칭되는 좋아요
+        AnswerLike foundAnswerLike = answerLikeRepository.findByAnswerAndMember(answer, member);
 
         // 아직 좋아요가 없으면
         if (foundAnswerLike == null) {
-            foundAnswer.setLikeCount(foundAnswer.getLikeCount() + 1);
-            foundAnswer.setLikeCheck(true);
-
-            answerLikeRepository.save(answerLike);
+            answer.setLikeCount(answer.getLikeCount() + 1); // 해당 답변의 좋아요 +1
+            answerLikeRepository.save(answerLike); // 좋아요 저장
         } else { // 좋아요가 있으면
-            foundAnswer.setLikeCount(foundAnswer.getLikeCount() - 1);
-            foundAnswer.setLikeCheck(false);
-
-            answerLikeRepository.delete(foundAnswerLike);
+            answer.setLikeCount(answer.getLikeCount() - 1); // 해당 답변의 좋아요 -1
+            answerLikeRepository.delete(foundAnswerLike); // 좋아요 삭제
         }
     }
 
