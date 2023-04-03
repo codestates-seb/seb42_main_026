@@ -51,8 +51,8 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
       title: '삭제',
       button: function () {
         if (window.confirm('정말 삭제 하시겠습니까?')) {
-          setIsMenuOpen(false);
-          return comentDelete();
+          comentDelete();
+          return dispatch(setModal([], false));
         }
       },
     },
