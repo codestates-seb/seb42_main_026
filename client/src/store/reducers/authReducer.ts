@@ -2,14 +2,13 @@ import getCookie from '../../utils/cookieUtils';
 import decodeJwt from '../../utils/jwtUtils';
 import { LOGIN, LOGOUT } from '../constants';
 
-
 function deleteExpiredCookies() {
   const cookies = document.cookie.split(';');
   const now = new Date();
 
   cookies.forEach((cookie) => {
     const [name, value] = cookie.split('=');
-    if (name.trim() === 'accessToken' || name.trim() === 'refreshToken') {
+    if (name.trim() === 'accessToken') {
       const decoded = decodeJwt(value);
       const expiresAt = new Date(decoded.exp * 1000);
       if (expiresAt < now) {
@@ -23,7 +22,6 @@ deleteExpiredCookies();
 
 const accessToken = getCookie('accessToken');
 const refreshToken = getCookie('refreshToken');
-
 
 export interface AuthState {
   isLogin: boolean;
