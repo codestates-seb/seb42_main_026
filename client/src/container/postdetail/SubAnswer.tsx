@@ -9,6 +9,7 @@ import axios from 'axios';
 import parseDateUtils from '../../utils/paeseDateUtils';
 import { setModal } from '../../store/actions';
 import { useDispatch } from 'react-redux';
+import CommentEditForm from './CommentEditForm';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -24,8 +25,8 @@ interface AnswerCardProps {
 
 //임의로 넣어놓은 데이터값도 제거하기
 const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, questionId, answerId, commentId }: AnswerCardProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const [answerEditOpen, setAnswerEditOpen] = useState(false);
 
   const comentDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
@@ -44,7 +45,7 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
     {
       title: '수정',
       button: function () {
-        console.log('수정');
+        setAnswerEditOpen(true);
       },
     },
     {
@@ -83,6 +84,7 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
               </LikeWrapper> */}
             </BottomLeftWrapper>
           </BottomWrapper>
+          {answerEditOpen && <CommentEditForm questionId={questionId} answerId={answerId} commentId={commentId} value={content} />}
         </TextWrapper>
       </AnswerWrapper>
     </SubAnswerWrapper>
