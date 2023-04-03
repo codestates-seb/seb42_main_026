@@ -33,7 +33,6 @@ interface AnswerCardProps {
 }
 //임의로 넣어놓은 데이터값도 제거하기
 const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId, likeCheck, voiceFileUrl }: AnswerCardProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -95,8 +94,8 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
       title: '삭제',
       button: function () {
         if (window.confirm('정말 삭제 하시겠습니까?')) {
-          setIsMenuOpen(false);
-          return answerDelete();
+          answerDelete();
+          return dispatch(setModal([], false));
         }
       },
     },
