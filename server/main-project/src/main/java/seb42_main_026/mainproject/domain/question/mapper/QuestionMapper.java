@@ -32,6 +32,7 @@ public interface QuestionMapper {
         detailResponse.setTag(question.getTag().getName());
 
         detailResponse.setLikeCount(question.getLikeCount());
+        detailResponse.setLikeCheck(question.isLikeCheck());
         detailResponse.setAnswerCount(question.getAnswerCount());
 
         detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
@@ -52,6 +53,7 @@ public interface QuestionMapper {
                             answerResponse.setVoiceFileUrl(answer.getVoiceFileUrl());
 
                             answerResponse.setLikeCount(answer.getLikeCount());
+                            answerResponse.setLikeCheck(answer.isLikeCheck());
 
                             List<Comment> comments = answer.getComments();
                             List<CommentDto.Response> commentResponses = comments.stream()
