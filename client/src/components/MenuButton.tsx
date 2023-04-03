@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useDispatch } from 'react-redux';
 
+import styled, { keyframes } from 'styled-components';
+import { setModal } from '../store/actions';
 interface MenuItem {
   title: string;
   button?: () => void;
@@ -8,35 +9,26 @@ interface MenuItem {
 
 interface MenuButtonProps {
   menu: MenuItem[];
-  onClose: Dispatch<SetStateAction<boolean>>;
 }
 
-interface ModalProps {
-  widthValue: string;
-}
-const MenuButton = ({ menu, onClose }: MenuButtonProps) => {
-  const [isOpen, setOpen] = useState(true);
+const MenuButton = ({ menu }: MenuButtonProps) => {
+  const dispatch = useDispatch();
 
-  const appElement = document.querySelector('.App');
-  let appWidth = 0;
-
-  if (appElement !== null) {
-    appWidth = parseInt(window.getComputedStyle(appElement).getPropertyValue('width'), 10);
+  function handleMenuButtonClick() {
+    dispatch(setModal([], false));
   }
 
-  if (isOpen) {
-    return (
-      <MenuButtonWrapper onClick={() => onClose(false)}>
-        <EditDeleteContainer widthValue={`${appWidth - 32}px`}>
-          {menu.map(({ title, button }, index) => (
-            <button key={index} onClick={button}>
-              {title}
-            </button>
-          ))}
-        </EditDeleteContainer>
-      </MenuButtonWrapper>
-    );
-  } else return <></>;
+  return (
+    <MenuButtonWrapper onClick={() => handleMenuButtonClick()}>
+      <EditDeleteContainer>
+        {menu.map(({ title, button }, index) => (
+          <button key={index} onClick={button}>
+            {title}
+          </button>
+        ))}
+      </EditDeleteContainer>
+    </MenuButtonWrapper>
+  );
 };
 export default MenuButton;
 
@@ -61,13 +53,12 @@ const MenuButtonWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const EditDeleteContainer = styled.div<ModalProps>`
+const EditDeleteContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   white-space: nowrap;
-  z-index: 900;
-  position: fixed;
+  position: absolute;
   height: 12rem;
   bottom: 0;
   border: 0.5px solid var(--color-gray02);
@@ -75,7 +66,7 @@ const EditDeleteContainer = styled.div<ModalProps>`
   border-radius: 5px 5px 0 0;
   max-width: 720px;
   min-width: 360px;
-  width: ${(props) => props.widthValue};
+  width: calc(100% - 32px);
   animation: ${move} 0.5s ease;
 
   button {

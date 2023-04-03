@@ -12,6 +12,8 @@ import axios from 'axios';
 import getCookie from '../../utils/cookieUtils';
 import parseDateUtils from '../../utils/paeseDateUtils';
 import CustomPlayer from '../../components/CustomPlayer';
+import { setModal } from '../../store/actions';
+import { useDispatch } from 'react-redux';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -33,6 +35,7 @@ interface AnswerCardProps {
 const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId, likeCheck, voiceFileUrl }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const answerDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
@@ -81,6 +84,24 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
     }
   };
 
+  const answerMenuItems = [
+    {
+      title: '수정',
+      button: function () {
+        console.log('수정');
+      },
+    },
+    {
+      title: '삭제',
+      button: function () {
+        if (window.confirm('정말 삭제 하시겠습니까?')) {
+          setIsMenuOpen(false);
+          return answerDelete();
+        }
+      },
+    },
+  ];
+
   return (
     <>
       <AnswerWrapper>
@@ -98,33 +119,7 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
               {postMemberId === getUser()?.memberId() && memberId !== getUser()?.memberId() && (
                 <ButtonStyled color={answerStatus === '일반 상태' ? 'pink' : 'normal'} title={answerStatus === '일반 상태' ? '채택중' : '채택완료'} width="55px" height="22px" buttonClickHandler={changeAnswerState} />
               )}
-              {memberId === getUser()?.memberId() && (
-                <>
-                  <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
-                  {isMenuOpen === true ? (
-                    <MenuButton
-                      menu={[
-                        {
-                          title: '수정',
-                          button: function () {
-                            console.log('수정');
-                          },
-                        },
-                        {
-                          title: '삭제',
-                          button: function () {
-                            if (window.confirm('정말 삭제 하시겠습니까?')) {
-                              setIsMenuOpen(false);
-                              return answerDelete();
-                            }
-                          },
-                        },
-                      ]}
-                      onClose={setIsMenuOpen}
-                    />
-                  ) : null}
-                </>
-              )}
+              {memberId === getUser()?.memberId() && <ICON_MENU onClick={() => dispatch(setModal(answerMenuItems, true))} />}
             </TopRightWrapper>
           </TopWrapper>
           <MiddleWrapper>{content}</MiddleWrapper>

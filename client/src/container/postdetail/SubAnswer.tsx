@@ -7,6 +7,8 @@ import { useState } from 'react';
 import getCookie from '../../utils/cookieUtils';
 import axios from 'axios';
 import parseDateUtils from '../../utils/paeseDateUtils';
+import { setModal } from '../../store/actions';
+import { useDispatch } from 'react-redux';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -23,6 +25,7 @@ interface AnswerCardProps {
 //임의로 넣어놓은 데이터값도 제거하기
 const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, questionId, answerId, commentId }: AnswerCardProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const comentDelete = async () => {
     if (memberId === Number(getUser()?.memberId())) {
@@ -37,6 +40,24 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
     }
   };
 
+  const commentMenuItems = [
+    {
+      title: '수정',
+      button: function () {
+        console.log('수정');
+      },
+    },
+    {
+      title: '삭제',
+      button: function () {
+        if (window.confirm('정말 삭제 하시겠습니까?')) {
+          setIsMenuOpen(false);
+          return comentDelete();
+        }
+      },
+    },
+  ];
+
   return (
     <SubAnswerWrapper>
       <AnswerWrapper>
@@ -50,35 +71,7 @@ const SubAnswer = ({ profileImageUrl, nickname, createdAt, content, memberId, qu
               <TimeWrapper>{parseDateUtils(new Date(createdAt))}</TimeWrapper>
             </InfoWrapper>
             <TopRightWrapper>
-              <MenuButtonWrapper>
-                {memberId === getUser()?.memberId() && (
-                  <>
-                    <ICON_MENU onClick={() => setIsMenuOpen(!isMenuOpen)} />
-                    {isMenuOpen === true ? (
-                      <MenuButton
-                        menu={[
-                          {
-                            title: '수정',
-                            button: function () {
-                              console.log('수정');
-                            },
-                          },
-                          {
-                            title: '삭제',
-                            button: function () {
-                              if (window.confirm('정말 삭제 하시겠습니까?')) {
-                                setIsMenuOpen(false);
-                                return comentDelete();
-                              }
-                            },
-                          },
-                        ]}
-                        onClose={setIsMenuOpen}
-                      />
-                    ) : null}
-                  </>
-                )}
-              </MenuButtonWrapper>
+              <MenuButtonWrapper>{memberId === getUser()?.memberId() && <ICON_MENU onClick={() => dispatch(setModal(commentMenuItems, true))} />}</MenuButtonWrapper>
             </TopRightWrapper>
           </TopWrapper>
           <MiddleWrapper>{content}</MiddleWrapper>
