@@ -38,7 +38,6 @@ const PostDetailPage = () => {
 
   useEffect(() => {
     if (data !== null) {
-      console.log(data.data)
       setPost(data.data);
       setPostDetailHandler(data.data.memberId, data.data.questionId);
     }
