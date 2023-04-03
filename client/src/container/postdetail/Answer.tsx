@@ -34,6 +34,7 @@ interface AnswerCardProps {
 //임의로 넣어놓은 데이터값도 제거하기
 const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId, likeCheck, voiceFileUrl }: AnswerCardProps) => {
   const [commentOpen, setCommentOpen] = useState(false);
+  const [commentOpen2, setCommentOpen2] = useState(false);
   const dispatch = useDispatch();
 
   const answerDelete = async () => {
@@ -131,7 +132,6 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
               <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>댓글쓰기</SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
-          {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
           {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
         </TextWrapper>
       </AnswerWrapper>
