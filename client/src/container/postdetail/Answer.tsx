@@ -6,7 +6,6 @@ import { ReactComponent as ICON_MENU } from '../../assets/ic_answer_menubutton.s
 import SubAnswer from './SubAnswer';
 import CommentForm from './CommentForm';
 import { getUser } from '../../utils/getUser';
-import MenuButton from '../../components/MenuButton';
 import { useState } from 'react';
 import axios from 'axios';
 import getCookie from '../../utils/cookieUtils';
@@ -14,6 +13,7 @@ import parseDateUtils from '../../utils/paeseDateUtils';
 import CustomPlayer from '../../components/CustomPlayer';
 import { setModal } from '../../store/actions';
 import { useDispatch } from 'react-redux';
+import AnswerEditForm from './AnswerEditForm';
 
 //필수 타입 ? 제거하기
 interface AnswerCardProps {
@@ -34,7 +34,7 @@ interface AnswerCardProps {
 //임의로 넣어놓은 데이터값도 제거하기
 const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt, answerStatus, content, comments, memberId, answerId, questionId, likeCheck, voiceFileUrl }: AnswerCardProps) => {
   const [commentOpen, setCommentOpen] = useState(false);
-  const [commentOpen2, setCommentOpen2] = useState(false);
+  const [answerEditOpen, setAnswerEditOpen] = useState(false);
   const dispatch = useDispatch();
 
   const answerDelete = async () => {
@@ -88,7 +88,8 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
     {
       title: '수정',
       button: function () {
-        console.log('수정');
+        setCommentOpen(false);
+        setAnswerEditOpen(true);
       },
     },
     {
@@ -129,10 +130,18 @@ const Answer = ({ postMemberId, likeCount, profileImageUrl, nickname, createdAt,
                 {likeCheck ? <ICON_LIKE stroke="#FF607C" fill="#FF607C" /> : <ICON_LIKE stroke="#ABAEB4" fill="none" />}
                 <LikeNumber>{likeCount}</LikeNumber>
               </LikeWrapper>
-              <SubAnswerButton onClick={() => setCommentOpen(!commentOpen)}>댓글쓰기</SubAnswerButton>
+              <SubAnswerButton
+                onClick={() => {
+                  setCommentOpen(!commentOpen);
+                  setAnswerEditOpen(false);
+                }}
+              >
+                댓글쓰기
+              </SubAnswerButton>
             </BottomLeftWrapper>
           </BottomWrapper>
           {commentOpen && <CommentForm questionId={questionId} answerId={answerId} />}
+          {answerEditOpen && <AnswerEditForm questionId={questionId} answerId={answerId} value={content} />}
         </TextWrapper>
       </AnswerWrapper>
       {comments?.length !== 0 &&
