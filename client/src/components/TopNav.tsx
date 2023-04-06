@@ -107,7 +107,6 @@ export default function TopNav() {
           <ICON_BACK width={8} height={14} onClick={() => navigate(-1)} />
         ) : (
           <LogoTitle theme={isHome() ? undefined : 'normal'}>
-            <ICON_LOGO width={25} height={25} />
             PPONG
           </LogoTitle>
         )}
@@ -158,7 +157,7 @@ const TopNavWrapper = styled.header`
   align-items: center;
   background-color: var(--color-white01);
   padding: 0px 16px 0px 16px;
-  border-bottom: 0.1px solid var(--color-gray03);
+  box-shadow: 0px 0px 0 rgba(46, 59, 66, .1);
 `;
 
 const RightContainer = styled.div`
@@ -181,7 +180,7 @@ const LogoTitle = styled.span`
   font-weight: ${(props) => (props.theme === 'normal' ? `700` : `900`)};
   vertical-align: center;
   text-align: center;
-  font-size: var(font-size20);
+  font-size: var(--font-size20);
   font-family: ${(props) => (props.theme === 'normal' ? `Noto Sans KR` : `Roboto`)};
   color: ${(props) => (props.theme === 'normal' ? `black01` : `var(--color-mobMain)`)};
   letter-spacing: var(--font-spacing-title);
