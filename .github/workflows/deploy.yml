@@ -43,6 +43,3 @@ jobs:
             --region ap-northeast-2 \
             build s3://andanghae.com
         working-directory: ./client
-        
-      - name: Invalidate CloudFront Cache
-        run: aws cloudfront create-invalidation --distribution-id ${{secrets.DEV_AWS_DISTRIBUTION_ID}} --paths "/*"
