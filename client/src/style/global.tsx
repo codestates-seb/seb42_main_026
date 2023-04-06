@@ -11,7 +11,9 @@ main{
   padding: 20px 0px 102px 0px;
   width: 100%;
   height: auto;
+  min-height: 100vh;
   z-index: 0;
+  background-color: var(--color-white01);
 }
 
 .App{
@@ -22,15 +24,14 @@ main{
   max-width: 720px;
   min-width: 360px;
   width: 100%;
-  height: 100%;
+  box-shadow: 0 6px 20px rgba(0,0,0,.1)
 }
 
 #root {
   display: flex;
   justify-content: center;
+  
 }
-
-
 
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,
 code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,
@@ -43,7 +44,6 @@ mark,audio,video {
 */
 body {
   font-family: "Noto Sans KR", "Roboto",'Apple SD Gothic','맑은고딕','Nanum Gothic',sans-serif;;
-  background-color: white;
 }
 html {
   /* ************************************************************
@@ -53,6 +53,7 @@ html {
   overflow-y: scroll; /* 문서전체에 세로 스크롤바자국 항상 표시 */
   overflow-x: hidden; /* 문서전체에 가로 스크롤바자국 항상 숨김 */
   font-size: 16px;
+  background-color: var(--color-white01);
 }
 
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,
