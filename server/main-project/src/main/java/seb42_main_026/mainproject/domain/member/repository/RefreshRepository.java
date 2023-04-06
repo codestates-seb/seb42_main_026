@@ -12,8 +12,4 @@ public interface RefreshRepository extends JpaRepository<Refresh, Long> {
 
     Optional<Refresh> findByMember_MemberId(Long Id);
 
-
-
-
-
 }
