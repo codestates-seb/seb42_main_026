@@ -95,7 +95,7 @@ const GnbWrapper = styled.footer`
   align-items: center;
   background-color: white;
   padding: 0 16px 19px 16px;
-  box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.06);
+  border-top: solid 0.5px var(--color-gray04);
 `;
 
 const MenuContainer = styled.div`
