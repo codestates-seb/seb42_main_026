@@ -3,10 +3,7 @@ package seb42_main_026.mainproject.security.Oauth2;
 
 import lombok.Builder;
 import lombok.Getter;
-import seb42_main_026.mainproject.domain.member.entity.Member;
-
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 @Getter

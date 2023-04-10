@@ -17,7 +17,7 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        log.info("# Authenticated successfully!"); //  Authentication 객체에 사용자 정보를 얻은 후, HttpServletResponse로 출력 스트림을 생성하여 response를 전송할 수 있다.
+        log.info("# Authenticated successfully!");
     }
 
 }

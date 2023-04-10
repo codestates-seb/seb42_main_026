@@ -24,15 +24,15 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
 
         log.error("# Authentication failed: {}", exception.getMessage());
 
-        sendErrorResponse(response); //  출력 스트림에 Error 정보를 담고 있다.
+        sendErrorResponse(response);
     }
 
     private void sendErrorResponse(HttpServletResponse response) throws IOException{
-        Gson gson = new Gson(); // Error 정보가 담긴 객체(ErrorResponse)를 JSON 문자열로 변환하는데 사용되는 Gson 라이브러리의 인스턴스를 생성한다.
+        Gson gson = new Gson();
         ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE); // response의 Content Type이 “application/json” 이라는 것을 클라이언트에게 알려줄 수 있도록 MediaType.APPLICATION_JSON_VALUE를 HTTP Header에 추가하는 작업이다.
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());  //  response의 status가 401임을 클라이언트에게 알려줄 수 있도록 HttpStatus.UNAUTHORIZED.value()을 HTTP Header에 추가한다.
-        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class)); //Gson을 이용해 ErrorResponse 객체를 JSON 포맷 문자열로 변환 후, 출력 스트림을 생성한다.
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
 
     }
 }

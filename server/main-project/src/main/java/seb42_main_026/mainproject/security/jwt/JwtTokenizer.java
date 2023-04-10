@@ -25,17 +25,16 @@ import java.util.*;
 @Getter
 @Component
 public class JwtTokenizer {
-    @Value("${jwt.key}") //  JWT 생성 시 필요한 정보이며, 해당 정보는 application.yml 파일에서 로드한다.
+    @Value("${jwt.key}")
     private String secretKey;
 
-    @Value("${jwt.access-token-expiration-minutes}") //  JWT 생성 시 필요한 정보이며, 해당 정보는 application.yml 파일에서 로드한다.
+    @Value("${jwt.access-token-expiration-minutes}")
     private int accessTokenExpirationMinutes;
 
-    @Value("${jwt.refresh-token-expiration-minutes}") // JWT 생성 시 필요한 정보이며, 해당 정보는 application.yml 파일에서 로드한다.
+    @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
 
-    // Plain Text 형태인 Secret Key의 byte[]를 Base64 형식의 문자열로 인코딩해준다.
     public String encodeBase64SecretKey(String secretKey){
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
     }
@@ -44,15 +43,15 @@ public class JwtTokenizer {
                                       String subject,
                                       Instant expiration,
                                       String base64EncodedSecretKey) {
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey); // Base64 형식 Secret Key 문자열을 이용해 Key(java.security.Key) 객체를 얻는다.
+        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
         return Jwts.builder()
-                .setClaims(claims) // Claims 에는 주로 인증된 사용자와 관련된 정보를 추가합니다.
-                .setSubject(subject) //  JWT에 대한 제목을 추가한다.
-                .setIssuedAt(Date.from(Instant.now())) // JWT 발행 일자를 설정한다. 파라미터 타입은 java.util.Date 타입이다.
-                .setExpiration(Date.from(expiration)) // JWT의 만료일시를 지정한다. 파라미터 타입은 java.util.Date 타입이다.
-                .signWith(key) // 서명을 위한 Key(java.security.key)객체를 설정한다.
-                .compact(); // compact()를 통해 JWT 생성하고 직렬화한다.
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(Date.from(Instant.now()))
+                .setExpiration(Date.from(expiration))
+                .signWith(key)
+                .compact();
     }
 
     public String generateRefreshToken(String subject,
@@ -81,19 +80,17 @@ public class JwtTokenizer {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
         Jwts.parserBuilder()
-                .setSigningKey(key) // 메서드로 서명에 사용된 Secret Key를 설정한다.
+                .setSigningKey(key)
                 .build()
-                .parseClaimsJws(jws); //  JWT를 파싱해서 Claims를 얻는다.
+                .parseClaimsJws(jws);
     }
 
-    // JWT의 만료 일시를 지정하기 위한 메서드로 JWT 생성 시 사용한다.
     public Instant getTokenExpiration(int expirationMinutes){
         return Instant.now().plus(Duration.ofMinutes(expirationMinutes));
     }
 
-    // JWT의 서명에 사용할 Secret Key를 생성해준다.
     private Key getKeyFromBase64EncodedKey(String base64EncodedSecretKey){
-        byte[] keyBytes = Decoders.BASE64.decode(base64EncodedSecretKey); // Base64 형식으로 인코딩된 Secret Key를 디코딩한 후, byte array를 반환한다.
+        byte[] keyBytes = Decoders.BASE64.decode(base64EncodedSecretKey);
 
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -106,7 +103,6 @@ public class JwtTokenizer {
 
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader("Refresh"));
-        //.map(refreshToken -> refreshToken.replace("Bearer", ""));
     }
 
     public boolean isTokenValid(String token) {
