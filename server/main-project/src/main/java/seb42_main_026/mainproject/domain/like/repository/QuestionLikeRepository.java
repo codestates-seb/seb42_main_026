@@ -7,4 +7,5 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 
 public interface QuestionLikeRepository extends JpaRepository<QuestionLike, Long> {
     QuestionLike findByQuestionAndMember(Question question, Member member);
+    boolean existsByQuestionAndMember(Question question, Member member);
 }

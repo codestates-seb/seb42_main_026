@@ -33,7 +33,6 @@ public interface QuestionMapper {
 
         detailResponse.setLikeCount(question.getLikeCount());
         detailResponse.setLikeCheck(question.isLikeCheck());
-
         detailResponse.setAnswerCount(question.getAnswerCount());
 
         detailResponse.setProfileImageUrl(question.getMember().getProfileImageUrl());
