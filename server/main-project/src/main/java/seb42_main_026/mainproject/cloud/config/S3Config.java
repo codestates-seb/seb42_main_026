@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// 미디어파일 업로드에 사용되는 S3연결 설정 클래스_230317
 @Configuration
 public class S3Config {
-    /** test 기간에는 환경변수 설정(.yml) 안하고 바로 써서 하기
-     * test 끝나면 해당 키 노출 안되게 변경 - todo
-     */
 
     @Value("${cloud.aws.credentials.accessKey}")
     private String accessKey;
@@ -23,6 +21,7 @@ public class S3Config {
     @Value("${cloud.aws.region.static}")
     private String region;
 
+    // S3버킷 연결 및 AmazonS3Client 인스턴스 빌드_230317
     @Bean
     public AmazonS3Client amazonS3Client(){
         BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(accessKey, secretKey);

@@ -42,6 +42,11 @@ public class AnswerController {
      *  파일 업로드 관련 service 로직 작성 (2) AnswerService - done
      */
 
+    /**
+     * 잔소리(답변) POST 요청 처리 Controller 메서드_230307
+     * NOTE : 오디오 파일 업로드위해 multipart/form data 요청(Optional) 추가_230317
+     * NOTE : POST 요청자 인가(Authorization) 확인위해 @AuthenticationPrincipal 추가_230325
+     */
     @PostMapping(value = "/{question-id}/answers", consumes =
             {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> postAnswer(@PathVariable("question-id") @Positive long questionId,
@@ -60,11 +65,9 @@ public class AnswerController {
     }
 
     /**
-     * Patch 매서드로 수정기능 - done
-     *  ㄴ Service 단에서 questionId와 answerId 모두 사용해야함?
-     * Patch 매서드로 채택기능 - done
+     * 잔소리(답변) PATCH 요청 처리 Controller 메서드_230308
+     * NOTE : PATCH 요청자 인가(Authorization) 확인위해 @AuthenticationPrincipal 추가_230325
      */
-
     @PatchMapping("/{question-id}/answers/{answer-id}")
     public ResponseEntity<?> patchAnswer(@PathVariable("answer-id") @Positive long answerId,
                                          @AuthenticationPrincipal Member auth,
@@ -79,6 +82,10 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * 오디오 파일 수정을 위한 메서드 분리_230325
+     * NOTE : PATCH 요청자 인가(Authorization) 확인위해 @AuthenticationPrincipal 추가_230325
+     */
     @PatchMapping(value = "/{question-id}/answers/{answer-id}/voiceFile",
             consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> patchVoiceFile(@PathVariable("answer-id") @Positive long answerId,
@@ -89,7 +96,10 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 채택 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
+    /**
+     * 잔소리(답변) 채택(PATCH) 요청 처리 Controller 메서드_230310
+     * NOTE : PATCH 요청자 인가(Authorization) 확인위해 @AuthenticationPrincipal 추가_230325
+     */
     @PatchMapping("/{question-id}/answers/{answer-id}/select")
     public ResponseEntity<?> selectAnswer(@AuthenticationPrincipal Member auth,
                                           @PathVariable("question-id") @Positive long questionId,
@@ -100,7 +110,10 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 삭제 버튼 누르면 클라이언트에서 requestParam 으로 memberId 가져오기 [프론트와 협의 필요]- todo
+    /**
+     * 잔소리(답변) DELETE 요청 처리 Controller 메서드_230309
+     * NOTE : PATCH 요청자 인가(Authorization) 확인위해 @AuthenticationPrincipal 추가_230325
+     */
     @DeleteMapping("/{question-id}/answers/{answer-id}")
     public ResponseEntity<?> deleteAnswer(@AuthenticationPrincipal Member auth,
                                           @PathVariable("answer-id") @Positive long answerId){

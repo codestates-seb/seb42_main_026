@@ -26,26 +26,9 @@ public class S3StorageService implements StorageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Override
-    public void store(MultipartFile file, String encodedFileName){
-        try {
-//            String fileName = file.getOriginalFilename();
-
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType(file.getContentType());
-            metadata.setContentLength(file.getSize());
-
-//            amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
-            //PutObjectRequest 이용하여 파일 생성 안하고 업로드
-            amazonS3Client.putObject(new PutObjectRequest(bucket, encodedFileName, file.getInputStream(), metadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (IOException e) {
-            throw new StorageException("Failed to store file.", e);
-        }
-    }
-
-    //파일 확장자 제한조건 추가(이미지)
-    @Override
+    /* 요청받은 미디어 파일(이미지+오디오)을 S3 버킷에 저장하는 메서드_230317
+     * NOTE : 이미지 파일만 저장하도록 메서드 분리(추상화)_230323
+     */    @Override
     public void imageStore(MultipartFile imageFile, String encodedFileName){
         try {
             if (imageFile.isEmpty()) {
@@ -70,7 +53,10 @@ public class S3StorageService implements StorageService {
         }
     }
 
-    //파일 확장자 제한조건 추가(오디오)
+    /* 요청받은 미디어 파일(이미지+오디오)을 S3 버킷에 저장하는 메서드_230317
+     * NOTE : 오디오 파일만 저장하도록 메서드 분리(추상화)_230323
+     * NOTE : 파일 확장자 제한조건 추가_230328
+     */
     @Override
     public void voiceStore(MultipartFile voiceFile, String encodedFileName){
         try {
@@ -97,38 +83,16 @@ public class S3StorageService implements StorageService {
         }
     }
 
-    //URL 생성 메서드 (파일명 한글일때, 깨짐 방지)
+    // 미디어 파일 저장 URL 생성 메서드 (파일명 한글일때, 깨짐 방지)_230320
     public String getFileUrl(String encodedFileName){
         return URLDecoder.decode(amazonS3Client.getUrl(bucket,encodedFileName).toString(),StandardCharsets.UTF_8);
     }
 
-    //파일명을 "UUID(랜덤값)-{fileName}" 으로 바꿔주는 메서드
+    // 파일명 중복 이슈를 해결하기 위해 파일명을 "UUID + "-" + {fileName}" 으로 바꿔주는 메서드_230320
     public String encodeFileName(MultipartFile mediaFile){
         String fileName = mediaFile.getOriginalFilename();
         String uuid = UUID.randomUUID().toString();
 
         return uuid + "-" + fileName;
     }
-
-    //두가지 기능 합친거
-//    public String fileUrl(MultipartFile file){
-//        String fileName = encodeFileName(file);
-//
-//        try {
-//            ObjectMetadata metadata = new ObjectMetadata();
-//            metadata.setContentType(file.getContentType());
-//            metadata.setContentLength(file.getSize());
-//
-//            amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata)
-//                    .withCannedAcl(CannedAccessControlList.PublicRead));
-//        } catch (IOException e) {
-//            throw new StorageException("Failed to store file.", e);
-//        }
-//
-//        String url = URLDecoder.decode(amazonS3Client.getUrl(bucket,fileName).toString(),StandardCharsets.UTF_8);
-//
-//        return url;
-//    }
-//
-//
 }
