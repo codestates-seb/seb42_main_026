@@ -36,7 +36,6 @@ public class JwtControlloer {
 
         // RefreshToken 추출
         String refreshToken = jwtTokenizer.extractRefreshToken(request).orElseThrow();
-        System.out.println("RefreshToken : "+ refreshToken+"======================================");
 
         // Claims 추출
         Map<String, Object> claims = verifyRefreshJws(refreshToken);

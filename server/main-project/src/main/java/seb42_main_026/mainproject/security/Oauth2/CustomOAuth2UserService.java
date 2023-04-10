@@ -66,7 +66,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             }else {
                 //throw new CustomException(ExceptionCode.MEMBER_EXISTS);
                 //throw new OAuth2AuthenticationException("이미 존재하는 EMAIL입니다.");
-                throw new OAuth2AuthenticationException(new OAuth2Error("MEMBER EXIST EXCEPTION"), "MEMBER_EXIST.");
+                throw new OAuth2AuthenticationException(new OAuth2Error("MEMBER EXIST EXCEPTION"), "MEMBER_EXIST");
             }
 
 
