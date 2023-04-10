@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.entity.Refresh;
-import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.repository.RefreshRepository;
 import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.exception.CustomException;
@@ -16,6 +15,7 @@ import seb42_main_026.mainproject.exception.ExceptionCode;
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,11 +23,10 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-public class JwtControlloer {
+public class JwtController {
 
     private final JwtTokenizer jwtTokenizer;
     private final MemberService memberService;
-
     private final RefreshRepository refreshRepository;
 
     @Transactional
@@ -93,7 +92,7 @@ public class JwtControlloer {
 
 
         String subject = member.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+        Instant expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -104,7 +103,7 @@ public class JwtControlloer {
 
     private String delegateRefreshToken(Member member){
         String subject = member.getEmail();
-        Date expiration =jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+        Instant expiration =jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);

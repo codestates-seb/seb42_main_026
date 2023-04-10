@@ -7,15 +7,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.entity.Refresh;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
 import seb42_main_026.mainproject.domain.member.repository.RefreshRepository;
-import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.dto.LoginDto;
-import seb42_main_026.mainproject.exception.CustomException;
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
 
 import javax.servlet.FilterChain;
@@ -23,7 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,8 +56,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
-        if (refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent()){
-            jwtTokenizer.updateRefresh(member.getMemberId(),refreshRepository, refreshToken);
+
+        if (refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent()) {
+            jwtTokenizer.updateRefresh(member.getMemberId(), refreshRepository, refreshToken);
         } else {
             Refresh refresh = new Refresh();
             refresh.setRefresh(refreshToken);
@@ -84,22 +82,22 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         claims.put("name", member.getNickname());
 
         String subject = member.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+
+        Instant expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
-        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
-
-        return accessToken;
+        return jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
     }
 
     // Refresh Token을 생성한다.
     private String delegateRefreshToken(Member member){
         String subject = member.getEmail();
-        Date expiration =jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+
+        Instant expiration =jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
-        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
-        return refreshToken;
+        return jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
     }
 }
