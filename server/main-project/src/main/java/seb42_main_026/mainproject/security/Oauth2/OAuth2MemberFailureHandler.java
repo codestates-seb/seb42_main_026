@@ -88,7 +88,7 @@ public class OAuth2MemberFailureHandler extends SimpleUrlAuthenticationFailureHa
                 .newInstance()
                 .scheme("https")
                 .host("andanghae.com") // 서버용
-                .path("login/callback") // 서버용
+                .path("login/callback")
                 //.scheme("http")
                 //.host("localhost")
                 //.port(3000)
