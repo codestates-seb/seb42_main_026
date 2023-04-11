@@ -164,9 +164,7 @@ public class SecurityConfiguration {
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository(){
         var googleClientRegistration = clientRegistration();
-
         var naverClientRegistration = naverClientRegistration();
-
         var kakaoClientRegistration = kakaoClientRegistration();
 
         return new InMemoryClientRegistrationRepository(googleClientRegistration, naverClientRegistration, kakaoClientRegistration); // ClientRegistrationRepository 인터페이스의 구현 클래스인InMemoryClientRegistrationRepository의 인스턴스를 생성한다.

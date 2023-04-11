@@ -1,15 +1,10 @@
 package seb42_main_026.mainproject.security.handler;
-import com.google.gson.Gson;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
-
-
 import lombok.extern.slf4j.Slf4j;
-import seb42_main_026.mainproject.exception.ErrorResponse;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,16 +18,6 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
                                         AuthenticationException exception) throws IOException {
 
         log.error("# Authentication failed: {}", exception.getMessage());
-
-        sendErrorResponse(response);
-    }
-
-    private void sendErrorResponse(HttpServletResponse response) throws IOException{
-        Gson gson = new Gson();
-        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
-
+        SecurityErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
     }
 }

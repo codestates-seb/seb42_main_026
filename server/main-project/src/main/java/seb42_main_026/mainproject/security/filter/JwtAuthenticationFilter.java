@@ -51,8 +51,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
 
-        String accessToken = delegateAccessToken(member);
-        String refreshToken = delegateRefreshToken(member);
+        String accessToken = jwtTokenizer.delegateAccessToken(member);
+        String refreshToken = jwtTokenizer.delegateRefreshToken(member);
 
         if (refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent()) {
             jwtTokenizer.updateRefresh(member.getMemberId(), refreshRepository, refreshToken);
@@ -69,32 +69,4 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 
-    // Access Token을 생성한다.
-    private String delegateAccessToken(Member member){
-        Map<String, Object> claims = new HashMap<>();
-
-        claims.put("username", member.getEmail());
-        claims.put("roles", member.getRoles());
-        claims.put("memberId", member.getMemberId());
-        claims.put("name", member.getNickname());
-
-        String subject = member.getEmail();
-
-        Instant expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
-
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-
-        return jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
-    }
-
-    // Refresh Token을 생성한다.
-    private String delegateRefreshToken(Member member){
-        String subject = member.getEmail();
-
-        Instant expiration =jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
-
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-
-        return jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
-    }
 }

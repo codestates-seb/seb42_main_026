@@ -17,7 +17,7 @@ import java.io.IOException;
 public class MemberAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ErrorResponder2.sendErrorResponse(response, HttpStatus.FORBIDDEN);
+        SecurityErrorResponder.sendErrorResponse(response, HttpStatus.FORBIDDEN);
         log.warn("Forbidden error happened: {}", accessDeniedException.getMessage());
     }
 }

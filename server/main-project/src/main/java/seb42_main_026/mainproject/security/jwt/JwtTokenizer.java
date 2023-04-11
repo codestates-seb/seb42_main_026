@@ -12,8 +12,11 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.entity.Refresh;
 import seb42_main_026.mainproject.domain.member.repository.RefreshRepository;
+import seb42_main_026.mainproject.exception.CustomException;
+import seb42_main_026.mainproject.exception.ExceptionCode;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
@@ -54,6 +57,23 @@ public class JwtTokenizer {
                 .compact();
     }
 
+    public String delegateAccessToken(Member member){
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("username", member.getEmail());
+        claims.put("roles", member.getRoles());
+        claims.put("memberId", member.getMemberId());
+        claims.put("name", member.getNickname());
+
+        String subject = member.getEmail();
+
+        Instant expiration = getTokenExpiration(getAccessTokenExpirationMinutes());
+
+        String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
+
+        return generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+    }
+
     public String generateRefreshToken(String subject,
                                        Instant expiration,
                                        String base64EncodedSecretKey) {
@@ -67,6 +87,16 @@ public class JwtTokenizer {
                 .compact();
     }
 
+    public String delegateRefreshToken(Member member){
+        String subject = member.getEmail();
+
+        Instant expiration = getTokenExpiration(getRefreshTokenExpirationMinutes());
+
+        String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
+
+        return generateRefreshToken(subject, expiration, base64EncodedSecretKey);
+    }
+
     public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey){
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
 
@@ -76,13 +106,14 @@ public class JwtTokenizer {
                 .parseClaimsJws(jws);
     }
 
-    public void verifySignature(String jws, String base64EncodedSecretKey){
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws);
+    public Map<String, Object> verifyRefreshJws(String jws) {
+        try {
+            String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
+            Map<String, Object> claims = getClaims(jws, base64EncodedSecretKey).getBody();
+            return claims;
+        } catch (Exception e) {
+            throw new CustomException(ExceptionCode.REFRESH_TOKEN_EXPRIATION);
+        }
     }
 
     public Instant getTokenExpiration(int expirationMinutes){
@@ -103,18 +134,6 @@ public class JwtTokenizer {
 
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader("Refresh"));
-    }
-
-    public boolean isTokenValid(String token) {
-        try {
-            String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
-            Map<String, Object> claims = getClaims(token, base64EncodedSecretKey).getBody();
-            System.out.println("True +++++++++++++++++++++");
-            return true;
-        } catch (Exception e) {
-            System.out.println(("유효하지 않은 토큰입니다. {}" + e.getMessage()));
-            return false;
-        }
     }
 
     @Transactional

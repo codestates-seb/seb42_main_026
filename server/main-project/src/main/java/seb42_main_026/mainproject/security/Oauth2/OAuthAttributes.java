@@ -14,9 +14,7 @@ public class OAuthAttributes {
     private String name;
     private String email;
 
-
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes){
-
         if ("naver".equals(registrationId)){
             return ofNaver("id",attributes);
         }else if("kakao".equals(registrationId)){
@@ -24,14 +22,13 @@ public class OAuthAttributes {
         }else {
             return ofGoogle(userNameAttributeName, attributes);
         }
-
-
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes){
         String str = (String) attributes.get("name");
         UUID uuid = UUID.randomUUID();
         String cut = uuid.toString().substring(0,3);
+
         return OAuthAttributes.builder()
                 .name("Google@"+cut+"_"+str.replaceAll(" ",""))
                 .email((String) attributes.get("email"))
