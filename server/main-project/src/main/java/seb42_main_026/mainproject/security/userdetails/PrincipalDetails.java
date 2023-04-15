@@ -40,7 +40,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return member.getEmail();
     }
 
-
     // 해당 유저의 권한을 리턴하는 method
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
