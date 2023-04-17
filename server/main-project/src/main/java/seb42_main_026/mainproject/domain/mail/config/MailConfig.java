@@ -15,7 +15,7 @@ public class MailConfig {
 
         javaMailSender.setHost("smtp.gmail.com");
         javaMailSender.setUsername("nakchoi94@gmail.com");
-        javaMailSender.setPassword("wkwtisvcbzutpoli");
+        javaMailSender.setPassword("");
 
         javaMailSender.setPort(587);
 
@@ -35,3 +35,4 @@ public class MailConfig {
         return properties;
     }
 }
+
