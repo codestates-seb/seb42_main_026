@@ -39,10 +39,13 @@ dependencies {
 
 	implementation 'com.google.code.gson:gson:2.10.1'
 
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'   // HTML 화면을 구성하기 위한 템플릿이당..
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	implementation 'mysql:mysql-connector-java:8.0.32'
+
+	// mail
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 //dependencyManagement {

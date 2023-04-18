@@ -2,7 +2,6 @@ package seb42_main_026.mainproject.security.Oauth2;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.util.LinkedMultiValueMap;
@@ -10,9 +9,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.repository.MemberRepository;
-import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.security.jwt.JwtTokenizer;
-import seb42_main_026.mainproject.security.userdetails.PrincipalDetails;
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
 import javax.servlet.ServletException;
@@ -20,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.time.Instant;
 import java.util.*;
 
 
@@ -40,31 +38,28 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String nickname = String.valueOf(oAuth2User.getName());
         List<String> authorities = authorityUtils.createRoles(email);
 
-
-
         redirect(request, response, email, nickname, authorities);
     }
 
-    private void saveMember(String email, String name ,List<String> roles){              // 서버 리파지토리에 유저 정보 저장
+    private void saveMember(String email, String name ,List<String> roles){
         Member member = new Member();
         member.setEmail(email);
         member.setNickname(name);
-        member.setPassword("!As134679");  // 추후 삭제할거 일단 테스트를 위해
-        memberRepository.save(member);
+        member.setPassword("!As134679");
 
+        memberRepository.save(member);
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response, String username, String nickname, List<String> authorities) throws IOException{
         String accessToken = delegateAccessToken(username,nickname ,authorities);
         String refreshToken = delegateRefreshToken(username);
 
-        response.setHeader("Authorization", "Bearer " + accessToken); // Access Token은 클라이언트 측에서 백엔드 애플리케이션 측에 요청을 보낼 때마다 request header에 추가해서 클라이언트 측의 자격을 증명하는 데 사용된다.
+        response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
 
         String uri = createURI(accessToken, refreshToken).toString();
 
         getRedirectStrategy().sendRedirect(request, response, uri);
-
     }
 
     private String delegateAccessToken(String username, String nickname, List<String> authorities) {
@@ -74,12 +69,11 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         Member member = memberRepository.findByEmail(username).orElseThrow();
         Long memberId = member.getMemberId();
 
-        //
         claims.put("name", nickname);
         claims.put("roles", authorities);
         claims.put("memberId", memberId);
         String subject = username;
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+        Instant expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -90,7 +84,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private String delegateRefreshToken(String username) {
         String subject = username;
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+        Instant expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
@@ -103,16 +97,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
 
-        return UriComponentsBuilder //  Port 설정을 하지 않으면 기본값은 80 포트
+        return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
-                .host("andanghae.com") // 서버용
-                .path("login/callback") // 서버용
+                .host("andanghae.com")
+                .path("login/callback")
                 //.scheme("http")
                 //.host("localhost")
                 //.port(3000)
                 //.path("receive-token.html")
-                //.path("login/callback")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

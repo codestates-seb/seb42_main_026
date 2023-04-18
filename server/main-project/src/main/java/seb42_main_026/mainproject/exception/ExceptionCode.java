@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public enum ExceptionCode {
 
 
-    MEMBER_EXISTS(HttpStatus.CONFLICT, "MEMBER_EXIST.", "email"),
+    MEMBER_EXISTS(HttpStatus.CONFLICT, "MEMBER_EXIST", "email"),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원 정보가 없습니다.", null),
 
