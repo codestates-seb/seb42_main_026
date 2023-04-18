@@ -48,20 +48,11 @@ public class MemberService {
     }
 
     public Member updateNickname(Member member) {
-        // 멤버 확인
-        Member verifiedMember = findVerifiedMember(member.getMemberId());
 
-        // 바꾸려는 닉네임 중복 확인
-        verifyExistsNickName(member.getNickname());
+        Member updatedMemberNickname = updateMemberNickname(member);
+        updateScoreNickname(member);
 
-        // 닉네임 변경
-        verifiedMember.setNickname(member.getNickname());
-
-        // score 닉네임 변경
-        Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
-        score.setNickname(member.getNickname());
-
-        return verifiedMember;
+        return updatedMemberNickname;
     }
 
     public void updateProfileImage(long memberId, MultipartFile profileImage) {
@@ -106,9 +97,6 @@ public class MemberService {
 
     public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
-
-        // 멤버 상태 변경 (원래)
-        // findVerifiedMember(memberId).setMemberStatus(Member.MemberStatus.MEMBER_DELETE);
     }
 
     public void verifyExistsEmail(String email) {
@@ -138,19 +126,6 @@ public class MemberService {
 
         return member.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }
-
-//    public void verifyLoginMember(Long memberId) {
-//        if (!getTokenMemberId().equals(memberId)) {
-//            throw new CustomException(ExceptionCode.UNAUTHORIZED_USER);
-//        }
-//    }
-//
-//    private Long getTokenMemberId() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        Member member = memberRepository.findByEmail(authentication.getName()).get(); //  If a value is present, returns the value, otherwise throws NoSuchElementException.
-//
-//        return member.getMemberId();
-//    }
 
     public void verifyMemberByMemberId(long sourceMemberId, long updateMemberId) {
         if (sourceMemberId != updateMemberId) {
@@ -198,69 +173,21 @@ public class MemberService {
         } else {
             return Member.HammerTier.PPONG_HAMMER;
         }
-
-        /*int level = score >= 400 ? 4 : (int) score ;
-
-        switch (level) {
-            case 1:
-                return Member.HammerTier.BRONZE_HAMMER;
-            case 2:
-                return Member.HammerTier.SILVER_HAMMER;
-            case 3:
-                return Member.HammerTier.GOLD_HAMMER;
-            case 4:
-                return Member.HammerTier.PPONG_HAMMER;
-            default:
-                return Member.HammerTier.STONE_HAMMER;
-        }*/
     }
 
-    //    @Transactional(readOnly = true)
-//    public Member getMember(Long memberId) {
-//        Member member = findVerifiedMember(memberId);
-//
-//        return member;
-//    }
+    private Member updateMemberNickname(Member member){
+        Member verifiedMember = findVerifiedMember(member.getMemberId());
 
-    //    public Member changePaaswordMember(List<Member> members){
-//        // 로그인 멤버 권한 검사
-//        verifyLoginMember(members.get(0).getMemberId());
-//
-//        // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
-//        Member member = findVerifiedMember(members.get(0).getMemberId());
-//
-//        // 현재 패스워드 매치
-//        // 일치 했을떄
-//        if(passwordEncoder.matches(members.get(0).getPassword(),member.getPassword())){
-//            System.out.println(members.get(1).getPassword());
-//            // 새로운 비밀번호변경
-//            String encryptedPassword = passwordEncoder.encode(members.get(1).getPassword());
-//            //member.setPassword(members.get(1).getPassword());
-//            member.setPassword(encryptedPassword);
-//            return member;
-//        // 불일치 했을때
-//        }else {
-//            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
-//        }
-//    }
+        verifyExistsNickName(member.getNickname());
 
-    //    public Score updateScore(Long memberId, Long score) {
-//        Member member = findVerifiedMember(memberId);
-//        Score updateScore = scoreRepository.findByMember_MemberId(memberId);
-//        Long changedScore = updateScore.getScore() + score;
-//
-//        if (changedScore>= 50 && 100 > changedScore){
-//            member.setHammerTier(Member.HammerTier.BRONZE_HAMMER);
-//        } else if (changedScore >= 100 && 150 > changedScore ) {
-//            member.setHammerTier(Member.HammerTier.SILVER_HAMMER);
-//        } else if (changedScore >= 150 && 200 > changedScore) {
-//            member.setHammerTier(Member.HammerTier.GOLD_HAMMER);
-//        } else if (changedScore >= 200) {
-//            member.setHammerTier(Member.HammerTier.PPONG_HAMMER);
-//        }
-//
-//        updateScore.setScore(updateScore.getScore() + score);
-//
-//        return updateScore;
-//    }
+        verifiedMember.setNickname(member.getNickname());
+
+        return verifiedMember;
+    }
+
+    private void updateScoreNickname(Member member){
+        Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
+        score.setNickname(member.getNickname());
+    }
+
 }
