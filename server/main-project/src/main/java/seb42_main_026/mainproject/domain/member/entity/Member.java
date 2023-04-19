@@ -4,6 +4,7 @@ package seb42_main_026.mainproject.domain.member.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import seb42_main_026.mainproject.audit.Auditable;
 import seb42_main_026.mainproject.domain.answer.entity.Answer;
 import seb42_main_026.mainproject.domain.comment.entity.Comment;
@@ -13,15 +14,12 @@ import seb42_main_026.mainproject.domain.question.entity.Question;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
-//@Table(indexes = @Index(name = "idx_member_nickname", columnList = "nickname"))
 public class Member extends Auditable {
 
     @Id

@@ -7,16 +7,9 @@ import java.time.LocalDateTime;
 
 public class ScoreDto {
 
-
-
-
     @Getter
     @AllArgsConstructor
     public static class Response{
-
-        //private Long scoreId;
-
-        //private Long memberId;
 
         private Long score;
 
