@@ -2,6 +2,7 @@ package seb42_main_026.mainproject.domain.member.controller;
 
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import seb42_main_026.mainproject.domain.member.dto.MemberDto;
 import seb42_main_026.mainproject.domain.member.entity.Member;
 import seb42_main_026.mainproject.domain.member.mapper.MemberMapper;
@@ -19,7 +21,6 @@ import seb42_main_026.mainproject.domain.member.service.MemberService;
 import seb42_main_026.mainproject.dto.SingleResponseDto;
 import seb42_main_026.mainproject.security.utils.UriCreator;
 
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -27,7 +28,6 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-//@RequestMapping("/members")
 public class MemberController {
     private final MemberMapper memberMapper;
     private final MemberService memberService;

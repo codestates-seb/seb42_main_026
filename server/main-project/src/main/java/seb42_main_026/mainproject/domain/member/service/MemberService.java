@@ -2,10 +2,12 @@ package seb42_main_026.mainproject.domain.member.service;
 
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import seb42_main_026.mainproject.cloud.service.S3StorageService;
 import seb42_main_026.mainproject.domain.member.dto.MemberDto;
 import seb42_main_026.mainproject.domain.member.entity.Member;
@@ -33,17 +35,18 @@ public class MemberService {
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
-        String encryptedPassword = passwordEncoder.encode(member.getPassword()); // Password 암호화
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
 
         member.setPassword(encryptedPassword);
 
-        List<String> roles = authorityUtils.createRoles(member.getEmail()); // DB에 User Role 저장
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
 
         member.setRoles(roles);
 
         Member savedMember = memberRepository.save(member);
 
         setScore(savedMember.getMemberId());
+
         return savedMember;
     }
 
@@ -69,20 +72,8 @@ public class MemberService {
     }
 
     public void updatePassword(Long memberId, MemberDto.PatchPassword passwordDto) {
-        // 기존 비밀번호 가져오기 위한 멤버 엔티티 가져오기
-        Member foundMember = findVerifiedMember(memberId);
-
-        // 현재 패스워드 매치
-        // 일치 했을떄
-        if (passwordEncoder.matches(passwordDto.getPassword(), foundMember.getPassword())){
-            // 변경하고 싶은 비밀번호를 암호화 한 뒤
-            String encryptedPassword = passwordEncoder.encode(passwordDto.getChangePassword());
-            // 새로운 비밀번호로 변경
-            foundMember.setPassword(encryptedPassword);
-            // 불일치 했을때
-        } else {
-            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
-        }
+        verifyCurrentPassword(memberId, passwordDto);
+        updateCurrentPassword(memberId, passwordDto);
     }
 
     @Transactional(readOnly = true)
@@ -188,6 +179,20 @@ public class MemberService {
     private void updateScoreNickname(Member member){
         Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
         score.setNickname(member.getNickname());
+    }
+
+    private void verifyCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
+        if(!passwordEncoder.matches(passwordDto.getPassword(), findVerifiedMember(memberId).getPassword())){
+            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
+        }
+    }
+
+    private void updateCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
+        Member foundMember = findVerifiedMember(memberId);
+
+        String encryptedPassword = passwordEncoder.encode(passwordDto.getChangePassword());
+
+        foundMember.setPassword(encryptedPassword);
     }
 
 }
