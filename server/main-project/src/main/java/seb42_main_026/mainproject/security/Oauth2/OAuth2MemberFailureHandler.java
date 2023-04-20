@@ -48,7 +48,6 @@ public class OAuth2MemberFailureHandler extends SimpleUrlAuthenticationFailureHa
         queryParams.add("HttpStatus", exception.getExceptionCode().name());
         queryParams.add("field", exception.getExceptionCode().getField());
 
-
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
@@ -67,8 +66,6 @@ public class OAuth2MemberFailureHandler extends SimpleUrlAuthenticationFailureHa
     private URI createURI(Exception exception){
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("Message", exception.getMessage());
-
-
 
         return UriComponentsBuilder
                 .newInstance()
