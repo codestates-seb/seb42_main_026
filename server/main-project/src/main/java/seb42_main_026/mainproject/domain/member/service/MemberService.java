@@ -35,9 +35,7 @@ public class MemberService {
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
-        //String encryptedPassword = passwordEncoder.encode(member.getPassword());
-
-        member.setPassword(encryptedPassword(member));
+        member.setPassword(encryptedPassword(member.getPassword()));
 
         List<String> roles = authorityUtils.createRoles(member.getEmail());
 
@@ -190,14 +188,12 @@ public class MemberService {
     private void updateCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
         Member foundMember = findVerifiedMember(memberId);
 
-        String encryptedPassword = passwordEncoder.encode(passwordDto.getChangePassword());
-
-        foundMember.setPassword(encryptedPassword);
+        foundMember.setPassword(encryptedPassword(passwordDto.getChangePassword()));
     }
 
-    private String encryptedPassword(Member member){
+    private String encryptedPassword(String password){
 
-        return passwordEncoder.encode(member.getPassword());
+        return passwordEncoder.encode(password);
     }
 
 }
