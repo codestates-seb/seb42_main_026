@@ -35,9 +35,7 @@ public class MemberService {
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
-        //String encryptedPassword = passwordEncoder.encode(member.getPassword());
-
-        member.setPassword(encryptedPassword(member));
+        member.setPassword(encryptedPassword(member.getPassword()));
 
         List<String> roles = authorityUtils.createRoles(member.getEmail());
 
@@ -51,7 +49,6 @@ public class MemberService {
     }
 
     public Member updateNickname(Member member) {
-
         Member updatedMemberNickname = updateMemberNickname(member);
         updateScoreNickname(member);
 
@@ -92,7 +89,6 @@ public class MemberService {
 
     public void verifyExistsEmail(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
-
         if (member.isPresent()) {
             throw new CustomException(ExceptionCode.MEMBER_EXISTS);
         }
@@ -100,7 +96,6 @@ public class MemberService {
 
     private void verifyExistsNickName(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);
-
         if (member.isPresent()) {
             throw new CustomException(ExceptionCode.NICKNAME_EXISTS);
         }
@@ -125,10 +120,9 @@ public class MemberService {
     }
 
     public void setScore(Long memberId) {
-        Score score = new Score();
-
         Member verifiedMember = findVerifiedMember(memberId);
 
+        Score score = new Score();
         score.setScore(0L);
         score.setMember(verifiedMember);
         score.setNickname(verifiedMember.getNickname());
@@ -136,7 +130,6 @@ public class MemberService {
         if (verifiedMember.getProfileImageUrl() != null) {
             score.setProfileImageUrl(verifiedMember.getProfileImageUrl());
         }
-
         scoreRepository.save(score);
     }
 
@@ -168,9 +161,7 @@ public class MemberService {
 
     private Member updateMemberNickname(Member member){
         Member verifiedMember = findVerifiedMember(member.getMemberId());
-
         verifyExistsNickName(member.getNickname());
-
         verifiedMember.setNickname(member.getNickname());
 
         return verifiedMember;
@@ -189,15 +180,11 @@ public class MemberService {
 
     private void updateCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
         Member foundMember = findVerifiedMember(memberId);
-
-        String encryptedPassword = passwordEncoder.encode(passwordDto.getChangePassword());
-
-        foundMember.setPassword(encryptedPassword);
+        foundMember.setPassword(encryptedPassword(passwordDto.getChangePassword()));
     }
 
-    private String encryptedPassword(Member member){
-
-        return passwordEncoder.encode(member.getPassword());
+    private String encryptedPassword(String password){
+        return passwordEncoder.encode(password);
     }
 
 }
