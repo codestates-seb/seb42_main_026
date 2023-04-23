@@ -63,11 +63,8 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final MemberRepository memberRepository;
-
     private final CustomOAuth2UserService customOAuth2UserService;
-
     private final RefreshRepository refreshRepository;
-
 
 
     @Bean
@@ -221,10 +218,4 @@ public class SecurityConfiguration {
                 .clientName("Kakao")
                 .build();
     }
-
-
-
-
-
-
 }

@@ -35,17 +35,33 @@ public class MemberService {
         verifyExistsEmail(member.getEmail());
         verifyExistsNickName(member.getNickname());
 
+        return saveMember(member);
+    }
+
+    private Member saveMember(Member member){
         member.setPassword(encryptedPassword(member.getPassword()));
 
         List<String> roles = authorityUtils.createRoles(member.getEmail());
-
         member.setRoles(roles);
 
         Member savedMember = memberRepository.save(member);
-
         setScore(savedMember.getMemberId());
 
         return savedMember;
+    }
+
+    public void setScore(Long memberId) {
+        Member verifiedMember = findVerifiedMember(memberId);
+
+        Score score = new Score();
+        score.setScore(0L);
+        score.setMember(verifiedMember);
+        score.setNickname(verifiedMember.getNickname());
+
+        if (verifiedMember.getProfileImageUrl() != null) {
+            score.setProfileImageUrl(verifiedMember.getProfileImageUrl());
+        }
+        scoreRepository.save(score);
     }
 
     public Member updateNickname(Member member) {
@@ -53,6 +69,19 @@ public class MemberService {
         updateScoreNickname(member);
 
         return updatedMemberNickname;
+    }
+
+    private Member updateMemberNickname(Member member){
+        Member verifiedMember = findVerifiedMember(member.getMemberId());
+        verifyExistsNickName(member.getNickname());
+        verifiedMember.setNickname(member.getNickname());
+
+        return verifiedMember;
+    }
+
+    private void updateScoreNickname(Member member){
+        Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
+        score.setNickname(member.getNickname());
     }
 
     public void updateProfileImage(long memberId, MultipartFile profileImage) {
@@ -71,6 +100,43 @@ public class MemberService {
     public void updatePassword(Long memberId, MemberDto.PatchPassword passwordDto) {
         verifyCurrentPassword(memberId, passwordDto);
         updateCurrentPassword(memberId, passwordDto);
+    }
+
+    private void verifyCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
+        if(!passwordEncoder.matches(passwordDto.getPassword(), findVerifiedMember(memberId).getPassword())){
+            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
+        }
+    }
+
+    private void updateCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
+        Member foundMember = findVerifiedMember(memberId);
+        foundMember.setPassword(encryptedPassword(passwordDto.getChangePassword()));
+    }
+
+    public void updateScore(Long memberId, Long score) {
+        Member verifiedMember = findVerifiedMember(memberId);
+        Score updateScore = scoreRepository.findByMember_MemberId(memberId);
+        Long changedScore = updateScore.getScore() + score;
+
+        // 회원 망치티어 갱신
+        verifiedMember.setHammerTier(updateHammerTier(changedScore));
+
+        // 점수 갱신
+        updateScore.setScore(changedScore);
+    }
+
+    private Member.HammerTier updateHammerTier(Long score) {
+        if (50 > score && score >= 0) {
+            return Member.HammerTier.STONE_HAMMER;
+        } else if (100 > score && score >= 50) {
+            return Member.HammerTier.BRONZE_HAMMER;
+        } else if (200 > score && score >= 100) {
+            return Member.HammerTier.SILVER_HAMMER;
+        } else if (400 > score && score >= 200) {
+            return Member.HammerTier.GOLD_HAMMER;
+        } else {
+            return Member.HammerTier.PPONG_HAMMER;
+        }
     }
 
     @Transactional(readOnly = true)
@@ -117,70 +183,6 @@ public class MemberService {
         if (sourceMemberId != updateMemberId) {
             throw new CustomException(ExceptionCode.UNAUTHORIZED_USER);
         }
-    }
-
-    public void setScore(Long memberId) {
-        Member verifiedMember = findVerifiedMember(memberId);
-
-        Score score = new Score();
-        score.setScore(0L);
-        score.setMember(verifiedMember);
-        score.setNickname(verifiedMember.getNickname());
-
-        if (verifiedMember.getProfileImageUrl() != null) {
-            score.setProfileImageUrl(verifiedMember.getProfileImageUrl());
-        }
-        scoreRepository.save(score);
-    }
-
-    public void updateScore(Long memberId, Long score) {
-        Member verifiedMember = findVerifiedMember(memberId);
-        Score updateScore = scoreRepository.findByMember_MemberId(memberId);
-        Long changedScore = updateScore.getScore() + score;
-
-        // 회원 망치티어 갱신
-        verifiedMember.setHammerTier(updateHammerTier(changedScore));
-
-        // 점수 갱신
-        updateScore.setScore(changedScore);
-    }
-
-    private Member.HammerTier updateHammerTier(Long score) {
-        if (50 > score && score >= 0) {
-            return Member.HammerTier.STONE_HAMMER;
-        } else if (100 > score && score >= 50) {
-            return Member.HammerTier.BRONZE_HAMMER;
-        } else if (200 > score && score >= 100) {
-            return Member.HammerTier.SILVER_HAMMER;
-        } else if (400 > score && score >= 200) {
-            return Member.HammerTier.GOLD_HAMMER;
-        } else {
-            return Member.HammerTier.PPONG_HAMMER;
-        }
-    }
-
-    private Member updateMemberNickname(Member member){
-        Member verifiedMember = findVerifiedMember(member.getMemberId());
-        verifyExistsNickName(member.getNickname());
-        verifiedMember.setNickname(member.getNickname());
-
-        return verifiedMember;
-    }
-
-    private void updateScoreNickname(Member member){
-        Score score = scoreRepository.findByMember_MemberId(member.getMemberId());
-        score.setNickname(member.getNickname());
-    }
-
-    private void verifyCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
-        if(!passwordEncoder.matches(passwordDto.getPassword(), findVerifiedMember(memberId).getPassword())){
-            throw new CustomException(ExceptionCode.PASSWORD_NOT_MATCH);
-        }
-    }
-
-    private void updateCurrentPassword(Long memberId, MemberDto.PatchPassword passwordDto){
-        Member foundMember = findVerifiedMember(memberId);
-        foundMember.setPassword(encryptedPassword(passwordDto.getChangePassword()));
     }
 
     private String encryptedPassword(String password){
