@@ -30,7 +30,6 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
-    private final MemberRepository memberRepository;
     private final RefreshRepository refreshRepository;
 
     @SneakyThrows
@@ -54,7 +53,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = jwtTokenizer.delegateAccessToken(member);
         String refreshToken = jwtTokenizer.delegateRefreshToken(member);
 
-        if (refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent()) {
+        if (verifyRefreshToken(member)) {
             jwtTokenizer.updateRefresh(member.getMemberId(), refreshRepository, refreshToken);
         } else {
             Refresh refresh = new Refresh();
@@ -67,6 +66,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Refresh", refreshToken);
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
+    }
+
+    private boolean verifyRefreshToken(Member member){
+        return refreshRepository.findByMember_MemberId(member.getMemberId()).isPresent();
     }
 
 }
