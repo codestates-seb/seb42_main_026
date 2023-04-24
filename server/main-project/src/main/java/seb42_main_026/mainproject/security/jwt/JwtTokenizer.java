@@ -89,9 +89,7 @@ public class JwtTokenizer {
 
     public String delegateRefreshToken(Member member){
         String subject = member.getEmail();
-
         Instant expiration = getTokenExpiration(getRefreshTokenExpirationMinutes());
-
         String base64EncodedSecretKey = encodeBase64SecretKey(getSecretKey());
 
         return generateRefreshToken(subject, expiration, base64EncodedSecretKey);
