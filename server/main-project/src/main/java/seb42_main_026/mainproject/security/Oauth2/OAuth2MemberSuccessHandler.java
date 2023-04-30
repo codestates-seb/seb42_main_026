@@ -41,15 +41,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         redirect(request, response, email, nickname, authorities);
     }
 
-    private void saveMember(String email, String name ,List<String> roles){
-        Member member = new Member();
-        member.setEmail(email);
-        member.setNickname(name);
-        member.setPassword("!As134679");
-
-        memberRepository.save(member);
-    }
-
     private void redirect(HttpServletRequest request, HttpServletResponse response, String username, String nickname, List<String> authorities) throws IOException{
         String accessToken = delegateAccessToken(username,nickname ,authorities);
         String refreshToken = delegateRefreshToken(username);
