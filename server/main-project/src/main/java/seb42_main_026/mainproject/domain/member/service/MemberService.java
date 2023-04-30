@@ -141,15 +141,18 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member findMember(Long memberId) {
+
         return findVerifiedMember(memberId);
     }
 
     @Transactional(readOnly = true)
     public List<Score> findRank() {
+
         return scoreRepository.findTop10ByOrderByScoreDescModifiedAtAscCreatedAtAsc();
     }
 
     public void deleteMember(Long memberId) {
+
         memberRepository.deleteById(memberId);
     }
 
@@ -186,6 +189,7 @@ public class MemberService {
     }
 
     private String encryptedPassword(String password){
+
         return passwordEncoder.encode(password);
     }
 
