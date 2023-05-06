@@ -92,14 +92,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         member.setEmail(attributes.getEmail());
         member.setNickname(attributes.getName());
 
-        // 비밀 번호
-        // OAuth2 가입 유저인지 기본 회원 가입 유저인지 판별하기 위해 비밀번호에 추가한다.
-        UUID uuid = UUID.randomUUID();
-        String cut = uuid.toString().substring(0,5);
-        member.setPassword("GoogleNaverKakaoOauthGoodNakJun9999" + cut);
-
-        List<String> authorities = authorityUtils.createRoles(member.getEmail());
-        member.setRoles(authorities);
+        member.setPassword("GoogleNaverKakaoOauthGoodNakJun9999" + makeRandomString());
+        member.setRoles(getAuthorities(member.getEmail()));
 
         return memberRepository.save(member);
     }
@@ -118,6 +112,20 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 
         scoreRepository.save(score);
+    }
+
+    private String makeRandomString(){
+        // 비밀 번호
+        // OAuth2 가입 유저인지 기본 회원 가입 유저인지 판별하기 위해 비밀번호에 추가한다.
+        UUID uuid = UUID.randomUUID();
+        String cut = uuid.toString().substring(0,5);
+
+        return cut;
+    }
+
+    private List<String> getAuthorities(String email){
+
+        return authorityUtils.createRoles(email);
     }
 
 

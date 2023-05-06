@@ -124,12 +124,6 @@ public class JwtTokenizer {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public Optional<String> extractAccessToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader("Authorization"))
-                .filter(accessToken -> accessToken.startsWith("Bearer"))
-                .map(accessToken -> accessToken.replace("Bearer", ""));
-    }
-
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader("Refresh"));
     }
