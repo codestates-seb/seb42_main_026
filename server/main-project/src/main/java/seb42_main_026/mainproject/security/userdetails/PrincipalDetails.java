@@ -20,12 +20,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     private Member member;
     private Map<String, Object> attibutes;
 
-    // 일반 로그인
     public PrincipalDetails(Member member){
         this.member = member;
     }
 
-    // OAuth2 로그인
     public PrincipalDetails(Member member, Map<String, Object> attibutes){
         this.member = member;
         this.attibutes = attibutes;
