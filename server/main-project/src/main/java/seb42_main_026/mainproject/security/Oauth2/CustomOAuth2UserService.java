@@ -5,7 +5,6 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import seb42_main_026.mainproject.domain.member.entity.Member;
@@ -17,8 +16,9 @@ import seb42_main_026.mainproject.exception.ExceptionCode;
 import seb42_main_026.mainproject.security.userdetails.PrincipalDetails;
 import seb42_main_026.mainproject.security.utils.CustomAuthorityUtils;
 
-import java.util.*;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
@@ -47,40 +47,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        // 재가입 방지 중복 검사
-        Optional<Member> verifiedByEmail = memberRepository.findByEmail(attributes.getEmail());
-        Optional<Member> verifiedByNickName = memberRepository.findByNickname(attributes.getName());
 
-        // 재가입 방지
-        if(verifiedByEmail.isPresent()){
-            Member verifiedMember = verifiedByEmail.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
-            String pwd = verifiedMember.getPassword();
-            String subPwd = pwd.substring(0,16);
-
-            // OAuth 회원 가입한 사람인지 아닌지 판별.
-            if (subPwd.equals("GoogleNaverKakao")){
-                return new PrincipalDetails(verifiedMember, attributes.getAttributes());
-
-            // 아니면 기존 회원 E-mail 과 중복이므로 예외 처리.
-            }else {
-                throw new OAuth2AuthenticationException(new OAuth2Error("MEMBER EXIST EXCEPTION"), "MEMBER_EXIST");
-            }
+        verifyOAuth2MemberByEmail(attributes.getEmail());
+        verifyOAuth2MemberByNickname(attributes.getName());
 
 
-        // 닉네임 중복 2차 검사
-        }else if (verifiedByNickName.isPresent()){
-            Member verifiedMember = verifiedByNickName.orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+        Member verifiedMember = save(attributes);
+        setScore(verifiedMember);
 
-            return new PrincipalDetails(verifiedMember, attributes.getAttributes());
-
-        // 모든 조건에 통과되면 DB에 새로 저장
-        }else {
-            Member verifiedMember = save(attributes);
-            setScore(verifiedMember);
-
-            return new PrincipalDetails(verifiedMember, attributes.getAttributes());
-
-        }
+        return new PrincipalDetails(verifiedMember, attributes.getAttributes());
 
     }
 
@@ -128,5 +103,25 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return authorityUtils.createRoles(email);
     }
 
+    private Optional<Member> verifyOAuth2MemberByEmail(String email){
+
+        Optional<Member> verifiedByEmail = memberRepository.findByEmail(email);
+        if (verifiedByEmail.isPresent()) {
+            throw new CustomException(ExceptionCode.MEMBER_EXISTS);
+        }else {
+            return verifiedByEmail;
+        }
+
+    }
+
+    private Optional<Member> verifyOAuth2MemberByNickname(String nickname){
+
+        Optional<Member> verifiedByNickName = memberRepository.findByNickname(nickname);
+        if (verifiedByNickName.isPresent()) {
+            throw new CustomException(ExceptionCode.MEMBER_EXISTS);
+        }else {
+            return verifiedByNickName;
+        }
+    }
 
 }
