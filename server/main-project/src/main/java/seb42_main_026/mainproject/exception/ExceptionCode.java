@@ -37,6 +37,7 @@ public enum ExceptionCode {
     REFRESH_TOKEN_EXPRIATION(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 만료되었습니다. 로그인이 필요합니다.",null),
 
     REFRESH_TOKEN_MISSMATCHED(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 일치하지않습니다..",null),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "일치하는 리프레시 토큰이 없습니다.",null),
 
     SELECT_ONLY_ONCE(HttpStatus.BAD_REQUEST, "질문 당 채택은 한개씩 가능합니다.", null);
 
