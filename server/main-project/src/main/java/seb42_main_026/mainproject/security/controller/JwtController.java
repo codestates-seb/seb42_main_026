@@ -25,6 +25,8 @@ public class JwtController {
     private final MemberService memberService;
     private final RefreshRepository refreshRepository;
 
+    private final JwtService jwtService;
+
     @Transactional
     @GetMapping("/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request) {
