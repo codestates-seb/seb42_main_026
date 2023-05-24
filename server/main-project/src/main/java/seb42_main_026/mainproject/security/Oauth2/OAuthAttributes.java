@@ -14,6 +14,7 @@ public class OAuthAttributes {
     private String name;
     private String email;
 
+
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes){
         if ("naver".equals(registrationId)){
             return ofNaver("id",attributes);
@@ -26,8 +27,7 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes){
         String str = (String) attributes.get("name");
-        UUID uuid = UUID.randomUUID();
-        String cut = uuid.toString().substring(0,3);
+        String cut = createUUID().substring(0,3);
 
         return OAuthAttributes.builder()
                 .name("Google@"+cut+"_"+str.replaceAll(" ",""))
@@ -39,8 +39,7 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes){
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-        UUID uuid = UUID.randomUUID();
-        String cut = uuid.toString().substring(0,3);
+        String cut = createUUID().substring(0,3);
 
         return OAuthAttributes.builder()
                 .name("Naver@"+cut+"_"+(String) response.get("name"))
@@ -53,8 +52,7 @@ public class OAuthAttributes {
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes){
         Map<String, Object> name = (Map<String, Object>) attributes.get("properties");
         Map<String, Object> attribute = (Map<String, Object>) attributes.get("kakao_account");
-        UUID uuid = UUID.randomUUID();
-        String cut = uuid.toString().substring(0,3);
+        String cut = createUUID().substring(0,3);
 
         return OAuthAttributes.builder()
                 .name("Kakao@"+cut+"_"+(String) name.get("nickname"))
@@ -62,6 +60,10 @@ public class OAuthAttributes {
                 .attributes(attribute)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
+    }
+
+    private static String createUUID(){
+        return UUID.randomUUID().toString();
     }
 
 
